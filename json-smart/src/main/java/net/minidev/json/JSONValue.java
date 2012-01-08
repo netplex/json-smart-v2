@@ -19,6 +19,7 @@ import static net.minidev.json.parser.JSONParser.DEFAULT_PERMISSIVE_MODE;
 import static net.minidev.json.parser.JSONParser.MODE_RFC4627;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +52,43 @@ public class JSONValue {
 	 * Global default compression type
 	 */
 	public static JSONStyle COMPRESSION = JSONStyle.NO_COMPRESS;
+
+	/**
+	 * Parse JSON text into java object from the input source. Please use
+	 * parseWithException() if you don't want to ignore the exception. if you
+	 * want strict input check use parseStrict()
+	 * 
+	 * @see JSONParser#parse(Reader)
+	 * @see #parseWithException(Reader)
+	 * 
+	 * @return Instance of the following: JSONObject, JSONArray, String,
+	 *         java.lang.Number, java.lang.Boolean, null
+	 * 
+	 */
+	public static Object parse(InputStream in) {
+		try {
+			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Parse input json as a mapTo class
+	 * 
+	 * mapTo can be a bean
+	 * 
+	 * @since 2.0
+	 */
+	public static <T> T parse(InputStream in, Class<T> mapTo) {
+		try {
+			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+			return p.parse(in, Mapper.getMapper(mapTo));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	/**
 	 * Parse JSON text into java object from the input source. Please use
@@ -132,6 +170,23 @@ public class JSONValue {
 		try {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, Mapper.getMapper(mapTo));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * Parse input json as a mapTo class
+	 * 
+	 * mapTo can be a bean
+	 * 
+	 * @since 2.0
+	 */
+	public static <T> T parse(InputStream in, T toUpdate) {
+		try {
+			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+			return p.parse(in, new UpdaterMapper<T>(toUpdate));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
