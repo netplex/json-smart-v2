@@ -136,8 +136,5 @@ abstract class JSONParserMemory extends JSONParserBase {
 
 	abstract protected int indexOf(char c, int pos);
 
-	protected void extractStringTrim(int start, int stop) {
-		extractString(start, stop);
-		xs = xs.trim();
-	}
+	abstract protected void extractStringTrim(int start, int stop);
 }

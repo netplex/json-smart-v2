@@ -74,6 +74,26 @@ public class JSONValue {
 	}
 
 	/**
+	 * Parse JSON text into java object from the input source. Please use
+	 * parseWithException() if you don't want to ignore the exception. if you
+	 * want strict input check use parseStrict()
+	 * 
+	 * @see JSONParser#parse(Reader)
+	 * @see #parseWithException(Reader)
+	 * 
+	 * @return Instance of the following: JSONObject, JSONArray, String,
+	 *         java.lang.Number, java.lang.Boolean, null
+	 * 
+	 */
+	public static Object parse(byte[] in) {
+		try {
+			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
 	 * Parse input json as a mapTo class
 	 * 
 	 * mapTo can be a bean
@@ -106,6 +126,23 @@ public class JSONValue {
 		try {
 			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in);
 		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Parse input json as a mapTo class
+	 * 
+	 * mapTo can be a bean
+	 * 
+	 * @since 2.0
+	 */
+	public static <T> T parse(byte[] in, Class<T> mapTo) {
+		try {
+			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+			return p.parse(in, Mapper.getMapper(mapTo));
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -206,6 +243,20 @@ public class JSONValue {
 			return p.parse(in, new UpdaterMapper<T>(toUpdate));
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * Parse input json as a mapTo class
+	 * 
+	 * @since 2.0
+	 */
+	protected static <T> T parse(byte[] in, AMapper<T> mapper) {
+		try {
+			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+			return p.parse(in, mapper);
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -327,6 +378,30 @@ public class JSONValue {
 	 */
 	public static String uncompress(String input) {
 		return compress(input, JSONStyle.NO_COMPRESS);
+	}
+
+	/**
+	 * Parse JSON text into java object from the input source.
+	 * 
+	 * @see JSONParser
+	 * 
+	 * @return Instance of the following: JSONObject, JSONArray, String,
+	 *         java.lang.Number, java.lang.Boolean, null
+	 */
+	public static Object parseWithException(byte[] in) throws IOException, ParseException {
+		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, DefaultMapper.DEFAULT);
+	}
+
+	/**
+	 * Parse JSON text into java object from the input source.
+	 * 
+	 * @see JSONParser
+	 * 
+	 * @return Instance of the following: JSONObject, JSONArray, String,
+	 *         java.lang.Number, java.lang.Boolean, null
+	 */
+	public static Object parseWithException(InputStream in) throws IOException, ParseException {
+		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, DefaultMapper.DEFAULT);
 	}
 
 	/**
