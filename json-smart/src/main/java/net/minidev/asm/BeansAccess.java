@@ -30,6 +30,14 @@ import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 import static org.objectweb.asm.Opcodes.RETURN;
+import static org.objectweb.asm.Opcodes.IFNE;
+import static org.objectweb.asm.Opcodes.ICONST_1;
+import static org.objectweb.asm.Opcodes.ICONST_2;
+import static org.objectweb.asm.Opcodes.ICONST_3;
+import static org.objectweb.asm.Opcodes.ICONST_4;
+import static org.objectweb.asm.Opcodes.ICONST_5;
+import static org.objectweb.asm.Opcodes.IF_ICMPNE;
+import static org.objectweb.asm.Opcodes.BIPUSH;
 
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
@@ -143,7 +151,8 @@ public abstract class BeansAccess {
 		MethodVisitor mv;
 
 		boolean USE_HASH = accs.length > 10;
-
+		int HASH_LIMIT = 14;
+		
 		cw.visit(Opcodes.V1_6, ACC_PUBLIC + Opcodes.ACC_SUPER, accessClassNameInternal, null, METHOD_ACCESS_NAME, null);
 		// init
 		{
@@ -161,84 +170,186 @@ public abstract class BeansAccess {
 		mv = cw.visitMethod(ACC_PUBLIC, "set", "(Ljava/lang/Object;ILjava/lang/Object;)V", null, null);
 		mv.visitCode();
 
-		if (Boolean.TRUE)
-		{
-//			if (accs.length > 0) {
-				mv.visitVarInsn(ILOAD, 2);
-				Label[] labels = ASMUtil.newLabels(accs.length);
-				Label defaultLabel = new Label();
+		if (accs.length == 0) {
+			mv.visitInsn(RETURN);
+		} else if (accs.length > HASH_LIMIT) {
+			mv.visitVarInsn(ILOAD, 2);
+			Label[] labels = ASMUtil.newLabels(accs.length);
+			Label defaultLabel = new Label();
 
-				mv.visitTableSwitchInsn(0, labels.length - 1, defaultLabel, labels);
-				int i = 0;
-				for (Accessor acc : accs) {
-					mv.visitLabel(labels[i++]);
-					if (!acc.isWritable()) {
-						mv.visitInsn(RETURN);
-						continue;
-					}
-					mv.visitVarInsn(ALOAD, 1);
-					mv.visitTypeInsn(CHECKCAST, classNameInternal);
-					mv.visitVarInsn(ALOAD, 3);
-					Type fieldType = Type.getType(acc.getType());
-					ASMUtil.autoUnBoxing2(mv, fieldType);
-					if (acc.isPublic()) {
-						mv.visitFieldInsn(PUTFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
-					} else {
-						String sig = Type.getMethodDescriptor(acc.setter);
-						mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.setter.getName(), sig);
-					}
+			mv.visitTableSwitchInsn(0, labels.length - 1, defaultLabel, labels);
+			int i = 0;
+			for (Accessor acc : accs) {
+				mv.visitLabel(labels[i++]);
+				if (!acc.isWritable()) {
 					mv.visitInsn(RETURN);
+					continue;
 				}
-				mv.visitLabel(defaultLabel);
-//			}
+				mv.visitVarInsn(ALOAD, 1);
+				mv.visitTypeInsn(CHECKCAST, classNameInternal);
+				mv.visitVarInsn(ALOAD, 3);
+				
+				
+				Type fieldType = Type.getType(acc.getType());
+				ASMUtil.autoUnBoxing2(mv, fieldType);
+				
+				if (acc.isPublic()) {
+					mv.visitFieldInsn(PUTFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
+				} else {
+					String sig = Type.getMethodDescriptor(acc.setter);
+					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.setter.getName(), sig);
+				}
+				mv.visitInsn(RETURN);
+			}
+			mv.visitLabel(defaultLabel);
 			mv.visitInsn(RETURN);
 		} else {
-			
+			Label[] labels = ASMUtil.newLabels(accs.length);
+
+			int i = 0;
+			for (Accessor acc : accs) {
+				if (i == 0) {
+					mv.visitVarInsn(ILOAD, 2); /* notest forvalue 0 */
+					mv.visitJumpInsn(IFNE, labels[i]);
+				} else if (i == 1) {
+					mv.visitVarInsn(ILOAD, 2);
+					mv.visitInsn(ICONST_1);
+					mv.visitJumpInsn(IF_ICMPNE, labels[i]);
+				} else if (i == 2) {
+					mv.visitVarInsn(ILOAD, 2);
+					mv.visitInsn(ICONST_2);
+					mv.visitJumpInsn(IF_ICMPNE, labels[i]);
+				} else if (i == 3) {
+					mv.visitVarInsn(ILOAD, 2);
+					mv.visitInsn(ICONST_3);
+					mv.visitJumpInsn(IF_ICMPNE, labels[i]);
+				} else if (i == 4) {
+					mv.visitVarInsn(ILOAD, 2);
+					mv.visitInsn(ICONST_4);
+					mv.visitJumpInsn(IF_ICMPNE, labels[i]);
+				} else if (i == 5) {
+					mv.visitVarInsn(ILOAD, 2);
+					mv.visitInsn(ICONST_5);
+					mv.visitJumpInsn(IF_ICMPNE, labels[i]);
+				} else if (i >= 6) {
+					mv.visitVarInsn(ILOAD, 2);
+					mv.visitIntInsn(BIPUSH, i);
+					mv.visitJumpInsn(IF_ICMPNE, labels[i]);
+				}
+				mv.visitVarInsn(ALOAD, 1);
+				mv.visitTypeInsn(CHECKCAST, classNameInternal);
+				mv.visitVarInsn(ALOAD, 3);
+				
+				Type fieldType = Type.getType(acc.getType());
+				ASMUtil.autoUnBoxing2(mv, fieldType);
+				if (acc.isPublic()) {
+					mv.visitFieldInsn(PUTFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
+				} else {
+					String sig = Type.getMethodDescriptor(acc.setter);
+					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.setter.getName(), sig);
+				}
+				mv.visitInsn(RETURN);
+				mv.visitLabel(labels[i]);
+				mv.visitFrame(F_SAME, 0, null, 0, null);
+				i++;
+			}
+			mv.visitInsn(RETURN);
 		}
 		mv.visitMaxs(0, 0);
 		mv.visitEnd();
 
+		// public Object get(Object object, int fieldId)
+		mv = cw.visitMethod(ACC_PUBLIC, "get", "(Ljava/lang/Object;I)Ljava/lang/Object;", null, null);
+		mv.visitCode();
 		// if (USE_HASH)
-		{
-			// public Object get(Object object, int fieldId) {
-			mv = cw.visitMethod(ACC_PUBLIC, "get", "(Ljava/lang/Object;I)Ljava/lang/Object;", null, null);
-			mv.visitCode();
-			if (accs.length > 0) {
-				mv.visitVarInsn(ILOAD, 2);
-				Label[] labels = ASMUtil.newLabels(accs.length);
-				Label defaultLabel = new Label();
-				mv.visitTableSwitchInsn(0, labels.length - 1, defaultLabel, labels);
-
-				int i = 0;
-				for (Accessor acc : accs) {
-					mv.visitLabel(labels[i++]);
-					mv.visitFrame(F_SAME, 0, null, 0, null);
-					if (!acc.isReadable()) {
-						mv.visitInsn(ACONST_NULL);
-						mv.visitInsn(ARETURN);
-						continue;
-					}
-					mv.visitVarInsn(ALOAD, 1);
-					mv.visitTypeInsn(CHECKCAST, classNameInternal);
-					Type fieldType = Type.getType(acc.getType());
-
-					if (acc.isPublic()) {
-						mv.visitFieldInsn(GETFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
-					} else {
-						String sig = Type.getMethodDescriptor(acc.getter);
-						mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.getter.getName(), sig);
-					}
-					ASMUtil.autoBoxing(mv, fieldType);
-					mv.visitInsn(ARETURN);
-				}
-				mv.visitLabel(defaultLabel);
-			}
+		if (accs.length == 0) {
 			mv.visitFrame(F_SAME, 0, null, 0, null);
 			mv.visitInsn(ACONST_NULL);
 			mv.visitInsn(ARETURN);
-			mv.visitMaxs(1, 3);
-			mv.visitEnd();
+		} else if (accs.length > HASH_LIMIT) {
+			mv.visitVarInsn(ILOAD, 2);
+			Label[] labels = ASMUtil.newLabels(accs.length);
+			Label defaultLabel = new Label();
+			mv.visitTableSwitchInsn(0, labels.length - 1, defaultLabel, labels);
+
+			int i = 0;
+			for (Accessor acc : accs) {
+				mv.visitLabel(labels[i++]);
+				mv.visitFrame(F_SAME, 0, null, 0, null);
+				if (!acc.isReadable()) {
+					mv.visitInsn(ACONST_NULL);
+					mv.visitInsn(ARETURN);
+					continue;
+				}
+				mv.visitVarInsn(ALOAD, 1);
+				mv.visitTypeInsn(CHECKCAST, classNameInternal);
+				Type fieldType = Type.getType(acc.getType());
+
+				if (acc.isPublic()) {
+					mv.visitFieldInsn(GETFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
+				} else {
+					String sig = Type.getMethodDescriptor(acc.getter);
+					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.getter.getName(), sig);
+				}
+				ASMUtil.autoBoxing(mv, fieldType);
+				mv.visitInsn(ARETURN);
+			}
+			mv.visitLabel(defaultLabel);
+			mv.visitFrame(F_SAME, 0, null, 0, null);
+			mv.visitInsn(ACONST_NULL);
+			mv.visitInsn(ARETURN);
+		} else {
+			Label[] labels = ASMUtil.newLabels(accs.length);
+
+			int i = 0;
+			for (Accessor acc : accs) {
+				mv.visitVarInsn(ILOAD, 2);
+				if (i == 0) {
+					mv.visitJumpInsn(IFNE, labels[i]);
+				} else if (i == 1) {
+					mv.visitInsn(ICONST_1);
+					mv.visitJumpInsn(IF_ICMPNE, labels[i]);
+				} else if (i == 2) {
+					mv.visitInsn(ICONST_2);
+					mv.visitJumpInsn(IF_ICMPNE, labels[i]);
+				} else if (i == 3) {
+					mv.visitInsn(ICONST_3);
+					mv.visitJumpInsn(IF_ICMPNE, labels[i]);
+				} else if (i == 4) {
+					mv.visitInsn(ICONST_4);
+					mv.visitJumpInsn(IF_ICMPNE, labels[i]);
+				} else if (i == 5) {
+					mv.visitInsn(ICONST_5);
+					mv.visitJumpInsn(IF_ICMPNE, labels[i]);
+				} else if (i >= 6) {
+					mv.visitIntInsn(BIPUSH, i);
+					mv.visitJumpInsn(IF_ICMPNE, labels[i]);
+				}
+
+				mv.visitVarInsn(ALOAD, 1);
+				mv.visitTypeInsn(CHECKCAST, classNameInternal);
+
+				Type fieldType = Type.getType(acc.getType());
+
+				if (acc.isPublic()) {
+					mv.visitFieldInsn(GETFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
+				} else {
+					String sig = Type.getMethodDescriptor(acc.getter);
+					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.getter.getName(), sig);
+				}
+				ASMUtil.autoBoxing(mv, fieldType);
+				mv.visitInsn(ARETURN);
+
+				mv.visitLabel(labels[i]);
+				mv.visitFrame(F_SAME, 0, null, 0, null);
+				i++;
+			}
+			mv.visitInsn(ACONST_NULL);
+			mv.visitInsn(ARETURN);
 		}
+
+		mv.visitMaxs(0, 0);
+		mv.visitEnd();
 
 		if (!USE_HASH) {
 			// Object get(Object object, String methodName)
@@ -250,10 +361,10 @@ public abstract class BeansAccess {
 
 			int i = 0;
 			for (Accessor acc : accs) {
-				if (i > 0) {
-					mv.visitLabel(labels[i - 1]);
-					mv.visitFrame(F_SAME, 0, null, 0, null);
-				}
+				// if (i > 0) {
+				// mv.visitLabel(labels[i - 1]);
+				// mv.visitFrame(F_SAME, 0, null, 0, null);
+				// }
 				mv.visitVarInsn(ALOAD, 2);
 				mv.visitLdcInsn(acc.fieldName);
 				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z");
@@ -270,11 +381,9 @@ public abstract class BeansAccess {
 					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.setter.getName(), sig);
 				}
 				mv.visitInsn(RETURN);
-				i++;
-			}
-			if (i > 0) {
-				mv.visitLabel(labels[i - 1]);
+				mv.visitLabel(labels[i]);
 				mv.visitFrame(F_SAME, 0, null, 0, null);
+				i++;
 			}
 			mv.visitInsn(RETURN);
 			mv.visitMaxs(0, 0); // 2,4
@@ -291,10 +400,6 @@ public abstract class BeansAccess {
 
 			int i = 0;
 			for (Accessor acc : accs) {
-				if (i > 0) {
-					mv.visitLabel(labels[i - 1]);
-					mv.visitFrame(F_SAME, 0, null, 0, null);
-				}
 				mv.visitVarInsn(ALOAD, 2); // methodName
 				mv.visitLdcInsn(acc.fieldName);
 				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z");
@@ -310,11 +415,9 @@ public abstract class BeansAccess {
 				}
 				ASMUtil.autoBoxing(mv, fieldType);
 				mv.visitInsn(ARETURN);
-				i++;
-			}
-			if (i > 0) {
-				mv.visitLabel(labels[i - 1]);
+				mv.visitLabel(labels[i]);
 				mv.visitFrame(F_SAME, 0, null, 0, null);
+				i++;
 			}
 			mv.visitInsn(ACONST_NULL);
 			mv.visitInsn(ARETURN);

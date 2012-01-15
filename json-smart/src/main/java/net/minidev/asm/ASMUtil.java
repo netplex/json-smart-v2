@@ -31,7 +31,7 @@ import org.objectweb.asm.Type;
  * 
  * @author uriel Chemouni
  */
-class ASMUtil {
+public class ASMUtil {
 	/**
 	 * Append the call of proper autoboxing method for the given primitif type.
 	 */
@@ -195,7 +195,7 @@ class ASMUtil {
 	 * @param cnt
 	 *            number of label to return
 	 */
-	protected static Label[] newLabels(int cnt) {
+	public static Label[] newLabels(int cnt) {
 		Label[] r = new Label[cnt];
 		for (int i = 0; i < cnt; i++)
 			r[i] = new Label();
