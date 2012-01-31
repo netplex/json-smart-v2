@@ -32,7 +32,7 @@ import net.minidev.json.mapper.Mapper;
  */
 public class JSONNavi<T> {
 	private AMapper<? super T> mapper;
-	private Object root;
+	private T root;
 
 	private Stack<Object> stack = new Stack<Object>();
 	private Stack<Object> path = new Stack<Object>();
@@ -54,12 +54,18 @@ public class JSONNavi<T> {
 		return o;
 	}
 
+	public static JSONNavi<JSONArray> newInstanceArray() {
+		JSONNavi<JSONArray> o = new JSONNavi<JSONArray>(Mapper.getMapper(JSONArray.class));
+		o.array();
+		return o;
+	}
+	
 	public JSONNavi(AMapper<? super T> mapper) {
 		this.mapper = mapper;
 	}
 
 	public JSONNavi(String json) {
-		this.root = JSONValue.parse(json);
+		this.root = (T)JSONValue.parse(json);
 		this.current = this.root;
 		readonly = true;
 	}
@@ -78,8 +84,11 @@ public class JSONNavi<T> {
 		readonly = true;
 	}
 
+	/**
+	 * return to root node
+	 */
 	public JSONNavi<T> root() {
-		this.current = root;
+		this.current = this.root;
 		this.stack.clear();
 		this.path.clear();
 		this.failure = false;
@@ -363,7 +372,7 @@ public class JSONNavi<T> {
 			current = mapper.createObject();
 		}
 		if (root == null)
-			root = current;
+			root = (T)current;
 		else
 			store();
 		return this;
@@ -388,7 +397,7 @@ public class JSONNavi<T> {
 			current = mapper.createArray();
 		}
 		if (root == null)
-			root = current;
+			root = (T)current;
 		else
 			store();
 		return this;
@@ -428,7 +437,7 @@ public class JSONNavi<T> {
 	}
 
 	public T getRoot() {
-		return (T) root;
+		return root;
 	}
 
 	/**
