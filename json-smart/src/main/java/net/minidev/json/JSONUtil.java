@@ -214,7 +214,7 @@ public class JSONUtil {
 		throw new RuntimeException("Primitive: Can not convert " + obj.getClass().getName() + " to Long");
 	}
 
-	public static long convertTobyte(Object obj) {
+	public static byte convertTobyte(Object obj) {
 		if (obj == null)
 			return 0;
 		if (obj instanceof Number)

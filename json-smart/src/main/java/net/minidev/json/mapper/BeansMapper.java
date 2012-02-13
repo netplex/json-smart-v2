@@ -80,4 +80,54 @@ public abstract class BeansMapper<T> extends AMapper<T> {
 			return ba.newInstance();
 		}
 	}
+	
+	
+	public static class BeanNoConv<T> extends AMapper<T> {
+		final Class<T> clz;
+		final BeansAccess ba;
+		final HashMap<String, Accessor> index;
+
+		public BeanNoConv(Class<T> clz) {
+			this.clz = clz;
+			this.ba = BeansAccess.get(clz);
+			this.index = ba.getMap();
+		}
+
+		@Override
+		public void setValue(Object current, String key, Object value) {
+			ba.set(current, key, value);
+		}
+
+		public Object getValue(Object current, String key) {
+			return ba.get(current, key);
+		}
+
+		@Override
+		public Type getType(String key) {
+			Accessor nfo = index.get(key);
+			return nfo.getGenericType();
+		}
+
+		@Override
+		public AMapper<?> startArray(String key) {
+			Accessor nfo = index.get(key);
+			if (nfo == null)
+				throw new RuntimeException("Can not set " + key + " field in " + clz);
+			return Mapper.getMapper(nfo.getGenericType());
+		}
+
+		@Override
+		public AMapper<?> startObject(String key) {
+			Accessor f = index.get(key);
+			if (f == null)
+				throw new RuntimeException("Can not set " + key + " field in " + clz);
+			return Mapper.getMapper(f.getGenericType());
+		}
+
+		@Override
+		public Object createObject() {
+			return ba.newInstance();
+		}
+	}
+	
 }

@@ -75,6 +75,13 @@ public class Accessor {
 	public boolean isPublic() {
 		return setter == null;
 	}
+	
+	/**
+	 * is the field is an enum field
+	 */
+	public boolean isEnum() {
+		return type.isEnum();
+	}
 
 	/**
 	 * return the field name

@@ -36,6 +36,18 @@ class DynamicClassLoader extends ClassLoader {
 	 */
 	private final static Class<?>[] DEF_CLASS_SIG = new Class[] { String.class, byte[].class, int.class, int.class };
 
+	public static <T> Class<T> directLoad(Class<? extends T> parent, String clsName, byte[] clsData) {
+		DynamicClassLoader loader = new DynamicClassLoader(parent.getClassLoader());
+		Class<T> clzz = (Class<T>) loader.defineClass(clsName, clsData);
+		return clzz;
+	}
+
+	public static <T> T directInstance(Class<? extends T> parent, String clsName, byte[] clsData)
+			throws InstantiationException, IllegalAccessException {
+		Class<T> clzz = directLoad(parent, clsName, clsData);
+		return clzz.newInstance();
+	}
+
 	@Override
 	protected synchronized java.lang.Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
 		/*

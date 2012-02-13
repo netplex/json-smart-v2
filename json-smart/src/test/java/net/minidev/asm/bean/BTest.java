@@ -1,4 +1,6 @@
-package net.minidev.asm;
+package net.minidev.asm.bean;
+
+import net.minidev.asm.TEnum;
 
 public class BTest {
 	public int pubIntValue;
@@ -6,7 +8,9 @@ public class BTest {
 	private int privIntValue;
 	private String privStrValue;
 	public boolean pubBoolValue;
-
+	public Integer pubIntegerValue;	
+	public TEnum pubTEnum;
+	
 	public void setPrivIntValue(int privIntValue) {
 		this.privIntValue = privIntValue;
 	}

@@ -4,6 +4,7 @@ import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACONST_NULL;
 import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.ARETURN;
+import static org.objectweb.asm.Opcodes.ASTORE;
 import static org.objectweb.asm.Opcodes.BIPUSH;
 import static org.objectweb.asm.Opcodes.CHECKCAST;
 import static org.objectweb.asm.Opcodes.DUP;
@@ -16,19 +17,27 @@ import static org.objectweb.asm.Opcodes.ICONST_4;
 import static org.objectweb.asm.Opcodes.ICONST_5;
 import static org.objectweb.asm.Opcodes.IFEQ;
 import static org.objectweb.asm.Opcodes.IFNE;
+import static org.objectweb.asm.Opcodes.IFNULL;
 import static org.objectweb.asm.Opcodes.IF_ICMPNE;
 import static org.objectweb.asm.Opcodes.ILOAD;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
+import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 import static org.objectweb.asm.Opcodes.RETURN;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.PrintWriter;
+
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.util.ASMifierClassVisitor;
 
 public class BeansAccessBuilder {
 	static private String METHOD_ACCESS_NAME = BeansAccess.class.getName().replace('.', '/');
@@ -52,7 +61,6 @@ public class BeansAccessBuilder {
 		this.accessClassNameInternal = accessClassName.replace('.', '/');
 		this.classNameInternal = className.replace('.', '/');
 	}
-
 
 	/**
 	 * Build reflect bytecode from accessor list.
@@ -214,18 +222,21 @@ public class BeansAccessBuilder {
 				mv.visitLdcInsn(acc.fieldName);
 				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z");
 				mv.visitJumpInsn(IFEQ, labels[i]);
-				mv.visitVarInsn(ALOAD, 1);
-				mv.visitTypeInsn(CHECKCAST, classNameInternal); // classNameInternal
-				mv.visitVarInsn(ALOAD, 3);
-				Type fieldType = Type.getType(acc.getType());
-				ASMUtil.autoUnBoxing2(mv, fieldType);
-				if (acc.isPublic()) {
-					mv.visitFieldInsn(PUTFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
-				} else {
-					String sig = Type.getMethodDescriptor(acc.setter);
-					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.setter.getName(), sig);
-				}
-				mv.visitInsn(RETURN);
+				
+				internalSetFiled(mv, acc);
+				
+//				mv.visitVarInsn(ALOAD, 1);
+//				mv.visitTypeInsn(CHECKCAST, classNameInternal); // classNameInternal
+//				mv.visitVarInsn(ALOAD, 3);
+//				Type fieldType = Type.getType(acc.getType());
+//				ASMUtil.autoUnBoxing2(mv, fieldType);
+//				if (acc.isPublic()) {
+//					mv.visitFieldInsn(PUTFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
+//				} else {
+//					String sig = Type.getMethodDescriptor(acc.setter);
+//					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.setter.getName(), sig);
+//				}			
+//				mv.visitInsn(RETURN);
 				mv.visitLabel(labels[i]);
 				mv.visitFrame(F_SAME, 0, null, 0, null);
 				i++;
@@ -285,22 +296,32 @@ public class BeansAccessBuilder {
 
 		byte[] data = cw.toByteArray();
 		// debug
-		// {
-		// try {
-		// File dest = new
-		// File("C:/project/google-code/1.1/json-smart/target/test-classes/"
-		// + accessClassName.replace('.', '/') + ".class");
-		// dest.getParentFile().mkdirs();
-		// FileOutputStream fos = new FileOutputStream(dest);
-		// fos.write(data);
-		// fos.close();
-		// } catch (Exception e) {
-		// }
-		// }
+		{
+			try {
+				// File dest = new
+				// File("C:/project/google-code/1.1/json-smart/target/test-classes/");
+				// dest = new File(dest, accessClassName.replace('.', '/') +
+				// ".class");
+				// dest = new File("c:/out.class");
+				// dest.getParentFile().mkdirs();
+				// call java %M%
+				// "C:\project\google-code\json-smart.v2\json-smart\target\test-classes\net\minidev\asm\BTestBeansAccessB.class"
+				// > dump.txt
+				File debug = new File("C:/debug.txt");
+				int flags = ClassReader.SKIP_DEBUG;
+				ClassReader cr = new ClassReader(new ByteArrayInputStream(data));
+				cr.accept(new ASMifierClassVisitor(new PrintWriter(debug)),
+						ASMifierClassVisitor.getDefaultAttributes(), flags);
+				// FileOutputStream fos = new FileOutputStream(dest);
+				// fos.write(data);
+				// fos.close();
+			} catch (Exception e) {
+			}
+		}
 		return loader.defineClass(accessClassName, data);
 	}
 
-	private void internalSetFiled(MethodVisitor mv, Accessor acc) {
+	private void internalSetFiledOrg(MethodVisitor mv, Accessor acc) {
 		mv.visitVarInsn(ALOAD, 1);
 		mv.visitTypeInsn(CHECKCAST, classNameInternal);
 		mv.visitVarInsn(ALOAD, 3);
@@ -315,47 +336,80 @@ public class BeansAccessBuilder {
 		mv.visitInsn(RETURN);
 	}
 
-	private void internalSetFiledConv(MethodVisitor mv, Accessor acc) {
-		// 1 -> object to alter
-		// 2 -> id of field
-		// 3 -> new value
+	// Conv
+	private void internalSetFiled(MethodVisitor mv, Accessor acc) {
+		/**
+		 * FNC params
+		 * 
+		 * 1 -> object to alter
+		 * 
+		 * 2 -> id of field
+		 * 
+		 * 3 -> new value
+		 */
 		mv.visitVarInsn(ALOAD, 1);
 		mv.visitTypeInsn(CHECKCAST, classNameInternal);
+		// get VELUE
 		mv.visitVarInsn(ALOAD, 3);
-		// Label lTest = new Label();
-		// if (Number.class.isAssignableFrom(acc.getType())) {
-		// mv.visitTypeInsn(Opcodes.INSTANCEOF, "java/lang/Number");
-		// mv.visitJumpInsn(Opcodes.IFEQ, lTest);
-		// mv.visitVarInsn(Opcodes.ALOAD, 3);
-		// } else if (acc.getType().isEnum()) {
-		// } else if (acc.getType().equals(String.class)) {
-		// }
-		// case Good Type
 		Type fieldType = Type.getType(acc.getType());
-		ASMUtil.autoUnBoxing2(mv, fieldType);
-		//
-		// if (Number.class.isAssignableFrom(acc.getType())) {
-		// mv.visitJumpInsn(Opcodes.GOTO, l2);
-		// mv.visitLabel(l1);
-		// mv.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {
-		// "net/minidev/asm/BTest" });
-		// mv.visitVarInsn(Opcodes.ALOAD, 3);
-		// mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object",
-		// "toString", "()Ljava/lang/String;");
-		// mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer",
-		// "valueOf",
-		// "(Ljava/lang/String;)Ljava/lang/Integer;");
-		// mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-		// "java/lang/Integer", "intValue", "()I");
-		// mv.visitLabel(l2);
-		// mv.visitFrame(Opcodes.F_FULL, 4, new Object[] {
-		// "net/minidev/asm/BTestBeansAccessB",
-		// "java/lang/Object", "java/lang/String", "java/lang/Object" },
-		// 2, new Object[] {
-		// "net/minidev/asm/BTest", Opcodes.INTEGER });
-		// } else if (acc.getType().isEnum()) {
-		// } else if (acc.getType().equals(String.class)) {
-		// }
+		String destClsName = acc.getType().getName().replace('.', '/');
+		if (acc.isEnum()) {
+			// enum
+			// cast Version
+			mv.visitTypeInsn(CHECKCAST, "java/lang/String");
+			// may use toString Mtd if not nul...
+			mv.visitMethodInsn(INVOKESTATIC, destClsName, "valueOf", "(Ljava/lang/String;)L" + destClsName + ";");
+		} else {
+			// convert mtd
+			Class<?> type = acc.getType();
+			if (type.equals(Integer.class))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToInt", "(Ljava/lang/Object;)Ljava/lang/Integer;");
+			else if (type.equals(Integer.TYPE))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToint", "(Ljava/lang/Object;)I");
+			else if (type.equals(String.class)) {
+				Label isNull = new Label();
+				mv.visitJumpInsn(IFNULL, isNull);
+				mv.visitVarInsn(ALOAD, 3);
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;");
+				mv.visitVarInsn(ASTORE, 3);
+				mv.visitLabel(isNull);
+				mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+				mv.visitVarInsn(ALOAD, 1);
+				mv.visitTypeInsn(CHECKCAST, "net/minidev/asm/bean/BStrPub");
+				mv.visitVarInsn(ALOAD, 3);
+				mv.visitTypeInsn(CHECKCAST, "java/lang/String");
+				// add Test isNull
+			} else if (type.equals(Short.TYPE))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToshort", "(Ljava/lang/Object;)S");
+			else if (type.equals(Short.class))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToShort", "(Ljava/lang/Object;)java/lang/Short;");
+			else if (type.equals(Long.TYPE))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertTolong", "(Ljava/lang/Object;)L");
+			else if (type.equals(Long.class))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToLong", "(Ljava/lang/Object;)java/lang/Long;");
+			else if (type.equals(Byte.TYPE))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertTobyte", "(Ljava/lang/Object;)B");
+			else if (type.equals(Byte.class))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToByte", "(Ljava/lang/Object;)java/lang/Byte;");
+			else if (type.equals(Float.TYPE))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertTofloat", "(Ljava/lang/Object;)F");
+			else if (type.equals(Float.class))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToFloat", "(Ljava/lang/Object;)java/lang/Float;");
+			else if (type.equals(Double.TYPE))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertTodouble", "(Ljava/lang/Object;)D");
+			else if (type.equals(Double.class))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToDouble", "(Ljava/lang/Object;)java/lang/Double;");
+			else if (type.equals(Character.TYPE))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertTochar", "(Ljava/lang/Object;)C");
+			else if (type.equals(Character.class))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToChar", "(Ljava/lang/Object;)java/lang/Character;");
+			else if (type.equals(Boolean.TYPE))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertTobool", "(Ljava/lang/Object;)Z");
+			else if (type.equals(Boolean.class))
+				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToBool", "(Ljava/lang/Object;)java/lang/Boolean;");
+			// add custom external convertions
+		}
+		// ASMUtil.autoUnBoxing2(mv, fieldType);
 		if (acc.isPublic()) {
 			mv.visitFieldInsn(PUTFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
 		} else {
@@ -392,5 +446,7 @@ public class BeansAccessBuilder {
 			throw new RuntimeException("non supported negative values");
 		}
 	}
+
+	private final static String JSONUTIL = "net/minidev/json/JSONUtil";
 
 }
