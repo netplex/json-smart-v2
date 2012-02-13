@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 
  * @author uriel Chemouni
  */
-public abstract class BeansAccess {
+public abstract class BeansAccess<T> {
 	private HashMap<String, Accessor> map;
 	// private Map<String, Accessor> map;
 	private Accessor[] accs;
@@ -50,7 +50,7 @@ public abstract class BeansAccess {
 	/**
 	 * cache used to store built BeansAccess
 	 */
-	private static ConcurrentHashMap<Class<?>, BeansAccess> cache = new ConcurrentHashMap<Class<?>, BeansAccess>();
+	private static ConcurrentHashMap<Class<?>, BeansAccess<?>> cache = new ConcurrentHashMap<Class<?>, BeansAccess<?>>();
 
 	// private final static ConcurrentHashMap<Type, AMapper<?>> cache;
 
@@ -61,9 +61,9 @@ public abstract class BeansAccess {
 	 *            to be access
 	 * @return the BeansAccess
 	 */
-	static public BeansAccess get(Class<?> type) {
+	static public <P> BeansAccess<P> get(Class<P> type) {
 		{
-			BeansAccess access = cache.get(type);
+			BeansAccess<P> access = (BeansAccess<P>) cache.get(type);
 			if (access != null)
 				return access;
 		}
@@ -88,7 +88,7 @@ public abstract class BeansAccess {
 		}
 
 		try {
-			BeansAccess access = (BeansAccess) accessClass.newInstance();
+			BeansAccess<P> access = (BeansAccess<P>) accessClass.newInstance();
 			access.setAccessor(accs);
 			cache.putIfAbsent(type, access);
 			return access;
@@ -100,29 +100,29 @@ public abstract class BeansAccess {
 	/**
 	 * set field value by field index
 	 */
-	abstract public void set(Object object, int methodIndex, Object value);
+	abstract public void set(T object, int methodIndex, Object value);
 
 	/**
 	 * get field value by field index
 	 */
-	abstract public Object get(Object object, int methodIndex);
+	abstract public Object get(T object, int methodIndex);
 
 	/**
 	 * create a new targeted object
 	 */
-	abstract public Object newInstance();
+	abstract public T newInstance();
 
 	/**
 	 * set field value by fieldname
 	 */
-	public void set(Object object, String methodName, Object value) {
+	public void set(T object, String methodName, Object value) {
 		set(object, getIndex(methodName), value);
 	}
 
 	/**
 	 * get field value by fieldname
 	 */
-	public Object get(Object object, String methodName) {
+	public Object get(T object, String methodName) {
 		return get(object, getIndex(methodName));
 	}
 

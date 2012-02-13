@@ -28,7 +28,7 @@ public abstract class BeansMapper<T> extends AMapper<T> {
 
 	public static class Bean<T> extends AMapper<T> {
 		final Class<T> clz;
-		final BeansAccess ba;
+		final BeansAccess<T> ba;
 		final HashMap<String, Accessor> index;
 
 		public Bean(Class<T> clz) {
@@ -43,14 +43,14 @@ public abstract class BeansMapper<T> extends AMapper<T> {
 			if (nfo == null)
 				throw new RuntimeException("Can not set " + key + " field in " + clz);
 			value = JSONUtil.convertTo(value, nfo.getType());
-			ba.set(current, nfo.getIndex(), value);
+			ba.set((T) current, nfo.getIndex(), value);
 		}
 
 		public Object getValue(Object current, String key) {
 			Accessor nfo = index.get(key);
 			if (nfo == null)
 				throw new RuntimeException("Can not set " + key + " field in " + clz);
-			return ba.get(current, nfo.getIndex());
+			return ba.get((T) current, nfo.getIndex());
 		}
 
 		@Override
@@ -80,11 +80,10 @@ public abstract class BeansMapper<T> extends AMapper<T> {
 			return ba.newInstance();
 		}
 	}
-	
-	
+
 	public static class BeanNoConv<T> extends AMapper<T> {
 		final Class<T> clz;
-		final BeansAccess ba;
+		final BeansAccess<T> ba;
 		final HashMap<String, Accessor> index;
 
 		public BeanNoConv(Class<T> clz) {
@@ -95,11 +94,11 @@ public abstract class BeansMapper<T> extends AMapper<T> {
 
 		@Override
 		public void setValue(Object current, String key, Object value) {
-			ba.set(current, key, value);
+			ba.set((T) current, key, value);
 		}
 
 		public Object getValue(Object current, String key) {
-			return ba.get(current, key);
+			return ba.get((T) current, key);
 		}
 
 		@Override
@@ -129,5 +128,5 @@ public abstract class BeansMapper<T> extends AMapper<T> {
 			return ba.newInstance();
 		}
 	}
-	
+
 }

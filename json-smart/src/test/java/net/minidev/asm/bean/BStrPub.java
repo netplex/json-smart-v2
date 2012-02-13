@@ -1,5 +1,5 @@
 package net.minidev.asm.bean;
 
 public class BStrPub {
-	public String pubStrValue;
+	public String value;
 }

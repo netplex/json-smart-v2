@@ -323,9 +323,10 @@ public class JSONUtil {
 		throw new RuntimeException("Primitive: Can not convert " + obj.getClass().getName() + " to Boolean");
 	}
 
-//	public static <T extends Enum<T>> T convertToEnum(Object obj, Class<T> dest) {
-//		return Enum.valueOf(dest, obj.toString());
-//	}
+	// public static <T extends Enum<T>> T convertToEnum(Object obj, Class<T>
+	// dest) {
+	// return Enum.valueOf(dest, obj.toString());
+	// }
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Object convertTo(Object obj, Class<?> dest) {

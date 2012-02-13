@@ -1,13 +1,14 @@
 package net.minidev.asm.bean;
 
 public class BStrPriv {
-	private String pubStrValue;
+	private String value;
 
-	public String getPubStrValue() {
-		return pubStrValue;
+	public String getValue() {
+		return value;
 	}
 
-	public void setPubStrValue(String pubStrValue) {
-		this.pubStrValue = pubStrValue;
+	public void setValue(String value) {
+		this.value = value;
 	}
+
 }

@@ -30,7 +30,7 @@ public class CollectionMapper {
 		final ParameterizedType type;
 		final Class<?> rawClass;
 		final Class<?> instance;
-		final BeansAccess ba;
+		final BeansAccess<?> ba;
 		
 		final Type keyType;
 		final Type valueType;
@@ -102,7 +102,7 @@ public class CollectionMapper {
 	public static class MapClass<T> extends AMapper<T> {
 		final Class<?> type;
 		final Class<?> instance;
-		final BeansAccess ba;
+		final BeansAccess<?> ba;
 		
 		AMapper<?> subMapper;
 
@@ -152,7 +152,7 @@ public class CollectionMapper {
 		final ParameterizedType type;
 		final Class<?> rawClass;
 		final Class<?> instance;
-		final BeansAccess ba;
+		final BeansAccess<?> ba;
 
 		final Type valueType;
 		final Class<?> valueClass;
@@ -203,7 +203,7 @@ public class CollectionMapper {
 	public static class ListClass<T> extends AMapper<T> {
 		final Class<?> type;
 		final Class<?> instance;
-		final BeansAccess ba;
+		final BeansAccess<?> ba;
 		
 		AMapper<?> subMapper;
 

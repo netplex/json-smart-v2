@@ -2,6 +2,7 @@ package net.minidev.asm.bean;
 
 import net.minidev.asm.BeansAccess;
 
+@SuppressWarnings("rawtypes")
 public class BStrPubAc extends BeansAccess {
 
 	@Override
@@ -9,7 +10,7 @@ public class BStrPubAc extends BeansAccess {
 		if (methodIndex == 0) {
 			if (value != null)
 				value = value.toString();
-			((BStrPub) object).pubStrValue = (String) value;
+			((BStrPub)object).value = (String) value;
 			return;
 		}
 	}
@@ -17,31 +18,31 @@ public class BStrPubAc extends BeansAccess {
 	@Override
 	public Object get(Object object, int methodIndex) {
 		if (methodIndex == 0) {
-			return ((BStrPub) object).pubStrValue;
+			return ((BStrPub)object).value;
 		}
 		return null;
 	}
 
 	@Override
 	public void set(Object object, String methodIndex, Object value) {
-		if (methodIndex.equals("pubStrValue")) {
+		if (methodIndex.equals("value")) {
 			if (value != null)
 				value = value.toString();
-			((BStrPub) object).pubStrValue = (String) value;
+			((BStrPub) object).value = (String) value;
 			return;
 		}
 	}
 
 	@Override
 	public Object get(Object object, String methodIndex) {
-		if (methodIndex.equals("pubStrValue")) {
-			return ((BStrPub) object).pubStrValue;
+		if (methodIndex.equals("value")) {
+			return ((BStrPub) object).value;
 		}
 		return null;
 	}
 
 	@Override
-	public Object newInstance() {
+	public BStrPub newInstance() {
 		return new BStrPub();
 	}
 

@@ -1,6 +1,5 @@
 package net.minidev.asm.bean;
 
-import net.minidev.asm.TEnum;
 
 public class BTest {
 	public int pubIntValue;
