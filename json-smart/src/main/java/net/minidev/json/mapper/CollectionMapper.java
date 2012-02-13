@@ -83,14 +83,14 @@ public class CollectionMapper {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void setValue(Object current, String key, Object value) {
-			((Map<Object, Object>) current).put(JSONUtil.convertTo(key, keyClass),
-					JSONUtil.convertTo(value, valueClass));
+			((Map<Object, Object>) current).put(JSONUtil.convertToX(key, keyClass),
+					JSONUtil.convertToX(value, valueClass));
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public Object getValue(Object current, String key) {
-			return ((Map<String, Object>) current).get(JSONUtil.convertTo(key, keyClass));
+			return ((Map<String, Object>) current).get(JSONUtil.convertToX(key, keyClass));
 		}
 
 		@Override
@@ -196,7 +196,7 @@ public class CollectionMapper {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void addValue(Object current, Object value) {
-			((List<Object>) current).add(JSONUtil.convertTo(value, valueClass));
+			((List<Object>) current).add(JSONUtil.convertToX(value, valueClass));
 		}
 	};
 

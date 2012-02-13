@@ -302,16 +302,16 @@ public class BeansAccessBuilder {
 
 		byte[] data = cw.toByteArray();
 		// debug
-		{
-			try {
-				File debug = new File("C:/debug.txt");
-				int flags = ClassReader.SKIP_DEBUG;
-				ClassReader cr = new ClassReader(new ByteArrayInputStream(data));
-				cr.accept(new ASMifierClassVisitor(new PrintWriter(debug)),
-						ASMifierClassVisitor.getDefaultAttributes(), flags);
-			} catch (Exception e) {
-			}
-		}
+		// {
+		// try {
+		// File debug = new File("C:/debug.txt");
+		// int flags = ClassReader.SKIP_DEBUG;
+		// ClassReader cr = new ClassReader(new ByteArrayInputStream(data));
+		// cr.accept(new ASMifierClassVisitor(new PrintWriter(debug)),
+		// ASMifierClassVisitor.getDefaultAttributes(), flags);
+		// } catch (Exception e) {
+		// }
+		// }
 		return loader.defineClass(accessClassName, data);
 	}
 
@@ -346,8 +346,7 @@ public class BeansAccessBuilder {
 		// get VELUE
 		mv.visitVarInsn(ALOAD, 3);
 		Type fieldType = Type.getType(acc.getType());
-		String destClsName = Type.getInternalName(acc.getType());// .getName().replace('.',
-																	// '/');
+		String destClsName = Type.getInternalName(acc.getType());
 		if (acc.isEnum()) {
 			// enum
 			// cast Version

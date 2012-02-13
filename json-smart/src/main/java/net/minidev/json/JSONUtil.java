@@ -329,7 +329,7 @@ public class JSONUtil {
 	// }
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static Object convertTo(Object obj, Class<?> dest) {
+	public static Object convertToX(Object obj, Class<?> dest) {
 		if (obj == null)
 			return null;
 		if (dest.isAssignableFrom(obj.getClass()))

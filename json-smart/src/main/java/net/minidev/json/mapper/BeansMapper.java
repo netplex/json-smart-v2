@@ -15,13 +15,14 @@ package net.minidev.json.mapper;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import java.lang.reflect.Type;
 import java.util.HashMap;
 
 import net.minidev.asm.Accessor;
 import net.minidev.asm.BeansAccess;
-import net.minidev.json.JSONUtil;
 
+@SuppressWarnings("unchecked")
 public abstract class BeansMapper<T> extends AMapper<T> {
 
 	public abstract Object getValue(Object current, String key);
@@ -39,18 +40,22 @@ public abstract class BeansMapper<T> extends AMapper<T> {
 
 		@Override
 		public void setValue(Object current, String key, Object value) {
-			Accessor nfo = index.get(key);
-			if (nfo == null)
-				throw new RuntimeException("Can not set " + key + " field in " + clz);
-			value = JSONUtil.convertTo(value, nfo.getType());
-			ba.set((T) current, nfo.getIndex(), value);
+			ba.set((T) current, key, value);
+			// Accessor nfo = index.get(key);
+			// if (nfo == null)
+			// throw new RuntimeException("Can not set " + key + " field in " +
+			// clz);
+			// value = JSONUtil.convertTo(value, nfo.getType());
+			// ba.set((T) current, nfo.getIndex(), value);
 		}
 
 		public Object getValue(Object current, String key) {
-			Accessor nfo = index.get(key);
-			if (nfo == null)
-				throw new RuntimeException("Can not set " + key + " field in " + clz);
-			return ba.get((T) current, nfo.getIndex());
+			return ba.get((T) current, key);
+			// Accessor nfo = index.get(key);
+			// if (nfo == null)
+			// throw new RuntimeException("Can not set " + key + " field in " +
+			// clz);
+			// return ba.get((T) current, nfo.getIndex());
 		}
 
 		@Override
