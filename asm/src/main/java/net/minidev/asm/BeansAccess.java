@@ -18,8 +18,6 @@ package net.minidev.asm;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.minidev.json.JSONUtil;
-
 /**
  * Allow access reflect field using runtime generated accessor. BeansAccessor is
  * faster than java.lang.reflect.Method.invoke()
@@ -64,13 +62,25 @@ public abstract class BeansAccess<T> {
 	 * @return the BeansAccess
 	 */
 	static public <P> BeansAccess<P> get(Class<P> type) {
+		return get(type, null);
+	}
+
+	/**
+	 * return the BeansAccess corresponding to a type
+	 * 
+	 * @param type
+	 *            to be access
+	 * @return the BeansAccess
+	 */
+	static public <P> BeansAccess<P> get(Class<P> type, FieldFilter filter) {
 		{
+			@SuppressWarnings("unchecked")
 			BeansAccess<P> access = (BeansAccess<P>) cache.get(type);
 			if (access != null)
 				return access;
 		}
 		// extract all access methodes
-		Accessor[] accs = ASMUtil.getAccessors(type);
+		Accessor[] accs = ASMUtil.getAccessors(type, filter);
 
 		// create new class name
 		String accessClassName = type.getName().concat("AccAccess");
@@ -87,11 +97,12 @@ public abstract class BeansAccess<T> {
 		// if the class do not exists build it
 		if (accessClass == null) {
 			BeansAccessBuilder builder = new BeansAccessBuilder(type, accs, loader);
-			builder.addConversion(JSONUtil.class);
+			builder.addConversion(DefaultConverter.class);
 			accessClass = builder.bulid();
 		}
 
 		try {
+			@SuppressWarnings("unchecked")
 			BeansAccess<P> access = (BeansAccess<P>) accessClass.newInstance();
 			access.setAccessor(accs);
 			cache.putIfAbsent(type, access);

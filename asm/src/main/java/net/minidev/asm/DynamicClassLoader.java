@@ -38,6 +38,7 @@ class DynamicClassLoader extends ClassLoader {
 
 	public static <T> Class<T> directLoad(Class<? extends T> parent, String clsName, byte[] clsData) {
 		DynamicClassLoader loader = new DynamicClassLoader(parent.getClassLoader());
+		@SuppressWarnings("unchecked")
 		Class<T> clzz = (Class<T>) loader.defineClass(clsName, clsData);
 		return clzz;
 	}

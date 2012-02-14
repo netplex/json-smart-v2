@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!-- this POM is released under an Apache 2.0 license -->
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>asm</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0</version>
+	
+	<parent>
+		<groupId>net.minidev</groupId>
+		<artifactId>parent</artifactId>
+		<version>2.0</version>
+		<relativePath>../parent/pom.xml</relativePath>
+	</parent>
+
+	<name>ASM helper Minidev</name>
+
+	<description>
+	ASM Optimisation Package
+  </description>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>3.3.1</version>
+		</dependency>
+
+		<!-- <dependency> -->
+		<!-- <groupId>asm</groupId> -->
+		<!-- <artifactId>asm-util</artifactId> -->
+		<!-- <version>3.3.1</version> -->
+		<!-- </dependency> -->
+
+		<!-- <groupId>asm</groupId> -->
+		<!-- <artifactId>asm-analysis</artifactId> -->
+		<!-- <version>3.3.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>asm</groupId> -->
+		<!-- <artifactId>asm-commons</artifactId> -->
+		<!-- <version>3.3.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>asm</groupId> -->
+		<!-- <artifactId>asm-tree</artifactId> -->
+		<!-- <version>3.3.1</version> -->
+		<!-- </dependency> -->
+	</dependencies>
+</project>

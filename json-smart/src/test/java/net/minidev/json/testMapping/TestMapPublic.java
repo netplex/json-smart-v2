@@ -1,15 +1,11 @@
 package net.minidev.json.testMapping;
 
 import junit.framework.TestCase;
-import net.minidev.asm.BeansAccess;
 import net.minidev.json.JSONValue;
 
 public class TestMapPublic extends TestCase {
 	public void testObjInts() throws Exception {
 		String s = "{\"vint\":[1,2,3]}";
-		BeansAccess<T1> ba = BeansAccess.get(T1.class);
-		T1 a = ba.newInstance();
-
 		T1 r = JSONValue.parse(s, T1.class);
 		assertEquals(3, r.vint[2]);
 	}

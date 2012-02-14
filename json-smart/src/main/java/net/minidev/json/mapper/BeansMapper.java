@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import net.minidev.asm.Accessor;
 import net.minidev.asm.BeansAccess;
+import net.minidev.json.JSONUtil;
 
 @SuppressWarnings("unchecked")
 public abstract class BeansMapper<T> extends AMapper<T> {
@@ -34,7 +35,7 @@ public abstract class BeansMapper<T> extends AMapper<T> {
 
 		public Bean(Class<T> clz) {
 			this.clz = clz;
-			this.ba = BeansAccess.get(clz);
+			this.ba = BeansAccess.get(clz, JSONUtil.JSON_SMART_FIELD_FILTER);
 			this.index = ba.getMap();
 		}
 
@@ -93,7 +94,7 @@ public abstract class BeansMapper<T> extends AMapper<T> {
 
 		public BeanNoConv(Class<T> clz) {
 			this.clz = clz;
-			this.ba = BeansAccess.get(clz);
+			this.ba = BeansAccess.get(clz, JSONUtil.JSON_SMART_FIELD_FILTER);
 			this.index = ba.getMap();
 		}
 

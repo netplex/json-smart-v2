@@ -1,7 +1,7 @@
 package net.minidev.asm.bean;
 
 import net.minidev.asm.BeansAccess;
-import net.minidev.json.JSONUtil;
+import net.minidev.asm.DefaultConverter;
 
 @SuppressWarnings("rawtypes")
 public class BLongPrivAc extends BeansAccess {
@@ -9,7 +9,7 @@ public class BLongPrivAc extends BeansAccess {
 	@Override
 	public void set(Object object, int methodIndex, Object value) {
 		if (methodIndex == 0) {
-			((BLongPriv) object).setValue(JSONUtil.convertToLong(value));
+			((BLongPriv) object).setValue(DefaultConverter.convertToLong(value));
 			return;
 		}
 	}
@@ -25,7 +25,7 @@ public class BLongPrivAc extends BeansAccess {
 	@Override
 	public void set(Object object, String methodIndex, Object value) {
 		if (methodIndex.equals("value")) {
-			((BLongPriv) object).setValue(JSONUtil.convertToLong(value));
+			((BLongPriv) object).setValue(DefaultConverter.convertToLong(value));
 			return;
 		}
 	}

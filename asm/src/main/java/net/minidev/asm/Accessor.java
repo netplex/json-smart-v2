@@ -20,9 +20,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 
-import net.minidev.json.JSONUtil;
-import net.minidev.json.annotate.JsonIgnore;
-
 /**
  * Contains all information needed to access a java field.
  * 
@@ -75,7 +72,7 @@ public class Accessor {
 	public boolean isPublic() {
 		return setter == null;
 	}
-	
+
 	/**
 	 * is the field is an enum field
 	 */
@@ -133,15 +130,9 @@ public class Accessor {
 	 * @param field
 	 *            the field to access
 	 */
-	public Accessor(Class<?> c, Field field) {
+	public Accessor(Class<?> c, Field field, FieldFilter filter) {
 		this.fieldName = field.getName();
 		int m = field.getModifiers();
-		boolean haveAnno = false;
-		JsonIgnore ignore = field.getAnnotation(JsonIgnore.class);
-		if (ignore != null && ignore.value()) {
-			m = m & ~Modifier.PUBLIC;
-			haveAnno = true;
-		}
 
 		if ((m & (Modifier.STATIC | Modifier.TRANSIENT)) > 0)
 			return;
@@ -149,16 +140,16 @@ public class Accessor {
 		if ((m & Modifier.PUBLIC) > 0)
 			this.field = field;
 
-		String name = JSONUtil.getSetterName(field.getName());
+		String name = ASMUtil.getSetterName(field.getName());
 		try {
 			setter = c.getDeclaredMethod(name, field.getType());
 		} catch (Exception e) {
 		}
 		boolean isBool = field.getType().equals(Boolean.TYPE);
 		if (isBool) {
-			name = JSONUtil.getIsName(field.getName());
+			name = ASMUtil.getIsName(field.getName());
 		} else {
-			name = JSONUtil.getGetterName(field.getName());
+			name = ASMUtil.getGetterName(field.getName());
 		}
 		try {
 			getter = c.getDeclaredMethod(name);
@@ -166,38 +157,24 @@ public class Accessor {
 		}
 		if (getter == null && isBool) {
 			try {
-				getter = c.getDeclaredMethod(JSONUtil.getGetterName(field.getName()));
+				getter = c.getDeclaredMethod(ASMUtil.getGetterName(field.getName()));
 			} catch (Exception e) {
-			}
-		}
-
-		if (getter != null) {
-			ignore = getter.getAnnotation(JsonIgnore.class);
-			if (ignore != null && ignore.value()) {
-				getter = null;
-				haveAnno = true;
-			}
-		}
-		if (setter != null) {
-			ignore = setter.getAnnotation(JsonIgnore.class);
-			if (ignore != null && ignore.value()) {
-				haveAnno = true;
-				setter = null;
 			}
 		}
 
 		if (this.field == null && getter == null && setter == null)
 			return;
 
-		if (!haveAnno) {
-			if (this.field != null) {
-				getter = null;
-				setter = null;
-			} else {
-				if (getter == null && setter == null)
-					return;
-			}
-		}
+		if (getter != null && !filter.canUse(field, getter))
+			getter = null;
+
+		if (setter != null && !filter.canUse(field, setter))
+			setter = null;
+
+		// disable
+		if (getter == null && setter == null && this.field == null)
+			return;
+
 		this.type = field.getType();
 		this.genericType = field.getGenericType();
 	}

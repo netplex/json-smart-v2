@@ -139,6 +139,7 @@
 		<!-- <module>../csv</module> -->
 		<!-- <module>../db</module> -->
 		<!-- <module>../html</module> -->
+		<module>../asm</module>
 		<module>../json-smart</module>
 		<!-- <module>../json-smart-mini</module> -->
 		<!-- <module>../minibase</module> -->
@@ -277,6 +278,11 @@ https://oss.sonatype.org/content/repositories/snapshots
 				<groupId>net.minidev</groupId>
 				<artifactId>json-smart</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.minidev</groupId>
+				<artifactId>asm</artifactId>
+				<version>1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>net.minidev</groupId>

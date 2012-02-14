@@ -685,7 +685,7 @@ public class JSONValue {
 			try {
 				Class<?> cls = value.getClass();
 				boolean needSep = false;
-				BeansAccess fields = BeansAccess.get(cls);
+				BeansAccess fields = BeansAccess.get(cls, JSONUtil.JSON_SMART_FIELD_FILTER);
 				out.append('{');
 				for (Accessor field : fields.getAccessors()) {
 					Object v = fields.get(value, field.getIndex());

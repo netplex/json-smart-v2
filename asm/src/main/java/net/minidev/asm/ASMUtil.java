@@ -45,10 +45,11 @@ public class ASMUtil {
 	 * @param type
 	 * @return
 	 */
-	static public Accessor[] getAccessors(Class<?> type) {
+	static public Accessor[] getAccessors(Class<?> type, FieldFilter filter) {
 		Class<?> nextClass = type;
 		HashMap<String, Accessor> map = new HashMap<String, Accessor>();
-
+		if (filter == null)
+			filter = BasicFiledFilter.SINGLETON;
 		while (nextClass != Object.class) {
 			Field[] declaredFields = nextClass.getDeclaredFields();
 
@@ -56,7 +57,7 @@ public class ASMUtil {
 				String fn = field.getName();
 				if (map.containsKey(fn))
 					continue;
-				Accessor acc = new Accessor(nextClass, field);
+				Accessor acc = new Accessor(nextClass, field, filter);
 				if (!acc.isUsable())
 					continue;
 				map.put(fn, acc);
@@ -201,4 +202,52 @@ public class ASMUtil {
 			r[i] = new Label();
 		return r;
 	}
+
+	public static String getSetterName(String key) {
+		int len = key.length();
+		char[] b = new char[len + 3];
+		b[0] = 's';
+		b[1] = 'e';
+		b[2] = 't';
+		char c = key.charAt(0);
+		if (c >= 'a' && c <= 'z')
+			c += 'A' - 'a';
+		b[3] = c;
+		for (int i = 1; i < len; i++) {
+			b[i + 3] = key.charAt(i);
+		}
+		return new String(b);
+	}
+
+	public static String getGetterName(String key) {
+		int len = key.length();
+		char[] b = new char[len + 3];
+		b[0] = 'g';
+		b[1] = 'e';
+		b[2] = 't';
+		char c = key.charAt(0);
+		if (c >= 'a' && c <= 'z')
+			c += 'A' - 'a';
+		b[3] = c;
+		for (int i = 1; i < len; i++) {
+			b[i + 3] = key.charAt(i);
+		}
+		return new String(b);
+	}
+
+	public static String getIsName(String key) {
+		int len = key.length();
+		char[] b = new char[len + 2];
+		b[0] = 'i';
+		b[1] = 's';
+		char c = key.charAt(0);
+		if (c >= 'a' && c <= 'z')
+			c += 'A' - 'a';
+		b[2] = c;
+		for (int i = 1; i < len; i++) {
+			b[i + 2] = key.charAt(i);
+		}
+		return new String(b);
+	}
+
 }

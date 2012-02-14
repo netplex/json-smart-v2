@@ -31,30 +31,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>asm</groupId>
+			<groupId>net.minidev</groupId>
 			<artifactId>asm</artifactId>
-			<version>3.3.1</version>
+			<version>1.0</version>
 		</dependency>
-
-<!-- 		<dependency> -->
-<!-- 			<groupId>asm</groupId> -->
-<!-- 			<artifactId>asm-util</artifactId> -->
-<!-- 			<version>3.3.1</version> -->
-<!-- 		</dependency> -->
-
-		<!-- <groupId>asm</groupId> -->
-		<!-- <artifactId>asm-analysis</artifactId> -->
-		<!-- <version>3.3.1</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>asm</groupId> -->
-		<!-- <artifactId>asm-commons</artifactId> -->
-		<!-- <version>3.3.1</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>asm</groupId> -->
-		<!-- <artifactId>asm-tree</artifactId> -->
-		<!-- <version>3.3.1</version> -->
-		<!-- </dependency> -->
 	</dependencies>
 </project>

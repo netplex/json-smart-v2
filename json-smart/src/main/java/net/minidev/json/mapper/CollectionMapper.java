@@ -31,7 +31,7 @@ public class CollectionMapper {
 		final Class<?> rawClass;
 		final Class<?> instance;
 		final BeansAccess<?> ba;
-		
+
 		final Type keyType;
 		final Type valueType;
 
@@ -47,7 +47,7 @@ public class CollectionMapper {
 				instance = JSONObject.class;
 			else
 				instance = rawClass;
-			ba = BeansAccess.get(instance);
+			ba = BeansAccess.get(instance, JSONUtil.JSON_SMART_FIELD_FILTER);
 
 			keyType = type.getActualTypeArguments()[0];
 			valueType = type.getActualTypeArguments()[1];
@@ -103,7 +103,7 @@ public class CollectionMapper {
 		final Class<?> type;
 		final Class<?> instance;
 		final BeansAccess<?> ba;
-		
+
 		AMapper<?> subMapper;
 
 		public MapClass(Class<?> type) {
@@ -112,7 +112,7 @@ public class CollectionMapper {
 				this.instance = JSONObject.class;
 			else
 				this.instance = type;
-			this.ba = BeansAccess.get(instance);
+			this.ba = BeansAccess.get(instance, JSONUtil.JSON_SMART_FIELD_FILTER);
 		}
 
 		@Override
@@ -166,7 +166,7 @@ public class CollectionMapper {
 				instance = JSONArray.class;
 			else
 				instance = rawClass;
-			ba = BeansAccess.get(instance); // NEW
+			ba = BeansAccess.get(instance, JSONUtil.JSON_SMART_FIELD_FILTER); // NEW
 			valueType = type.getActualTypeArguments()[0];
 			if (valueType instanceof Class)
 				valueClass = (Class<?>) valueType;
@@ -204,7 +204,7 @@ public class CollectionMapper {
 		final Class<?> type;
 		final Class<?> instance;
 		final BeansAccess<?> ba;
-		
+
 		AMapper<?> subMapper;
 
 		public ListClass(Class<?> clazz) {
@@ -213,7 +213,7 @@ public class CollectionMapper {
 				instance = JSONArray.class;
 			else
 				instance = clazz;
-			ba = BeansAccess.get(instance);
+			ba = BeansAccess.get(instance, JSONUtil.JSON_SMART_FIELD_FILTER);
 		}
 
 		@Override
