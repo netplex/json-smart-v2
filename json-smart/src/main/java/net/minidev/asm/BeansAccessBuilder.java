@@ -28,20 +28,15 @@ import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 import static org.objectweb.asm.Opcodes.RETURN;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 
-import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.util.ASMifierClassVisitor;
 
 public class BeansAccessBuilder {
 	static private String METHOD_ACCESS_NAME = Type.getInternalName(BeansAccess.class);
@@ -313,15 +308,14 @@ public class BeansAccessBuilder {
 	 */
 	@SuppressWarnings("unused")
 	private void dumpDebug(byte[] data, String destFile) {
-		try {
-			File debug = new File(destFile);
-			int flags = ClassReader.SKIP_DEBUG;
-			ClassReader cr = new ClassReader(new ByteArrayInputStream(data));
-			cr.accept(new ASMifierClassVisitor(new PrintWriter(debug)), ASMifierClassVisitor.getDefaultAttributes(),
-					flags);
-		} catch (Exception e) {
-		}
-
+//		try {
+//			File debug = new File(destFile);
+//			int flags = ClassReader.SKIP_DEBUG;
+//			ClassReader cr = new ClassReader(new ByteArrayInputStream(data));
+//			cr.accept(new ASMifierClassVisitor(new PrintWriter(debug)), ASMifierClassVisitor.getDefaultAttributes(),
+//					flags);
+//		} catch (Exception e) {
+//		}
 	}
 
 	/**
