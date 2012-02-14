@@ -6,3 +6,7 @@
 /parent/.project
 /parent/.settings
 /json-smart/src/test/java/asm
+/asm/.classpath
+/asm/.project
+/asm/.settings
+/asm/target
