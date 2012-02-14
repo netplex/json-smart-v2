@@ -18,6 +18,8 @@ package net.minidev.asm;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.minidev.json.JSONUtil;
+
 /**
  * Allow access reflect field using runtime generated accessor. BeansAccessor is
  * faster than java.lang.reflect.Method.invoke()
@@ -84,7 +86,9 @@ public abstract class BeansAccess<T> {
 
 		// if the class do not exists build it
 		if (accessClass == null) {
-			accessClass = new BeansAccessBuilder(type, accs, loader).bulid();
+			BeansAccessBuilder builder = new BeansAccessBuilder(type, accs, loader);
+			builder.addConversion(JSONUtil.class);
+			accessClass = builder.bulid();
 		}
 
 		try {

@@ -27,17 +27,15 @@ import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 import static org.objectweb.asm.Opcodes.RETURN;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.PrintWriter;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
 
-import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.util.ASMifierClassVisitor;
 
 public class BeansAccessBuilder {
 	static private String METHOD_ACCESS_NAME = Type.getInternalName(BeansAccess.class);
@@ -60,6 +58,24 @@ public class BeansAccessBuilder {
 
 		this.accessClassNameInternal = accessClassName.replace('.', '/');
 		this.classNameInternal = className.replace('.', '/');
+	}
+
+	final HashMap<Class<?>, Method> convMtds = new HashMap<Class<?>, Method>();
+
+	public void addConversion(Class<?> conv) {
+		for (Method mtd : conv.getMethods()) {
+			if ((mtd.getModifiers() & Modifier.STATIC) == 0)
+				continue;
+			Class<?>[] param = mtd.getParameterTypes();
+			if (param.length != 1)
+				continue;
+			if (!param[0].equals(Object.class))
+				continue;
+			Class<?> rType = mtd.getReturnType();
+			if (rType.equals(Void.TYPE))
+				continue;
+			convMtds.put(rType, mtd);
+		}
 	}
 
 	/**
@@ -374,11 +390,14 @@ public class BeansAccessBuilder {
 		} else {
 			// convert mtd
 			Class<?> type = acc.getType();
-			if (type.equals(Integer.class))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToInt", "(Ljava/lang/Object;)Ljava/lang/Integer;");
-			else if (type.equals(Integer.TYPE))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToint", "(Ljava/lang/Object;)I");
-			else if (type.equals(String.class)) {
+
+			Method conMtd = convMtds.get(type);
+			if (conMtd != null) {
+				String clsSig = Type.getInternalName(conMtd.getDeclaringClass());
+				String mtdName = conMtd.getName();
+				String mtdSig = Type.getMethodDescriptor(conMtd);
+				mv.visitMethodInsn(INVOKESTATIC, clsSig, mtdName, mtdSig);
+			} else if (type.equals(String.class)) {
 				Label isNull = new Label();
 				mv.visitJumpInsn(IFNULL, isNull);
 				mv.visitVarInsn(ALOAD, 3);
@@ -391,35 +410,7 @@ public class BeansAccessBuilder {
 				mv.visitVarInsn(ALOAD, 3);
 				mv.visitTypeInsn(CHECKCAST, "java/lang/String");
 				// add Test isNull
-			} else if (type.equals(Short.TYPE))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToshort", "(Ljava/lang/Object;)S");
-			else if (type.equals(Short.class))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToShort", "(Ljava/lang/Object;)Ljava/lang/Short;");
-			else if (type.equals(Long.TYPE))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertTolong", "(Ljava/lang/Object;)J");
-			else if (type.equals(Long.class))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToLong", "(Ljava/lang/Object;)Ljava/lang/Long;");
-			else if (type.equals(Byte.TYPE))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertTobyte", "(Ljava/lang/Object;)B");
-			else if (type.equals(Byte.class))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToByte", "(Ljava/lang/Object;)Ljava/lang/Byte;");
-			else if (type.equals(Float.TYPE))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertTofloat", "(Ljava/lang/Object;)F");
-			else if (type.equals(Float.class))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToFloat", "(Ljava/lang/Object;)Ljava/lang/Float;");
-			else if (type.equals(Double.TYPE))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertTodouble", "(Ljava/lang/Object;)D");
-			else if (type.equals(Double.class))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToDouble", "(Ljava/lang/Object;)Ljava/lang/Double;");
-			else if (type.equals(Character.TYPE))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertTochar", "(Ljava/lang/Object;)C");
-			else if (type.equals(Character.class))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToChar", "(Ljava/lang/Object;)Ljava/lang/Character;");
-			else if (type.equals(Boolean.TYPE))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertTobool", "(Ljava/lang/Object;)Z");
-			else if (type.equals(Boolean.class))
-				mv.visitMethodInsn(INVOKESTATIC, JSONUTIL, "convertToBool", "(Ljava/lang/Object;)Ljava/lang/Boolean;");
-			else
+			} else
 				mv.visitTypeInsn(CHECKCAST, Type.getInternalName(type));
 			// add custom external convertions
 		}
@@ -460,7 +451,4 @@ public class BeansAccessBuilder {
 			throw new RuntimeException("non supported negative values");
 		}
 	}
-
-	private final static String JSONUTIL = "net/minidev/json/JSONUtil";
-
 }
