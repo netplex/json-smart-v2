@@ -5,6 +5,7 @@ import static org.objectweb.asm.Opcodes.ACONST_NULL;
 import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.ASTORE;
+import static org.objectweb.asm.Opcodes.ATHROW;
 import static org.objectweb.asm.Opcodes.BIPUSH;
 import static org.objectweb.asm.Opcodes.CHECKCAST;
 import static org.objectweb.asm.Opcodes.DUP;
@@ -27,15 +28,20 @@ import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 import static org.objectweb.asm.Opcodes.RETURN;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.util.ASMifierClassVisitor;
 
 public class BeansAccessBuilder {
 	static private String METHOD_ACCESS_NAME = Type.getInternalName(BeansAccess.class);
@@ -47,6 +53,8 @@ public class BeansAccessBuilder {
 	final String accessClassName;
 	final String accessClassNameInternal;
 	final String classNameInternal;
+	final HashMap<Class<?>, Method> convMtds = new HashMap<Class<?>, Method>();
+	Class<? extends Exception> exeptionClass = NoSuchFiledException.class;
 
 	public BeansAccessBuilder(Class<?> type, Accessor[] accs, DynamicClassLoader loader) {
 		this.type = type;
@@ -59,8 +67,6 @@ public class BeansAccessBuilder {
 		this.accessClassNameInternal = accessClassName.replace('.', '/');
 		this.classNameInternal = className.replace('.', '/');
 	}
-
-	final HashMap<Class<?>, Method> convMtds = new HashMap<Class<?>, Method>();
 
 	public void addConversion(Class<?> conv) {
 		for (Method mtd : conv.getMethods()) {
@@ -112,14 +118,15 @@ public class BeansAccessBuilder {
 			mv.visitEnd();
 		}
 
-		// if (USE_HASH)
 		// set(Object object, int methodIndex, Object value)
 		mv = cw.visitMethod(ACC_PUBLIC, "set", "(Ljava/lang/Object;ILjava/lang/Object;)V", null, null);
 		mv.visitCode();
-
+		// if no Field simply return
 		if (accs.length == 0) {
-			mv.visitInsn(RETURN);
+			//
+			// mv.visitInsn(RETURN);
 		} else if (accs.length > HASH_LIMIT) {
+			// lots of field Use Switch Statement
 			mv.visitVarInsn(ILOAD, 2);
 			Label[] labels = ASMUtil.newLabels(accs.length);
 			Label defaultLabel = new Label();
@@ -135,10 +142,8 @@ public class BeansAccessBuilder {
 				internalSetFiled(mv, acc);
 			}
 			mv.visitLabel(defaultLabel);
-			mv.visitInsn(RETURN);
 		} else {
 			Label[] labels = ASMUtil.newLabels(accs.length);
-
 			int i = 0;
 			for (Accessor acc : accs) {
 				ifNotEqJmp(mv, 2, i, labels[i]);
@@ -147,8 +152,11 @@ public class BeansAccessBuilder {
 				mv.visitFrame(F_SAME, 0, null, 0, null);
 				i++;
 			}
-			mv.visitInsn(RETURN);
 		}
+		if (exeptionClass != null)
+			throwExIntParam(mv, exeptionClass);
+		else
+			mv.visitInsn(RETURN);
 		mv.visitMaxs(0, 0);
 		mv.visitEnd();
 
@@ -158,14 +166,11 @@ public class BeansAccessBuilder {
 		// if (USE_HASH)
 		if (accs.length == 0) {
 			mv.visitFrame(F_SAME, 0, null, 0, null);
-			mv.visitInsn(ACONST_NULL);
-			mv.visitInsn(ARETURN);
 		} else if (accs.length > HASH_LIMIT) {
 			mv.visitVarInsn(ILOAD, 2);
 			Label[] labels = ASMUtil.newLabels(accs.length);
 			Label defaultLabel = new Label();
 			mv.visitTableSwitchInsn(0, labels.length - 1, defaultLabel, labels);
-
 			int i = 0;
 			for (Accessor acc : accs) {
 				mv.visitLabel(labels[i++]);
@@ -178,7 +183,6 @@ public class BeansAccessBuilder {
 				mv.visitVarInsn(ALOAD, 1);
 				mv.visitTypeInsn(CHECKCAST, classNameInternal);
 				Type fieldType = Type.getType(acc.getType());
-
 				if (acc.isPublic()) {
 					mv.visitFieldInsn(GETFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
 				} else {
@@ -190,19 +194,14 @@ public class BeansAccessBuilder {
 			}
 			mv.visitLabel(defaultLabel);
 			mv.visitFrame(F_SAME, 0, null, 0, null);
-			mv.visitInsn(ACONST_NULL);
-			mv.visitInsn(ARETURN);
 		} else {
 			Label[] labels = ASMUtil.newLabels(accs.length);
-
 			int i = 0;
 			for (Accessor acc : accs) {
 				ifNotEqJmp(mv, 2, i, labels[i]);
 				mv.visitVarInsn(ALOAD, 1);
 				mv.visitTypeInsn(CHECKCAST, classNameInternal);
-
 				Type fieldType = Type.getType(acc.getType());
-
 				if (acc.isPublic()) {
 					mv.visitFieldInsn(GETFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
 				} else {
@@ -216,10 +215,14 @@ public class BeansAccessBuilder {
 				mv.visitFrame(F_SAME, 0, null, 0, null);
 				i++;
 			}
+		}
+
+		if (exeptionClass != null)
+			throwExIntParam(mv, exeptionClass);
+		else {
 			mv.visitInsn(ACONST_NULL);
 			mv.visitInsn(ARETURN);
 		}
-
 		mv.visitMaxs(0, 0);
 		mv.visitEnd();
 
@@ -233,37 +236,19 @@ public class BeansAccessBuilder {
 
 			int i = 0;
 			for (Accessor acc : accs) {
-				// if (i > 0) {
-				// mv.visitLabel(labels[i - 1]);
-				// mv.visitFrame(F_SAME, 0, null, 0, null);
-				// }
 				mv.visitVarInsn(ALOAD, 2);
 				mv.visitLdcInsn(acc.fieldName);
 				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z");
 				mv.visitJumpInsn(IFEQ, labels[i]);
-
 				internalSetFiled(mv, acc);
-
-				// mv.visitVarInsn(ALOAD, 1);
-				// mv.visitTypeInsn(CHECKCAST, classNameInternal); //
-				// classNameInternal
-				// mv.visitVarInsn(ALOAD, 3);
-				// Type fieldType = Type.getType(acc.getType());
-				// ASMUtil.autoUnBoxing2(mv, fieldType);
-				// if (acc.isPublic()) {
-				// mv.visitFieldInsn(PUTFIELD, classNameInternal, acc.getName(),
-				// fieldType.getDescriptor());
-				// } else {
-				// String sig = Type.getMethodDescriptor(acc.setter);
-				// mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal,
-				// acc.setter.getName(), sig);
-				// }
-				// mv.visitInsn(RETURN);
 				mv.visitLabel(labels[i]);
 				mv.visitFrame(F_SAME, 0, null, 0, null);
 				i++;
 			}
-			mv.visitInsn(RETURN);
+			if (exeptionClass != null)
+				throwExStrParam(mv, exeptionClass);
+			else
+				mv.visitInsn(RETURN);
 			mv.visitMaxs(0, 0); // 2,4
 			mv.visitEnd();
 		}
@@ -297,9 +282,13 @@ public class BeansAccessBuilder {
 				mv.visitFrame(F_SAME, 0, null, 0, null);
 				i++;
 			}
-			mv.visitInsn(ACONST_NULL);
-			mv.visitInsn(ARETURN);
-			mv.visitMaxs(0, 0); // 1,3 or 2,3
+			if (exeptionClass != null)
+				throwExStrParam(mv, exeptionClass);
+			else {
+				mv.visitInsn(ACONST_NULL);
+				mv.visitInsn(ARETURN);
+			}
+			mv.visitMaxs(0, 0);
 			mv.visitEnd();
 		}
 
@@ -313,40 +302,34 @@ public class BeansAccessBuilder {
 			mv.visitMaxs(2, 1);
 			mv.visitEnd();
 		}
-
 		cw.visitEnd();
-
 		byte[] data = cw.toByteArray();
-		// debug
-		// {
-		// try {
-		// File debug = new File("C:/debug.txt");
-		// int flags = ClassReader.SKIP_DEBUG;
-		// ClassReader cr = new ClassReader(new ByteArrayInputStream(data));
-		// cr.accept(new ASMifierClassVisitor(new PrintWriter(debug)),
-		// ASMifierClassVisitor.getDefaultAttributes(), flags);
-		// } catch (Exception e) {
-		// }
-		// }
+		// dumpDebug(data, "C:/debug.txt");
 		return loader.defineClass(accessClassName, data);
 	}
 
-	private void internalSetFiledOrg(MethodVisitor mv, Accessor acc) {
-		mv.visitVarInsn(ALOAD, 1);
-		mv.visitTypeInsn(CHECKCAST, classNameInternal);
-		mv.visitVarInsn(ALOAD, 3);
-		Type fieldType = Type.getType(acc.getType());
-		ASMUtil.autoUnBoxing2(mv, fieldType);
-		if (acc.isPublic()) {
-			mv.visitFieldInsn(PUTFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
-		} else {
-			String sig = Type.getMethodDescriptor(acc.setter);
-			mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.setter.getName(), sig);
+	/**
+	 * Dump Generate Code
+	 */
+	@SuppressWarnings("unused")
+	private void dumpDebug(byte[] data, String destFile) {
+		try {
+			File debug = new File(destFile);
+			int flags = ClassReader.SKIP_DEBUG;
+			ClassReader cr = new ClassReader(new ByteArrayInputStream(data));
+			cr.accept(new ASMifierClassVisitor(new PrintWriter(debug)), ASMifierClassVisitor.getDefaultAttributes(),
+					flags);
+		} catch (Exception e) {
 		}
-		mv.visitInsn(RETURN);
+
 	}
 
-	// Conv
+	/**
+	 * Dump Set Field Code
+	 * 
+	 * @param mv
+	 * @param acc
+	 */
 	private void internalSetFiled(MethodVisitor mv, Accessor acc) {
 		/**
 		 * FNC params
@@ -362,23 +345,23 @@ public class BeansAccessBuilder {
 		// get VELUE
 		mv.visitVarInsn(ALOAD, 3);
 		Type fieldType = Type.getType(acc.getType());
-		String destClsName = Type.getInternalName(acc.getType());
-		if (acc.isEnum()) {
-			// enum
-			// cast Version
-			// mv.visitTypeInsn(CHECKCAST, "java/lang/String");
-			// may use toString Mtd if not nul...
-			// mv.visitMethodInsn(INVOKESTATIC, destClsName, "valueOf",
-			// "(Ljava/lang/String;)L" + destClsName + ";");
+		Class<?> type = acc.getType();
+		String destClsName = Type.getInternalName(type);
 
+		Method conMtd = convMtds.get(type);
+		if (conMtd != null) {
+			// external converion
+			String clsSig = Type.getInternalName(conMtd.getDeclaringClass());
+			String mtdName = conMtd.getName();
+			String mtdSig = Type.getMethodDescriptor(conMtd);
+			mv.visitMethodInsn(INVOKESTATIC, clsSig, mtdName, mtdSig);
+		} else if (acc.isEnum()) {
+			// builtIn Enum Conversion
 			Label isNull = new Label();
 			mv.visitJumpInsn(IFNULL, isNull);
 			mv.visitVarInsn(ALOAD, 3);
-
 			// mv.visitTypeInsn(CHECKCAST, "java/lang/String");
-
 			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;");
-
 			mv.visitMethodInsn(INVOKESTATIC, destClsName, "valueOf", "(Ljava/lang/String;)L" + destClsName + ";");
 			mv.visitVarInsn(ASTORE, 3);
 			mv.visitLabel(isNull);
@@ -387,34 +370,23 @@ public class BeansAccessBuilder {
 			mv.visitTypeInsn(CHECKCAST, this.classNameInternal); // "net/minidev/asm/bean/BEnumPriv"
 			mv.visitVarInsn(ALOAD, 3);
 			mv.visitTypeInsn(CHECKCAST, destClsName);
+		} else if (type.equals(String.class)) {
+			// built In String Conversion
+			Label isNull = new Label();
+			mv.visitJumpInsn(IFNULL, isNull);
+			mv.visitVarInsn(ALOAD, 3);
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;");
+			mv.visitVarInsn(ASTORE, 3);
+			mv.visitLabel(isNull);
+			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+			mv.visitVarInsn(ALOAD, 1);
+			mv.visitTypeInsn(CHECKCAST, this.classNameInternal);
+			mv.visitVarInsn(ALOAD, 3);
+			mv.visitTypeInsn(CHECKCAST, destClsName);
 		} else {
-			// convert mtd
-			Class<?> type = acc.getType();
-
-			Method conMtd = convMtds.get(type);
-			if (conMtd != null) {
-				String clsSig = Type.getInternalName(conMtd.getDeclaringClass());
-				String mtdName = conMtd.getName();
-				String mtdSig = Type.getMethodDescriptor(conMtd);
-				mv.visitMethodInsn(INVOKESTATIC, clsSig, mtdName, mtdSig);
-			} else if (type.equals(String.class)) {
-				Label isNull = new Label();
-				mv.visitJumpInsn(IFNULL, isNull);
-				mv.visitVarInsn(ALOAD, 3);
-				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;");
-				mv.visitVarInsn(ASTORE, 3);
-				mv.visitLabel(isNull);
-				mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-				mv.visitVarInsn(ALOAD, 1);
-				mv.visitTypeInsn(CHECKCAST, this.classNameInternal);
-				mv.visitVarInsn(ALOAD, 3);
-				mv.visitTypeInsn(CHECKCAST, "java/lang/String");
-				// add Test isNull
-			} else
-				mv.visitTypeInsn(CHECKCAST, Type.getInternalName(type));
-			// add custom external convertions
+			// just check Cast
+			mv.visitTypeInsn(CHECKCAST, destClsName);
 		}
-		// ASMUtil.autoUnBoxing2(mv, fieldType);
 		if (acc.isPublic()) {
 			mv.visitFieldInsn(PUTFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
 		} else {
@@ -424,6 +396,38 @@ public class BeansAccessBuilder {
 		mv.visitInsn(RETURN);
 	}
 
+	/**
+	 * add Throws statement with int param 2
+	 */
+	private void throwExIntParam(MethodVisitor mv, Class<?> exCls) {
+		String exSig = Type.getInternalName(exCls);
+		mv.visitTypeInsn(NEW, exSig);
+		mv.visitInsn(DUP);
+		mv.visitLdcInsn("mapping " + this.className + " failed to map field:");
+		mv.visitVarInsn(ILOAD, 2);
+		mv.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "toString", "(I)Ljava/lang/String;");
+		mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;");
+		mv.visitMethodInsn(INVOKESPECIAL, exSig, "<init>", "(Ljava/lang/String;)V");
+		mv.visitInsn(ATHROW);
+	}
+
+	/**
+	 * add Throws statement with String param 2
+	 */
+	private void throwExStrParam(MethodVisitor mv, Class<?> exCls) {
+		String exSig = Type.getInternalName(exCls);
+		mv.visitTypeInsn(NEW, exSig);
+		mv.visitInsn(DUP);
+		mv.visitLdcInsn("mapping " + this.className + " failed to map field:");
+		mv.visitVarInsn(ALOAD, 2);
+		mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;");
+		mv.visitMethodInsn(INVOKESPECIAL, exSig, "<init>", "(Ljava/lang/String;)V");
+		mv.visitInsn(ATHROW);
+	}
+
+	/**
+	 * dump a Jump if not EQ
+	 */
 	private void ifNotEqJmp(MethodVisitor mv, int param, int value, Label label) {
 		mv.visitVarInsn(ILOAD, param);
 		if (value == 0) {

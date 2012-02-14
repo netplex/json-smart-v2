@@ -1,6 +1,7 @@
 package net.minidev.asm.bean;
 
 import net.minidev.asm.BeansAccess;
+import net.minidev.asm.NoSuchFiledException;
 
 @SuppressWarnings("rawtypes")
 public class BEnumPrivAc extends BeansAccess {
@@ -14,6 +15,7 @@ public class BEnumPrivAc extends BeansAccess {
 			((BEnumPriv) object).setValue((TEnum) value);
 			return;
 		}
+		throw new NoSuchFiledException("mapping BEnumPriv failed to map field:".concat(Integer.toString(methodIndex)));
 	}
 
 	@Override
@@ -21,7 +23,7 @@ public class BEnumPrivAc extends BeansAccess {
 		if (methodIndex == 0) {
 			return ((BEnumPriv) object).getValue();
 		}
-		return null;
+		throw new NoSuchFiledException("mapping BEnumPriv failed to map field:".concat(Integer.toString(methodIndex)));
 	}
 
 	@Override
@@ -33,6 +35,7 @@ public class BEnumPrivAc extends BeansAccess {
 			((BEnumPriv) object).setValue((TEnum) value);
 			return;
 		}
+		throw new NoSuchFiledException("mapping BEnumPriv failed to map field:".concat(methodIndex));
 	}
 
 	@Override
@@ -40,7 +43,7 @@ public class BEnumPrivAc extends BeansAccess {
 		if (methodIndex.equals("value")) {
 			return ((BEnumPriv) object).getValue();
 		}
-		return null;
+		throw new NoSuchFiledException("mapping BEnumPriv failed to map field:".concat(methodIndex));
 	}
 
 	@Override
