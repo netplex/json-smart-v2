@@ -21,8 +21,8 @@ public class ASMTest extends TestCase {
 		m.put("D", "de");
 		m.put("E", "ef");
 
-		//String clsPath = FastMap1Builder.getName(m.size());
-		//String clsName = clsPath.replace("/", ".");
+		// String clsPath = FastMap1Builder.getName(m.size());
+		// String clsName = clsPath.replace("/", ".");
 
 		byte[] data;
 
