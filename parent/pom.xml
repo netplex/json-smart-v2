@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.minidev</groupId>
 	<artifactId>parent</artifactId>
-	<version>2.0</version>
+	<version>2.0-RC1</version>
 	<name>Minidev super pom</name>
 	<description>minidev common properties.</description>
 	<packaging>pom</packaging>
@@ -282,7 +282,7 @@ https://oss.sonatype.org/content/repositories/snapshots
 			<dependency>
 				<groupId>net.minidev</groupId>
 				<artifactId>asm</artifactId>
-				<version>1.0</version>
+				<version>1.0-RC1</version>
 			</dependency>
 			<dependency>
 				<groupId>net.minidev</groupId>
