@@ -197,7 +197,7 @@ public class JSONObject extends HashMap<String, Object> implements JSONAware, JS
 			return o1;
 		if (o2 instanceof JSONObject)
 			return merge(o1, (JSONObject) o2);
-		throw new RuntimeException("JSON megre can not merge a JSONObject with " + o2.getClass());
+		throw new RuntimeException("JSON megre can not merge JSONObject with " + o2.getClass());
 	}
 
 	private static JSONObject merge(JSONObject o1, JSONObject o2) {
@@ -216,7 +216,9 @@ public class JSONObject extends HashMap<String, Object> implements JSONAware, JS
 				o1.put(key, merge((JSONObject) value1, value2));
 				continue;
 			}
-			throw new RuntimeException("JSON megre can not merge a " + value1.getClass() + " with " + value2.getClass());
+			if (value1.equals(value2))
+				continue;
+			throw new RuntimeException("JSON megre can not merge " + value1.getClass() + " with " + value2.getClass());
 		}
 		for (String key : o2.keySet()) {
 			if (o1.containsKey(key))
