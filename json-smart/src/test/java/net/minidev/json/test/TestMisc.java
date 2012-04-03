@@ -7,6 +7,10 @@ import net.minidev.json.JSONValue;
 
 public class TestMisc extends TestCase {
 
+	public void testIssue23() throws Exception {
+		System.out.println("RESULT: " + JSONValue.toJSONString(new int[] { 1, 2, 50, 1234, 10000 }));
+	}
+
 	public void testEmptyStrict() throws Exception {
 		String s = "{\"key1\":\"v1\", \"key2\":{}, \"key3\":[]}";
 		JSONObject o = (JSONObject) JSONValue.parseStrict(s);

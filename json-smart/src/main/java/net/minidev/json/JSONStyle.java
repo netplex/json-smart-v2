@@ -24,9 +24,20 @@ import net.minidev.json.JStylerObj.StringProtector;
  * @author Uriel Chemouni <uchemouni@gmail.com>
  */
 public class JSONStyle {
+	/**
+	 * for advanced usage sample see
+	 * 
+	 * @see net.minidev.json.test.TestCompressorFlags
+	 */
 	public final static int FLAG_PROTECT_KEYS = 1;
 	public final static int FLAG_PROTECT_4WEB = 2;
 	public final static int FLAG_PROTECT_VALUES = 4;
+	/**
+	 * AGRESSIVE have no effect without PROTECT_KEYS or PROTECT_VALUE
+	 * 
+	 * AGRESSIVE mode allows §Json-smart to not protect String containing
+	 * special chars
+	 */
 	public final static int FLAG_AGRESSIVE = 8;
 
 	public final static JSONStyle NO_COMPRESS = new JSONStyle(0);
@@ -87,10 +98,6 @@ public class JSONStyle {
 	public boolean protect4Web() {
 		return _protect4Web;
 	}
-
-	// public JSONStyler getStyler() {
-	// return null;
-	// }
 
 	public boolean indent() {
 		return false;
