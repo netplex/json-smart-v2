@@ -160,6 +160,12 @@ public class DefaultConverter {
 			return ((Boolean) obj).booleanValue();
 		if (obj instanceof String)
 			return Boolean.parseBoolean((String) obj);
+		if (obj instanceof Number) {
+			if (obj.toString().equals("0"))
+				return false;
+			else
+				return true;
+		}
 		throw new RuntimeException("Primitive: Can not convert " + obj.getClass().getName() + " to boolean");
 	}
 

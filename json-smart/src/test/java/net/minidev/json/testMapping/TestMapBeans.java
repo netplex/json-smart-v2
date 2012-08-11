@@ -25,6 +25,19 @@ public class TestMapBeans extends TestCase {
 		assertEquals((Integer)10, r.data.get(ColorEnum.red));
 	}
 
+	public void testObjBool1() throws Exception {
+		String s = "{\"data\":true}";
+		T4 r = JSONValue.parse(s, T4.class);
+		assertEquals(true, r.data);
+	}
+
+	public void testObjBool2() throws Exception {
+		String s = "{\"data\":true}";
+		T5 r = JSONValue.parse(s, T5.class);
+		assertEquals(true, r.data);
+	}
+
+	
 	public static class T1 {
 		private int[] vint;
 
@@ -64,4 +77,30 @@ public class TestMapBeans extends TestCase {
 			this.data = data;
 		}
 	}
+	
+	
+	public static class T4 {
+		private boolean data;
+
+		public boolean getData() {
+			return data;
+		}
+
+		public void setData(boolean data) {
+			this.data = data;
+		}
+	}
+
+	public static class T5 {
+		private boolean data;
+
+		public boolean isData() {
+			return data;
+		}
+
+		public void setData(boolean data) {
+			this.data = data;
+		}
+	}
+	
 }
