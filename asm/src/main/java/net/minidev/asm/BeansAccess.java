@@ -16,6 +16,8 @@ package net.minidev.asm;
  * limitations under the License.
  */
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -26,7 +28,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class BeansAccess<T> {
 	private HashMap<String, Accessor> map;
-	// private Map<String, Accessor> map;
 	private Accessor[] accs;
 
 	protected void setAccessor(Accessor[] accs) {
@@ -97,19 +98,50 @@ public abstract class BeansAccess<T> {
 		// if the class do not exists build it
 		if (accessClass == null) {
 			BeansAccessBuilder builder = new BeansAccessBuilder(type, accs, loader);
-			builder.addConversion(DefaultConverter.class);
+			LinkedHashSet<Class<?>> m;
+			// add global mapper
+			builder.addConversion(BeansAccessConfig.globalMapper);
+			// add interface mapper
+			for (Class<?> c : type.getInterfaces())
+				builder.addConversion(BeansAccessConfig.classMapper.get(c));
+			// add superclass mapper
+			builder.addConversion(BeansAccessConfig.classMapper.get(type.getSuperclass()));
+			// add class mapper
+			builder.addConversion(BeansAccessConfig.classMapper.get(type));
 			accessClass = builder.bulid();
 		}
-
 		try {
 			@SuppressWarnings("unchecked")
 			BeansAccess<P> access = (BeansAccess<P>) accessClass.newInstance();
 			access.setAccessor(accs);
 			cache.putIfAbsent(type, access);
+			// add fieldname alias
+			addAlias(access, BeansAccessConfig.classFiledNameMapper.get(type));
+			addAlias(access, BeansAccessConfig.classFiledNameMapper.get(type.getSuperclass()));
+			for (Class<?> c : type.getInterfaces())
+				addAlias(access, BeansAccessConfig.classFiledNameMapper.get(c));
+
 			return access;
 		} catch (Exception ex) {
 			throw new RuntimeException("Error constructing accessor class: " + accessClassName, ex);
 		}
+	}
+
+	/**
+	 * 
+	 */
+	private static void addAlias(BeansAccess<?> access, HashMap<String, String> m) {
+		// HashMap<String, String> m =
+		// BeansAccessConfig.classFiledNameMapper.get(type);
+		if (m == null)
+			return;
+		HashMap<String, Accessor> changes = new HashMap<String, Accessor>();
+		for (Entry<String, String> e : m.entrySet()) {
+			Accessor a1 = access.map.get(e.getValue());
+			if (a1 != null)
+				changes.put(e.getValue(), a1);
+		}
+		access.map.putAll(changes);
 	}
 
 	/**

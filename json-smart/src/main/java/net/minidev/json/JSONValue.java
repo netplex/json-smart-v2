@@ -429,6 +429,18 @@ public class JSONValue {
 	}
 
 	/**
+	 * Parse input json as a mapTo class
+	 * 
+	 * mapTo can be a bean
+	 * 
+	 * @since 2.0
+	 */
+	public static <T> T parseWithException(String in, Class<T> mapTo) throws ParseException {
+		JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+		return p.parse(in, Mapper.getMapper(mapTo));
+	}
+
+	/**
 	 * Parse valid RFC4627 JSON text into java object from the input source.
 	 * 
 	 * @see JSONParser

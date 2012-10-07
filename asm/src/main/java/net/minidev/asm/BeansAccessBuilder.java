@@ -63,7 +63,16 @@ public class BeansAccessBuilder {
 		this.classNameInternal = className.replace('.', '/');
 	}
 
+	public void addConversion(Iterable<Class<?>> conv) {
+		if (conv == null)
+			return;
+		for (Class<?> c : conv)
+			addConversion(c);
+	}
+
 	public void addConversion(Class<?> conv) {
+		if (conv == null)
+			return;
 		for (Method mtd : conv.getMethods()) {
 			if ((mtd.getModifiers() & Modifier.STATIC) == 0)
 				continue;
@@ -100,8 +109,7 @@ public class BeansAccessBuilder {
 
 		String signature = "Lnet/minidev/asm/BeansAccess<L" + classNameInternal + ";>;";
 
-		cw.visit(Opcodes.V1_6, ACC_PUBLIC + Opcodes.ACC_SUPER, accessClassNameInternal, signature, METHOD_ACCESS_NAME,
-				null);
+		cw.visit(Opcodes.V1_6, ACC_PUBLIC + Opcodes.ACC_SUPER, accessClassNameInternal, signature, METHOD_ACCESS_NAME, null);
 		// init
 		{
 			mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
@@ -223,8 +231,7 @@ public class BeansAccessBuilder {
 
 		if (!USE_HASH) {
 			// Object get(Object object, String methodName)
-			mv = cw.visitMethod(ACC_PUBLIC, "set", "(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/Object;)V", null,
-					null);
+			mv = cw.visitMethod(ACC_PUBLIC, "set", "(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/Object;)V", null, null);
 			mv.visitCode();
 
 			Label[] labels = ASMUtil.newLabels(accs.length);
@@ -250,8 +257,7 @@ public class BeansAccessBuilder {
 
 		if (!USE_HASH) {
 			// get(Object object, String methodName)
-			mv = cw.visitMethod(ACC_PUBLIC, "get", "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;", null,
-					null);
+			mv = cw.visitMethod(ACC_PUBLIC, "get", "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;", null, null);
 			mv.visitCode();
 
 			Label[] labels = ASMUtil.newLabels(accs.length);
@@ -308,14 +314,15 @@ public class BeansAccessBuilder {
 	 */
 	@SuppressWarnings("unused")
 	private void dumpDebug(byte[] data, String destFile) {
-//		try {
-//			File debug = new File(destFile);
-//			int flags = ClassReader.SKIP_DEBUG;
-//			ClassReader cr = new ClassReader(new ByteArrayInputStream(data));
-//			cr.accept(new ASMifierClassVisitor(new PrintWriter(debug)), ASMifierClassVisitor.getDefaultAttributes(),
-//					flags);
-//		} catch (Exception e) {
-//		}
+		// try {
+		// File debug = new File(destFile);
+		// int flags = ClassReader.SKIP_DEBUG;
+		// ClassReader cr = new ClassReader(new ByteArrayInputStream(data));
+		// cr.accept(new ASMifierClassVisitor(new PrintWriter(debug)),
+		// ASMifierClassVisitor.getDefaultAttributes(),
+		// flags);
+		// } catch (Exception e) {
+		// }
 	}
 
 	/**
