@@ -16,7 +16,7 @@ package net.minidev.asm;
  * limitations under the License.
  */
 import java.util.HashMap;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -95,19 +95,13 @@ public abstract class BeansAccess<T> {
 		} catch (ClassNotFoundException ignored) {
 		}
 
+		LinkedList<Class<?>> parentClasses = getParents(type);
+
 		// if the class do not exists build it
 		if (accessClass == null) {
 			BeansAccessBuilder builder = new BeansAccessBuilder(type, accs, loader);
-			LinkedHashSet<Class<?>> m;
-			// add global mapper
-			builder.addConversion(BeansAccessConfig.globalMapper);
-			// add interface mapper
-			for (Class<?> c : type.getInterfaces())
+			for (Class<?> c : parentClasses)
 				builder.addConversion(BeansAccessConfig.classMapper.get(c));
-			// add superclass mapper
-			builder.addConversion(BeansAccessConfig.classMapper.get(type.getSuperclass()));
-			// add class mapper
-			builder.addConversion(BeansAccessConfig.classMapper.get(type));
 			accessClass = builder.bulid();
 		}
 		try {
@@ -116,15 +110,24 @@ public abstract class BeansAccess<T> {
 			access.setAccessor(accs);
 			cache.putIfAbsent(type, access);
 			// add fieldname alias
-			addAlias(access, BeansAccessConfig.classFiledNameMapper.get(type));
-			addAlias(access, BeansAccessConfig.classFiledNameMapper.get(type.getSuperclass()));
-			for (Class<?> c : type.getInterfaces())
+			for (Class<?> c : parentClasses)
 				addAlias(access, BeansAccessConfig.classFiledNameMapper.get(c));
-
 			return access;
 		} catch (Exception ex) {
 			throw new RuntimeException("Error constructing accessor class: " + accessClassName, ex);
 		}
+	}
+
+	private static LinkedList<Class<?>> getParents(Class<?> type) {
+		LinkedList<Class<?>> m = new LinkedList<Class<?>>();
+		while (type != null && !type.equals(Object.class)) {
+			m.addLast(type);
+			for (Class<?> c : type.getInterfaces())
+				m.addLast(c);
+			type = type.getSuperclass();
+		}
+		m.addLast(Object.class);
+		return m;
 	}
 
 	/**

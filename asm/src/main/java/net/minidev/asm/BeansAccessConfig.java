@@ -13,7 +13,7 @@ public class BeansAccessConfig {
 	 * 
 	 * @see DefaultConverter
 	 */
-	static protected LinkedHashSet<Class<?>> globalMapper = new LinkedHashSet<Class<?>>();
+	//static protected LinkedHashSet<Class<?>> globalMapper = new LinkedHashSet<Class<?>>();
 
 	/**
 	 * Field type convertor for custom Class
@@ -32,23 +32,23 @@ public class BeansAccessConfig {
 	static protected HashMap<Class<?>, HashMap<String, String>> classFiledNameMapper = new HashMap<Class<?>, HashMap<String, String>>();
 
 	static {
-		globalMapper.add(DefaultConverter.class);
+		addTypeMapper(Object.class, DefaultConverter.class);
 	}
 
-	/**
-	 * Field type convertor for all classes
-	 * 
-	 * Convertor classes should contains mapping method Prototyped as:
-	 * 
-	 * public static DestinationType Method(Object data);
-	 * 
-	 * @see DefaultConverter
-	 */
-	public static void addGlobalTypeMapper(Class<?> mapper) {
-		synchronized (globalMapper) {
-			globalMapper.add(mapper);
-		}
-	}
+//	/**
+//	 * Field type convertor for all classes
+//	 * 
+//	 * Convertor classes should contains mapping method Prototyped as:
+//	 * 
+//	 * public static DestinationType Method(Object data);
+//	 * 
+//	 * @see DefaultConverter
+//	 */
+//	public static void addGlobalTypeMapper(Class<?> mapper) {
+//		synchronized (globalMapper) {
+//			globalMapper.add(mapper);
+//		}
+//	}
 
 	/**
 	 * Field type convertor for all classes

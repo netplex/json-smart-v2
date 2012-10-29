@@ -11,7 +11,7 @@ public class TestAdvancedMapper extends TestCase {
 	public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	public void testCustomBean() throws Exception {
-		BeansAccessConfig.addGlobalTypeMapper(MyLocalConverterot.class);
+		BeansAccessConfig.addTypeMapper(Object.class, MyLocalConverterot.class);
 		String s = "{'val':2,'date':'19/04/2010'}";
 		TestBean r = JSONValue.parseWithException(s, TestBean.class);
 		assertEquals("19/04/2010", sdf.format(r.date));
