@@ -208,6 +208,8 @@ public class BeansAccessBuilder {
 				if (acc.isPublic()) {
 					mv.visitFieldInsn(GETFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
 				} else {
+					if (acc.getter == null)
+						throw new RuntimeException("no Getter for field " + acc.getName() + " in class " + this.className);
 					String sig = Type.getMethodDescriptor(acc.getter);
 					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.getter.getName(), sig);
 				}

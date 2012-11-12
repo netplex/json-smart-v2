@@ -1,6 +1,22 @@
 package net.minidev.asm;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 public class DefaultConverter {
+
+	public static Date convertToDate(Object obj) {
+		if (obj == null)
+			return null;
+		if (obj instanceof String) {
+			try {
+				return DateFormat.getDateInstance().parse((String) obj);
+			} catch (Exception e) {
+				throw new RuntimeException("Date: Can not convert " + obj + " to Date");
+			}
+		}
+		throw new RuntimeException("Primitive: Can not convert " + obj.getClass().getName() + " to int");
+	}
 
 	public static int convertToint(Object obj) {
 		if (obj == null)

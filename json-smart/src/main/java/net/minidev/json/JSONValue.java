@@ -21,6 +21,7 @@ import static net.minidev.json.parser.JSONParser.MODE_RFC4627;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -596,7 +597,8 @@ public class JSONValue {
 		} else if (value instanceof Iterable<?>) { // List
 			JSONArray.writeJSONString((Iterable<Object>) value, out, compression);
 		} else if (value instanceof Date) {
-			JSONValue.writeJSONString(value.toString(), out, compression);
+			String vtext = DateFormat.getDateInstance().format((Date) value);
+			JSONValue.writeJSONString(vtext, out, compression);
 		} else if (value instanceof Enum<?>) {
 			@SuppressWarnings("rawtypes")
 			String s = ((Enum) value).name();
