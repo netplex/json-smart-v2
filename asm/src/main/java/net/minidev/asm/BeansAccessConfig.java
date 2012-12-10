@@ -66,6 +66,7 @@ public class BeansAccessConfig {
 				h = new LinkedHashSet<Class<?>>();
 				classMapper.put(clz, h);
 			}
+			
 			h.add(mapper);
 		}
 	}
