@@ -49,7 +49,7 @@ class JStylerObj {
 		 * @param s
 		 * @return
 		 */
-		public boolean mustBeProtect(String s) {
+		public boolean mustBeProtect(final String s) {
 			if (s == null)
 				return false;
 			int len = s.length();
@@ -81,7 +81,7 @@ class JStylerObj {
 	}
 
 	private static class MPAgressive implements MustProtect {
-		public boolean mustBeProtect(String s) {
+		public boolean mustBeProtect(final String s) {
 			if (s == null)
 				return false;
 			int len = s.length();
@@ -108,50 +108,50 @@ class JStylerObj {
 			ch = s.charAt(0);
 			if (ch >= '0' && ch <= '9' || ch == '-') {
 				int p = 1;
-				for (; p < s.length(); p++) {
+				for (; p < len; p++) {
 					ch = s.charAt(p);
 					if (ch < '0' || ch > '9')
 						break;
 				}
 				// int/long
-				if (p == s.length())
+				if (p == len)
 					return true;
 				if (ch == '.') {
 					p++;
-					for (; p < s.length(); p++) {
+					for (; p < len; p++) {
 						ch = s.charAt(p);
 						if (ch < '0' || ch > '9')
 							break;
 					}
 				}
-				if (p == s.length())
+				if (p == len)
 					return true; // can be read as an number
 
 				if (ch != 'E' || ch != 'e')
 					return false;
 				p++;
-				if (p == s.length())
+				if (p == len)
 					return false;
 				ch = s.charAt(p);
 				if (ch == '+' || ch == '-') {
 					ch++;
-					if (p == s.length())
+					if (p == len)
 						return false;
 					ch = s.charAt(p);
 				}
 
 				if (ch == '+' || ch == '-') {
 					ch++;
-					if (p == s.length())
+					if (p == len)
 						return false;
 				}
 
-				for (; p < s.length(); p++) {
+				for (; p < len; p++) {
 					ch = s.charAt(p);
 					if (ch < '0' || ch > '9')
 						break;
 				}
-				if (p == s.length())
+				if (p == len)
 					return true;
 				return false;
 			}
@@ -212,7 +212,8 @@ class JStylerObj {
 		 */
 		public void escape(String s, Appendable out) {
 			try {
-				for (int i = 0; i < s.length(); i++) {
+				int len = s.length();
+				for (int i = 0; i < len; i++) {
 					char ch = s.charAt(i);
 					switch (ch) {
 					case '"':
@@ -269,7 +270,8 @@ class JStylerObj {
 		 */
 		public void escape(String s, Appendable sb) {
 			try {
-				for (int i = 0; i < s.length(); i++) {
+				int len = s.length();
+				for (int i = 0; i < len; i++) {
 					char ch = s.charAt(i);
 					switch (ch) {
 					case '"':
