@@ -59,13 +59,13 @@ public class JSONNavi<T> {
 		o.array();
 		return o;
 	}
-	
+
 	public JSONNavi(AMapper<? super T> mapper) {
 		this.mapper = mapper;
 	}
 
 	public JSONNavi(String json) {
-		this.root = (T)JSONValue.parse(json);
+		this.root = (T) JSONValue.parse(json);
 		this.current = this.root;
 		readonly = true;
 	}
@@ -105,10 +105,66 @@ public class JSONNavi<T> {
 		return current;
 	}
 
+	public int getSize() {
+		if (current == null)
+			return 0;
+		if (isArray())
+			return ((List<?>) current).size();
+		if (isObject())
+			return ((Map<?, ?>) current).size();
+		return 1;
+	}
+
+	public String getString(String key) {
+		String v = null;
+		if (!hasKey(key))
+			return v;
+		at(key);
+		v = asString();
+		up();
+		return v;
+	}
+
+	public int getInt(String key) {
+		int v = 0;
+		if (!hasKey(key))
+			return v;
+		at(key);
+		v = asInt();
+		up();
+		return v;
+	}
+
+	public Integer getInteger(String key) {
+		Integer v = null;
+		if (!hasKey(key))
+			return v;
+		at(key);
+		v = asIntegerObj();
+		up();
+		return v;
+	}
+
+	public double getDouble(String key) {
+		double v = 0;
+		if (!hasKey(key))
+			return v;
+		at(key);
+		v = asDouble();
+		up();
+		return v;
+	}
+
+	public boolean hasKey(String key) {
+		if (!isObject())
+			return false;
+		return o(current).containsKey(key);
+	}
+
 	public JSONNavi<?> at(String key) {
 		if (failure)
 			return this;
-		if (!isObject(current))
+		if (!isObject())
 			object();
 		if (!(current instanceof Map))
 			return failure("current node is not an Object", key);
@@ -363,16 +419,16 @@ public class JSONNavi<T> {
 		if (current == null && readonly)
 			failure("Can not create Object child in readonly", null);
 		if (current != null) {
-			if (isObject(current))
+			if (isObject())
 				return this;
-			if (isArray(current))
+			if (isArray())
 				failure("can not use Object feature on Array.", null);
 			failure("Can not use current possition as Object", null);
 		} else {
 			current = mapper.createObject();
 		}
 		if (root == null)
-			root = (T)current;
+			root = (T) current;
 		else
 			store();
 		return this;
@@ -388,7 +444,7 @@ public class JSONNavi<T> {
 		if (current == null && readonly)
 			failure("Can not create Array child in readonly", null);
 		if (current != null) {
-			if (isArray(current))
+			if (isArray())
 				return this;
 			if (isObject(current))
 				failure("can not use Object feature on Array.", null);
@@ -397,7 +453,7 @@ public class JSONNavi<T> {
 			current = mapper.createArray();
 		}
 		if (root == null)
-			root = (T)current;
+			root = (T) current;
 		else
 			store();
 		return this;
@@ -454,6 +510,14 @@ public class JSONNavi<T> {
 				lst.add(null);
 			lst.set(index, current);
 		}
+	}
+
+	public boolean isArray() {
+		return isArray(current);
+	}
+
+	public boolean isObject() {
+		return isObject(current);
 	}
 
 	/**
