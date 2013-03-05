@@ -339,7 +339,7 @@ https://oss.sonatype.org/content/repositories/snapshots
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
-				<version>5.1.15</version>
+				<version>5.1.23</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>
@@ -347,9 +347,9 @@ https://oss.sonatype.org/content/repositories/snapshots
 				<version>2.0.1</version>
 			</dependency>
 			<dependency>
-				<groupId>c3p0</groupId>
+				<groupId>com.mchange</groupId>
 				<artifactId>c3p0</artifactId>
-				<version>0.9.1.2</version>
+				<version>0.9.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
