@@ -15,6 +15,7 @@ package net.minidev.json;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -105,6 +106,12 @@ public class JSONNavi<T> {
 		return current;
 	}
 
+	public Collection<String> getKeys() {
+		if (current instanceof Map)
+			return ((Map) current).keySet();
+		return null;
+	}
+
 	public int getSize() {
 		if (current == null)
 			return 0;
@@ -182,6 +189,26 @@ public class JSONNavi<T> {
 		path.add(key);
 		current = next;
 		return this;
+	}
+
+	public Object get(String key) {
+		if (failure)
+			return this;
+		if (!isObject())
+			object();
+		if (!(current instanceof Map))
+			return failure("current node is not an Object", key);
+		return o(current).get(key);
+	}
+
+	public Object get(int index) {
+		if (failure)
+			return this;
+		if (!isArray())
+			array();
+		if (!(current instanceof List))
+			return failure("current node is not an List", index);
+		return a(current).get(index);
 	}
 
 	public JSONNavi<T> set(String key, String value) {
@@ -446,7 +473,7 @@ public class JSONNavi<T> {
 		if (current != null) {
 			if (isArray())
 				return this;
-			if (isObject(current))
+			if (isObject())
 				failure("can not use Object feature on Array.", null);
 			failure("Can not use current possition as Object", null);
 		} else {
@@ -512,10 +539,16 @@ public class JSONNavi<T> {
 		}
 	}
 
+	/**
+	 * is the current node is an array
+	 */
 	public boolean isArray() {
 		return isArray(current);
 	}
 
+	/**
+	 * is the current node is an object
+	 */
 	public boolean isObject() {
 		return isObject(current);
 	}

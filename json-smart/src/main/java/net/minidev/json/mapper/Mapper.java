@@ -19,6 +19,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.minidev.json.JSONArray;
@@ -77,6 +78,18 @@ public class Mapper {
 		map = (AMapper<T>) cache.get(type);
 
 		if (map == null) {
+			if (type instanceof Class) {
+				if (Map.class.isAssignableFrom(type)) {
+					map = new DefaultMapperCollection(type);
+					cache.put(type, map);
+				} else if (List.class.isAssignableFrom(type)) {
+					map = new DefaultMapperCollection(type);
+					cache.put(type, map);
+				}
+			}
+		}
+
+		if (map == null) {
 			// System.out.println("add in ClassCache " + type);
 			if (type.isArray())
 				map = new ArraysMapper.GenericMapper<T>(type);
@@ -95,7 +108,19 @@ public class Mapper {
 	public static <T> AMapper<T> getMapper(ParameterizedType type) {
 		AMapper<T> map;
 		map = (AMapper<T>) cache.get(type);
-
+		if (map == null) {
+			Type t2 = type.getRawType();
+			if (t2 instanceof Class) {
+				Class t3 = (Class) t2;
+				if (Map.class.isAssignableFrom(t3)) {
+					map = new DefaultMapperCollection(t3);
+					cache.put(type, map);
+				} else if (List.class.isAssignableFrom(t3)) {
+					map = new DefaultMapperCollection(t3);
+					cache.put(type, map);
+				}
+			}
+		}
 		if (map == null) {
 			// System.out.println("add in ParamCache " + type);
 			Class<T> clz = (Class<T>) type.getRawType();
