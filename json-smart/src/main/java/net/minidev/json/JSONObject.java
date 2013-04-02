@@ -218,7 +218,9 @@ public class JSONObject extends HashMap<String, Object> implements JSONAware, JS
 			}
 			if (value1.equals(value2))
 				continue;
-			throw new RuntimeException("JSON megre can not merge " + value1.getClass() + " with " + value2.getClass());
+			if (value1.getClass() .equals(value2.getClass()))
+				throw new RuntimeException("JSON merge can not merge two " + value1.getClass().getName() + " Object together");
+			throw new RuntimeException("JSON merge can not merge " + value1.getClass().getName() + " with " + value2.getClass().getName());
 		}
 		for (String key : o2.keySet()) {
 			if (o1.containsKey(key))
