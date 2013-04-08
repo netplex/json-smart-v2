@@ -76,12 +76,12 @@ public class ConvertDate {
 		int year = Integer.parseInt(s1);
 		cal.set(Calendar.YEAR, year);
 		if (!st.hasMoreTokens())
-			return null;
+			return cal.getTime();
 		s1 = st.nextToken();
 		int month = monthsTable.get(s1);
 		cal.set(Calendar.MONTH, month);
 		if (!st.hasMoreTokens())
-			return null;
+			return cal.getTime();
 		s1 = st.nextToken();
 		int day = monthsTable.get(s1);
 		cal.set(Calendar.DAY_OF_MONTH, day);
