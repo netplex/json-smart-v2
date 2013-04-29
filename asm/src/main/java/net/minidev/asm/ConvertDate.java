@@ -2,6 +2,7 @@ package net.minidev.asm;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -14,8 +15,15 @@ public class ConvertDate {
 		System.out.println(convertToDate("23 janvier 2012 13:42:12"));
 	}
 
-	static TreeMap<String, Integer> monthsTable = new TreeMap<String, Integer>(); // StringCmpNS.COMP
-	static TreeMap<String, Integer> daysTable = new TreeMap<String, Integer>(); // StringCmpNS.COMP
+	static TreeMap<String, Integer> monthsTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
+	static TreeMap<String, Integer> daysTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
+
+	public static class StringCmpNS implements Comparator<String> {
+		@Override
+		public int compare(String o1, String o2) {
+			return o1.compareToIgnoreCase(o2);
+		}
+	}
 
 	static {
 
@@ -37,21 +45,28 @@ public class ConvertDate {
 			DateFormatSymbols dfs = DateFormatSymbols.getInstance(locale);
 			String[] keys = dfs.getMonths();
 			for (int i = 0; i < keys.length; i++) {
-				monthsTable.put(keys[i], Integer.valueOf(i));
+				fillMap(monthsTable, keys[i], Integer.valueOf(i));
 			}
 			keys = dfs.getShortMonths();
 			for (int i = 0; i < keys.length; i++) {
-				monthsTable.put(keys[i], Integer.valueOf(i));
+				fillMap(monthsTable, keys[i], Integer.valueOf(i));
 			}
 			keys = dfs.getWeekdays();
 			for (int i = 0; i < keys.length; i++) {
-				daysTable.put(keys[i], Integer.valueOf(i));
+				fillMap(daysTable, keys[i], Integer.valueOf(i));
 			}
 			keys = dfs.getShortWeekdays();
 			for (int i = 0; i < keys.length; i++) {
-				daysTable.put(keys[i], Integer.valueOf(i));
+				fillMap(daysTable, keys[i], Integer.valueOf(i));
 			}
 		}
+	}
+
+	private static void fillMap(TreeMap<String, Integer> map, String key, Integer value) {
+		map.put(key, value);
+		key = key.replace("é", "e");
+		key = key.replace("û", "u");
+		map.put(key, value);
 	}
 
 	public static Date convertToDate(Object obj) {
@@ -128,9 +143,9 @@ public class ConvertDate {
 			// DAY
 			int day = Integer.parseInt(s1);
 			cal.set(Calendar.DAY_OF_MONTH, day);
-//			if (!st.hasMoreTokens())
-//				return null;
-//			s1 = st.nextToken();
+			// if (!st.hasMoreTokens())
+			// return null;
+			// s1 = st.nextToken();
 			addHour(st, cal);
 			if (!st.hasMoreTokens())
 				return null;
