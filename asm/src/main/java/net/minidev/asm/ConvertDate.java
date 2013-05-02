@@ -72,6 +72,8 @@ public class ConvertDate {
 	public static Date convertToDate(Object obj) {
 		if (obj == null)
 			return null;
+		if (obj instanceof Date)
+			return (Date) obj;
 		if (obj instanceof String) {
 			StringTokenizer str = new StringTokenizer((String) obj, " -/:");
 			String s1 = "";
