@@ -25,6 +25,10 @@ public class ConvertDate {
 		}
 	}
 
+	public static Integer getMonth(String month) {
+		return monthsTable.get(month);
+	}
+
 	static {
 
 		// for (int c = 1; c <= 31; c++) {
