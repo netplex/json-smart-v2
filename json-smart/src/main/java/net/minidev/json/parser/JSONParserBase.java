@@ -605,7 +605,10 @@ abstract class JSONParserBase {
 					sb.append('"');
 					break;
 				case 'u':
-					sb.append(readUnicode());
+					sb.append(readUnicode(4));
+					break;
+				case 'x':
+					sb.append(readUnicode(2));
 					break;
 				default:
 					break;
@@ -653,9 +656,9 @@ abstract class JSONParserBase {
 		}
 	}
 
-	protected char readUnicode() throws ParseException, IOException {
+	protected char readUnicode(int totalChars) throws ParseException, IOException {
 		int value = 0;
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < totalChars; i++) {
 			value = value * 16;
 			read();
 			if (c <= '9' && c >= '0')
