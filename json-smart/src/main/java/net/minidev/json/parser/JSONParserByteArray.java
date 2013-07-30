@@ -88,7 +88,7 @@ class JSONParserByteArray extends JSONParserMemory {
 	}
 
 	/**
-	 * Same as read() in memory parssing
+	 * Same as read() in memory parsing
 	 */
 	protected void readS() {
 		if (++pos >= len)

@@ -10,7 +10,7 @@ public class MustThrows {
 		JSONParser p = new JSONParser(JSONParser.MODE_RFC4627);
 		try {
 			p.parse(json);
-			TestCase.assertFalse("Exception Should Occure parssing:" + json, true);
+			TestCase.assertFalse("Exception Should Occure parsing:" + json, true);
 		} catch (ParseException e) {
 			if (execptionType == -1)
 				execptionType = e.getErrorType();

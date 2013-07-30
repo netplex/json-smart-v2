@@ -68,7 +68,7 @@ abstract class JSONParserBase {
 	protected int pos;
 
 	/*
-	 * Parssing flags
+	 * Parsing flags
 	 */
 	protected final boolean acceptLeadinZero;
 	protected final boolean acceptNaN;
@@ -516,12 +516,15 @@ abstract class JSONParserBase {
 				String key = xs;
 				if (!acceptData)
 					throw new ParseException(pos, ERROR_UNEXPECTED_TOKEN, key);
-				//
-				while (c != ':' && c != EOI) {
-					read();
+
+				//Skip spaces
+				skipSpace();
+				
+				if (c != ':') {
+					if (c == EOI)
+						throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, null);
+					throw new ParseException(pos - 1, ERROR_UNEXPECTED_CHAR, c);
 				}
-				if (c == EOI)
-					throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, null);
 				readNoEnd(); /* skip : */
 				lastKey = key;
 				Object value = readMain(mapper, stopValue);

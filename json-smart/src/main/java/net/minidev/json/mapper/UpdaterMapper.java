@@ -45,7 +45,7 @@ public class UpdaterMapper<T> extends AMapper<T> {
 	}
 
 	/**
-	 * called when json-smart done parssing a value
+	 * called when json-smart done parsing a value
 	 */
 	public void setValue(Object current, String key, Object value) throws ParseException, IOException {
 		// if (obj != null)
