@@ -70,10 +70,6 @@ public class ParseException extends Exception {
 		return unexpectedObject;
 	}
 
-	public String toString() {
-		return getMessage();
-	}
-
 	private static String toMessage(int position, int errorType, Object unexpectedObject) {
 		StringBuilder sb = new StringBuilder();
 
@@ -123,8 +119,6 @@ public class ParseException extends Exception {
 			sb.append(position);
 			sb.append(".");
 		}
-		// sb.append("Unexpected exception at position ").append(position).append(": ").append(unexpectedObject);
-		// break;
 		return sb.toString();
 	}
 
