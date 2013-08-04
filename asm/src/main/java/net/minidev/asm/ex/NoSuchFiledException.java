@@ -1,4 +1,4 @@
-package net.minidev.asm;
+package net.minidev.asm.ex;
 
 public class NoSuchFiledException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

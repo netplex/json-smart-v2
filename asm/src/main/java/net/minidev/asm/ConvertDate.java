@@ -5,18 +5,15 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 public class ConvertDate {
-	public static void main(String[] args) {
-		System.out.println("ddd");
-		System.out.println(convertToDate("23 janvier 2012 13:42:12"));
-	}
-
 	static TreeMap<String, Integer> monthsTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
 	static TreeMap<String, Integer> daysTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
+	private static HashSet<String> voidData = new HashSet<String>();
 
 	public static class StringCmpNS implements Comparator<String> {
 		@Override
@@ -29,8 +26,26 @@ public class ConvertDate {
 		return monthsTable.get(month);
 	}
 
-	static {
+	private static Integer parseMonth(String s1) {
+		if (Character.isDigit(s1.charAt(0))) {
+			return Integer.parseInt(s1) - 1;
+		} else {
+			Integer month = monthsTable.get(s1);
+			if (month == null)
+				throw new NullPointerException("can not parse " + s1 + " as month");
+			return month.intValue();
+		}
+	}
 
+	static {
+		voidData.add("CET");
+		voidData.add("MEZ");
+		voidData.add("Uhr");
+		voidData.add("h");
+		voidData.add("pm");
+		voidData.add("PM");
+		voidData.add("o'clock");
+		
 		// for (int c = 1; c <= 31; c++) {
 		// String s = Integer.toString(c);
 		// if (c < 10)
@@ -38,12 +53,12 @@ public class ConvertDate {
 		// daysTable.put(s, c - 1);
 		// }
 
-		for (int c = 1; c <= 12; c++) {
-			String s = Integer.toString(c);
-			if (c < 10)
-				monthsTable.put("0".concat(s), c - 1);
-			monthsTable.put(s, c - 1);
-		}
+		// for (int c = 1; c <= 12; c++) {
+		// String s = Integer.toString(c);
+		// if (c < 10)
+		// monthsTable.put("0".concat(s), c - 1);
+		// monthsTable.put(s, c - 1);
+		// }
 
 		for (Locale locale : DateFormatSymbols.getAvailableLocales()) {
 			DateFormatSymbols dfs = DateFormatSymbols.getInstance(locale);
@@ -54,14 +69,17 @@ public class ConvertDate {
 			keys = dfs.getShortMonths();
 			for (int i = 0; i < keys.length; i++) {
 				fillMap(monthsTable, keys[i], Integer.valueOf(i));
+				fillMap(monthsTable, keys[i].replace(".", ""), Integer.valueOf(i));
 			}
 			keys = dfs.getWeekdays();
 			for (int i = 0; i < keys.length; i++) {
 				fillMap(daysTable, keys[i], Integer.valueOf(i));
+				fillMap(daysTable, keys[i].replace(".", ""), Integer.valueOf(i));
 			}
 			keys = dfs.getShortWeekdays();
 			for (int i = 0; i < keys.length; i++) {
 				fillMap(daysTable, keys[i], Integer.valueOf(i));
+				fillMap(daysTable, keys[i].replace(".", ""), Integer.valueOf(i));
 			}
 		}
 	}
@@ -73,20 +91,34 @@ public class ConvertDate {
 		map.put(key, value);
 	}
 
+	/**
+	 * try read a Date from a Object
+	 */
 	public static Date convertToDate(Object obj) {
 		if (obj == null)
 			return null;
 		if (obj instanceof Date)
 			return (Date) obj;
 		if (obj instanceof String) {
-			StringTokenizer str = new StringTokenizer((String) obj, " -/:");
+			StringTokenizer st = new StringTokenizer((String) obj, " -/:,.");
 			String s1 = "";
-			if (!str.hasMoreTokens())
+			if (!st.hasMoreTokens())
 				return null;
-			s1 = str.nextToken();
+			s1 = st.nextToken();
 			if (s1.length() == 4 && Character.isDigit(s1.charAt(0)))
-				return getYYYYMMDD(str, s1);
-			return getDDMMYYYY(str, s1);
+				return getYYYYMMDD(st, s1);
+			// skip Day if present.
+			if (daysTable.containsKey(s1)) {
+				if (!st.hasMoreTokens())
+					return null;
+				s1 = st.nextToken();
+			}
+			if (monthsTable.containsKey(s1))
+				return getMMDDYYYY(st, s1);
+
+			if (Character.isDigit(s1.charAt(0)))
+				return getDDMMYYYY(st, s1);
+			return null;
 		}
 		throw new RuntimeException("Primitive: Can not convert " + obj.getClass().getName() + " to int");
 	}
@@ -94,103 +126,138 @@ public class ConvertDate {
 	private static Date getYYYYMMDD(StringTokenizer st, String s1) {
 		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
 		cal.setTimeInMillis(0);
+
 		int year = Integer.parseInt(s1);
 		cal.set(Calendar.YEAR, year);
 		if (!st.hasMoreTokens())
 			return cal.getTime();
 		s1 = st.nextToken();
-		int month = monthsTable.get(s1);
-		cal.set(Calendar.MONTH, month);
+
+		cal.set(Calendar.MONTH, parseMonth(s1));
 		if (!st.hasMoreTokens())
 			return cal.getTime();
+
 		s1 = st.nextToken();
-		int day = monthsTable.get(s1);
+		if (Character.isDigit(s1.charAt(0))) {
+			int day = Integer.parseInt(s1);
+			cal.set(Calendar.DAY_OF_MONTH, day);
+			return addHour(st, cal);
+		}
+		return cal.getTime();
+	}
+
+	private static int getYear(String s1) {
+		int year = Integer.parseInt(s1);
+		// CET ?
+		if (year < 100) {
+			if (year > 23)
+				year += 2000;
+			else
+				year += 1900;
+		}
+		return year;
+	}
+
+	private static Date getMMDDYYYY(StringTokenizer st, String s1) {
+		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
+		Integer month = monthsTable.get(s1);
+		if (month == null)
+			throw new NullPointerException("can not parse " + s1 + " as month");
+		cal.set(Calendar.MONTH, month);
+		if (!st.hasMoreTokens())
+			return null;
+		s1 = st.nextToken();
+		// DAY
+		int day = Integer.parseInt(s1);
 		cal.set(Calendar.DAY_OF_MONTH, day);
+
+		if (!st.hasMoreTokens())
+			return null;
+		s1 = st.nextToken();
+		if (Character.isLetter(s1.charAt(0))) {
+			if (!st.hasMoreTokens())
+				return null;
+			s1 = st.nextToken();
+		}
+		cal.set(Calendar.YEAR, getYear(s1));
+
+		// /if (st.hasMoreTokens())
+		// return null;
+		// s1 = st.nextToken();
 		return addHour(st, cal);
+		// return cal.getTime();
 	}
 
 	private static Date getDDMMYYYY(StringTokenizer st, String s1) {
 		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
-		if (daysTable.containsKey(s1)) {
-			if (!st.hasMoreTokens())
-				return null;
-			s1 = st.nextToken();
-		}
-		if (Character.isDigit(s1.charAt(0))) {
-			int day = Integer.parseInt(s1);
-			cal.set(Calendar.DAY_OF_MONTH, day);
-			if (!st.hasMoreTokens())
-				return null;
-			s1 = st.nextToken();
-			Integer month = monthsTable.get(s1);
-			if (month == null)
-				throw new NullPointerException("can not parse " + s1 + " as month");
-			cal.set(Calendar.MONTH, month);
-			if (!st.hasMoreTokens())
-				return null;
-			s1 = st.nextToken();
-			int year = Integer.parseInt(s1);
-			if (year < 100) {
-				if (year > 20)
-					year += 2000;
-				else
-					year += 1900;
-			}
-			cal.set(Calendar.YEAR, year);
-			return addHour(st, cal);
-		} else {
-			Integer month = monthsTable.get(s1);
-			if (month == null)
-				throw new NullPointerException("can not parse " + s1 + " as month");
-			cal.set(Calendar.MONTH, month);
-			if (!st.hasMoreTokens())
-				return null;
-			s1 = st.nextToken();
-			// DAY
-			int day = Integer.parseInt(s1);
-			cal.set(Calendar.DAY_OF_MONTH, day);
-			// if (!st.hasMoreTokens())
-			// return null;
-			// s1 = st.nextToken();
-			addHour(st, cal);
-			if (!st.hasMoreTokens())
-				return null;
-			s1 = st.nextToken();
-			if (Character.isLetter(s1.charAt(0))) {
-				if (!st.hasMoreTokens())
-					return null;
-				s1 = st.nextToken();
-			}
-			int year = Integer.parseInt(s1);
-			// CET ?
-			if (year < 100) {
-				if (year > 20)
-					year += 2000;
-				else
-					year += 1900;
-			}
-			cal.set(Calendar.YEAR, year);
-			return cal.getTime();
-		}
+		int day = Integer.parseInt(s1);
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		if (!st.hasMoreTokens())
+			return null;
+		s1 = st.nextToken();
+		cal.set(Calendar.MONTH, parseMonth(s1));
 
+		if (!st.hasMoreTokens())
+			return null;
+		s1 = st.nextToken();
+		cal.set(Calendar.YEAR, getYear(s1));
+		return addHour(st, cal);
 	}
 
 	private static Date addHour(StringTokenizer st, Calendar cal) {
-		String t;
+		String s1;
 		if (!st.hasMoreTokens())
 			return cal.getTime();
-		t = st.nextToken();
-		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(t));
+		s1 = st.nextToken();
+		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(s1));
 
 		if (!st.hasMoreTokens())
 			return cal.getTime();
-		t = st.nextToken();
-		cal.set(Calendar.MINUTE, Integer.parseInt(t));
+		s1 = st.nextToken();
+
+		s1 = trySkip(st, s1, cal);
+		if (s1 == null)
+			return cal.getTime();
+
+		//		if (s1.equalsIgnoreCase("h")) {
+//			if (!st.hasMoreTokens())
+//				return cal.getTime();
+//			s1 = st.nextToken();
+//		}
+		cal.set(Calendar.MINUTE, Integer.parseInt(s1));
 
 		if (!st.hasMoreTokens())
 			return cal.getTime();
-		t = st.nextToken();
-		cal.set(Calendar.SECOND, Integer.parseInt(t));
+		s1 = st.nextToken();
+
+		s1 = trySkip(st, s1, cal);
+		if (s1 == null)
+			return cal.getTime();
+		
+		cal.set(Calendar.SECOND, Integer.parseInt(s1));
+		if (!st.hasMoreTokens())
+			return cal.getTime();
+		s1 = st.nextToken();
+
+		s1 = trySkip(st, s1, cal);
+		if (s1 == null)
+			return cal.getTime();
+
+		s1 = trySkip(st, s1, cal);
+//		if (s1.equalsIgnoreCase("pm"))
+//			cal.add(Calendar.HOUR_OF_DAY, 12);
 		return cal.getTime();
 	}
+
+	private static String trySkip(StringTokenizer st, String s1, Calendar cal) {
+		while (voidData.contains(s1)) {
+			if (s1.equalsIgnoreCase("pm"))
+				cal.add(Calendar.HOUR_OF_DAY, 12);
+			if (!st.hasMoreTokens())
+				return null;
+			s1 = st.nextToken();
+		}
+		return s1;
+	}
+
 }

@@ -1,7 +1,7 @@
 package net.minidev.asm.bean;
 
 import net.minidev.asm.BeansAccess;
-import net.minidev.asm.NoSuchFiledException;
+import net.minidev.asm.ex.NoSuchFiledException;
 
 @SuppressWarnings("rawtypes")
 public class BEnumPrivAc extends BeansAccess {
