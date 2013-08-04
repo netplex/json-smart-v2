@@ -121,9 +121,9 @@
 	</build>
 
 	<scm>
-		<connection>scm:svn:http://json-smart.googlecode.com/svn/branches/${project.version}/</connection>
-		<developerConnection>scm:svn:https://json-smart.googlecode.com/svn/branches/${project.version}/</developerConnection>
-		<url>http://json-smart.googlecode.com/svn/branches/${project.version}/</url>
+		<connection>scm:git:https://code.google.com/p/json-smart.v2/</connection>
+		<developerConnection>scm:git:https://code.google.com/p/json-smart.v2/</developerConnection>
+		<url>http://code.google.com/p/json-smart.v2/source/browse</url>
 	</scm>
 
 	<reporting>
