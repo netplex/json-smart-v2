@@ -33,6 +33,7 @@ public class BeansAccessConfig {
 
 	static {
 		addTypeMapper(Object.class, DefaultConverter.class);
+		addTypeMapper(Object.class, ConvertDate.class);
 	}
 
 //	/**

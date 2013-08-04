@@ -17,7 +17,10 @@ package net.minidev.json.mapper;
  */
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import net.minidev.asm.ConvertDate;
 
 public class ArraysMapper<T> extends AMapper<T> {
 	@Override

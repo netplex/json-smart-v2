@@ -17,10 +17,12 @@ package net.minidev.json.mapper;
  */
 
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.HashMap;
 
 import net.minidev.asm.Accessor;
 import net.minidev.asm.BeansAccess;
+import net.minidev.asm.ConvertDate;
 import net.minidev.json.JSONUtil;
 
 @SuppressWarnings("unchecked")
@@ -134,5 +136,12 @@ public abstract class BeansMapper<T> extends AMapper<T> {
 			return ba.newInstance();
 		}
 	}
+	
+	public static AMapper<Date> MAPPER_DATE = new ArraysMapper<Date>() {
+		@Override
+		public Date convert(Object current) {
+			return ConvertDate.convertToDate(current);
+		}
+	};
 
 }

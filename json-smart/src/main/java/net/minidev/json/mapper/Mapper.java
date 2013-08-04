@@ -17,6 +17,7 @@ package net.minidev.json.mapper;
  */
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -31,6 +32,9 @@ public class Mapper {
 	private final static ConcurrentHashMap<Type, AMapper<?>> cache;
 	static {
 		cache = new ConcurrentHashMap<Type, AMapper<?>>(100);
+		
+		cache.put(Date.class, BeansMapper.MAPPER_DATE);
+		
 		cache.put(int[].class, ArraysMapper.MAPPER_PRIM_INT);
 		cache.put(Integer[].class, ArraysMapper.MAPPER_INT);
 

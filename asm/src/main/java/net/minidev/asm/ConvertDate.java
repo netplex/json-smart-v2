@@ -45,7 +45,7 @@ public class ConvertDate {
 		voidData.add("pm");
 		voidData.add("PM");
 		voidData.add("o'clock");
-		
+
 		// for (int c = 1; c <= 31; c++) {
 		// String s = Integer.toString(c);
 		// if (c < 10)
@@ -61,25 +61,44 @@ public class ConvertDate {
 		// }
 
 		for (Locale locale : DateFormatSymbols.getAvailableLocales()) {
+			if ("ja".equals(locale.getLanguage()))
+				continue;
+			if ("ko".equals(locale.getLanguage()))
+				continue;
+			if ("zh".equals(locale.getLanguage()))
+				continue;
 			DateFormatSymbols dfs = DateFormatSymbols.getInstance(locale);
 			String[] keys = dfs.getMonths();
 			for (int i = 0; i < keys.length; i++) {
+				if (keys[i].length() == 0)
+					continue;
 				fillMap(monthsTable, keys[i], Integer.valueOf(i));
 			}
 			keys = dfs.getShortMonths();
 			for (int i = 0; i < keys.length; i++) {
+				String s = keys[i];
+				if (s.length() == 0)
+					continue;
+				if (Character.isDigit(s.charAt(s.length() - 1)))
+					continue;
 				fillMap(monthsTable, keys[i], Integer.valueOf(i));
 				fillMap(monthsTable, keys[i].replace(".", ""), Integer.valueOf(i));
 			}
 			keys = dfs.getWeekdays();
 			for (int i = 0; i < keys.length; i++) {
-				fillMap(daysTable, keys[i], Integer.valueOf(i));
-				fillMap(daysTable, keys[i].replace(".", ""), Integer.valueOf(i));
+				String s = keys[i];
+				if (s.length() == 0)
+					continue;
+				fillMap(daysTable, s, Integer.valueOf(i));
+				fillMap(daysTable, s.replace(".", ""), Integer.valueOf(i));
 			}
 			keys = dfs.getShortWeekdays();
 			for (int i = 0; i < keys.length; i++) {
-				fillMap(daysTable, keys[i], Integer.valueOf(i));
-				fillMap(daysTable, keys[i].replace(".", ""), Integer.valueOf(i));
+				String s = keys[i];
+				if (s.length() == 0)
+					continue;
+				fillMap(daysTable, s, Integer.valueOf(i));
+				fillMap(daysTable, s.replace(".", ""), Integer.valueOf(i));
 			}
 		}
 	}
@@ -219,11 +238,11 @@ public class ConvertDate {
 		if (s1 == null)
 			return cal.getTime();
 
-		//		if (s1.equalsIgnoreCase("h")) {
-//			if (!st.hasMoreTokens())
-//				return cal.getTime();
-//			s1 = st.nextToken();
-//		}
+		// if (s1.equalsIgnoreCase("h")) {
+		// if (!st.hasMoreTokens())
+		// return cal.getTime();
+		// s1 = st.nextToken();
+		// }
 		cal.set(Calendar.MINUTE, Integer.parseInt(s1));
 
 		if (!st.hasMoreTokens())
@@ -233,7 +252,7 @@ public class ConvertDate {
 		s1 = trySkip(st, s1, cal);
 		if (s1 == null)
 			return cal.getTime();
-		
+
 		cal.set(Calendar.SECOND, Integer.parseInt(s1));
 		if (!st.hasMoreTokens())
 			return cal.getTime();
@@ -244,8 +263,8 @@ public class ConvertDate {
 			return cal.getTime();
 
 		s1 = trySkip(st, s1, cal);
-//		if (s1.equalsIgnoreCase("pm"))
-//			cal.add(Calendar.HOUR_OF_DAY, 12);
+		// if (s1.equalsIgnoreCase("pm"))
+		// cal.add(Calendar.HOUR_OF_DAY, 12);
 		return cal.getTime();
 	}
 
