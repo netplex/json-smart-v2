@@ -20,7 +20,6 @@ import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.minidev.json.JSONArray;
@@ -78,62 +77,63 @@ public class Mapper {
 
 	@SuppressWarnings("unchecked")
 	public static <T> AMapper<T> getMapper(Class<T> type) {
-		AMapper<T> map;
-		map = (AMapper<T>) cache.get(type);
+		// look for cached Mapper
+		AMapper<T> map = (AMapper<T>) cache.get(type);
+		if (map != null)
+			return map;
 
-		if (map == null) {
-			if (type instanceof Class) {
-				if (Map.class.isAssignableFrom(type)) {
-					map = new DefaultMapperCollection(type);
-					cache.put(type, map);
-				} else if (List.class.isAssignableFrom(type)) {
-					map = new DefaultMapperCollection(type);
-					cache.put(type, map);
-				}
+		if (type instanceof Class) {
+			if (Map.class.isAssignableFrom(type)) {
+				map = new DefaultMapperCollection(type);
+				cache.put(type, map);
+			} else if (List.class.isAssignableFrom(type)) {
+				map = new DefaultMapperCollection(type);
+				cache.put(type, map);
 			}
+			if (map != null)
+				return map;
 		}
 
-		if (map == null) {
-			// System.out.println("add in ClassCache " + type);
-			if (type.isArray())
-				map = new ArraysMapper.GenericMapper<T>(type);
-			else if (List.class.isAssignableFrom(type))
-				map = new CollectionMapper.ListClass<T>(type);
-			else if (Map.class.isAssignableFrom(type))
-				map = new CollectionMapper.MapClass<T>(type);
-			else
-				map = new BeansMapper.Bean<T>(type);
-			cache.putIfAbsent(type, map);
-		}
+		// System.out.println("add in ClassCache " + type);
+		if (type.isArray())
+			map = new ArraysMapper.GenericMapper<T>(type);
+		else if (List.class.isAssignableFrom(type))
+			map = new CollectionMapper.ListClass<T>(type);
+		else if (Map.class.isAssignableFrom(type))
+			map = new CollectionMapper.MapClass<T>(type);
+		else
+			map = new BeansMapper.Bean<T>(type);
+		cache.putIfAbsent(type, map);
+
 		return map;
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T> AMapper<T> getMapper(ParameterizedType type) {
-		AMapper<T> map;
-		map = (AMapper<T>) cache.get(type);
-		if (map == null) {
-			Type t2 = type.getRawType();
-			if (t2 instanceof Class) {
-				Class t3 = (Class) t2;
-				if (Map.class.isAssignableFrom(t3)) {
-					map = new DefaultMapperCollection(t3);
-					cache.put(type, map);
-				} else if (List.class.isAssignableFrom(t3)) {
-					map = new DefaultMapperCollection(t3);
-					cache.put(type, map);
-				}
-			}
-		}
-		if (map == null) {
-			// System.out.println("add in ParamCache " + type);
-			Class<T> clz = (Class<T>) type.getRawType();
-			if (List.class.isAssignableFrom(clz))
-				map = new CollectionMapper.ListType<T>(type);
-			else if (Map.class.isAssignableFrom(clz))
-				map = new CollectionMapper.MapType<T>(type);
-			cache.putIfAbsent(type, map);
-		}
+		AMapper<T> map = (AMapper<T>) cache.get(type);
+		if (map != null)
+			return map;
+
+//		Type t2 = type.getRawType();
+//		if (t2 instanceof Class) {
+//			Class t3 = (Class) t2;
+//			if (Map.class.isAssignableFrom(t3)) {
+//				map = new DefaultMapperCollection(t3);
+//				cache.put(type, map);
+//			} else if (List.class.isAssignableFrom(t3)) {
+//				map = new DefaultMapperCollection(t3);
+//				cache.put(type, map);
+//			}
+//			return map;
+//		}
+
+		// System.out.println("add in ParamCache " + type);
+		Class<T> clz = (Class<T>) type.getRawType();
+		if (List.class.isAssignableFrom(clz))
+			map = new CollectionMapper.ListType<T>(type);
+		else if (Map.class.isAssignableFrom(clz))
+			map = new CollectionMapper.MapType<T>(type);
+		cache.putIfAbsent(type, map);
 		return map;
 	}
 }
