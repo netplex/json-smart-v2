@@ -20,6 +20,8 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.minidev.asm.ex.NoSuchFiledException;
+
 /**
  * Allow access reflect field using runtime generated accessor. BeansAccessor is
  * faster than java.lang.reflect.Method.invoke()
@@ -166,7 +168,10 @@ public abstract class BeansAccess<T> {
 	 * set field value by fieldname
 	 */
 	public void set(T object, String methodName, Object value) {
-		set(object, getIndex(methodName), value);
+		int i = getIndex(methodName);
+		if (i == -1)
+			throw new NoSuchFiledException(methodName + " in " + object.getClass() + " to put value : " + value);
+		set(object, i, value);
 	}
 
 	/**

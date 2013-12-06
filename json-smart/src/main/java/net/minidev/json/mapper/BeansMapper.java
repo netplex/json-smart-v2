@@ -71,7 +71,7 @@ public abstract class BeansMapper<T> extends AMapper<T> {
 		public AMapper<?> startArray(String key) {
 			Accessor nfo = index.get(key);
 			if (nfo == null)
-				throw new RuntimeException("Can not find '" + key + "' field in " + clz);
+				throw new RuntimeException("Can not find Array '" + key + "' field in " + clz);
 			return Mapper.getMapper(nfo.getGenericType());
 		}
 
@@ -79,7 +79,7 @@ public abstract class BeansMapper<T> extends AMapper<T> {
 		public AMapper<?> startObject(String key) {
 			Accessor f = index.get(key);
 			if (f == null)
-				throw new RuntimeException("Can not find '" + key + "' field in " + clz);
+				throw new RuntimeException("Can not find Object '" + key + "' field in " + clz);
 			return Mapper.getMapper(f.getGenericType());
 		}
 
