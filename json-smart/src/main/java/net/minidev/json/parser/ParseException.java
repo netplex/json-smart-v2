@@ -97,7 +97,7 @@ public class ParseException extends Exception {
 			sb.append(": ");
 			sb.append(unexpectedObject);
 		} else if (errorType == ERROR_UNEXPECTED_UNICODE) {
-			sb.append("Unexpected unicode escape secance ");
+			sb.append("Unexpected unicode escape sequence ");
 			sb.append(unexpectedObject);
 			sb.append(" at position ");
 			sb.append(position);
