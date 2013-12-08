@@ -102,6 +102,19 @@ public class JSONObject extends HashMap<String, Object> implements JSONAware, JS
 			JSONValue.writeJSONString(value, out, compression);
 	}
 
+	/**
+	 * A Simple Helper object to String
+	 * 
+	 * @return a value.toString() or null
+	 */
+	public String getAsString(String key) {
+		Object obj = this.get(key);
+		if (obj == null)
+			return null;
+		return obj.toString();
+		
+	}
+	
 	// /**
 	// * return a Key:value entry as stream
 	// */
