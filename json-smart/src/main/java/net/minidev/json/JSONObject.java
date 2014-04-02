@@ -112,7 +112,13 @@ public class JSONObject extends HashMap<String, Object> implements JSONAware, JS
 		if (obj == null)
 			return null;
 		return obj.toString();
-		
+	}
+
+	public Number getAsNumber(String key) {
+		Object obj = this.get(key);
+		if (obj == null)
+			return null;
+		return (Number)obj;
 	}
 	
 	// /**
