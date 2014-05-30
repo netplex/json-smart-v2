@@ -61,6 +61,7 @@ public class Accessor {
 
 	/**
 	 * getter for index
+	 * @return Index
 	 */
 	public int getIndex() {
 		return index;
@@ -68,6 +69,7 @@ public class Accessor {
 
 	/**
 	 * is the field access using Field access type
+	 * @return if Accessor is public
 	 */
 	public boolean isPublic() {
 		return setter == null;
@@ -75,6 +77,7 @@ public class Accessor {
 
 	/**
 	 * is the field is an enum field
+	 * @return if Accessor return an Enum Class
 	 */
 	public boolean isEnum() {
 		return type.isEnum();
@@ -82,6 +85,7 @@ public class Accessor {
 
 	/**
 	 * return the field name
+ 	 * @return the field name
 	 */
 	public String getName() {
 		return fieldName;
@@ -89,6 +93,7 @@ public class Accessor {
 
 	/**
 	 * return field Class
+	 * @return field Class
 	 */
 	public Class<?> getType() {
 		return type;
@@ -96,6 +101,7 @@ public class Accessor {
 
 	/**
 	 * return generics field Type.
+	 * @return generics field Type.
 	 */
 	public Type getGenericType() {
 		return genericType;
