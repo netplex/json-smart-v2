@@ -20,8 +20,6 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.minidev.asm.ex.NoSuchFiledException;
-
 /**
  * Allow access reflect field using runtime generated accessor. BeansAccessor is
  * faster than java.lang.reflect.Method.invoke()
@@ -85,9 +83,15 @@ public abstract class BeansAccess<T> {
 		// extract all access methodes
 		Accessor[] accs = ASMUtil.getAccessors(type, filter);
 
-		// create new class name
-		String accessClassName = type.getName().concat("AccAccess");
 
+		// create new class name
+		String className = type.getName();
+		String accessClassName;
+		if (className.startsWith("java.util."))
+			accessClassName = "net.minidev.asm." + className + "AccAccess";
+		else
+			accessClassName = className.concat("AccAccess");		
+		
 		// extend class base loader
 		DynamicClassLoader loader = new DynamicClassLoader(type.getClassLoader());
 		// try to load existing class
@@ -170,7 +174,7 @@ public abstract class BeansAccess<T> {
 	public void set(T object, String methodName, Object value) {
 		int i = getIndex(methodName);
 		if (i == -1)
-			throw new NoSuchFiledException(methodName + " in " + object.getClass() + " to put value : " + value);
+			throw new net.minidev.asm.ex.NoSuchFieldException(methodName + " in " + object.getClass() + " to put value : " + value);
 		set(object, i, value);
 	}
 

@@ -32,8 +32,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 
-import net.minidev.asm.ex.NoSuchFiledException;
-
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -51,7 +49,8 @@ public class BeansAccessBuilder {
 	final String accessClassNameInternal;
 	final String classNameInternal;
 	final HashMap<Class<?>, Method> convMtds = new HashMap<Class<?>, Method>();
-	Class<? extends Exception> exeptionClass = NoSuchFiledException.class;
+//	Class<? extends Exception> exeptionClass = net.minidev.asm.ex.NoSuchFieldException.class;
+	Class<? extends Exception> exeptionClass = NoSuchFieldException.class;
 
 	public BeansAccessBuilder(Class<?> type, Accessor[] accs, DynamicClassLoader loader) {
 		this.type = type;
@@ -59,7 +58,10 @@ public class BeansAccessBuilder {
 		this.loader = loader;
 
 		this.className = type.getName();
-		this.accessClassName = className.concat("AccAccess");
+		if (className.startsWith("java.util."))
+			this.accessClassName = "net.minidev.asm." + className + "AccAccess";
+		else
+			this.accessClassName = className.concat("AccAccess");
 
 		this.accessClassNameInternal = accessClassName.replace('.', '/');
 		this.classNameInternal = className.replace('.', '/');
@@ -309,7 +311,7 @@ public class BeansAccessBuilder {
 		}
 		cw.visitEnd();
 		byte[] data = cw.toByteArray();
-		// dumpDebug(data, "C:/debug.txt");
+		// dumpDebug(data, "/tmp/debug-" + accessClassName + ".txt");
 		return loader.defineClass(accessClassName, data);
 	}
 
