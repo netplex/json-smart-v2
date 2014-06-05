@@ -26,6 +26,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONUtil;
 
 public class CollectionMapper {
+
 	public static class MapType<T> extends AMapper<T> {
 		final ParameterizedType type;
 		final Class<?> rawClass;
@@ -63,7 +64,14 @@ public class CollectionMapper {
 
 		@Override
 		public Object createObject() {
-			return ba.newInstance();
+			try {
+				return instance.newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			return null;
 		}
 
 		@Override

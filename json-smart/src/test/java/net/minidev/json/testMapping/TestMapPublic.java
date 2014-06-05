@@ -1,5 +1,8 @@
 package net.minidev.json.testMapping;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import junit.framework.TestCase;
 import net.minidev.json.JSONValue;
 
@@ -68,4 +71,14 @@ public class TestMapPublic extends TestCase {
 		public T3 t3;
 	}
 
+
+	public static class T5 {
+		public Map<String, String> data;
+	}
+	
+	public static class T6 {
+		public TreeMap<String, String> data;
+	}
+
+	
 }

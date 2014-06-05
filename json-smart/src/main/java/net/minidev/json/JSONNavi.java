@@ -65,6 +65,7 @@ public class JSONNavi<T> {
 		this.mapper = mapper;
 	}
 
+	@SuppressWarnings("unchecked")
 	public JSONNavi(String json) {
 		this.root = (T) JSONValue.parse(json);
 		this.current = this.root;
@@ -106,6 +107,7 @@ public class JSONNavi<T> {
 		return current;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Collection<String> getKeys() {
 		if (current instanceof Map)
 			return ((Map) current).keySet();
@@ -440,6 +442,7 @@ public class JSONNavi<T> {
 	 * Set current value as Json Object You can also skip this call, Objects can
 	 * be create automatically.
 	 */
+	@SuppressWarnings("unchecked")
 	public JSONNavi<T> object() {
 		if (failure)
 			return this;
@@ -465,6 +468,7 @@ public class JSONNavi<T> {
 	 * Set current value as Json Array You can also skip this call Arrays can be
 	 * create automatically.
 	 */
+	@SuppressWarnings("unchecked")
 	public JSONNavi<T> array() {
 		if (failure)
 			return this;

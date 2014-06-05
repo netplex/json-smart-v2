@@ -37,7 +37,9 @@ public class TestMapBeans extends TestCase {
 		assertEquals(true, r.data);
 	}
 
-	
+	/**
+	 * class containing primitive array;
+	 */
 	public static class T1 {
 		private int[] vint;
 
@@ -50,6 +52,9 @@ public class TestMapBeans extends TestCase {
 		}
 	}
 
+	/**
+	 * class containing Map interface;
+	 */
 	public static class T2 {
 		private Map<Integer, String> data;
 

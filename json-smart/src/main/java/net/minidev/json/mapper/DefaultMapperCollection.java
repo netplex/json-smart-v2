@@ -58,14 +58,16 @@ public class DefaultMapperCollection<T> extends AMapper<T> {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked"})
 	@Override
 	public void setValue(Object current, String key, Object value) {
-		((Map) current).put(key, value);
+		((Map<String, Object>) current).put(key, value);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void addValue(Object current, Object value) {
-		((List) current).add(value);
+		((List<Object>) current).add(value);
 	}
 
 }

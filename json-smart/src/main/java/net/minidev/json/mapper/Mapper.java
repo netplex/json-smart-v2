@@ -31,9 +31,9 @@ public class Mapper {
 	private final static ConcurrentHashMap<Type, AMapper<?>> cache;
 	static {
 		cache = new ConcurrentHashMap<Type, AMapper<?>>(100);
-		
+
 		cache.put(Date.class, BeansMapper.MAPPER_DATE);
-		
+
 		cache.put(int[].class, ArraysMapper.MAPPER_PRIM_INT);
 		cache.put(Integer[].class, ArraysMapper.MAPPER_INT);
 
@@ -75,26 +75,32 @@ public class Mapper {
 		return getMapper((Class<T>) type);
 	}
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Get the corresponding mapper Class, or create it on first call
+	 * 
+	 * @param type
+	 * @return
+	 */
 	public static <T> AMapper<T> getMapper(Class<T> type) {
 		// look for cached Mapper
+		@SuppressWarnings("unchecked")
 		AMapper<T> map = (AMapper<T>) cache.get(type);
 		if (map != null)
 			return map;
-
+		/*
+		 * Special handle
+		 */
 		if (type instanceof Class) {
-			if (Map.class.isAssignableFrom(type)) {
-				map = new DefaultMapperCollection(type);
+			if (Map.class.isAssignableFrom(type))
+				map = new DefaultMapperCollection<T>(type);
+			else if (List.class.isAssignableFrom(type))
+				map = new DefaultMapperCollection<T>(type);
+			if (map != null) {
 				cache.put(type, map);
-			} else if (List.class.isAssignableFrom(type)) {
-				map = new DefaultMapperCollection(type);
-				cache.put(type, map);
-			}
-			if (map != null)
 				return map;
+			}
 		}
 
-		// System.out.println("add in ClassCache " + type);
 		if (type.isArray())
 			map = new ArraysMapper.GenericMapper<T>(type);
 		else if (List.class.isAssignableFrom(type))
@@ -102,9 +108,9 @@ public class Mapper {
 		else if (Map.class.isAssignableFrom(type))
 			map = new CollectionMapper.MapClass<T>(type);
 		else
+			// use bean class
 			map = new BeansMapper.Bean<T>(type);
 		cache.putIfAbsent(type, map);
-
 		return map;
 	}
 
@@ -114,18 +120,18 @@ public class Mapper {
 		if (map != null)
 			return map;
 
-//		Type t2 = type.getRawType();
-//		if (t2 instanceof Class) {
-//			Class t3 = (Class) t2;
-//			if (Map.class.isAssignableFrom(t3)) {
-//				map = new DefaultMapperCollection(t3);
-//				cache.put(type, map);
-//			} else if (List.class.isAssignableFrom(t3)) {
-//				map = new DefaultMapperCollection(t3);
-//				cache.put(type, map);
-//			}
-//			return map;
-//		}
+		// Type t2 = type.getRawType();
+		// if (t2 instanceof Class) {
+		// Class t3 = (Class) t2;
+		// if (Map.class.isAssignableFrom(t3)) {
+		// map = new DefaultMapperCollection(t3);
+		// cache.put(type, map);
+		// } else if (List.class.isAssignableFrom(t3)) {
+		// map = new DefaultMapperCollection(t3);
+		// cache.put(type, map);
+		// }
+		// return map;
+		// }
 
 		// System.out.println("add in ParamCache " + type);
 		Class<T> clz = (Class<T>) type.getRawType();
