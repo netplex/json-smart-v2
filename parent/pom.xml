@@ -274,7 +274,7 @@ https://oss.sonatype.org/content/repositories/snapshots
 			<dependency>
 				<groupId>net.minidev</groupId>
 				<artifactId>asm</artifactId>
-				<version>1.0-RC3</version>
+				<version>1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>net.minidev</groupId>
