@@ -1,6 +1,8 @@
 package net.minidev.json.test;
 
 import net.minidev.json.JSONObject;
+import net.minidev.json.JSONStyle;
+import net.minidev.json.annotate.JsonIgnore;
 import net.minidev.json.parser.JSONParser;
 import junit.framework.TestCase;
 
@@ -33,5 +35,15 @@ public class TestFloat extends TestCase {
 			String correct = "{\"v\":\"" + s + "\"}";
 			assertEquals("Should be re serialized as", correct, obj.toJSONString());
 		}
+	}
+	/**
+	 * Error reported in issue 44
+	 */
+	public void testUUID() {
+		String UUID = "58860611416142319131902418361e88";
+		JSONObject obj = new JSONObject();
+		obj.put("uuid", UUID);
+		String compressed =obj.toJSONString(JSONStyle.MAX_COMPRESS); 
+		assertTrue(compressed.contains("uuid:\""));
 	}
 }
