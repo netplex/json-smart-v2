@@ -78,8 +78,7 @@ public class Mapper {
 	/**
 	 * Get the corresponding mapper Class, or create it on first call
 	 * 
-	 * @param type
-	 * @return
+	 * @param type to be map
 	 */
 	public static <T> AMapper<T> getMapper(Class<T> type) {
 		// look for cached Mapper
