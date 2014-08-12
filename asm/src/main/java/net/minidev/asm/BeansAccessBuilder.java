@@ -61,8 +61,6 @@ public class BeansAccessBuilder {
 	 *            used accessor
 	 * @param loader
 	 *            Loader used to store the generated class
-	 * 
-	 * @return the new reflect class
 	 */
 	public BeansAccessBuilder(Class<?> type, Accessor[] accs, DynamicClassLoader loader) {
 		this.type = type;
