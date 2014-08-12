@@ -43,7 +43,7 @@ public class ASMUtil {
 	 * Extract all Accessor for the field of the given class.
 	 * 
 	 * @param type
-	 * @return
+	 * @return all Accessor available
 	 */
 	static public Accessor[] getAccessors(Class<?> type, FieldFilter filter) {
 		Class<?> nextClass = type;

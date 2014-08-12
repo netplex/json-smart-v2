@@ -52,6 +52,18 @@ public class BeansAccessBuilder {
 //	Class<? extends Exception> exeptionClass = net.minidev.asm.ex.NoSuchFieldException.class;
 	Class<? extends Exception> exeptionClass = NoSuchFieldException.class;
 
+	/**
+	 * Build reflect bytecode from accessor list.
+	 * 
+	 * @param type
+	 *            type to be access
+	 * @param accs
+	 *            used accessor
+	 * @param loader
+	 *            Loader used to store the generated class
+	 * 
+	 * @return the new reflect class
+	 */
 	public BeansAccessBuilder(Class<?> type, Accessor[] accs, DynamicClassLoader loader) {
 		this.type = type;
 		this.accs = accs;
@@ -92,18 +104,6 @@ public class BeansAccessBuilder {
 		}
 	}
 
-	/**
-	 * Build reflect bytecode from accessor list.
-	 * 
-	 * @param type
-	 *            type to be access
-	 * @param accs
-	 *            used accessor
-	 * @param loader
-	 *            Loader used to store the generated class
-	 * 
-	 * @return the new reflect class
-	 */
 	public Class<?> bulid() {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		MethodVisitor mv;
