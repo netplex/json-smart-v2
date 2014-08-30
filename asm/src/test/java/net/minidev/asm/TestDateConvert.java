@@ -30,6 +30,11 @@ public class TestDateConvert extends TestCase {
 		}
 	}
 
+	public void testAdvanceTimeStamp() throws Exception {
+		String testDate = "2014-08-27T12:53:10+02:00";
+		ConvertDate.convertToDate(testDate);
+	}
+
 	public void testDateUS() throws Exception {
 		testDateLocalized(Locale.US);
 	}
