@@ -37,6 +37,8 @@ import net.minidev.json.mapper.Mapper;
 import net.minidev.json.mapper.UpdaterMapper;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
+import net.minidev.json.serialiser.JsonWriter;
+import net.minidev.json.serialiser.JsonWriterI;
 
 /**
  * JSONValue is the helper class In most of case you should use those static
@@ -535,6 +537,8 @@ public class JSONValue {
 		writeJSONString(value, out, COMPRESSION);
 	}
 
+	public static JsonWriter base = new JsonWriter();
+
 	/**
 	 * Encode an object into JSON text and write it to out.
 	 * <p>
@@ -552,162 +556,33 @@ public class JSONValue {
 			return;
 		}
 
-		if (value instanceof String) {
-			if (!compression.mustProtectValue((String) value))
-				out.append((String) value);
-			else {
-				out.append('"');
-				escape((String) value, out, compression);
-				out.append('"');
-			}
-			return;
-		}
-
-		if (value instanceof Number) {
-			if (value instanceof Double) {
-				if (((Double) value).isInfinite())
-					out.append("null");
+		Class<?> clz = value.getClass();
+		@SuppressWarnings("rawtypes")
+		JsonWriterI w = base.getWrite(clz);
+		if (w == null) {
+			if ((value instanceof JSONStreamAware)) {
+				if (value instanceof JSONStreamAwareEx)
+					w = JsonWriter.JSONStreamAwareExWriter;
 				else
-					out.append(value.toString());
-			} else if (value instanceof Float) {
-				if (((Float) value).isInfinite())
-					out.append("null");
+					w = JsonWriter.JSONStreamAwareWriter;
+			} else if ((value instanceof JSONAware)) {
+				if ((value instanceof JSONAwareEx))
+					w = JsonWriter.JSONJSONAwareExWriter;
 				else
-					out.append(value.toString());
-			} else {
-				out.append(value.toString());
-			}
-			return;
-		}
-
-		if (value instanceof Boolean) {
-			out.append(value.toString());
-		} else if ((value instanceof JSONStreamAware)) {
-			if (value instanceof JSONStreamAwareEx)
-				((JSONStreamAwareEx) value).writeJSONString(out, compression);
+					w = JsonWriter.JSONJSONAwareWriter;
+			} else if (value instanceof Map<?, ?>)
+				w = JsonWriter.JSONMapWriter;
+			else if (value instanceof Iterable<?>)
+				w = JsonWriter.JSONIterableWriter;
+			else if (value instanceof Enum<?>)
+				w = JsonWriter.EnumWriter;
+			else if (clz.isArray())
+				w = JsonWriter.arrayWriter;
 			else
-				((JSONStreamAware) value).writeJSONString(out);
-		} else if ((value instanceof JSONAware)) {
-			if ((value instanceof JSONAwareEx))
-				out.append(((JSONAwareEx) value).toJSONString(compression));
-			else
-				out.append(((JSONAware) value).toJSONString());
-		} else if (value instanceof Map<?, ?>) {
-			JSONObject.writeJSON((Map<String, Object>) value, out, compression);
-		} else if (value instanceof Iterable<?>) { // List
-			JSONArray.writeJSONString((Iterable<Object>) value, out, compression);
-		} else if (value instanceof Date) {
-			String vtext = DateFormat.getDateInstance().format((Date) value);
-			JSONValue.writeJSONString(vtext, out, compression);
-		} else if (value instanceof Enum<?>) {
-			@SuppressWarnings("rawtypes")
-			String s = ((Enum) value).name();
-			if (!compression.mustProtectValue(s))
-				out.append(s);
-			else {
-				out.append('"');
-				escape(s, out, compression);
-				out.append('"');
-			}
-			return;
-		} else if (value.getClass().isArray()) {
-			Class<?> arrayClz = value.getClass();
-			Class<?> c = arrayClz.getComponentType();
-
-			out.append('[');
-			boolean needSep = false;
-
-			if (c.isPrimitive()) {
-				if (c == int.class) {
-					for (int b : ((int[]) value)) {
-						if (needSep)
-							out.append(',');
-						else
-							needSep = true;
-						out.append(Integer.toString(b));
-					}
-				} else if (c == short.class) {
-					for (short b : ((short[]) value)) {
-						if (needSep)
-							out.append(',');
-						else
-							needSep = true;
-						out.append(Short.toString(b));
-					}
-				} else if (c == byte.class) {
-					for (byte b : ((byte[]) value)) {
-						if (needSep)
-							out.append(',');
-						else
-							needSep = true;
-						out.append(Integer.toString(b));
-					}
-				} else if (c == long.class) {
-					for (long b : ((long[]) value)) {
-						if (needSep)
-							out.append(',');
-						else
-							needSep = true;
-						out.append(Long.toString((Long) b));
-					}
-				} else if (c == float.class) {
-					for (float b : ((float[]) value)) {
-						if (needSep)
-							out.append(',');
-						else
-							needSep = true;
-						out.append(Float.toString((float) b));
-					}
-				} else if (c == double.class) {
-					for (double b : ((double[]) value)) {
-						if (needSep)
-							out.append(',');
-						else
-							needSep = true;
-						out.append(Double.toString((double) b));
-					}
-				} else if (c == boolean.class) {
-					for (boolean b : ((boolean[]) value)) {
-						if (needSep)
-							out.append(',');
-						else
-							needSep = true;
-						if (b)
-							out.append("true");
-						else
-							out.append("false");
-					}
-				}
-			} else {
-				for (Object o : ((Object[]) value)) {
-					if (needSep)
-						out.append(',');
-					else
-						needSep = true;
-					writeJSONString(o, out, compression);
-				}
-			}
-			out.append(']');
-		} else {
-			try {
-				Class<?> cls = value.getClass();
-				boolean needSep = false;
-				@SuppressWarnings("rawtypes")
-				BeansAccess fields = BeansAccess.get(cls, JSONUtil.JSON_SMART_FIELD_FILTER);
-				out.append('{');
-				for (Accessor field : fields.getAccessors()) {
-					Object v = fields.get(value, field.getIndex());
-					if (needSep)
-						out.append(',');
-					else
-						needSep = true;
-					JSONObject.writeJSONKV(field.getName(), v, out, compression);
-				}
-				out.append('}');
-			} catch (IOException e) {
-				throw e;
-			}
+				w = JsonWriter.beansWriterASM;
+			base.register(w, clz);
 		}
+		w.writeJSONString(value, out, compression);
 	}
 
 	/**

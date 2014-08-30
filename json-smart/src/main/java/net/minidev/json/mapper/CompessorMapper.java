@@ -121,13 +121,15 @@ public class CompessorMapper extends AMapper<CompessorMapper> {
 
 	private void writeValue(Object value) throws IOException {
 		if (value instanceof String) {
-			if (!compression.mustProtectValue((String) value))
-				out.append((String) value);
-			else {
-				out.append('"');
-				JSONValue.escape((String) value, out, compression);
-				out.append('"');
-			}
+			compression.writeString(out, (String) value);
+//
+//			if (!compression.mustProtectValue((String) value))
+//				out.append((String) value);
+//			else {
+//				out.append('"');
+//				JSONValue.escape((String) value, out, compression);
+//				out.append('"');
+//			}
 			// needSep = true;
 		} else {
 			if (isCompressor(value)) {

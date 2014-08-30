@@ -19,6 +19,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.print.attribute.standard.Compression;
+
+import net.minidev.json.serialiser.JsonWriter;
+
 /**
  * A JSON object. Key value pairs are unordered. JSONObject supports
  * java.util.Map interface.
@@ -90,15 +94,9 @@ public class JSONObject extends HashMap<String, Object> implements JSONAware, JS
 			out.append('"');
 		}
 		out.append(':');
-		if (value instanceof String) {
-			if (!compression.mustProtectValue((String) value))
-				out.append((String) value);
-			else {
-				out.append('"');
-				JSONValue.escape((String) value, out, compression);
-				out.append('"');
-			}
-		} else
+		if (value instanceof String)
+			compression.writeString(out, (String) value);
+		else
 			JSONValue.writeJSONString(value, out, compression);
 	}
 
@@ -172,30 +170,7 @@ public class JSONObject extends HashMap<String, Object> implements JSONAware, JS
 			out.append("null");
 			return;
 		}
-		// JSONStyler styler = compression.getStyler();
-
-		boolean first = true;
-		// if (styler != null) {
-		// styler.objectIn();
-		// }
-
-		out.append('{');
-		for (Map.Entry<String, ? extends Object> entry : map.entrySet()) {
-			if (first)
-				first = false;
-			else
-				out.append(',');
-			// if (styler != null)
-			// out.append(styler.getNewLine());
-			writeJSONKV(entry.getKey(), entry.getValue(), out, compression);
-		}
-		// if (styler != null) {
-		// styler.objectOut();
-		// }
-		out.append('}');
-		// if (styler != null) {
-		// out.append(styler.getNewLine());
-		// }
+		JsonWriter.JSONMapWriter.writeJSONString(map, out, compression);
 	}
 
 	/**

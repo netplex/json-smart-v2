@@ -15,6 +15,8 @@ package net.minidev.json;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import java.io.IOException;
+
 import net.minidev.json.JStylerObj.MustProtect;
 import net.minidev.json.JStylerObj.StringProtector;
 
@@ -35,10 +37,14 @@ public class JSONStyle {
 	/**
 	 * AGRESSIVE have no effect without PROTECT_KEYS or PROTECT_VALUE
 	 * 
-	 * AGRESSIVE mode allows §Json-smart to not protect String containing
+	 * AGRESSIVE mode allows Json-smart to not protect String containing
 	 * special chars
 	 */
 	public final static int FLAG_AGRESSIVE = 8;
+	/**
+	 * @since 2.1
+	 */
+	public final static int FLAG_IGNORE_NULL = 16;
 
 	public final static JSONStyle NO_COMPRESS = new JSONStyle(0);
 	public final static JSONStyle MAX_COMPRESS = new JSONStyle(-1);
@@ -50,6 +56,7 @@ public class JSONStyle {
 	private boolean _protectKeys;
 	private boolean _protect4Web;
 	private boolean _protectValues;
+	private boolean _ignore_null;
 
 	private MustProtect mpKey;
 	private MustProtect mpValue;
@@ -60,6 +67,7 @@ public class JSONStyle {
 		_protectKeys = (FLAG & FLAG_PROTECT_KEYS) == 0;
 		_protectValues = (FLAG & FLAG_PROTECT_VALUES) == 0;
 		_protect4Web = (FLAG & FLAG_PROTECT_4WEB) == 0;
+		_ignore_null = (FLAG & FLAG_IGNORE_NULL) > 0;
 
 		MustProtect mp;
 		if ((FLAG & FLAG_AGRESSIVE) > 0)
@@ -98,6 +106,10 @@ public class JSONStyle {
 	public boolean protect4Web() {
 		return _protect4Web;
 	}
+	
+	public boolean ignoreNull() {
+		return _ignore_null;
+	}
 
 	public boolean indent() {
 		return false;
@@ -110,8 +122,91 @@ public class JSONStyle {
 	public boolean mustProtectValue(String s) {
 		return mpValue.mustBeProtect(s);
 	}
+	
+	public void writeString(Appendable out, String value) throws IOException {
+		if (!this.mustProtectValue(value))
+			out.append(value);
+		else {
+			out.append('"');
+			JSONValue.escape(value, out, this);
+			out.append('"');
+		}
+	}
 
 	public void escape(String s, Appendable out) {
 		esc.escape(s, out);
+	}
+	
+	/**
+	 * begin Object
+	 */
+	public void objectStart(Appendable out) throws IOException {
+		out.append('{');
+	}
+
+	/**
+	 * terminate Object
+	 */
+	public void objectStop(Appendable out) throws IOException {
+		out.append('}');
+	}
+
+	/**
+	 * Start the first Obeject element
+	 */
+	public void objectFirstStart(Appendable out) throws IOException {
+	}
+
+	/**
+	 * Start a new Object element
+	 */
+	public void objectNext(Appendable out) throws IOException {
+		out.append(',');
+	}
+
+	/**
+	 * End Of Object element
+	 */
+	public void objectElmStop(Appendable out) throws IOException {
+	}
+
+	/**
+	 * end of Key in json Object
+	 */
+	public void objectEndOfKey(Appendable out) throws IOException {
+		out.append(':');
+	}
+
+	/**
+	 * Array start
+	 */
+	public void arrayStart(Appendable out) throws IOException {
+		out.append('[');
+	}
+
+	/**
+	 * Array Done
+	 */
+	public void arrayStop(Appendable out) throws IOException {
+		out.append(']');
+	}
+
+	/**
+	 * Start the first Array element
+	 */
+	public void arrayfirstObject(Appendable out) throws IOException {
+	}
+
+	/**
+	 * Start a new Array element
+	 */
+	public void arrayNextElm(Appendable out) throws IOException {
+		out.append(',');
+	}
+
+	/**
+	 * End of an Array element
+	 */
+	public void arrayObjectEnd(Appendable out) throws IOException {
 	}
 }
