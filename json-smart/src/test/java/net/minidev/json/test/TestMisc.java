@@ -8,7 +8,8 @@ import net.minidev.json.JSONValue;
 public class TestMisc extends TestCase {
 
 	public void testIssue23() throws Exception {
-		System.out.println("RESULT: " + JSONValue.toJSONString(new int[] { 1, 2, 50, 1234, 10000 }));
+		String s = JSONValue.toJSONString(new int[] { 1, 2, 50, 1234, 10000 });
+		assertEquals("[1,2,50,1234,10000]", s);
 	}
 
 	public void testEmptyStrict() throws Exception {

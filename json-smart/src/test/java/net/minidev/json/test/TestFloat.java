@@ -1,10 +1,9 @@
 package net.minidev.json.test;
 
+import junit.framework.TestCase;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
-import net.minidev.json.annotate.JsonIgnore;
 import net.minidev.json.parser.JSONParser;
-import junit.framework.TestCase;
 
 public class TestFloat extends TestCase {
 	public static String[] TRUE_NUMBERS = new String[] { "1.0", "123.456", "1.0E1", "123.456E12", "1.0E+1",
