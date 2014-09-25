@@ -21,7 +21,7 @@ public class MustThrows {
 
 	public static void testInvalidJson(String json, int permissifMode, int execptionType, Class<?> cls)
 			throws Exception {
-		JSONParser p = new JSONParser(execptionType);
+		JSONParser p = new JSONParser(permissifMode);
 		try {
 			if (cls == null)
 				p.parse(json);
