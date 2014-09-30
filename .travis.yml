@@ -1,6 +1,19 @@
 language: java
 jdk:
- - oraclejdk7
+- oraclejdk7
 before_install:
- - cd parent
+- cd parent
 script: true
+deploy:
+  provider: releases
+  api_key:
+    secure: H48166oenHAaiyPpoECp2M69K5oC1TLQAmp39JUs9lfuY00liJIXaTMJa3tvHjdb0WQlXmcSNDgDsdJK/6LhJxTC64lw6YkANIBpv2Hv0Y4sp5sTjVjA/MSmaFusW30T5sIq3xy/VHlgtNYueUKWUwUZkdAJLrCwo5lZF+flTXU=
+  file: "/home/travis/build/aborg0/json-smart-v2/asm/target/asm-1.0.1.jar"
+  skip_cleanup: true
+  on:
+    repo: aborg0/json-smart-v2
+
+#    - "/home/travis/build/aborg0/json-smart-v2/asm/target/asm-1.0.1.jar"
+#    - "/home/travis/build/aborg0/json-smart-v2/asm/target/asm-1.0.1-sources.jar"
+#    - "/home/travis/build/aborg0/json-smart-v2/json-smart/target/json-smart-2.0.1.jar"
+#    - "/home/travis/build/aborg0/json-smart-v2/json-smart/target/json-smart-2.0.1-sources.jar"
