@@ -76,6 +76,7 @@ abstract class JSONParserBase {
 	protected final boolean acceptSimpleQuote;
 	protected final boolean acceptUselessComma;
 	protected final boolean checkTaillingData;
+	protected final boolean checkTaillingSpace;
 	protected final boolean ignoreControlChar;
 	protected final boolean useHiPrecisionFloat;
 	protected final boolean useIntegerStorage;
@@ -89,7 +90,8 @@ abstract class JSONParserBase {
 		this.acceptLeadinZero = (permissiveMode & JSONParser.ACCEPT_LEADING_ZERO) > 0;
 		this.acceptUselessComma = (permissiveMode & JSONParser.ACCEPT_USELESS_COMMA) > 0;
 		this.useHiPrecisionFloat = (permissiveMode & JSONParser.USE_HI_PRECISION_FLOAT) > 0;
-		this.checkTaillingData = (permissiveMode & JSONParser.ACCEPT_TAILLING_DATA) == 0;
+		this.checkTaillingData = (permissiveMode & (JSONParser.ACCEPT_TAILLING_DATA | JSONParser.ACCEPT_TAILLING_SPACE)) == 0;
+		this.checkTaillingSpace = (permissiveMode & JSONParser.ACCEPT_TAILLING_SPACE) == 0;
 	}
 
 	public void checkControleChar() throws ParseException {
@@ -148,6 +150,12 @@ abstract class JSONParserBase {
 		try {
 			read();
 			result = readFirst(mapper);
+			if (checkTaillingData) {
+				if (!checkTaillingSpace)
+					skipSpace();
+				if (c != EOI)
+					throw new ParseException(pos - 1, ERROR_UNEXPECTED_TOKEN, c);
+			}
 		} catch (IOException e) {
 			throw new ParseException(pos, e);
 		}
