@@ -3,4 +3,3 @@ jdk:
  - oraclejdk7
 before_install:
  - cd parent
-script: true
