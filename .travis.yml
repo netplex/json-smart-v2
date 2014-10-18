@@ -1,5 +1,5 @@
 language: java
 jdk:
  - oraclejdk7
-before_install:
+before-install:
  - cd parent
