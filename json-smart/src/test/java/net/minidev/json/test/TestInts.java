@@ -5,6 +5,7 @@ import java.math.BigInteger;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 import junit.framework.TestCase;
 
 public class TestInts extends TestCase {
@@ -79,6 +80,7 @@ public class TestInts extends TestCase {
 		JSONObject o = (JSONObject) new JSONParser(JSONParser.MODE_JSON_SIMPLE).parse(s);
 		assertEquals(o.get("t"), 124L);
 
+		// MustThrows.testInvalidJson(s, JSONParser.MODE_RFC4627, ParseException.ERROR_UNEXPECTED_TOKEN);
 		o = (JSONObject) new JSONParser(JSONParser.MODE_RFC4627).parse(s);
 		assertEquals(o.get("t"), 124);
 
