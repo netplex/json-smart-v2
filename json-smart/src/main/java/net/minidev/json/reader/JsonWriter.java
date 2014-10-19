@@ -6,9 +6,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigInteger;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.minidev.asm.Accessor;
 import net.minidev.asm.BeansAccess;
@@ -22,11 +22,11 @@ import net.minidev.json.JSONUtil;
 import net.minidev.json.JSONValue;
 
 public class JsonWriter {
-	private HashMap<Class<?>, JsonWriterI<?>> data;
+	private ConcurrentHashMap<Class<?>, JsonWriterI<?>> data;
 	private LinkedList<WriterByInterface> writerInterfaces;
 
 	public JsonWriter() {
-		data = new HashMap<Class<?>, JsonWriterI<?>>();
+		data = new ConcurrentHashMap<Class<?>, JsonWriterI<?>>();
 		writerInterfaces = new LinkedList<WriterByInterface>();
 		init();
 	}
