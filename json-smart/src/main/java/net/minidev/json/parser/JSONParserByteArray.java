@@ -17,7 +17,6 @@ package net.minidev.json.parser;
  */
 import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_EOF;
 import net.minidev.json.JSONValue;
-import net.minidev.json.writer.DefaultMapper;
 import net.minidev.json.writer.JsonReaderI;
 
 /**

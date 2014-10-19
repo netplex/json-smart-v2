@@ -41,6 +41,7 @@ public class JsonWriter {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public JsonWriterI getWriterByInterface(Class<?> clazz) {
 		for (WriterByInterface w : writerInterfaces) {
 			if (w._interface.isAssignableFrom(clazz))
@@ -49,6 +50,7 @@ public class JsonWriter {
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public JsonWriterI getWrite(Class cls) {
 		return data.get(cls);
 	}
@@ -151,6 +153,7 @@ public class JsonWriter {
 				BeansAccess fields = BeansAccess.get(cls, JSONUtil.JSON_SMART_FIELD_FILTER);
 				out.append('{');
 				for (Accessor field : fields.getAccessors()) {
+					@SuppressWarnings("unchecked")
 					Object v = fields.get(value, field.getIndex());
 					if (v == null && compression.ignoreNull())
 						continue;

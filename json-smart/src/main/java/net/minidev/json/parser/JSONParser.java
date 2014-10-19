@@ -20,7 +20,6 @@ import java.io.Reader;
 
 import net.minidev.json.JSONValue;
 import net.minidev.json.writer.JsonReaderI;
-import net.minidev.json.writer.JsonReader;
 
 public class JSONParser {
 	/**
