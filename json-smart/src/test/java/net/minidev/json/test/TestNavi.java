@@ -10,7 +10,8 @@ public class TestNavi extends TestCase {
 		nav.set("name", "jhone").set("age", 42).at("childName").add("fifi", "riri", "loulou").up().at("cat")
 				.set("color", "red");
 		String s1 = "{\"name\":\"jhone\",\"age\":42,\"childName\":[\"fifi\",\"riri\",\"loulou\"],\"cat\":{\"color\":\"red\"}}";
-		assertEquals(s1, nav.toString());
+		String s2 = nav.toString();
+		assertEquals(s1, s2);
 	}
 
 	public void testNaviWrite2() {
@@ -21,7 +22,8 @@ public class TestNavi extends TestCase {
 		assertEquals("/array[5]", nav.getJPath());
 		String s1 = "{'name':'toto','tutu':'V2','size':{'width':10,'higth':35},'FinUp':1,'array':[0,1,2,3,4,5]}"
 				.replace('\'', '"');
-		assertEquals(s1, nav.toString());
+		String s2 = nav.toString();
+		assertEquals(s1, s2);
 	}
 
 	public void testNaviRead() {
@@ -41,10 +43,12 @@ public class TestNavi extends TestCase {
 		String expected = "{'type':'bundle','data':[{'type':'object','name':'obj1'},{'type':'object','name':'obj2'}]}".replace('\'', '"');
 		JSONNavi<JSONAwareEx> nav = JSONNavi.newInstance();
 		nav.set("type", "bundle").at("data").array().at(0).set("type", "object").set("name", "obj1").up().at(1).set("type", "object").set("name", "obj2").root();
+		String s2 = nav.toString();
 		assertEquals(expected, nav.toString());
 		
 		nav = JSONNavi.newInstance();
 		nav.set("type", "bundle").at("data").array().atNext().set("type", "object").set("name", "obj1").up().atNext().set("type", "object").set("name", "obj2").root();
+		s2 = nav.toString();
 		assertEquals(expected, nav.toString());
 	}
 }

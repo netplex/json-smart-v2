@@ -19,9 +19,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.print.attribute.standard.Compression;
-
-import net.minidev.json.serialiser.JsonWriter;
+import net.minidev.json.reader.JsonWriter;
 
 /**
  * A JSON object. Key value pairs are unordered. JSONObject supports

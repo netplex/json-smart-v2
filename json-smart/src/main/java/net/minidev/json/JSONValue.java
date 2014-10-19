@@ -21,24 +21,18 @@ import static net.minidev.json.parser.JSONParser.MODE_RFC4627;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import net.minidev.asm.Accessor;
-import net.minidev.asm.BeansAccess;
-import net.minidev.json.mapper.AMapper;
-import net.minidev.json.mapper.CompessorMapper;
-import net.minidev.json.mapper.DefaultMapper;
-import net.minidev.json.mapper.DefaultMapperOrdered;
-import net.minidev.json.mapper.FakeMapper;
-import net.minidev.json.mapper.Mapper;
-import net.minidev.json.mapper.UpdaterMapper;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
-import net.minidev.json.serialiser.JsonWriter;
-import net.minidev.json.serialiser.JsonWriterI;
+import net.minidev.json.reader.JsonWriter;
+import net.minidev.json.reader.JsonWriterI;
+import net.minidev.json.writer.CompessorMapper;
+import net.minidev.json.writer.FakeMapper;
+import net.minidev.json.writer.JsonReaderI;
+import net.minidev.json.writer.JsonReader;
+import net.minidev.json.writer.UpdaterMapper;
 
 /**
  * JSONValue is the helper class In most of case you should use those static
@@ -106,7 +100,7 @@ public class JSONValue {
 	public static <T> T parse(InputStream in, Class<T> mapTo) {
 		try {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, Mapper.getMapper(mapTo));
+			return p.parse(in, defaultReader.getMapper(mapTo));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -143,7 +137,7 @@ public class JSONValue {
 	public static <T> T parse(byte[] in, Class<T> mapTo) {
 		try {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, Mapper.getMapper(mapTo));
+			return p.parse(in, defaultReader.getMapper(mapTo));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -160,7 +154,7 @@ public class JSONValue {
 	public static <T> T parse(Reader in, Class<T> mapTo) {
 		try {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, Mapper.getMapper(mapTo));
+			return p.parse(in, defaultReader.getMapper(mapTo));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -177,7 +171,7 @@ public class JSONValue {
 	public static <T> T parse(Reader in, T toUpdate) {
 		try {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, new UpdaterMapper<T>(toUpdate));
+			return p.parse(in, new UpdaterMapper<T>(defaultReader, toUpdate));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -189,7 +183,7 @@ public class JSONValue {
 	 * 
 	 * @since 2.0
 	 */
-	protected static <T> T parse(Reader in, AMapper<T> mapper) {
+	protected static <T> T parse(Reader in, JsonReaderI<T> mapper) {
 		try {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, mapper);
@@ -209,7 +203,7 @@ public class JSONValue {
 	public static <T> T parse(String in, Class<T> mapTo) {
 		try {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, Mapper.getMapper(mapTo));
+			return p.parse(in, defaultReader.getMapper(mapTo));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -226,7 +220,7 @@ public class JSONValue {
 	public static <T> T parse(InputStream in, T toUpdate) {
 		try {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, new UpdaterMapper<T>(toUpdate));
+			return p.parse(in, new UpdaterMapper<T>(defaultReader, toUpdate));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -243,7 +237,7 @@ public class JSONValue {
 	public static <T> T parse(String in, T toUpdate) {
 		try {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, new UpdaterMapper<T>(toUpdate));
+			return p.parse(in, new UpdaterMapper<T>(defaultReader, toUpdate));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -255,7 +249,7 @@ public class JSONValue {
 	 * 
 	 * @since 2.0
 	 */
-	protected static <T> T parse(byte[] in, AMapper<T> mapper) {
+	protected static <T> T parse(byte[] in, JsonReaderI<T> mapper) {
 		try {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, mapper);
@@ -269,7 +263,7 @@ public class JSONValue {
 	 * 
 	 * @since 2.0
 	 */
-	protected static <T> T parse(String in, AMapper<T> mapper) {
+	protected static <T> T parse(String in, JsonReaderI<T> mapper) {
 		try {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, mapper);
@@ -306,7 +300,7 @@ public class JSONValue {
 	 */
 	public static Object parseKeepingOrder(Reader in) {
 		try {
-			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, DefaultMapperOrdered.DEFAULT);
+			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT_ORDERED);
 		} catch (Exception e) {
 			return null;
 		}
@@ -319,7 +313,7 @@ public class JSONValue {
 	 */
 	public static Object parseKeepingOrder(String in) {
 		try {
-			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, DefaultMapperOrdered.DEFAULT);
+			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT_ORDERED);
 		} catch (Exception e) {
 			return null;
 		}
@@ -355,7 +349,7 @@ public class JSONValue {
 	public static String compress(String input, JSONStyle style) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(input, new CompessorMapper(sb, style));
+			new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(input, new CompessorMapper(defaultReader, sb, style));
 			return sb.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -392,7 +386,7 @@ public class JSONValue {
 	 *         java.lang.Number, java.lang.Boolean, null
 	 */
 	public static Object parseWithException(byte[] in) throws IOException, ParseException {
-		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, DefaultMapper.DEFAULT);
+		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT);
 	}
 
 	/**
@@ -404,7 +398,7 @@ public class JSONValue {
 	 *         java.lang.Number, java.lang.Boolean, null
 	 */
 	public static Object parseWithException(InputStream in) throws IOException, ParseException {
-		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, DefaultMapper.DEFAULT);
+		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT);
 	}
 
 	/**
@@ -416,7 +410,7 @@ public class JSONValue {
 	 *         java.lang.Number, java.lang.Boolean, null
 	 */
 	public static Object parseWithException(Reader in) throws IOException, ParseException {
-		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, DefaultMapper.DEFAULT);
+		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT);
 	}
 
 	/**
@@ -428,7 +422,7 @@ public class JSONValue {
 	 *         java.lang.Number, java.lang.Boolean, null
 	 */
 	public static Object parseWithException(String s) throws ParseException {
-		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(s, DefaultMapper.DEFAULT);
+		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(s, defaultReader.DEFAULT);
 	}
 
 	/**
@@ -440,7 +434,7 @@ public class JSONValue {
 	 */
 	public static <T> T parseWithException(String in, Class<T> mapTo) throws ParseException {
 		JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-		return p.parse(in, Mapper.getMapper(mapTo));
+		return p.parse(in, defaultReader.getMapper(mapTo));
 	}
 
 	/**
@@ -452,7 +446,7 @@ public class JSONValue {
 	 *         java.lang.Number, java.lang.Boolean, null
 	 */
 	public static Object parseStrict(Reader in) throws IOException, ParseException {
-		return new JSONParser(MODE_RFC4627).parse(in, DefaultMapper.DEFAULT);
+		return new JSONParser(MODE_RFC4627).parse(in, defaultReader.DEFAULT);
 	}
 
 	/**
@@ -464,7 +458,7 @@ public class JSONValue {
 	 *         java.lang.Number, java.lang.Boolean, null
 	 */
 	public static Object parseStrict(String s) throws ParseException {
-		return new JSONParser(MODE_RFC4627).parse(s, DefaultMapper.DEFAULT);
+		return new JSONParser(MODE_RFC4627).parse(s, defaultReader.DEFAULT);
 	}
 
 	/**
@@ -537,7 +531,28 @@ public class JSONValue {
 		writeJSONString(value, out, COMPRESSION);
 	}
 
-	public static JsonWriter base = new JsonWriter();
+	/**
+	 * Serialisation class Data
+	 */
+	public final static JsonWriter defaultWriter = new JsonWriter();
+	/**
+	 * deserialisation class Data
+	 */
+	public final static JsonReader defaultReader = new JsonReader();
+
+	/**
+	 * Register a serializer for a class.
+	 */
+	public static <T> void registerWriter(Class<?> cls, JsonWriterI<T> writer) {
+		defaultWriter.registerWriter(writer, cls);
+	}
+
+	/**
+	 * register a deserializer for a class.
+	 */
+	public static <T> void registerReader(Class<T> type, JsonReaderI<T> mapper) {
+		defaultReader.registerReader(type, mapper);
+	}
 
 	/**
 	 * Encode an object into JSON text and write it to out.
@@ -558,7 +573,7 @@ public class JSONValue {
 
 		Class<?> clz = value.getClass();
 		@SuppressWarnings("rawtypes")
-		JsonWriterI w = base.getWrite(clz);
+		JsonWriterI w = defaultWriter.getWrite(clz);
 		if (w == null) {
 			if ((value instanceof JSONStreamAware)) {
 				if (value instanceof JSONStreamAwareEx)
@@ -580,7 +595,7 @@ public class JSONValue {
 				w = JsonWriter.arrayWriter;
 			else
 				w = JsonWriter.beansWriterASM;
-			base.register(w, clz);
+			defaultWriter.registerWriter(w, clz);
 		}
 		w.writeJSONString(value, out, compression);
 	}

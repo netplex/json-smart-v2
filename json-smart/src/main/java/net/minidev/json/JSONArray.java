@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minidev.json.serialiser.JsonWriter;
+import net.minidev.json.reader.JsonWriter;
 
 /**
  * A JSON array. JSONObject supports java.util.List interface.

@@ -20,9 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import net.minidev.json.mapper.AMapper;
-import net.minidev.json.mapper.DefaultMapperOrdered;
-import net.minidev.json.mapper.Mapper;
+import net.minidev.json.writer.JsonReaderI;
 
 /**
  * A JQuery like Json editor, accessor.
@@ -32,7 +30,7 @@ import net.minidev.json.mapper.Mapper;
  * @author Uriel Chemouni <uchemouni@gmail.com>
  */
 public class JSONNavi<T> {
-	private AMapper<? super T> mapper;
+	private JsonReaderI<? super T> mapper;
 	private T root;
 
 	private Stack<Object> stack = new Stack<Object>();
@@ -46,22 +44,22 @@ public class JSONNavi<T> {
 	private Object missingKey = null;
 
 	public static JSONNavi<JSONAwareEx> newInstance() {
-		return new JSONNavi<JSONAwareEx>(DefaultMapperOrdered.DEFAULT);
+		return new JSONNavi<JSONAwareEx>(JSONValue.defaultReader.DEFAULT_ORDERED);
 	}
 
 	public static JSONNavi<JSONObject> newInstanceObject() {
-		JSONNavi<JSONObject> o = new JSONNavi<JSONObject>(Mapper.getMapper(JSONObject.class));
+		JSONNavi<JSONObject> o = new JSONNavi<JSONObject>(JSONValue.defaultReader.getMapper(JSONObject.class));
 		o.object();
 		return o;
 	}
 
 	public static JSONNavi<JSONArray> newInstanceArray() {
-		JSONNavi<JSONArray> o = new JSONNavi<JSONArray>(Mapper.getMapper(JSONArray.class));
+		JSONNavi<JSONArray> o = new JSONNavi<JSONArray>(JSONValue.defaultReader.getMapper(JSONArray.class));
 		o.array();
 		return o;
 	}
 
-	public JSONNavi(AMapper<? super T> mapper) {
+	public JSONNavi(JsonReaderI<? super T> mapper) {
 		this.mapper = mapper;
 	}
 
@@ -72,7 +70,7 @@ public class JSONNavi<T> {
 		readonly = true;
 	}
 
-	public JSONNavi(String json, AMapper<T> mapper) {
+	public JSONNavi(String json, JsonReaderI<T> mapper) {
 		this.root = JSONValue.parse(json, mapper);
 		this.mapper = mapper;
 		this.current = this.root;
@@ -81,7 +79,7 @@ public class JSONNavi<T> {
 
 	public JSONNavi(String json, Class<T> mapTo) {
 		this.root = JSONValue.parse(json, mapTo);
-		this.mapper = Mapper.getMapper(mapTo);
+		this.mapper = JSONValue.defaultReader.getMapper(mapTo);
 		this.current = this.root;
 		readonly = true;
 	}

@@ -61,14 +61,14 @@ public class BeansAccessBuilder {
 	 *            used accessor
 	 * @param loader
 	 *            Loader used to store the generated class
-	 */
+	 */	
 	public BeansAccessBuilder(Class<?> type, Accessor[] accs, DynamicClassLoader loader) {
 		this.type = type;
 		this.accs = accs;
 		this.loader = loader;
 
 		this.className = type.getName();
-		if (className.startsWith("java.util."))
+		if (className.startsWith("java."))
 			this.accessClassName = "net.minidev.asm." + className + "AccAccess";
 		else
 			this.accessClassName = className.concat("AccAccess");
