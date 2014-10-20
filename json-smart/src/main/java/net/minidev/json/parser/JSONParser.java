@@ -92,7 +92,7 @@ public class JSONParser {
 	 * 
 	 * @since 1.0.6
 	 */
-	public final static int MODE_RFC4627 = USE_INTEGER_STORAGE | USE_HI_PRECISION_FLOAT | ACCEPT_TAILLING_DATA  | ACCEPT_TAILLING_SPACE;
+	public final static int MODE_RFC4627 = USE_INTEGER_STORAGE | USE_HI_PRECISION_FLOAT | ACCEPT_TAILLING_SPACE;
 	/**
 	 * Parse Object like json-simple
 	 * 

@@ -92,7 +92,7 @@ abstract class JSONParserBase {
 		this.acceptLeadinZero = (permissiveMode & JSONParser.ACCEPT_LEADING_ZERO) > 0;
 		this.acceptUselessComma = (permissiveMode & JSONParser.ACCEPT_USELESS_COMMA) > 0;
 		this.useHiPrecisionFloat = (permissiveMode & JSONParser.USE_HI_PRECISION_FLOAT) > 0;
-		this.checkTaillingData = (permissiveMode & (JSONParser.ACCEPT_TAILLING_DATA | JSONParser.ACCEPT_TAILLING_SPACE)) == 0;
+		this.checkTaillingData = (permissiveMode & (JSONParser.ACCEPT_TAILLING_DATA | JSONParser.ACCEPT_TAILLING_SPACE)) != (JSONParser.ACCEPT_TAILLING_DATA | JSONParser.ACCEPT_TAILLING_SPACE);
 		this.checkTaillingSpace = (permissiveMode & JSONParser.ACCEPT_TAILLING_SPACE) == 0;
 	}
 

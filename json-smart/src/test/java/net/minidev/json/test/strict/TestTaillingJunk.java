@@ -36,4 +36,9 @@ public class TestTaillingJunk extends TestCase {
 		JSONObject o = (JSONObject) new JSONParser(JSONParser.MODE_PERMISSIVE).parse(s);
 		assertEquals(o.get("t"), 0);
 	}
+	
+	public void testTaillingDataWithSpaceAllowed() throws Exception {
+        String s = "{\"t\":0}{";
+        MustThrows.testInvalidJson(s, JSONParser.MODE_STRICTEST | JSONParser.ACCEPT_TAILLING_SPACE, ParseException.ERROR_UNEXPECTED_TOKEN);
+    }
 }

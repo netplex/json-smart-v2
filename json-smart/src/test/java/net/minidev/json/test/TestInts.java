@@ -80,9 +80,9 @@ public class TestInts extends TestCase {
 		JSONObject o = (JSONObject) new JSONParser(JSONParser.MODE_JSON_SIMPLE).parse(s);
 		assertEquals(o.get("t"), 124L);
 
-		// MustThrows.testInvalidJson(s, JSONParser.MODE_RFC4627, ParseException.ERROR_UNEXPECTED_TOKEN);
-		o = (JSONObject) new JSONParser(JSONParser.MODE_RFC4627).parse(s);
-		assertEquals(o.get("t"), 124);
+		MustThrows.testInvalidJson(s, JSONParser.MODE_RFC4627, ParseException.ERROR_UNEXPECTED_TOKEN);
+		// o = (JSONObject) new JSONParser(JSONParser.MODE_RFC4627).parse(s);
+		// assertEquals(o.get("t"), 124);
 
 		o = (JSONObject) new JSONParser(JSONParser.MODE_PERMISSIVE).parse(s);
 		assertEquals(o.get("t"), 124);
