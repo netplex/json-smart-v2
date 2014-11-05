@@ -9,4 +9,9 @@
 /asm/.classpath
 /asm/.project
 /asm/.settings
-/asm/target
+/asm/targetjson-smart-backport/.classpath
+json-smart-backport/.project
+json-smart-backport/.settings
+asm/target/
+json-smart-backport/target/
+json-smart/target/
