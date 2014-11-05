@@ -15,3 +15,5 @@ json-smart-backport/.settings
 asm/target/
 json-smart-backport/target/
 json-smart/target/
+**/.project 
+**/bin
