@@ -47,7 +47,7 @@
 						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Name>${project.artifactId}</Bundle-Name>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Export-Package>net.minidev.json,net.minidev.json.annotate,net.minidev.json.mapper,net.minidev.json.parser,net.minidev.json.serialiser</Export-Package>
+						<Export-Package>net.minidev.json,net.minidev.json.annotate,net.minidev.json.mapper,net.minidev.json.parser,net.minidev.json.writer,net.minidev.json.reader,net.minidev.json.serialiser</Export-Package>
 						<!-- Private-Package></Private-Package -->
 					</instructions>
 				</configuration>
