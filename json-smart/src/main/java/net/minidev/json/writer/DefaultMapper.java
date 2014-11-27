@@ -18,13 +18,17 @@ package net.minidev.json.writer;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONAwareEx;
 import net.minidev.json.JSONObject;
-
+/**
+ * Simple Reader Class for generic Map
+ * 
+ * @author uriel
+ *
+ * @param <T>
+ */
 public class DefaultMapper<T> extends JsonReaderI<T> {
 	protected DefaultMapper(JsonReader base) {
 		super(base);
 	}
-
-//	public JsonReaderI<JSONAwareEx> DEFAULT = new DefaultMapper<JSONAwareEx>(base);
 
 	@Override
 	public JsonReaderI<JSONAwareEx> startObject(String key) {
