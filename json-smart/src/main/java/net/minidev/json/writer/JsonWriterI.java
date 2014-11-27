@@ -1,4 +1,4 @@
-package net.minidev.json.reader;
+package net.minidev.json.writer;
 
 import java.io.IOException;
 

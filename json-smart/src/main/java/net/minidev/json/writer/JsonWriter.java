@@ -1,4 +1,4 @@
-package net.minidev.json.reader;
+package net.minidev.json.writer;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -56,36 +56,31 @@ public class JsonWriter {
 	}
 
 	final static public JsonWriterI<JSONStreamAwareEx> JSONStreamAwareWriter = new JsonWriterI<JSONStreamAwareEx>() {
-		public <E extends JSONStreamAwareEx> void writeJSONString(E value, Appendable out, JSONStyle compression)
-				throws IOException {
+		public <E extends JSONStreamAwareEx> void writeJSONString(E value, Appendable out, JSONStyle compression) throws IOException {
 			value.writeJSONString(out);
 		}
 	};
 
 	final static public JsonWriterI<JSONStreamAwareEx> JSONStreamAwareExWriter = new JsonWriterI<JSONStreamAwareEx>() {
-		public <E extends JSONStreamAwareEx> void writeJSONString(E value, Appendable out, JSONStyle compression)
-				throws IOException {
+		public <E extends JSONStreamAwareEx> void writeJSONString(E value, Appendable out, JSONStyle compression) throws IOException {
 			value.writeJSONString(out, compression);
 		}
 	};
 
 	final static public JsonWriterI<JSONAwareEx> JSONJSONAwareExWriter = new JsonWriterI<JSONAwareEx>() {
-		public <E extends JSONAwareEx> void writeJSONString(E value, Appendable out, JSONStyle compression)
-				throws IOException {
+		public <E extends JSONAwareEx> void writeJSONString(E value, Appendable out, JSONStyle compression) throws IOException {
 			out.append(value.toJSONString(compression));
 		}
 	};
 
 	final static public JsonWriterI<JSONAware> JSONJSONAwareWriter = new JsonWriterI<JSONAware>() {
-		public <E extends JSONAware> void writeJSONString(E value, Appendable out, JSONStyle compression)
-				throws IOException {
+		public <E extends JSONAware> void writeJSONString(E value, Appendable out, JSONStyle compression) throws IOException {
 			out.append(value.toJSONString());
 		}
 	};
 
 	final static public JsonWriterI<Iterable<? extends Object>> JSONIterableWriter = new JsonWriterI<Iterable<? extends Object>>() {
-		public <E extends Iterable<? extends Object>> void writeJSONString(E list, Appendable out, JSONStyle compression)
-				throws IOException {
+		public <E extends Iterable<? extends Object>> void writeJSONString(E list, Appendable out, JSONStyle compression) throws IOException {
 			boolean first = true;
 			compression.arrayStart(out);
 			for (Object value : list) {
@@ -106,8 +101,7 @@ public class JsonWriter {
 	};
 
 	final static public JsonWriterI<Enum<?>> EnumWriter = new JsonWriterI<Enum<?>>() {
-		public <E extends Enum<?>> void writeJSONString(E value, Appendable out, JSONStyle compression)
-				throws IOException {
+		public <E extends Enum<?>> void writeJSONString(E value, Appendable out, JSONStyle compression) throws IOException {
 			@SuppressWarnings("rawtypes")
 			String s = ((Enum) value).name();
 			compression.writeString(out, s);
@@ -115,8 +109,7 @@ public class JsonWriter {
 	};
 
 	final static public JsonWriterI<Map<String, ? extends Object>> JSONMapWriter = new JsonWriterI<Map<String, ? extends Object>>() {
-		public <E extends Map<String, ? extends Object>> void writeJSONString(E map, Appendable out,
-				JSONStyle compression) throws IOException {
+		public <E extends Map<String, ? extends Object>> void writeJSONString(E map, Appendable out, JSONStyle compression) throws IOException {
 			boolean first = true;
 			compression.objectStart(out);
 			/**
@@ -132,7 +125,8 @@ public class JsonWriter {
 				} else {
 					compression.objectNext(out);
 				}
-				JsonWriter.writeJSONKV(entry.getKey().toString(), v, out, compression);
+				String key = entry.getKey().toString();
+				JsonWriter.writeJSONKV(key, v, out, compression);
 				// compression.objectElmStop(out);
 			}
 			compression.objectStop(out);
@@ -161,7 +155,8 @@ public class JsonWriter {
 						out.append(',');
 					else
 						needSep = true;
-					JSONObject.writeJSONKV(field.getName(), v, out, compression);
+					String key = field.getName();
+					JSONObject.writeJSONKV(key, v, out, compression);
 				}
 				out.append('}');
 			} catch (IOException e) {
@@ -212,7 +207,9 @@ public class JsonWriter {
 							compression.objectNext(out);
 						else
 							needSep = true;
-						JsonWriter.writeJSONKV(field.getName(), v, out, compression);
+						String key = field.getName();
+						
+						JsonWriter.writeJSONKV(key, v, out, compression);
 						// compression.objectElmStop(out);
 					}
 					nextClass = nextClass.getSuperclass();
@@ -389,7 +386,7 @@ public class JsonWriter {
 				compression.arrayStop(out);
 			}
 		}, boolean[].class);
-		
+
 		addInterfaceWriterLast(JSONStreamAwareEx.class, JsonWriter.JSONStreamAwareExWriter);
 		addInterfaceWriterLast(JSONStreamAware.class, JsonWriter.JSONStreamAwareWriter);
 		addInterfaceWriterLast(JSONAwareEx.class, JsonWriter.JSONJSONAwareExWriter);
@@ -406,7 +403,7 @@ public class JsonWriter {
 	public void addInterfaceWriterLast(Class<?> cls, JsonWriterI<?> writer) {
 		writerInterfaces.addLast(new WriterByInterface(cls, writer));
 	}
-	
+
 	public <T> void registerWriter(JsonWriterI<T> writer, Class<?>... cls) {
 		for (Class<?> c : cls)
 			data.put(c, writer);

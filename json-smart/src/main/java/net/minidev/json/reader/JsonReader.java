@@ -1,4 +1,4 @@
-package net.minidev.json.writer;
+package net.minidev.json.reader;
 
 /*
  *    Copyright 2011 JSON-SMART authors
@@ -26,6 +26,12 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONAware;
 import net.minidev.json.JSONAwareEx;
 import net.minidev.json.JSONObject;
+import net.minidev.json.reader.ArraysMapper.GenericMapper;
+import net.minidev.json.reader.BeansMapper.Bean;
+import net.minidev.json.reader.CollectionMapper.ListClass;
+import net.minidev.json.reader.CollectionMapper.ListType;
+import net.minidev.json.reader.CollectionMapper.MapClass;
+import net.minidev.json.reader.CollectionMapper.MapType;
 
 public class JsonReader {
 	private final ConcurrentHashMap<Type, JsonReaderI<?>> cache;

@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 import net.minidev.json.JSONValue;
-import net.minidev.json.writer.JsonReaderI;
+import net.minidev.json.reader.JsonReaderI;
 
 /**
  * Parser for JSON text. Please note that JSONParser is NOT thread-safe.

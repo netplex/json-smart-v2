@@ -26,13 +26,13 @@ import java.util.Map;
 
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
-import net.minidev.json.reader.JsonWriter;
-import net.minidev.json.reader.JsonWriterI;
-import net.minidev.json.writer.CompessorMapper;
-import net.minidev.json.writer.FakeMapper;
-import net.minidev.json.writer.JsonReaderI;
-import net.minidev.json.writer.JsonReader;
-import net.minidev.json.writer.UpdaterMapper;
+import net.minidev.json.reader.CompessorMapper;
+import net.minidev.json.reader.FakeMapper;
+import net.minidev.json.reader.JsonReader;
+import net.minidev.json.reader.JsonReaderI;
+import net.minidev.json.reader.UpdaterMapper;
+import net.minidev.json.writer.JsonWriter;
+import net.minidev.json.writer.JsonWriterI;
 
 /**
  * JSONValue is the helper class In most of case you should use those static
@@ -540,6 +540,9 @@ public class JSONValue {
 	 */
 	public final static JsonReader defaultReader = new JsonReader();
 
+	
+	
+	
 	/**
 	 * Register a serializer for a class.
 	 */

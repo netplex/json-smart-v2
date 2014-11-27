@@ -1,4 +1,5 @@
-package net.minidev.json.writer;
+package net.minidev.json.reader;
+
 
 /*
  *    Copyright 2011 JSON-SMART authors
@@ -15,44 +16,39 @@ package net.minidev.json.writer;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import java.util.LinkedHashMap;
-import java.util.Map;
 
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONAwareEx;
+public class FakeMapper extends JsonReaderI<Object> {
+	private FakeMapper() {
+		super(null);
+	}
 
-public class DefaultMapperOrdered extends JsonReaderI<JSONAwareEx> {
-	protected DefaultMapperOrdered(JsonReader base) {
-		super(base);
-	};
+	public static JsonReaderI<Object> DEFAULT = new FakeMapper();
 
 	@Override
-	public JsonReaderI<JSONAwareEx> startObject(String key) {
-		return base.DEFAULT_ORDERED;
+	public JsonReaderI<?> startObject(String key) {
+		return this;
 	}
 
 	@Override
-	public JsonReaderI<JSONAwareEx> startArray(String key) {
-		return base.DEFAULT_ORDERED;
+	public JsonReaderI<?> startArray(String key) {
+		return this;
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
 	public void setValue(Object current, String key, Object value) {
-		((Map<String, Object>) current).put(key, value);
-	}
-
-	@Override
-	public Object createObject() {
-		return new LinkedHashMap<String, Object>();
 	}
 
 	@Override
 	public void addValue(Object current, Object value) {
-		((JSONArray) current).add(value);
+	}
+
+	@Override
+	public Object createObject() {
+		return null;
 	}
 
 	@Override
 	public Object createArray() {
-		return new JSONArray();
+		return null;
 	}
 }

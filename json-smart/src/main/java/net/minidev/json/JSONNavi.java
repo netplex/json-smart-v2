@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import net.minidev.json.writer.JsonReaderI;
+import net.minidev.json.reader.JsonReaderI;
 
 /**
  * A JQuery like Json editor, accessor.

@@ -1,4 +1,4 @@
-package net.minidev.json.writer;
+package net.minidev.json.reader;
 
 /*
  *    Copyright 2011-2014 JSON-SMART authors
