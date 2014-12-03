@@ -40,4 +40,12 @@ public class TestStrict extends TestCase {
 			assertEquals("Exception", "Exception");
 		}
 	}
+
+	/**
+	 * issue report gitHub 8 by jochenberger
+	 */
+	public void testDataAfterValue() throws Exception {
+		String s = "{\"foo\":\"bar\"x}";
+		MustThrows.testInvalidJson(s, JSONParser.MODE_STRICTEST | JSONParser.ACCEPT_TAILLING_SPACE, ParseException.ERROR_UNEXPECTED_TOKEN);
+	}
 }

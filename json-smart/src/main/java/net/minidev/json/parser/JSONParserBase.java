@@ -58,7 +58,7 @@ abstract class JSONParserBase {
 		stopAll[','] = stopAll[':'] = true;
 		stopAll[']'] = stopAll['}'] = stopAll[EOI] = true;
 	}
-	
+
 	/*
 	 * End of static declaration
 	 */
@@ -527,9 +527,9 @@ abstract class JSONParserBase {
 				if (!acceptData)
 					throw new ParseException(pos, ERROR_UNEXPECTED_TOKEN, key);
 
-				//Skip spaces
+				// Skip spaces
 				skipSpace();
-				
+
 				if (c != ':') {
 					if (c == EOI)
 						throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, null);
@@ -540,12 +540,13 @@ abstract class JSONParserBase {
 				Object value = readMain(mapper, stopValue);
 				mapper.setValue(current, key, value);
 				lastKey = null;
+
 				// Object duplicate = obj.put(key, readMain(stopValue));
 				// if (duplicate != null)
-				// throw new ParseException(keyStart,
-				// ERROR_UNEXPECTED_DUPLICATE_KEY, key);
+				// throw new ParseException(keyStart, ERROR_UNEXPECTED_DUPLICATE_KEY, key);
 				// handler.endObjectEntry();
 				// should loop skipping read step
+				skipSpace();
 				if (c == '}') {
 					read(); /* unstack */
 					//
@@ -557,8 +558,8 @@ abstract class JSONParserBase {
 				if (c == ',')
 					acceptData = needData = true;
 				else
-					acceptData = needData = false;
-				continue;
+					throw new ParseException(pos - 1, ERROR_UNEXPECTED_TOKEN, c);
+				// acceptData = needData = false;
 			}
 		}
 	}
