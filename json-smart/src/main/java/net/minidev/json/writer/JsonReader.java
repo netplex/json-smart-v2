@@ -78,7 +78,7 @@ public class JsonReader {
 	 *            field name in json
 	 * @param toJava
 	 *            field name in Java
-	 * @since 2.1.2
+	 * @since 2.1.1
 	 */
 	public <T> void remapField(Class<T> type, String fromJson, String toJava) {
 		JsonReaderI<T> map = this.getMapper(type);

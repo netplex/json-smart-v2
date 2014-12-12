@@ -27,11 +27,11 @@ public class JsonWriter {
 	/**
 	 * remap field name in custom classes
 	 * 
-	 * @param from
+	 * @param fromJava
 	 *            field name in java
-	 * @param to
+	 * @param toJson
 	 *            field name in json
-	 * @since 2.1.2
+	 * @since 2.1.1
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public <T> void remapField(Class<T> type, String fromJava, String toJson) {

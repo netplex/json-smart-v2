@@ -540,6 +540,10 @@ public class JSONValue {
 	 */
 	public final static JsonReader defaultReader = new JsonReader();
 
+	/**
+	 * remap field from java to json. 
+	 * @since 2.1.1
+	 */
 	public static <T> void remapField(Class<T> type, String jsonFieldName, String javaFieldName) {
 		defaultReader.remapField(type, jsonFieldName, javaFieldName);
 		defaultWriter.remapField(type, javaFieldName, jsonFieldName);
