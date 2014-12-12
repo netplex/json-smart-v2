@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import net.minidev.json.reader.JsonReader;
-import net.minidev.json.reader.JsonReaderI;
+import net.minidev.json.writer.JsonReader;
+import net.minidev.json.writer.JsonReaderI;
 
 /**
  * JSONParserBase is the common code between {@link JSONParserString} and
