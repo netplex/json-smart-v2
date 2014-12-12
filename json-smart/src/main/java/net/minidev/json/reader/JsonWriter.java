@@ -1,24 +1,17 @@
 package net.minidev.json.reader;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.minidev.asm.Accessor;
-import net.minidev.asm.BeansAccess;
 import net.minidev.json.JSONAware;
 import net.minidev.json.JSONAwareEx;
-import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStreamAware;
 import net.minidev.json.JSONStreamAwareEx;
 import net.minidev.json.JSONStyle;
-import net.minidev.json.JSONUtil;
 import net.minidev.json.JSONValue;
 
 public class JsonWriter {
@@ -29,6 +22,25 @@ public class JsonWriter {
 		data = new ConcurrentHashMap<Class<?>, JsonWriterI<?>>();
 		writerInterfaces = new LinkedList<WriterByInterface>();
 		init();
+	}
+
+	/**
+	 * remap field name in custom classes
+	 * 
+	 * @param from
+	 *            field name in java
+	 * @param to
+	 *            field name in json
+	 * @since 2.1.2
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <T> void remapField(Class<T> type, String fromJava, String toJson) {
+		JsonWriterI map = this.getWrite(type);
+		if (!(map instanceof BeansWriterASMRemap)) {
+			map = new BeansWriterASMRemap();
+			registerWriter(map, type);
+		}
+		((BeansWriterASMRemap) map).renameField(fromJava, toJson);
 	}
 
 	static class WriterByInterface {
@@ -138,103 +150,16 @@ public class JsonWriter {
 	 * 
 	 * Based on ASM
 	 */
-	final static public JsonWriterI<Object> beansWriterASM = new JsonWriterI<Object>() {
-		public <E> void writeJSONString(E value, Appendable out, JSONStyle compression) throws IOException {
-			try {
-				Class<?> cls = value.getClass();
-				boolean needSep = false;
-				@SuppressWarnings("rawtypes")
-				BeansAccess fields = BeansAccess.get(cls, JSONUtil.JSON_SMART_FIELD_FILTER);
-				out.append('{');
-				for (Accessor field : fields.getAccessors()) {
-					@SuppressWarnings("unchecked")
-					Object v = fields.get(value, field.getIndex());
-					if (v == null && compression.ignoreNull())
-						continue;
-					if (needSep)
-						out.append(',');
-					else
-						needSep = true;
-					String key = field.getName();
-					JSONObject.writeJSONKV(key, v, out, compression);
-				}
-				out.append('}');
-			} catch (IOException e) {
-				throw e;
-			}
-		}
-	};
+	final static public JsonWriterI<Object> beansWriterASM = new BeansWriterASM();
+
 	/**
 	 * Json-Smart V1 Beans serialiser
 	 */
-	final static public JsonWriterI<Object> beansWriter = new JsonWriterI<Object>() {
-		public <E> void writeJSONString(E value, Appendable out, JSONStyle compression) throws IOException {
-			try {
-				Class<?> nextClass = value.getClass();
-				boolean needSep = false;
-				compression.objectStart(out);
-				while (nextClass != Object.class) {
-					Field[] fields = nextClass.getDeclaredFields();
-					for (Field field : fields) {
-						int m = field.getModifiers();
-						if ((m & (Modifier.STATIC | Modifier.TRANSIENT | Modifier.FINAL)) > 0)
-							continue;
-						Object v = null;
-						if ((m & Modifier.PUBLIC) > 0) {
-							v = field.get(value);
-						} else {
-							String g = JSONUtil.getGetterName(field.getName());
-							Method mtd = null;
-
-							try {
-								mtd = nextClass.getDeclaredMethod(g);
-							} catch (Exception e) {
-							}
-							if (mtd == null) {
-								Class<?> c2 = field.getType();
-								if (c2 == Boolean.TYPE || c2 == Boolean.class) {
-									g = JSONUtil.getIsName(field.getName());
-									mtd = nextClass.getDeclaredMethod(g);
-								}
-							}
-							if (mtd == null)
-								continue;
-							v = mtd.invoke(value);
-						}
-						if (v == null && compression.ignoreNull())
-							continue;
-						if (needSep)
-							compression.objectNext(out);
-						else
-							needSep = true;
-						String key = field.getName();
-						
-						JsonWriter.writeJSONKV(key, v, out, compression);
-						// compression.objectElmStop(out);
-					}
-					nextClass = nextClass.getSuperclass();
-				}
-				compression.objectStop(out);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		}
-	};
-
-	final static public JsonWriterI<Object> arrayWriter = new JsonWriterI<Object>() {
-		public <E> void writeJSONString(E value, Appendable out, JSONStyle compression) throws IOException {
-			compression.arrayStart(out);
-			boolean needSep = false;
-			for (Object o : ((Object[]) value)) {
-				if (needSep)
-					compression.objectNext(out);
-				else
-					needSep = true;
-				JSONValue.writeJSONString(o, out, compression);
-			}
-			compression.arrayStop(out);
-		}
-	};
+	final static public JsonWriterI<Object> beansWriter = new BeansWriter();
+	/**
+	 * Json-Smart ArrayWriterClass
+	 */
+	final static public JsonWriterI<Object> arrayWriter = new ArrayWriter();
 
 	public void init() {
 		registerWriter(new JsonWriterI<String>() {
