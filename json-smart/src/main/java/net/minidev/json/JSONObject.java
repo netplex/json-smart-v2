@@ -113,13 +113,16 @@ public class JSONObject extends HashMap<String, Object> implements JSONAware, JS
 	/**
 	 * A Simple Helper cast an Object to an Number
 	 * 
+	 * @see JSONParserBase.parseNumber(String s)
 	 * @return a Number or null
 	 */
 	public Number getAsNumber(String key) {
 		Object obj = this.get(key);
 		if (obj == null)
 			return null;
-		return (Number)obj;
+		if (obj instanceof Number)
+			return (Number)obj;
+		return Long.valueOf(obj.toString());
 	}
 	
 	// /**
