@@ -49,11 +49,33 @@
 						<Bundle-Name>${project.artifactId}</Bundle-Name>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Export-Package>net.minidev.asm,net.minidev.asm.ex</Export-Package>
-						<!-- Private-Package></Private-Package -->
-						<Embed-Dependency>asm;groupId=asm;inline=true</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>jarjar-maven-plugin</artifactId>
+                <version>1.9</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jarjar</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>asm:asm</include>
+                            </includes>
+                            <rules>
+                                <rule>
+                                    <pattern>org.objectweb.asm.**</pattern>
+                                    <result>inlined.asm.@1</result>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 </project>
