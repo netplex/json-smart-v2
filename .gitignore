@@ -17,3 +17,5 @@ json-smart-backport/target/
 json-smart/target/
 **/.project 
 **/bin
+*.classpath
+*.project

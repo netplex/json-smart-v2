@@ -9,15 +9,14 @@
 
 	<parent>
 		<groupId>net.minidev</groupId>
-		<artifactId>parent</artifactId>
-		<version>2.1.0</version>
+		<artifactId>minidev-parent</artifactId>
+		<version>2.1.1</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 
 	<name>ASM based accessors helper used by json-smart</name>
 
 	<description>Java reflect give poor performance on getter setter an constructor calls,
-
 accessors-smart use ASM to speed up those calls.
 </description>
 	<dependencies>

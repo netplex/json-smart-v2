@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.minidev</groupId>
-	<artifactId>parent</artifactId>
+	<artifactId>minidev-parent</artifactId>
 	<version>2.1.1</version>
 	<name>Minidev super pom</name>
 	<description>minidev common properties.</description>
@@ -151,7 +151,7 @@
 		<!-- <module>../csv</module> -->
 		<!-- <module>../db</module> -->
 		<!-- <module>../html</module> -->
-		<module>../asm</module>
+		<module>../accessors-smart</module>
 		<module>../json-smart</module>
 		<!-- <module>../json-smart-mini</module> -->
 		<!-- <module>../minibase</module> -->
