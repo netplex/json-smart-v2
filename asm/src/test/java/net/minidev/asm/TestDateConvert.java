@@ -78,7 +78,7 @@ public class TestDateConvert extends TestCase {
 				e.printStackTrace();
 			}
 			String resultStr = sdf.format(parse);
-			System.err.println("TEST: " + testDate + "  readed as: " + resultStr);
+			//System.err.println("TEST: " + testDate + "  readed as: " + resultStr);
 			if (testDate.contains("59"))
 				assertEquals(expectedDateText, resultStr);
 		}

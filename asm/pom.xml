@@ -3,9 +3,9 @@
 	<!-- this POM is released under an Apache 2.0 license -->
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>asm</artifactId>
+	<artifactId>accessors-smart</artifactId>
 	<packaging>bundle</packaging>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 
 	<parent>
 		<groupId>net.minidev</groupId>
@@ -14,11 +14,12 @@
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 
-	<name>ASM helper Minidev</name>
+	<name>ASM based accessors helper used by json-smart</name>
 
-	<description>
-	ASM Optimisation Package
-  </description>
+	<description>Java reflect give poor performance on getter setter an constructor calls,
+
+accessors-smart use ASM to speed up those calls.
+</description>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -26,10 +27,17 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>5.0.3</version>
+		</dependency>
+<!-- 
+		<dependency>
 			<groupId>asm</groupId>
 			<artifactId>asm</artifactId>
 			<version>3.3.1</version>
 		</dependency>
+-->
 		<!-- <dependency> -->
 		<!-- <groupId>asm</groupId> -->
 		<!-- <artifactId>asm-util</artifactId> -->

@@ -4,12 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>json-smart</artifactId>
 	<packaging>bundle</packaging>
-	<version>2.1.1</version>
-
+<!-- 	<version>2.1.1</version> -->
 	<parent>
 		<groupId>net.minidev</groupId>
 		<artifactId>parent</artifactId>
-		<version>2.1.0</version>
+		<version>2.1.1</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 
@@ -30,10 +29,12 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>net.minidev</groupId>
-			<artifactId>asm</artifactId>
+			<artifactId>accessors-smart</artifactId>
 		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
@@ -47,7 +48,13 @@
 						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Name>${project.artifactId}</Bundle-Name>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Export-Package>net.minidev.json,net.minidev.json.annotate,net.minidev.json.parser,net.minidev.json.serialiser,net.minidev.reader,net.minidev.json.writer</Export-Package>
+						<Export-Package>
+							net.minidev.json,
+							net.minidev.json.annotate,
+							net.minidev.json.parser,
+							net.minidev.json.reader,
+							net.minidev.json.writer
+						</Export-Package>
 						<!-- Private-Package></Private-Package -->
 					</instructions>
 				</configuration>
