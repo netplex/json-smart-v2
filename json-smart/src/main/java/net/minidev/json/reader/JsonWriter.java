@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import net.minidev.json.JSONAware;
 import net.minidev.json.JSONAwareEx;
 import net.minidev.json.JSONStreamAware;
@@ -53,7 +52,12 @@ public class JsonWriter {
 			this._writer = _writer;
 		}
 	}
-
+	
+	/**
+	 * try to find a Writer by Cheking implemented interface
+	 * @param clazz class to serialize
+	 * @return a Writer or null
+	 */
 	@SuppressWarnings("rawtypes")
 	public JsonWriterI getWriterByInterface(Class<?> clazz) {
 		for (WriterByInterface w : writerInterfaces) {
@@ -138,8 +142,7 @@ public class JsonWriter {
 				} else {
 					compression.objectNext(out);
 				}
-				String key = entry.getKey().toString();
-				JsonWriter.writeJSONKV(key, v, out, compression);
+				JsonWriter.writeJSONKV(entry.getKey().toString(), v, out, compression);
 				// compression.objectElmStop(out);
 			}
 			compression.objectStop(out);
@@ -157,23 +160,27 @@ public class JsonWriter {
 	 * Json-Smart V1 Beans serialiser
 	 */
 	final static public JsonWriterI<Object> beansWriter = new BeansWriter();
+	
 	/**
 	 * Json-Smart ArrayWriterClass
 	 */
 	final static public JsonWriterI<Object> arrayWriter = new ArrayWriter();
-
+	
+	/**
+	 * ToString Writer
+	 */
+	final static public JsonWriterI<Object> toStringWriter = new JsonWriterI<Object>() {
+		public void writeJSONString(Object value, Appendable out, JSONStyle compression) throws IOException {
+			out.append(value.toString());
+		}
+	};
+	
 	public void init() {
 		registerWriter(new JsonWriterI<String>() {
 			public void writeJSONString(String value, Appendable out, JSONStyle compression) throws IOException {
 				compression.writeString(out, (String) value);
 			}
 		}, String.class);
-
-		registerWriter(new JsonWriterI<Boolean>() {
-			public void writeJSONString(Boolean value, Appendable out, JSONStyle compression) throws IOException {
-				out.append(value.toString());
-			}
-		}, Boolean.class);
 
 		registerWriter(new JsonWriterI<Double>() {
 			public void writeJSONString(Double value, Appendable out, JSONStyle compression) throws IOException {
@@ -201,23 +208,8 @@ public class JsonWriter {
 			}
 		}, Float.class);
 
-		registerWriter(new JsonWriterI<Number>() {
-			public void writeJSONString(Number value, Appendable out, JSONStyle compression) throws IOException {
-				out.append(value.toString());
-			}
-		}, Integer.class, Long.class, Byte.class, Short.class, BigInteger.class, BigDecimal.class);
-
-		registerWriter(new JsonWriterI<Boolean>() {
-			public void writeJSONString(Boolean value, Appendable out, JSONStyle compression) throws IOException {
-				out.append(value.toString());
-			}
-		}, Boolean.class);
-
-		registerWriter(new JsonWriterI<Boolean>() {
-			public void writeJSONString(Boolean value, Appendable out, JSONStyle compression) throws IOException {
-				out.append(value.toString());
-			}
-		}, Boolean.class);
+		registerWriter(toStringWriter, Integer.class, Long.class, Byte.class, Short.class, BigInteger.class, BigDecimal.class);
+		registerWriter(toStringWriter, Boolean.class);
 
 		/**
 		 * Array
@@ -313,23 +305,68 @@ public class JsonWriter {
 			}
 		}, boolean[].class);
 
-		addInterfaceWriterLast(JSONStreamAwareEx.class, JsonWriter.JSONStreamAwareExWriter);
-		addInterfaceWriterLast(JSONStreamAware.class, JsonWriter.JSONStreamAwareWriter);
-		addInterfaceWriterLast(JSONAwareEx.class, JsonWriter.JSONJSONAwareExWriter);
-		addInterfaceWriterLast(JSONAware.class, JsonWriter.JSONJSONAwareWriter);
-		addInterfaceWriterLast(Map.class, JsonWriter.JSONMapWriter);
-		addInterfaceWriterLast(Iterable.class, JsonWriter.JSONIterableWriter);
-		addInterfaceWriterLast(Enum.class, JsonWriter.EnumWriter);
+		registerWriterInterface(JSONStreamAwareEx.class, JsonWriter.JSONStreamAwareExWriter);
+		registerWriterInterface(JSONStreamAware.class, JsonWriter.JSONStreamAwareWriter);
+		registerWriterInterface(JSONAwareEx.class, JsonWriter.JSONJSONAwareExWriter);
+		registerWriterInterface(JSONAware.class, JsonWriter.JSONJSONAwareWriter);
+		registerWriterInterface(Map.class, JsonWriter.JSONMapWriter);
+		registerWriterInterface(Iterable.class, JsonWriter.JSONIterableWriter);
+		registerWriterInterface(Enum.class, JsonWriter.EnumWriter);
+		registerWriterInterface(Number.class, JsonWriter.toStringWriter);
 	}
 
-	public void addInterfaceWriterFirst(Class<?> cls, JsonWriterI<?> writer) {
-		writerInterfaces.addFirst(new WriterByInterface(cls, writer));
+	/**
+	 * associate an Writer to a interface With Hi priority
+	 * @param interFace interface to map
+	 * @param writer writer Object
+	 * @deprecated use registerWriterInterfaceFirst
+	 */
+	public void addInterfaceWriterFirst(Class<?> interFace, JsonWriterI<?> writer) {
+		registerWriterInterfaceFirst(interFace, writer);
 	}
 
-	public void addInterfaceWriterLast(Class<?> cls, JsonWriterI<?> writer) {
-		writerInterfaces.addLast(new WriterByInterface(cls, writer));
+	/**
+	 * associate an Writer to a interface With Low priority
+	 * @param interFace interface to map
+	 * @param writer writer Object
+	 * @deprecated use registerWriterInterfaceLast
+	 */
+	public void addInterfaceWriterLast(Class<?> interFace, JsonWriterI<?> writer) {
+		registerWriterInterfaceLast(interFace, writer);
 	}
 
+	/**
+	 * associate an Writer to a interface With Low priority
+	 * @param interFace interface to map
+	 * @param writer writer Object
+	 */
+	public void registerWriterInterfaceLast(Class<?> interFace, JsonWriterI<?> writer) {
+		writerInterfaces.addLast(new WriterByInterface(interFace, writer));
+	}
+	
+	/**
+	 * associate an Writer to a interface With Hi priority
+	 * @param interFace interface to map
+	 * @param writer writer Object
+	 */
+	public void registerWriterInterfaceFirst(Class<?> interFace, JsonWriterI<?> writer) {
+		writerInterfaces.addFirst(new WriterByInterface(interFace, writer));
+	}
+
+	/**
+	 * an alias for registerWriterInterfaceLast
+	 * @param interFace interface to map
+	 * @param writer writer Object
+	 */
+	public void registerWriterInterface(Class<?> interFace, JsonWriterI<?> writer) {
+		registerWriterInterfaceLast(interFace, writer);
+	}
+
+	/**
+	 * associate an Writer to a Class
+	 * @param writer
+	 * @param cls
+	 */
 	public <T> void registerWriter(JsonWriterI<T> writer, Class<?>... cls) {
 		for (Class<?> c : cls)
 			data.put(c, writer);

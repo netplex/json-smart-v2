@@ -19,3 +19,4 @@ json-smart/target/
 **/bin
 *.classpath
 *.project
+*.prefs
