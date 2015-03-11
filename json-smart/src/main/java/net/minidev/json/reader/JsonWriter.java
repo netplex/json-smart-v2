@@ -1,6 +1,7 @@
 package net.minidev.json.reader;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.LinkedList;
@@ -204,7 +205,7 @@ public class JsonWriter {
 			public void writeJSONString(Number value, Appendable out, JSONStyle compression) throws IOException {
 				out.append(value.toString());
 			}
-		}, Integer.class, Long.class, Byte.class, Short.class, BigInteger.class);
+		}, Integer.class, Long.class, Byte.class, Short.class, BigInteger.class, BigDecimal.class);
 
 		registerWriter(new JsonWriterI<Boolean>() {
 			public void writeJSONString(Boolean value, Appendable out, JSONStyle compression) throws IOException {
