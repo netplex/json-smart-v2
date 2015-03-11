@@ -56,9 +56,12 @@ accessors-smart use ASM to speed up those calls.
 						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Name>${project.artifactId}</Bundle-Name>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Export-Package>net.minidev.asm,net.minidev.asm.ex</Export-Package>
+						<Export-Package>
+						net.minidev.asm,
+						net.minidev.asm.ex
+						</Export-Package>
 						<!-- Private-Package></Private-Package -->
-						<Embed-Dependency>asm;groupId=asm;inline=true</Embed-Dependency>
+						<Embed-Dependency>asm;groupId=org.ow2.asm;inline=true</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>

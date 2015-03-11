@@ -56,6 +56,7 @@
 							net.minidev.json.writer
 						</Export-Package>
 						<!-- Private-Package></Private-Package -->
+						<Embed-Dependency>accessors-smart;groupId=net.minidev;inline=true</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>
