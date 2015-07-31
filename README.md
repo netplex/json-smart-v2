@@ -1,5 +1,7 @@
 # json-smart-v2
 
+[the new WIKI is here](https://github.com/netplex/json-smart/wiki)
+
 == Changelog: ==
 
 *V 2.2*
@@ -17,21 +19,21 @@
   * Writer mapper are now available in net.minidev.json.writer.JsonWriter class
 
 *V 2.0*
-  * Fix Double Identification [http://code.google.com/p/json-smart/issues/detail?id=44 issue 44]
+  * Fix Double Identification [issue 44](http://code.google.com/p/json-smart/issues/detail?id=44)
   * Fix Collection Interface Serialisation
   * Fix security Exception in ASM code
   * Project moved to GitHub
-  * Fix [http://code.google.com/p/json-smart/issues/detail?id=42 issue 42]
+  * Fix [issue 42](http://code.google.com/p/json-smart/issues/detail?id=42)
 
 *V 2.0-RC3*
   * Add custom data binding inside the ASM layer.
   * Add Date support
-  * Add \x escape sequence support [http://code.google.com/p/json-smart/issues/detail?id=39 issue 39]
-  * fix issue [http://code.google.com/p/json-smart/issues/detail?id=37 issue 37]
+  * Add \x escape sequence support [issue 39](http://code.google.com/p/json-smart/issues/detail?id=39)
+  * fix issue [issue 37](http://code.google.com/p/json-smart/issues/detail?id=37)
 
 *V 2.0-RC2*
   * Fix critical [http://code.google.com/p/json-smart/issues/detail?id=23 issue 23]
-  * Improve Javadoc in JSONStyle [http://code.google.com/p/json-smart/issues/detail?id=23 issue 24]
+  * Improve Javadoc in JSONStyle [issue 24](http://code.google.com/p/json-smart/issues/detail?id=23)
 
 *V 2.0-RC1*
   * speed improvement in POJO manipulation
