@@ -32,7 +32,7 @@
   * fix issue [issue 37](http://code.google.com/p/json-smart/issues/detail?id=37)
 
 *V 2.0-RC2*
-  * Fix critical [http://code.google.com/p/json-smart/issues/detail?id=23 issue 23]
+  * Fix critical [issue 23](http://code.google.com/p/json-smart/issues/detail?id=23)
   * Improve Javadoc in JSONStyle [issue 24](http://code.google.com/p/json-smart/issues/detail?id=23)
 
 *V 2.0-RC1*
