@@ -4,6 +4,9 @@
 
 == Changelog: ==
 
+*V SNAPSHOOT*
+* change InputStream input reading to use UTF8. [issue 48](http://code.google.com/p/json-smart/issues/detail?id=48)
+
 *V 2.2*
 * rename asm to accessors-smart due to conflict name with asm.ow2.org lib.
 * fix OSGI error
