@@ -237,7 +237,9 @@ abstract class JSONParserBase {
 			throw new RuntimeException("Internal Error");
 		read();
 		boolean needData = false;
-		//
+		// special case needData is false and can close is true
+		if (c == ',' && !acceptUselessComma)
+			throw new ParseException(pos, ERROR_UNEXPECTED_CHAR, (char) c);			
 		for (;;) {
 			switch (c) {
 			case ' ':

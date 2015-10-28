@@ -23,6 +23,13 @@ public class TestExcessiveComma extends TestCase {
 		MustThrows.testStrictInvalidJson(s, ParseException.ERROR_UNEXPECTED_CHAR);
 		JSONValue.parseWithException(s);
 	}
+	
+	public void testExcessiveComma4A() throws Exception {
+		String s = "[,5]";
+		MustThrows.testStrictInvalidJson(s, ParseException.ERROR_UNEXPECTED_CHAR);
+		JSONValue.parseWithException(s);
+	}
+
 
 	public void testExcessiveComma1O() throws Exception {
 		String s = "{\"a\":1,,\"b\":1}";
