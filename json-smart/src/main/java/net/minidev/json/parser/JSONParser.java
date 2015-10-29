@@ -133,7 +133,7 @@ public class JSONParser {
 	/**
 	 * cached construcor
 	 * 
-	 * @return
+	 * @return instance of JSONParserInputStream
 	 */
 	private JSONParserInputStream getPBinStream() {
 		if (pBinStream == null)
@@ -144,7 +144,7 @@ public class JSONParser {
 	/**
 	 * cached construcor
 	 * 
-	 * @return
+	 * @return instance of JSONParserString
 	 */
 	private JSONParserString getPString() {
 		if (pString == null)
@@ -155,7 +155,7 @@ public class JSONParser {
 	/**
 	 * cached construcor
 	 * 
-	 * @return
+	 * @return instance of JSONParserByteArray
 	 */
 	private JSONParserByteArray getPBytes() {
 		if (pBytes == null)

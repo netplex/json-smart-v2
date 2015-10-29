@@ -113,7 +113,7 @@ public class JSONObject extends HashMap<String, Object> implements JSONAware, JS
 	/**
 	 * A Simple Helper cast an Object to an Number
 	 * 
-	 * @see JSONParserBase.parseNumber(String s)
+	 * @see net.minidev.json.parser.JSONParserBase#parseNumber(String s)
 	 * @return a Number or null
 	 */
 	public Number getAsNumber(String key) {

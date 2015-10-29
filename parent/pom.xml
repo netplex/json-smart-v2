@@ -112,7 +112,7 @@
 				<!-- ONLY NEEDED With jdk 1.7+ -->
 				<configuration>
 					<failOnError>false</failOnError>
-					<additionalparam>-Xdoclint:none</additionalparam>
+					<!-- <additionalparam>-Xdoclint:none</additionalparam> -->
 				</configuration>
 				<executions>
 					<execution>

@@ -29,7 +29,7 @@ public class JSONStyle {
 	/**
 	 * for advanced usage sample see
 	 * 
-	 * @see net.minidev.json.test.TestCompressorFlags
+	 * #see net.minidev.json.test.TestCompressorFlags
 	 */
 	public final static int FLAG_PROTECT_KEYS = 1;
 	public final static int FLAG_PROTECT_4WEB = 2;
