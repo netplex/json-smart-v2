@@ -17,7 +17,6 @@ public class TestUtf8 extends TestCase {
 			String s = "{\"key\":\"" + nonLatinText + "\"}";
 			JSONObject obj = (JSONObject) JSONValue.parse(s);
 			String v = (String) obj.get("key"); // result is incorrect
-			System.out.println(v);
 			assertEquals(v, nonLatinText);
 		}
 	}
@@ -29,7 +28,6 @@ public class TestUtf8 extends TestCase {
 			JSONObject obj = (JSONObject) JSONValue.parse(reader);
 
 			String v = (String) obj.get("key"); // result is incorrect
-			System.out.println(v);
 			assertEquals(v, nonLatinText);
 		}
 	}
@@ -40,7 +38,6 @@ public class TestUtf8 extends TestCase {
 			ByteArrayInputStream bis = new ByteArrayInputStream(s.getBytes("utf8"));
 			JSONObject obj = (JSONObject) JSONValue.parse(bis);
 			String v = (String) obj.get("key"); // result is incorrect
-			System.out.println(v);
 			assertEquals(v, nonLatinText);
 		}
 	}
@@ -51,7 +48,6 @@ public class TestUtf8 extends TestCase {
 			byte[] bs = s.getBytes("utf8");
 			JSONObject obj = (JSONObject) JSONValue.parse(bs);
 			String v = (String) obj.get("key"); // result is incorrect
-			System.out.println(v);
 			assertEquals(v, nonLatinText);
 		}
 	}
