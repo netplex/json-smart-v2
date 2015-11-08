@@ -92,7 +92,9 @@
                 </property>
             </activation>
             <properties>
-                <gpg.keyname>8E322ED0</gpg.keyname>
+            	<!-- My old Is back -->
+                <gpg.keyname>2C8DF6EC</gpg.keyname>
+                <!-- <gpg.keyname>8E322ED0</gpg.keyname> -->
                 <!-- <gpg.keyname>Uriel Chemouni (dev) <uchemouni@gmail.com></gpg.keyname> -->
                 <!-- GPG Key ID to use for signing -->
             </properties>
