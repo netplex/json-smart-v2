@@ -181,7 +181,13 @@ class JStylerObj {
 	}
 
 	public static boolean isUnicode(char c) {
-		return ((c >= '\u0000' && c <= '\u001F') || (c >= '\u007F' && c <= '\u009F') || (c >= '\u2000' && c <= '\u20FF'));
+		// ANSI controle char
+		return ((c >= '\u0000' && c <= '\u001F') ||
+				// DEL or unicode ctrl
+				(c >= '\u007F' && c <= '\u009F') ||
+				// '\u00A0' No-breakable space ?
+				// En Quad .. more
+				(c >= '\u2000' && c <= '\u20FF'));
 	}
 
 	public static boolean isKeyword(String s) {

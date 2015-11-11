@@ -57,7 +57,7 @@ public class JSONStyle {
 	private boolean _protect4Web;
 	private boolean _protectValues;
 	private boolean _ignore_null;
-
+	
 	private MustProtect mpKey;
 	private MustProtect mpValue;
 
