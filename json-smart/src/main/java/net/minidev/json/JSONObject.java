@@ -99,6 +99,19 @@ public class JSONObject extends HashMap<String, Object> implements JSONAware, JS
 	}
 
 	/**
+	 * Puts value to object and returns this.
+	 * Handy alternative to put(String key, Object value) method.
+	 *
+	 * @param fieldName key with which the specified value is to be associated
+	 * @param fieldValue value to be associated with the specified key
+	 * @return this
+	 */
+	public JSONObject appendField(String fieldName, Object fieldValue) {
+		put(fieldName, fieldValue);
+		return this;
+	}
+
+	/**
 	 * A Simple Helper object to String
 	 * 
 	 * @return a value.toString() or null

@@ -79,6 +79,18 @@ public class JSONArray extends ArrayList<Object> implements List<Object>, JSONAw
 		writeJSONString(list, out, JSONValue.COMPRESSION);
 	}
 
+	/**
+	 * Appends the specified element and returns this.
+	 * Handy alternative to add(E e) method.
+	 *
+	 * @param element element to be appended to this array.
+	 * @return this
+	 */
+	public JSONArray appendElement(Object element) {
+		add(element);
+		return this;
+	}
+
 	public void merge(Object o2) {
 		JSONObject.merge(this, o2);
 	}
