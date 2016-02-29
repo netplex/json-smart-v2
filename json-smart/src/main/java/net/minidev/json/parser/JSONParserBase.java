@@ -37,7 +37,7 @@ import net.minidev.json.writer.JsonReaderI;
  * @see JSONParserMemory
  * @see JSONParserStream
  * 
- * @author Uriel Chemouni <uchemouni@gmail.com>
+ * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
 abstract class JSONParserBase {
 	protected char c;

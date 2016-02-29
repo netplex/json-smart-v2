@@ -20,7 +20,7 @@ package net.minidev.json;
  * 
  * Adding compressions and formating features
  * 
- * @author Uriel Chemouni <uchemouni@gmail.com>
+ * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
 
 public interface JSONAwareEx extends JSONAware{
