@@ -23,12 +23,12 @@ import java.util.Map;
  * @author adoneitan@gmail.com
  *
  */
-public class RetainAction implements TraverseAction
+public class RetainPathsAction implements TraverseAction
 {
 	protected JSONObject result;
 	protected List<String> pathsToRetain;
 
-	public RetainAction(List<String> pathsToRetain)
+	public RetainPathsAction(List<String> pathsToRetain)
 	{
 		this.pathsToRetain = new ArrayList<String>(pathsToRetain);
 	}

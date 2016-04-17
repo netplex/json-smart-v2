@@ -19,12 +19,12 @@ import java.util.Map;
  * @author adoneitan@gmail.com
  *
  */
-public class RemoveAction implements TraverseAction
+public class RemovePathsAction implements TraverseAction
 {
 	protected JSONObject result;
 	protected List<String> pathsToRemove;
 
-	public RemoveAction(List<String> pathsToRemove)
+	public RemovePathsAction(List<String> pathsToRemove)
 	{
 		this.pathsToRemove = pathsToRemove;
 	}

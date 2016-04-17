@@ -2,7 +2,7 @@ package net.minidev.json.actions;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import net.minidev.json.actions.traverse.RetainAction;
+import net.minidev.json.actions.traverse.RetainPathsAction;
 import net.minidev.json.actions.traverse.JSONTraverser;
 import net.minidev.json.actions.traverse.LocatePathsAction;
 import net.minidev.json.actions.traverse.TraverseAction;
@@ -77,7 +77,7 @@ public class PathsRetainer
 		List<String> realPathsToRetain = (List<String>) locateAction.result();
 
 		//now reduce the object using only existing paths
-		TraverseAction reduce = new RetainAction(realPathsToRetain);
+		TraverseAction reduce = new RetainPathsAction(realPathsToRetain);
 		JSONTraverser t2 = new JSONTraverser(reduce);
 		t2.traverse(object);
 		return (JSONObject) reduce.result();
