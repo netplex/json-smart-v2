@@ -51,28 +51,28 @@ public class PathLocatorTest
 				{"{}",                                                  "",                             new String[]{}                       },
 				{"{}",                                                  "k1",                           new String[]{}                       },
 				{"{}",                                                  new String[]{},                 new String[]{}                       },
-				{"{}",                                                  new JSONArray(),                new String[]{}                       },
-				{"{}",                                                  new ArrayList<String>(0),       new String[]{}                       },//11
+				{"{}",                                                  new JSONArray(),                new String[]{}                       },//10
+				{"{}",                                                  new ArrayList<String>(0),       new String[]{}                       },
 
 				//simple json, bad/empty keys
 				{"{\"k0\":\"v0\"}",                                     null,                           new String[]{}                       },
 				{"{\"k0\":\"v0\"}",                                     "",                             new String[]{}                       },
 				{"{\"k0\":\"v0\"}",                                     "k1",                           new String[]{}                       },
-				{"{\"k0\":\"v0\"}",                                     new String[]{},                 new String[]{}                       },
+				{"{\"k0\":\"v0\"}",                                     new String[]{},                 new String[]{}                       },//15
 				{"{\"k0\":\"v0\"}",                                     new JSONArray(),                new String[]{}                       },
-				{"{\"k0\":\"v0\"}",                                     new ArrayList<String>(0),       new String[]{}                       },//17
+				{"{\"k0\":\"v0\"}",                                     new ArrayList<String>(0),       new String[]{}                       },
 
 				//simple json, valid/invalid keys
 				{"{\"k0\":\"v0\"}",                                     "k0",                           new String[]{"k0"}                   },
 				{"{\"k0\":\"v0\"}",                                     "v0",                           new String[]{}                       },
-				{"{\"k0\":\"v0\"}",                                     "k0.k1",                        new String[]{}                       },
+				{"{\"k0\":\"v0\"}",                                     "k0.k1",                        new String[]{}                       },//20
 				{"{\"k0\":\"v0\"}",                                     "k1.k0",                        new String[]{}                       },
 				{"{\"k0\":null}",                                       "k0",                           new String[]{"k0"}                   },
-				{"{\"k0\":null}",                                       null,                           new String[]{}                       },//23
+				{"{\"k0\":null}",                                       null,                           new String[]{}                       },
 
 				//key with dot char
 				{"{\"k0.k1\":\"v0\"}",                                  "k0",                           new String[]{}                       },
-				{"{\"k0.k1\":\"v0\"}",                                  "k1",                           new String[]{}                       },
+				{"{\"k0.k1\":\"v0\"}",                                  "k1",                           new String[]{}                       },//25
 				{"{\"k0.k1\":\"v0\"}",                                  "k0.k1",                        new String[]{}                       },
 
 				// key with dot ambiguity
@@ -86,19 +86,19 @@ public class PathLocatorTest
 				{"{\"k0\":{\"k1.k2\":\"dot\"},\"k1\":{\"k2\":\"v2\"}}}","k1.k2",                        new String[]{"k1.k2"}                },
 
 				//ignore non-existent keys but keep good keys
-				{"{\"k0\":\"v0\",\"k1\":\"v1\"}",                      new String[]{"k0","k2"},         new String[]{"k0"}                   },
+				{"{\"k0\":\"v0\",\"k1\":\"v1\"}",                      new String[]{"k0","k2"},         new String[]{"k0"}                   },//35
 				{"{\"k0\":\"v0\",\"k1\":{\"k2\":\"v2\"}}",             new String[]{"k0","k2"},         new String[]{"k0"}                   },
 				{"{\"k0\":\"v0\",\"k1\":{\"k2\":\"v2\"}}",             new String[]{"k0","k1.k2"},      new String[]{"k0", "k1.k2"}          },
 				{"{\"k0\":\"v0\",\"k1\":{\"k2\":\"v2\"}}",             new String[]{"k0","k1.k2.k3"},   new String[]{"k0"}                   },
 				{"{\"k0\":\"v0\",\"k1\":{\"k2\":\"v2\"}}",             new String[]{"k0","k1.k2","k1"}, new String[]{"k0","k1","k1.k2"}      },
-				{"{\"k0\":\"v0\",\"k1\":{\"k2\":\"v2\"}}",             new String[]{"k0","k1","k0.k2"}, new String[]{"k0","k1"}              },
+				{"{\"k0\":\"v0\",\"k1\":{\"k2\":\"v2\"}}",             new String[]{"k0","k1","k0.k2"}, new String[]{"k0","k1"}              },//40
 				{"{\"k0\":\"v0\",\"k1\":{\"k2\":\"v2\"}}",             new String[]{"k0","k1","k2"},    new String[]{"k0","k1"}              },
 				{"{\"k0\":\"v0\",\"k1\":{\"k2\":\"v2\"}}",             new String[]{"k1.k2"},           new String[]{"k1.k2"}                },
 
 				//arrays - key inside array treated as child
 				{"{\"k0\":{\"k1\":[1,{\"k2\":\"v2\"},3,4]}}",           "k0",                           new String[]{"k0"}                   },
 				{"{\"k0\":{\"k1\":[1,{\"k2\":\"v2\"},3,4]}}",           "k0.k1",                        new String[]{"k0.k1"}                },
-				{"{\"k0\":{\"k1\":[1,{\"k2\":\"v2\"},3,4]}}",           "k0.k1.k2",                     new String[]{"k0.k1.k2"}             },
+				{"{\"k0\":{\"k1\":[1,{\"k2\":\"v2\"},3,4]}}",           "k0.k1.k2",                     new String[]{"k0.k1.k2"}             },//45
 				{"{\"k0\":{\"k1\":[{\"k2\":\"v2\"},{\"k2\":\"v2\"}]}}", "k0.k1.k2",                     new String[]{"k0.k1.k2", "k0.k1.k2"} },
 		});
 	}
@@ -107,8 +107,8 @@ public class PathLocatorTest
 	public void test() throws ParseException
 	{
 		JSONObject objectToSearch = jsonToSearch != null ? (JSONObject) JSONValue.parseWithException(jsonToSearch) : null;
-		PathLocator f = switchKeyToRemove();
-		List<String> found = f.find(objectToSearch);
+		PathLocator locator = switchKeyToRemove();
+		List<String> found = locator.locate(objectToSearch);
 		assertEquals(Arrays.asList(expectedFound), found);
 	}
 

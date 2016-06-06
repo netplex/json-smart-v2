@@ -1,8 +1,8 @@
 package net.minidev.json.actions.traverse;
 
 import net.minidev.json.JSONObject;
+import net.minidev.json.actions.path.PathDelimiter;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20,66 +20,82 @@ import java.util.Map;
  * @author adoneitan@gmail.com
  *
  */
-public class LocatePathsAction implements TraverseAction
+public class LocatePathsJsonAction implements JSONTraverseAction
 {
 	protected List<String> pathsFound;
 	protected List<String> pathsToFind;
+	protected PathDelimiter delim;
 
 	/**
 	 *
 	 * @param pathsToFind A path to a field in the {@link JSONObject} should be specified in n-gram format where keys are chained:
 	 * k0[[[.k1].k2]...]
 	 */
-	public LocatePathsAction(List<String> pathsToFind)
+	public LocatePathsJsonAction(List<String> pathsToFind, PathDelimiter delim)
 	{
 		this.pathsToFind = pathsToFind;
+		this.delim = delim;
 		pathsFound = new LinkedList<String>();
 	}
 
 	@Override
-	public boolean handleStart(JSONObject object)
+	public boolean start(JSONObject object)
 	{
 		return object != null && pathsToFind != null && pathsToFind.size() > 0;
 	}
 
 	@Override
-	public boolean handleEntryAndIgnoreChildren(String pathToEntry, Iterator<Map.Entry<String, Object>> it, Map.Entry<String, Object> entry)
+	public boolean traverseEntry(String fullPathToEntry, Map.Entry<String, Object> entry)
 	{
-		if (pathsToFind.contains(pathToEntry))
-		{
-			//reached end of path that is being searched
-			pathsFound.add(pathToEntry);
+		if (!delim.accept(entry.getKey())) {
+			return false;
 		}
+		locatePath(fullPathToEntry);
+		return true;
+	}
+
+	@Override
+	public boolean recurInto(String pathToEntry, Object entryValue) {
+		return true;
+	}
+
+	@Override
+	public boolean recurInto(String pathToEntry, int listIndex, Object entryValue) {
+		return true;
+	}
+
+	@Override
+	public void handleLeaf(String pathToEntry, Object entryValue) {
+
+	}
+
+	@Override
+	public void handleLeaf(String fullPathToContainingList, int listIndex, Object listItem) {
+
+	}
+
+	@Override
+	public boolean removeEntry(String fullPathToEntry, Map.Entry<String, Object> entry)
+	{
 		return false;
 	}
 
 	@Override
-	public boolean handleDotChar() {
-		return false;
-	}
-
-	@Override
-	public boolean handleNext() {
-		return true;
-	}
-
-	@Override
-	public boolean handleJSONObjectChild() {
-		return true;
-	}
-
-	@Override
-	public boolean handleJSONArrayChild() {
-		return true;
-	}
-
-	@Override
-	public void handleEnd() {
+	public void end() {
 		//nothing to do
 	}
 
 	@Override
 	public Object result() {
 		return pathsFound;
+	}
+
+	private void locatePath(String pathToEntry)
+	{
+		if (pathsToFind.contains(pathToEntry))
+		{
+			//reached end of path that is being searched
+			pathsFound.add(pathToEntry);
+		}
 	}
 }

@@ -2,7 +2,6 @@ package net.minidev.json.actions.traverse;
 
 import net.minidev.json.JSONObject;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,59 +18,60 @@ import java.util.Map;
  * @author adoneitan@gmail.com
  *
  */
-public class RemovePathsAction implements TraverseAction
+public class RemovePathsJsonAction implements JSONTraverseAction
 {
 	protected JSONObject result;
 	protected List<String> pathsToRemove;
 
-	public RemovePathsAction(List<String> pathsToRemove)
+	public RemovePathsJsonAction(List<String> pathsToRemove)
 	{
 		this.pathsToRemove = pathsToRemove;
 	}
 
 	@Override
-	public boolean handleStart(JSONObject object)
+	public boolean start(JSONObject object)
 	{
 		result = object;
 		return object != null && pathsToRemove != null && pathsToRemove.size() > 0;
 	}
 
 	@Override
-	public boolean handleDotChar() {
-		return true;
-	}
-
-	@Override
-	public boolean handleEntryAndIgnoreChildren(String pathToEntry, Iterator<Map.Entry<String, Object>> it, Map.Entry<String, Object> entry)
+	public boolean removeEntry(String fullPathToEntry, Map.Entry<String, Object> entry)
 	{
-		if (pathsToRemove.contains(pathToEntry))
-		{
-			it.remove();
-			//the entry has been removed from the traversal iterator, no point in traversing its children
-			return true;
-		}
-		return false;
+		return pathsToRemove.contains(fullPathToEntry);
 	}
 
 	@Override
-	public boolean handleNext()
+	public boolean traverseEntry(String fullPathToEntry, Map.Entry<String, Object> entry)
 	{
 		//must traverse the whole object
 		return true;
 	}
 
 	@Override
-	public boolean handleJSONObjectChild() {
+	public boolean recurInto(String pathToEntry, Object entryValue) {
 		return true;
 	}
 
 	@Override
-	public boolean handleJSONArrayChild() {
+	public boolean recurInto(String pathToEntry, int listIndex, Object entryValue) {
 		return true;
 	}
 
 	@Override
-	public void handleEnd() {
+	public void handleLeaf(String pathToEntry, Object entryValue)
+	{
+
+	}
+
+	@Override
+	public void handleLeaf(String fullPathToContainingList, int listIndex, Object listItem)
+	{
+
+	}
+
+	@Override
+	public void end() {
 		//nothing to do
 	}
 

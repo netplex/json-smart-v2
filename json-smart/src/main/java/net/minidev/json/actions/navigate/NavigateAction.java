@@ -2,6 +2,7 @@ package net.minidev.json.actions.navigate;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import net.minidev.json.actions.path.JSONPath;
 
 import java.util.Collection;
 
@@ -53,13 +54,13 @@ public interface NavigateAction
 	 * called when an object node is encountered on the path
 	 * @return true if the navigator should navigate into the object
 	 */
-	boolean handleObjectStartAndRecur(JSONPath jp, JSONObject sourceNode);
+	boolean handleJSONObject(JSONPath jp, JSONObject sourceNode);
 
 	/**
 	 * called when an array node is encountered on the path
 	 * @return true if the navigator should navigate into the array
 	 */
-	boolean handleArrayStartAndRecur(JSONPath jp, JSONArray sourceNode);
+	boolean handleJSONArrray(JSONPath jp, JSONArray sourceNode);
 
 	/**
 	 * called when a leaf node is reached in a JSONObject.
@@ -67,7 +68,7 @@ public interface NavigateAction
 	 * (it is not a JSONObject nor a JSONArray)
 	 * @param jp - the JsonPath pointing to the leaf
 	 */
-	void handleObjectLeaf(JSONPath jp, Object value);
+	void handleJSONObjectLeaf(JSONPath jp, Object value);
 
 	/**
 	 * called when a leaf in a JSONArray is reached.
@@ -76,13 +77,13 @@ public interface NavigateAction
 	 * @param arrIndex - the index of the item in the JSONArray
 	 * @param arrItem - the item
 	 */
-	void handleArrayLeaf(int arrIndex, Object arrItem);
+	void handleJSONArrayLeaf(int arrIndex, Object arrItem);
 
 	/**
 	 * called after all the items of an array have been visited
 	 * @param jp - the JsonPath pointing to the array
 	 */
-	void handleArrayEnd(JSONPath jp);
+	void handleJSONArrayEnd(JSONPath jp);
 
 	/**
 	 * called after all the entries of a JSONObject have been visited

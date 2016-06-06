@@ -2,10 +2,12 @@ package net.minidev.json.actions;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import net.minidev.json.actions.traverse.RetainPathsAction;
+import net.minidev.json.actions.path.DotDelimiter;
+import net.minidev.json.actions.path.PathDelimiter;
+import net.minidev.json.actions.traverse.JSONTraverseAction;
 import net.minidev.json.actions.traverse.JSONTraverser;
-import net.minidev.json.actions.traverse.LocatePathsAction;
-import net.minidev.json.actions.traverse.TraverseAction;
+import net.minidev.json.actions.traverse.LocatePathsJsonAction;
+import net.minidev.json.actions.traverse.RetainPathsJsonAction;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,6 +36,7 @@ import java.util.List;
 public class PathsRetainer
 {
 	protected List<String> pathsToRetain;
+	private PathDelimiter pathDelimiter = new DotDelimiter().withAcceptDelimiterInNodeName(false);
 
 	public PathsRetainer(JSONArray pathsToRetain)
 	{
@@ -60,26 +63,31 @@ public class PathsRetainer
 		this.pathsToRetain = pathsToRetain == null || pathsToRetain.length == 0 ?
 				Collections.<String>emptyList() : new LinkedList<String>(Arrays.asList(pathsToRetain));
 	}
+
+	public PathsRetainer with(PathDelimiter pathDelimiter) {
+		this.pathDelimiter = pathDelimiter;
+		return this;
+	}
 	
 	public JSONObject retain(JSONObject object)
 	{
 		/**
 		 * a path to retain which contains a path in the object, but is not itself a path in the object,
-		 * will cause the sub-path to be retain although it shouldn't:
+		 * will cause the sub-path to be retained although it shouldn't:
 		 * object = {k0:v0}     retain = {k0.k1}
 		 * so the false path to retain has to be removed from the pathsToRetain list.
 		 *
-		 * The {@link LocatePathsAction} returns only paths which exist in the object.
+		 * The {@link LocatePathsJsonAction} returns only paths which exist in the object.
 		 */
-		TraverseAction locateAction = new LocatePathsAction(pathsToRetain);
+		JSONTraverseAction locateAction = new LocatePathsJsonAction(pathsToRetain, pathDelimiter);
 		JSONTraverser t1 = new JSONTraverser(locateAction);
 		t1.traverse(object);
 		List<String> realPathsToRetain = (List<String>) locateAction.result();
 
 		//now reduce the object using only existing paths
-		TraverseAction reduce = new RetainPathsAction(realPathsToRetain);
-		JSONTraverser t2 = new JSONTraverser(reduce);
+		JSONTraverseAction retainer = new RetainPathsJsonAction(realPathsToRetain, pathDelimiter);
+		JSONTraverser t2 = new JSONTraverser(retainer);
 		t2.traverse(object);
-		return (JSONObject) reduce.result();
+		return (JSONObject) retainer.result();
 	}
 }

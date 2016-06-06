@@ -4,6 +4,7 @@ import net.minidev.json.actions.PathsRetainer;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
+import net.minidev.json.actions.path.DotDelimiter;
 import net.minidev.json.parser.ParseException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -78,9 +79,9 @@ public class PathsRetainerTest
 				// key with dot ambiguity
 				{"{\"k0.k1\":\"withDot\",\"k0\":{\"k1\":null}}",        "k0",                           "{\"k0\":{}}"                                         },//27
 				{"{\"k0.k1\":\"withDot\",\"k0\":{\"k1\":null}}",        "k1",                           "{}"                                                  },
-				{"{\"k0.k1\":\"withDot\",\"k0\":{\"k1\":null}}",        "k0.k1",                        "{\"k0\":{\"k1\":null}}"                              },
+				{"{\"k0.k1\":\"withDot\",\"k0\":{\"k1\":null}}",        "k0.k1",                        "{\"k0\":{\"k1\":null}}"                              },//29
 				{"{\"k0\":{\"k1.k2\":\"dot\",\"k1\":{\"k2\":null}}}",   "k0.k1",                        "{\"k0\":{\"k1\":{}}}"                                },
-				{"{\"k0\":{\"k1.k2\":\"dot\",\"k1\":{\"k2\":null}}}",   "k0.k1.k2",                     "{\"k0\":{\"k1\":{\"k2\":null}}}"                     },
+				{"{\"k0\":{\"k1.k2\":\"dot\",\"k1\":{\"k2\":null}}}",   "k0.k1.k2",                     "{\"k0\":{\"k1\":{\"k2\":null}}}"                     },//31
 				{"{\"k0\":{\"k1.k2\":\"dot\",\"k1\":{\"k2\":null}}}",   "k1.k2",                        "{}"                                                  },
 				{"{\"k0\":{\"k1.k2\":\"dot\"},\"k1\":{\"k2\":\"v2\"}}}","k0",                           "{\"k0\":{}}}"                                        },
 				{"{\"k0\":{\"k1.k2\":\"dot\"},\"k1\":{\"k2\":\"v2\"}}}","k1.k2",                        "{\"k1\":{\"k2\":\"v2\"}}}"                           },
@@ -116,8 +117,8 @@ public class PathsRetainerTest
 	{
 		JSONObject objectToReduce = jsonToReduce != null ? (JSONObject) JSONValue.parseWithException(jsonToReduce) :null;
 		JSONObject expectedReducedObj = expectedReducedJson != null ? (JSONObject) JSONValue.parseWithException(expectedReducedJson):null;
-		PathsRetainer reducer = switchKeyToRemove();
-		JSONObject reducedObj = reducer.retain(objectToReduce);
+		PathsRetainer retainer = switchKeyToRemove().with(new DotDelimiter().withAcceptDelimiterInNodeName(false));
+		JSONObject reducedObj = retainer.retain(objectToReduce);
 		assertEquals(expectedReducedObj, reducedObj);
 	}
 

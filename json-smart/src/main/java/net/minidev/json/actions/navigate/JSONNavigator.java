@@ -2,6 +2,8 @@ package net.minidev.json.actions.navigate;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import net.minidev.json.actions.path.DotDelimiter;
+import net.minidev.json.actions.path.JSONPath;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -80,7 +82,7 @@ public class JSONNavigator
 				{
 					if (path != null && !path.equals("") && action.handleNextPath(path))
 					{
-						JSONPath jp = new JSONPath(path);
+						JSONPath jp = new JSONPath(path, new DotDelimiter().withAcceptDelimiterInNodeName(true));
 						nav(object, jp);
 						action.handlePathEnd(path);
 					}
@@ -115,12 +117,12 @@ public class JSONNavigator
 				// the specified path is illegal because it does not exist in the source.
 				action.handlePrematureNavigatedBranchEnd(jp, source);
 			}
-			else if (source.get(next) instanceof JSONObject && action.handleObjectStartAndRecur(jp, (JSONObject) source.get(next)))
+			else if (source.get(next) instanceof JSONObject && action.handleJSONObject(jp, (JSONObject) source.get(next)))
 			{
 				//reached JSONObject node - handle it and recur into it
 				nav((JSONObject) source.get(next), jp);
 			}
-			else if (source.get(next) instanceof JSONArray && action.handleArrayStartAndRecur(jp, (JSONArray) source.get(next)))
+			else if (source.get(next) instanceof JSONArray && action.handleJSONArrray(jp, (JSONArray) source.get(next)))
 			{
 				//reached JSONArray node - handle it and recur into it
 				nav((JSONArray) source.get(next), jp);
@@ -134,7 +136,7 @@ public class JSONNavigator
 			else if (!jp.hasNext())
 			{
 				//reached leaf in source and specified path is also at leaf -> handle it
-				action.handleObjectLeaf(jp, source.get(next));
+				action.handleJSONObjectLeaf(jp, source.get(next));
 			}
 			else
 			{
@@ -154,7 +156,7 @@ public class JSONNavigator
 		int arrIndex = 0;
 		for (Object arrItem : source.toArray())
 		{
-			if (arrItem instanceof JSONObject && action.handleObjectStartAndRecur(jp, (JSONObject) arrItem))
+			if (arrItem instanceof JSONObject && action.handleJSONObject(jp, (JSONObject) arrItem))
 			{
 				// clone the path so that for each JSONObject in the array,
 				// the iterator continues from the same position in the path
@@ -168,11 +170,11 @@ public class JSONNavigator
 			else if (!jp.hasNext())
 			{
 				//reached leaf - handle it
-				action.handleArrayLeaf(arrIndex, arrItem);
+				action.handleJSONArrayLeaf(arrIndex, arrItem);
 			}
 			arrIndex++;
 		}
-		action.handleArrayEnd(jp);
+		action.handleJSONArrayEnd(jp);
 
 	}
 

@@ -1,6 +1,8 @@
 package net.minidev.json.test.actions;
 
-import net.minidev.json.actions.navigate.JSONPath;
+import net.minidev.json.actions.path.DotDelimiter;
+import net.minidev.json.actions.path.JSONPath;
+import net.minidev.json.actions.path.PathDelimiter;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -11,10 +13,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class JSONPathTest
 {
+	private static final PathDelimiter delim = new DotDelimiter().withAcceptDelimiterInNodeName(true);
+
 	@Test
 	public void testIterator()
 	{
-		JSONPath jp = new JSONPath("a.b.c");
+		JSONPath jp = new JSONPath("a.b.c", delim);
 		assertTrue(jp.nextIndex() == 0);
 		assertTrue(jp.prevIndex() == -1);
 		assertTrue("".equals(jp.curr()));
@@ -70,14 +74,14 @@ public class JSONPathTest
 	@Test
 	public void testSubPath()
 	{
-		JSONPath jp = new JSONPath("a.b.c");
+		JSONPath jp = new JSONPath("a.b.c", delim);
 		assertTrue(jp.subPath(1,2).equals("b.c"));
 	}
 
 	@Test
 	public void testClone() throws CloneNotSupportedException
 	{
-		JSONPath jp1 = new JSONPath("a.b.c");
+		JSONPath jp1 = new JSONPath("a.b.c", delim);
 		JSONPath jp2 = jp1.clone();
 		assertTrue(jp1.equals(jp2));
 

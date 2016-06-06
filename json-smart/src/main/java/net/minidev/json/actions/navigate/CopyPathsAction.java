@@ -2,6 +2,7 @@ package net.minidev.json.actions.navigate;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import net.minidev.json.actions.path.JSONPath;
 
 import java.util.Collection;
 import java.util.Stack;
@@ -54,7 +55,7 @@ public class CopyPathsAction implements NavigateAction
 	}
 
 	@Override
-	public boolean handleObjectStartAndRecur(JSONPath jp, JSONObject o)
+	public boolean handleJSONObject(JSONPath jp, JSONObject o)
 	{
 		//reached JSONObject node - instantiate it and recur
 		handleNewNode(jp, new JSONObject());
@@ -73,7 +74,7 @@ public class CopyPathsAction implements NavigateAction
 	}
 
 	@Override
-	public boolean handleArrayStartAndRecur(JSONPath jp, JSONArray o)
+	public boolean handleJSONArrray(JSONPath jp, JSONArray o)
 	{
 		//reached JSONArray node - instantiate it and recur
 		handleNewNode(jp, new JSONArray());
@@ -86,17 +87,17 @@ public class CopyPathsAction implements NavigateAction
 	}
 
 	@Override
-	public void handleObjectLeaf(JSONPath jp, Object o) {
+	public void handleJSONObjectLeaf(JSONPath jp, Object o) {
 		((JSONObject) destNodeStack.peek()).put(jp.curr(), o);
 	}
 
 	@Override
-	public void handleArrayLeaf(int arrIndex, Object o) {
+	public void handleJSONArrayLeaf(int arrIndex, Object o) {
 		((JSONArray) destNodeStack.peek()).add(o);
 	}
 
 	@Override
-	public void handleArrayEnd(JSONPath jp) {
+	public void handleJSONArrayEnd(JSONPath jp) {
 		destNodeStack.pop();
 	}
 

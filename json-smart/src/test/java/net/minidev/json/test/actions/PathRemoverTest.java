@@ -49,11 +49,11 @@ public class PathRemoverTest
 				{"{\"first\": null}",                                              new ArrayList<String>(0), "{\"first\": null}"                              }, // empty list key
 				{"{\"first\": null}",                                              "first",                  "{}"                                             }, // remove root key
 				{"{\"first.f1\": null}",                                           "first.f1",               "{}"                                             }, // key with dot
-				{"{\"first.f1\": \"withDot\", \"first\":{\"f1\": null}}",          "first.f1",               "{\"first\":{}}"                                 }, // key with dot ambiguity
+				{"{\"first.f1\": \"withDot\", \"first\":{\"f1\": null}}",          "first.f1",               "{\"first\":{}}"                                 }, //9 key with dot ambiguity
 				{"{\"first\":{\"f2\":{\"f3\":{\"id\":\"id1\"}}}}",                 "first.f2.f3.id",         "{\"first\":{\"f2\":{\"f3\":{}}}}"               }, // nested object remove single leaf
 				{"{\"first\":{\"f2\":{\"f3\":{\"id\":\"id1\"}}}}",                 "notfound",               "{\"first\":{\"f2\":{\"f3\":{\"id\":\"id1\"}}}}" }, // nested object key does not exist
 				{"{\"first\":{\"f2\":{\"f3\":{\"id\":\"id1\",\"name\":\"me\"}}}}", "first.f2.f3.id",         "{\"first\":{\"f2\":{\"f3\":{\"name\":\"me\"}}}}"}, // nested object remove first leaf
-				{"{\"first\":{\"f2\":{\"f3\":{\"id\":\"id1\",\"name\":\"me\"}}}}", "first.f2.f3.name",       "{\"first\":{\"f2\":{\"f3\":{\"id\":\"id1\"}}}}" }, // nested object remove last leaf
+				{"{\"first\":{\"f2\":{\"f3\":{\"id\":\"id1\",\"name\":\"me\"}}}}", "first.f2.f3.name",       "{\"first\":{\"f2\":{\"f3\":{\"id\":\"id1\"}}}}" }, //13 nested object remove last leaf
 				{"{\"first\":{\"f2\":{\"f3\":{\"id\":\"id1\",\"name\":\"me\"}}}}", "first.f2.f3",            "{\"first\":{\"f2\":{}}}"                        }, // nested object remove intermediate node
 				{"{\"first\":{\"f2\":{\"f3\":{\"id\":\"id1\",\"name\":\"me\"}}}}", "first",                  "{}"                                             }, // nested object remove root
 				{"{\"first\":{\"f2\":[[1,{\"id\":\"id1\"},3],4]}}",                "first.f2.id",            "{\"first\":{\"f2\":[[1,{},3],4]}}"              }, // double nested array remove leaf

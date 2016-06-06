@@ -3,8 +3,8 @@ package net.minidev.json.actions;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.actions.traverse.JSONTraverser;
-import net.minidev.json.actions.traverse.RemovePathsAction;
-import net.minidev.json.actions.traverse.TraverseAction;
+import net.minidev.json.actions.traverse.RemovePathsJsonAction;
+import net.minidev.json.actions.traverse.JSONTraverseAction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,7 +66,7 @@ public class PathRemover
 
 	public JSONObject remove(JSONObject objectToClean)
 	{
-		TraverseAction strategy = new RemovePathsAction(this.pathsToRemove);
+		JSONTraverseAction strategy = new RemovePathsJsonAction(this.pathsToRemove);
 		JSONTraverser traversal = new JSONTraverser(strategy);
 		traversal.traverse(objectToClean);
 		return (JSONObject) strategy.result();

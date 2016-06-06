@@ -3,12 +3,12 @@
  * <b>Traverse all the nodes in a {@link net.minidev.json.JSONObject} and process them</b>
  * <p>
  * The traversal starts at the root and moves breadth-first down the branches.
- * The {@link net.minidev.json.actions.traverse.JSONTraverser} accepts a
- * {@link net.minidev.json.actions.traverse.TraverseAction} and provides callback hooks at each significant
- * step which the {@link net.minidev.json.actions.traverse.TraverseAction} may use to process
+ * The {@link net.minidev.json.actions.traverse.TreeTraverser} accepts a
+ * {@link net.minidev.json.actions.traverse.JSONTraverseAction} and provides callback hooks at each significant
+ * step which the {@link net.minidev.json.actions.traverse.JSONTraverseAction} may use to process
  * the nodes.
  * <p>
- * The {@link net.minidev.json.actions.traverse.JSONTraverser} assumes that paths in the tree which the
+ * The {@link net.minidev.json.actions.traverse.TreeTraverser} assumes that paths in the tree which the
  * {@link net.minidev.json.JSONObject} represents are specified in the n-gram format - a list of keys from the
  * root down separated by dots:
  * <p>

@@ -2,9 +2,8 @@ package net.minidev.json.actions.traverse;
 
 import net.minidev.json.JSONObject;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * <b>Removes key:value elements from a {@link JSONObject}.</b>
@@ -19,64 +18,67 @@ import java.util.Map;
  * @author adoneitan@gmail.com
  *
  */
-public class RemoveElementsAction implements TraverseAction
+public class RemoveElementsJsonAction implements JSONTraverseAction
 {
 	protected JSONObject result;
 	protected final Map<String, Object> elementsToRemove;
 	protected final boolean allowDotChar;
 
-	public RemoveElementsAction(Map<String, Object> elementsToRemove, boolean allowDotChar)
+	public RemoveElementsJsonAction(Map<String, Object> elementsToRemove, boolean allowDotChar)
 	{
 		this.elementsToRemove = elementsToRemove;
 		this.allowDotChar = allowDotChar;
 	}
 
-	public RemoveElementsAction(Map<String, Object> elementsToRemove)
+	public RemoveElementsJsonAction(Map<String, Object> elementsToRemove)
 	{
 		this(elementsToRemove, false);
 	}
 
 	@Override
-	public boolean handleStart(JSONObject object)
+	public boolean start(JSONObject object)
 	{
 		result = object;
 		return object != null && elementsToRemove != null && elementsToRemove.size() > 0;
 	}
 
 	@Override
-	public boolean handleDotChar() {
-		return allowDotChar;
-	}
-
-	@Override
-	public boolean handleEntryAndIgnoreChildren(String pathToEntry, Iterator<Map.Entry<String, Object>> it, Map.Entry<String, Object> entry)
+	public boolean removeEntry(String fullPathToEntry, Entry<String, Object> entry)
 	{
-		if (elementsToRemove.entrySet().contains(entry))
-		{
-			it.remove();
-		}
-		return false;
+		return elementsToRemove.entrySet().contains(entry);
 	}
 
 	@Override
-	public boolean handleNext()
+	public boolean traverseEntry(String fullPathToEntry, Entry<String, Object> entry)
 	{
 		//must traverse the whole object
 		return true;
 	}
 
 	@Override
-	public boolean handleJSONObjectChild() {
+	public boolean recurInto(String pathToEntry, Object entryValue) {
 		return true;
 	}
 
 	@Override
-	public boolean handleJSONArrayChild() {
+	public boolean recurInto(String pathToEntry, int listIndex, Object entryValue) {
 		return true;
 	}
 
 	@Override
-	public void handleEnd() {
+	public void handleLeaf(String pathToEntry, Object entryValue)
+	{
+
+	}
+
+	@Override
+	public void handleLeaf(String fullPathToContainingList, int listIndex, Object listItem)
+	{
+
+	}
+
+	@Override
+	public void end() {
 		//nothing to do
 	}
 

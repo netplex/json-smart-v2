@@ -1,4 +1,4 @@
-package net.minidev.json.actions.navigate;
+package net.minidev.json.actions.path;
 
 
 import net.minidev.json.JSONObject;
@@ -17,6 +17,7 @@ import java.util.ListIterator;
  */
 public class JSONPath
 {
+
 	protected enum Step {NONE, NEXT, PREV}
 	protected final String path;
 	protected List<String> keys;
@@ -25,12 +26,14 @@ public class JSONPath
 	protected Step lastStep;
 	protected StringBuilder origin;
 	protected StringBuilder remainder;
+	protected PathDelimiter delim;
 
-	public JSONPath(String path)
+	public JSONPath(String path, PathDelimiter delim)
 	{
+		this.delim = delim;
 		checkPath(path);
 		this.path = path;
-		this.keys = Arrays.asList(path.split("\\."));
+		this.keys = Arrays.asList(path.split(delim.regex()));
 		reset();
 	}
 
@@ -90,26 +93,26 @@ public class JSONPath
 	{
 		if (length() == 1)
 			remainder = new StringBuilder("");
-		else if (remainder.indexOf(".") < 0)
+		else if (remainder.indexOf(delim.str()) < 0)
 			remainder = new StringBuilder("");
 		else
-			remainder.delete(0, remainder.indexOf(".") + 1);
+			remainder.delete(0, remainder.indexOf(delim.str()) + 1);
 	}
 
 	private void originDecrement()
 	{
 		if (length() == 1)
 			origin = new StringBuilder("");
-		else if (origin.indexOf(".") < 0)
+		else if (origin.indexOf(delim.str()) < 0)
 			origin = new StringBuilder("");
 		else
-			origin.delete(origin.lastIndexOf("."), origin.length());
+			origin.delete(origin.lastIndexOf(delim.str()), origin.length());
 	}
 
 	private void originIncrement()
 	{
 		if (origin.length() != 0) {
-			origin.append('.');
+			origin.append(delim.chr());
 		}
 		origin.append(currKey);
 	}
@@ -119,7 +122,7 @@ public class JSONPath
 		if (remainder.length() == 0)
 			remainder = new StringBuilder(prev);
 		else
-			remainder = new StringBuilder(prev).append('.').append(remainder);
+			remainder = new StringBuilder(prev).append(delim.chr()).append(remainder);
 	}
 
 	/**
@@ -178,7 +181,7 @@ public class JSONPath
 		{
 			sb.append(keys.get(i));
 			if (i < lastIndex) {
-				sb.append('.');
+				sb.append(delim.chr());
 			}
 		}
 		sb.trimToSize();
@@ -189,14 +192,14 @@ public class JSONPath
 	{
 		if (path == null || path.equals(""))
 			throw new IllegalArgumentException("path cannot be null or empty");
-		if (path.startsWith(".") || path.endsWith(".") || path.contains("src/main"))
-			throw new IllegalArgumentException("path cannot start or end with '.' or contain '..'");
+		if (path.startsWith(delim.str()) || path.endsWith(delim.str()) || path.contains(delim.str() + delim.str()))
+			throw new IllegalArgumentException(String.format("path cannot start or end with %s or contain '%s%s'", delim.str(), delim.str(), delim.str()));
 	}
 
 	@Override
 	public JSONPath clone() throws CloneNotSupportedException
 	{
-		JSONPath cloned = new JSONPath(this.path);
+		JSONPath cloned = new JSONPath(this.path, this.delim);
 		while (cloned.nextIndex() != this.nextIndex()) {
 			cloned.next();
 		}
@@ -218,12 +221,13 @@ public class JSONPath
 		JSONPath jsonPath = (JSONPath) o;
 
 		return path().equals(jsonPath.path()) &&
-			hasNext() == jsonPath.hasNext() &&
-			hasPrev() == jsonPath.hasPrev() &&
-			curr().equals(jsonPath.curr()) &&
-			origin().equals(jsonPath.origin()) &&
-			remainder().equals(jsonPath.remainder()) &&
-			lastStep == jsonPath.lastStep;
+				hasNext() == jsonPath.hasNext() &&
+				hasPrev() == jsonPath.hasPrev() &&
+				curr().equals(jsonPath.curr()) &&
+				origin().equals(jsonPath.origin()) &&
+				remainder().equals(jsonPath.remainder()) &&
+				lastStep == jsonPath.lastStep &&
+				delim.equals(jsonPath.delim);
 
 	}
 
@@ -236,6 +240,7 @@ public class JSONPath
 		result = 31 * result + lastStep.hashCode();
 		result = 31 * result + origin.hashCode();
 		result = 31 * result + remainder.hashCode();
+		result = 31 * result + delim.hashCode();
 		return result;
 	}
 }

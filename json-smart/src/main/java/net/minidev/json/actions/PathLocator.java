@@ -2,9 +2,11 @@ package net.minidev.json.actions;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import net.minidev.json.actions.path.DotDelimiter;
+import net.minidev.json.actions.path.PathDelimiter;
 import net.minidev.json.actions.traverse.JSONTraverser;
-import net.minidev.json.actions.traverse.LocatePathsAction;
-import net.minidev.json.actions.traverse.TraverseAction;
+import net.minidev.json.actions.traverse.LocatePathsJsonAction;
+import net.minidev.json.actions.traverse.JSONTraverseAction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +31,7 @@ import java.util.List;
 public class PathLocator
 {
 	private List<String> pathsToFind;
+	private PathDelimiter pathDelimiter = new DotDelimiter().withAcceptDelimiterInNodeName(false);
 
 	public PathLocator(JSONArray pathsToFind)
 	{
@@ -56,9 +59,14 @@ public class PathLocator
 				Collections.<String>emptyList() : Arrays.asList(pathsToFind);
 	}
 
-	public List<String> find(JSONObject object)
+	public PathLocator with(PathDelimiter pathDelimiter) {
+		this.pathDelimiter = pathDelimiter;
+		return this;
+	}
+
+	public List<String> locate(JSONObject object)
 	{
-		TraverseAction action = new LocatePathsAction(this.pathsToFind);
+		JSONTraverseAction action = new LocatePathsJsonAction(this.pathsToFind, pathDelimiter);
 		JSONTraverser traversal = new JSONTraverser(action);
 		traversal.traverse(object);
 		return (List<String>) action.result();
