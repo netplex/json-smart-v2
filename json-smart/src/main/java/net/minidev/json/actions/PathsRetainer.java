@@ -86,7 +86,7 @@ public class PathsRetainer
 
 		//now reduce the object using only existing paths
 		JSONTraverseAction retainer = new RetainPathsJsonAction(realPathsToRetain, pathDelimiter);
-		JSONTraverser t2 = new JSONTraverser(retainer);
+		JSONTraverser t2 = new JSONTraverser(retainer).with(pathDelimiter);
 		t2.traverse(object);
 		return (JSONObject) retainer.result();
 	}

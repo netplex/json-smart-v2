@@ -4,7 +4,7 @@ package net.minidev.json.actions.path;
  * Encapsulates the delimiter of the path parts when given in n-gram format.
  *
  * @author adoneitan@gmail.com
- * @since 31 May2016
+ * @since 31 May 2016
  */
 public abstract class PathDelimiter
 {

@@ -1,5 +1,7 @@
 package net.minidev.json.actions.traverse;
 
+import net.minidev.json.actions.path.PathDelimiter;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -18,11 +20,13 @@ import java.util.Map.Entry;
  */
 public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>>
 {
-	private TreeTraverseAction<M, L> action;
+	protected PathDelimiter delim;
+	protected TreeTraverseAction<M, L> action;
 
-	public TreeTraverser(TreeTraverseAction action)
+	public TreeTraverser(TreeTraverseAction action, PathDelimiter delim)
 	{
 		this.action = action;
+		this.delim = delim;
 	}
 
 	public void traverse(M map)
@@ -93,7 +97,7 @@ public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>
 	}
 
 	private String buildPath(String fullPathToObject, String entryKey) {
-		return "".equals(fullPathToObject) ? entryKey : fullPathToObject + "." + entryKey;
+		return "".equals(fullPathToObject) ? entryKey : fullPathToObject + delim.str() + entryKey;
 	}
 
 	private boolean instanceOfList(Object obj) {

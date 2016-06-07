@@ -67,7 +67,7 @@ public class PathLocator
 	public List<String> locate(JSONObject object)
 	{
 		JSONTraverseAction action = new LocatePathsJsonAction(this.pathsToFind, pathDelimiter);
-		JSONTraverser traversal = new JSONTraverser(action);
+		JSONTraverser traversal = new JSONTraverser(action).with(pathDelimiter);
 		traversal.traverse(object);
 		return (List<String>) action.result();
 	}

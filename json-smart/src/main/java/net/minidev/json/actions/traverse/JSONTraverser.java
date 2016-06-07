@@ -2,6 +2,8 @@ package net.minidev.json.actions.traverse;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import net.minidev.json.actions.path.DotDelimiter;
+import net.minidev.json.actions.path.PathDelimiter;
 
 /**
  * <b>Traverses every node of a {@link JSONObject}</b>
@@ -23,6 +25,11 @@ public class JSONTraverser extends TreeTraverser<JSONObject, JSONArray>
 
 	public JSONTraverser(JSONTraverseAction action)
 	{
-		super(action);
+		super(action, new DotDelimiter());
+	}
+
+	public JSONTraverser with(PathDelimiter delim) {
+		super.delim = delim;
+		return this;
 	}
 }
