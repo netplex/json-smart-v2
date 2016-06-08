@@ -1,5 +1,6 @@
 package net.minidev.json.actions.traverse;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
 import java.util.Map;
@@ -56,17 +57,17 @@ public class RemoveElementsJsonAction implements JSONTraverseAction
 	}
 
 	@Override
-	public boolean recurInto(String pathToEntry, Object entryValue) {
+	public boolean recurInto(String pathToEntry, JSONObject entryValue) {
 		return true;
 	}
 
 	@Override
-	public boolean recurInto(String pathToEntry, int listIndex, Object entryValue) {
+	public boolean recurInto(String pathToEntry, JSONArray entryValue) {
 		return true;
 	}
 
 	@Override
-	public void handleLeaf(String pathToEntry, Object entryValue)
+	public void handleLeaf(String pathToEntry, Entry<String, Object> entry)
 	{
 
 	}

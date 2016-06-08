@@ -1,9 +1,10 @@
 package net.minidev.json.actions.traverse;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * <b>Removes branches from a {@link JSONObject}.</b>
@@ -36,30 +37,30 @@ public class RemovePathsJsonAction implements JSONTraverseAction
 	}
 
 	@Override
-	public boolean removeEntry(String fullPathToEntry, Map.Entry<String, Object> entry)
+	public boolean removeEntry(String fullPathToEntry, Entry<String, Object> entry)
 	{
 		return pathsToRemove.contains(fullPathToEntry);
 	}
 
 	@Override
-	public boolean traverseEntry(String fullPathToEntry, Map.Entry<String, Object> entry)
+	public boolean traverseEntry(String fullPathToEntry, Entry<String, Object> entry)
 	{
 		//must traverse the whole object
 		return true;
 	}
 
 	@Override
-	public boolean recurInto(String pathToEntry, Object entryValue) {
+	public boolean recurInto(String pathToEntry, JSONObject entryValue) {
 		return true;
 	}
 
 	@Override
-	public boolean recurInto(String pathToEntry, int listIndex, Object entryValue) {
+	public boolean recurInto(String pathToEntry, JSONArray entryValue) {
 		return true;
 	}
 
 	@Override
-	public void handleLeaf(String pathToEntry, Object entryValue)
+	public void handleLeaf(String pathToEntry, Entry<String, Object> entry)
 	{
 
 	}

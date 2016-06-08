@@ -1,10 +1,9 @@
 package net.minidev.json.actions.traverse;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import net.minidev.json.JSONValue;
-import net.minidev.json.parser.ParseException;
 
-import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @author adoneitan@gmail.com
@@ -19,24 +18,24 @@ public class KeysPrintAction implements JSONTraverseAction
 	}
 
 	@Override
-	public boolean traverseEntry(String fullPathToEntry, Map.Entry<String, Object> entry)
+	public boolean traverseEntry(String fullPathToEntry, Entry<String, Object> entry)
 	{
 		System.out.println(entry.getKey());
 		return true;
 	}
 
 	@Override
-	public boolean recurInto(String pathToEntry, Object entryValue) {
+	public boolean recurInto(String pathToEntry, JSONObject entryValue) {
 		return true;
 	}
 
 	@Override
-	public boolean recurInto(String pathToEntry, int listIndex, Object entryValue) {
+	public boolean recurInto(String pathToEntry, JSONArray entryValue) {
 		return true;
 	}
 
 	@Override
-	public void handleLeaf(String pathToEntry, Object entryValue)
+	public void handleLeaf(String pathToEntry,  Entry<String, Object> entry)
 	{
 
 	}
@@ -48,7 +47,7 @@ public class KeysPrintAction implements JSONTraverseAction
 	}
 
 	@Override
-	public boolean removeEntry(String fullPathToEntry, Map.Entry<String, Object> entry)
+	public boolean removeEntry(String fullPathToEntry, Entry<String, Object> entry)
 	{
 		return false;
 	}

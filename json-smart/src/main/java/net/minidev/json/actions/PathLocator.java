@@ -30,8 +30,8 @@ import java.util.List;
  */
 public class PathLocator
 {
-	private List<String> pathsToFind;
-	private PathDelimiter pathDelimiter = new DotDelimiter().withAcceptDelimiterInNodeName(false);
+	protected List<String> pathsToFind;
+	protected PathDelimiter pathDelimiter = new DotDelimiter().withAcceptDelimiterInNodeName(false);
 
 	public PathLocator(JSONArray pathsToFind)
 	{

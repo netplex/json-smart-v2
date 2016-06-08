@@ -65,7 +65,7 @@ public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>
 			{
 				depthFirst(fullPathToEntry, (L) entry.getValue());
 			}
-			else if (!instanceOfMap(entry) && !instanceOfList(entry))
+			else
 			{
 				action.handleLeaf(fullPathToEntry, entry);
 			}
@@ -74,17 +74,17 @@ public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>
 
 	private void depthFirst(String fullPathToList, L list)
 	{
-		if (!action.recurInto(fullPathToList, list)) {
+		if (!action.recurInto(fullPathToList, (L) list)) {
 			return;
 		}
 		int listIndex = 0;
 		for (Object listItem : list.toArray())
 		{
-			if (instanceOfMap(listItem) && action.recurInto(fullPathToList, listIndex, listItem))
+			if (instanceOfMap(listItem))
 			{
 				depthFirst(fullPathToList, (M) listItem);
 			}
-			else if (instanceOfList(listItem) && action.recurInto(fullPathToList, listIndex, listItem))
+			else if (instanceOfList(listItem))
 			{
 				depthFirst(fullPathToList, (L) listItem);
 			}

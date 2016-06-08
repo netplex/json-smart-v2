@@ -1,5 +1,6 @@
 package net.minidev.json.actions.traverse;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.actions.path.PathDelimiter;
 
@@ -25,7 +26,7 @@ import java.util.Map.Entry;
  */
 public class RetainPathsJsonAction implements JSONTraverseAction
 {
-	private final PathDelimiter delim;
+	protected final PathDelimiter delim;
 	protected JSONObject result;
 	protected List<String> pathsToRetain;
 
@@ -58,17 +59,17 @@ public class RetainPathsJsonAction implements JSONTraverseAction
 	}
 
 	@Override
-	public boolean recurInto(String fullPathToSubtree, Object entryValue) {
+	public boolean recurInto(String fullPathToSubtree, JSONObject entryValue) {
 		return true;
 	}
 
 	@Override
-	public boolean recurInto(String fullPathToArrayItem, int arrIndex, Object entryValue) {
+	public boolean recurInto(String fullPathToArrayItem, JSONArray entryValue) {
 		return true;
 	}
 
 	@Override
-	public void handleLeaf(String pathToEntry, Object entryValue) {
+	public void handleLeaf(String pathToEntry, Entry<String, Object> entry) {
 	}
 
 	@Override

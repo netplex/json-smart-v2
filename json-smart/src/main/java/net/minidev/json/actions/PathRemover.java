@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class PathRemover
 {
-	private List<String> pathsToRemove;
+	protected List<String> pathsToRemove;
 
 	public PathRemover(JSONArray pathsToRemove)
 	{

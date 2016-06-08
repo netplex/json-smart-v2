@@ -29,9 +29,9 @@ import java.util.Stack;
  */
 public class CopyPathsAction implements NavigateAction
 {
-	private JSONObject destTree;
-	private JSONObject destBranch;
-	private Stack<Object> destNodeStack;
+	protected JSONObject destTree;
+	protected JSONObject destBranch;
+	protected Stack<Object> destNodeStack;
 
 	@Override
 	public boolean handleNavigationStart(JSONObject source, Collection<String> pathsToCopy)

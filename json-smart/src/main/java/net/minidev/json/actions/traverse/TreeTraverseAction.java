@@ -39,19 +39,18 @@ public interface TreeTraverseAction<M extends Map<String, Object>, L extends Lis
 	 * called when a non-leaf entry is encountered inside an {@Link M} object
 	 * @return true if the non-leaf entry should be recursively traversed
 	 */
-	boolean recurInto(String fullPathToSubtree, Object entryValue);
+	boolean recurInto(String fullPathToSubtree, M entryValue);
 
 	/**
 	 * called when a non-leaf item is encountered inside an {@Link L} object
 	 * @return true if the non-leaf item should be recursively traversed
 	 */
-	boolean recurInto(String fullPathToContainingList, int listIndex, Object entryValue);
+	boolean recurInto(String fullPathToContainingList, L entryValue);
 
 	/**
 	 * called for each leaf of an {@link M} map is encountered
-	 * @param entryValue - the item
 	 */
-	void handleLeaf(String fullPathToEntry, Object entryValue);
+	void handleLeaf(String fullPathToEntry, Entry<String, Object> entry);
 
 	/**
 	 * called for each leaf of an {@link L} list is encountered

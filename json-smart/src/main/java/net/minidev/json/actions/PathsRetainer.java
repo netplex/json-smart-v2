@@ -36,7 +36,7 @@ import java.util.List;
 public class PathsRetainer
 {
 	protected List<String> pathsToRetain;
-	private PathDelimiter pathDelimiter = new DotDelimiter().withAcceptDelimiterInNodeName(false);
+	protected PathDelimiter pathDelimiter = new DotDelimiter().withAcceptDelimiterInNodeName(false);
 
 	public PathsRetainer(JSONArray pathsToRetain)
 	{
