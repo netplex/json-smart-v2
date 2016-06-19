@@ -1,7 +1,7 @@
 package net.minidev.json.test.actions;
 
 import net.minidev.json.actions.path.DotDelimiter;
-import net.minidev.json.actions.path.JSONPath;
+import net.minidev.json.actions.path.TreePath;
 import net.minidev.json.actions.path.PathDelimiter;
 import org.junit.Test;
 
@@ -11,14 +11,14 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author adoneitan@gmail.com
  */
-public class JSONPathTest
+public class TreePathTest
 {
 	private static final PathDelimiter delim = new DotDelimiter().withAcceptDelimiterInNodeName(true);
 
 	@Test
 	public void testIterator()
 	{
-		JSONPath jp = new JSONPath("a.b.c", delim);
+		TreePath jp = new TreePath("a.b.c", delim);
 		assertTrue(jp.nextIndex() == 0);
 		assertTrue(jp.prevIndex() == -1);
 		assertTrue("".equals(jp.curr()));
@@ -74,23 +74,23 @@ public class JSONPathTest
 	@Test
 	public void testSubPath()
 	{
-		JSONPath jp = new JSONPath("a.b.c", delim);
+		TreePath jp = new TreePath("a.b.c", delim);
 		assertTrue(jp.subPath(1,2).equals("b.c"));
 	}
 
 	@Test
 	public void testClone() throws CloneNotSupportedException
 	{
-		JSONPath jp1 = new JSONPath("a.b.c", delim);
-		JSONPath jp2 = jp1.clone();
+		TreePath jp1 = new TreePath("a.b.c", delim);
+		TreePath jp2 = jp1.clone();
 		assertTrue(jp1.equals(jp2));
 
 		jp1.next();
-		JSONPath jp3 = jp1.clone();
+		TreePath jp3 = jp1.clone();
 		assertTrue(jp1.equals(jp3));
 
 		jp1.prev();
-		JSONPath jp4 = jp1.clone();
+		TreePath jp4 = jp1.clone();
 		assertTrue(jp1.equals(jp4));
 
 	}

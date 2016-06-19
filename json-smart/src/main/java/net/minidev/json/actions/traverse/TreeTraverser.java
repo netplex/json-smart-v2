@@ -20,8 +20,9 @@ import java.util.Map.Entry;
  */
 public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>>
 {
-	protected PathDelimiter delim;
 	protected TreeTraverseAction<M, L> action;
+	protected PathDelimiter delim;
+	protected String pathPrefix = "";
 
 	public TreeTraverser(TreeTraverseAction action, PathDelimiter delim)
 	{
@@ -29,24 +30,29 @@ public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>
 		this.delim = delim;
 	}
 
+	public TreeTraverser with(String pathPrefix) {
+		this.pathPrefix = pathPrefix;
+		return this;
+	}
+
 	public void traverse(M map)
 	{
 		if (action.start(map)){
-			depthFirst("", map);
+			depthFirst(pathPrefix, map);
 		}
 		action.end();
 	}
 
-	private void depthFirst(String fullPathToMap, M map)
+	private void depthFirst(String fullPath, M map)
 	{
-		if (map == null || map.entrySet() == null || !action.recurInto(fullPathToMap, map)) {
+		if (map == null || map.entrySet() == null || !action.recurInto(fullPath, map)) {
 			return;
 		}
 		Iterator<Entry<String, Object>> it = map.entrySet().iterator();
 		while (it.hasNext())
 		{
 			Entry<String, Object> entry = it.next();
-			String fullPathToEntry = buildPath(fullPathToMap, entry.getKey());
+			String fullPathToEntry = buildPath(fullPath, entry.getKey());
 
 			if (!action.traverseEntry(fullPathToEntry, entry)) {
 				continue;
@@ -57,11 +63,11 @@ public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>
 				continue;
 			}
 
-			if (instanceOfMap(entry.getValue()))
+			if (entry.getValue() instanceof Map)
 			{
 				depthFirst(fullPathToEntry, (M) entry.getValue());
 			}
-			else if (instanceOfList(entry.getValue()))
+			else if (entry.getValue() instanceof List)
 			{
 				depthFirst(fullPathToEntry, (L) entry.getValue());
 			}
@@ -72,39 +78,32 @@ public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>
 		}
 	}
 
-	private void depthFirst(String fullPathToList, L list)
+	private void depthFirst(String fullPath, L list)
 	{
-		if (!action.recurInto(fullPathToList, (L) list)) {
+		if (!action.recurInto(fullPath, (L) list)) {
 			return;
 		}
 		int listIndex = 0;
 		for (Object listItem : list.toArray())
 		{
-			if (instanceOfMap(listItem))
+			if (listItem instanceof Map)
 			{
-				depthFirst(fullPathToList, (M) listItem);
+				depthFirst(fullPath, (M) listItem);
 			}
-			else if (instanceOfList(listItem))
+			else if (listItem instanceof List)
 			{
-				depthFirst(fullPathToList, (L) listItem);
+				depthFirst(fullPath, (L) listItem);
 			}
 			else
 			{
-				action.handleLeaf(fullPathToList, listIndex, listItem);
+				action.handleLeaf(fullPath, listIndex, listItem);
 			}
 			listIndex++;
 		}
 	}
 
-	private String buildPath(String fullPathToObject, String entryKey) {
-		return "".equals(fullPathToObject) ? entryKey : fullPathToObject + delim.str() + entryKey;
+	private String buildPath(String fullPath, String entryKey) {
+		return pathPrefix.equals(fullPath) ? pathPrefix + entryKey : fullPath + delim.str() + entryKey;
 	}
 
-	private boolean instanceOfList(Object obj) {
-		return obj instanceof List;
-	}
-
-	private boolean instanceOfMap(Object obj) {
-		return obj instanceof Map;
-	}
 }

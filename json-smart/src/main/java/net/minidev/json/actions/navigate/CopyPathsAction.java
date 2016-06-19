@@ -2,7 +2,7 @@ package net.minidev.json.actions.navigate;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import net.minidev.json.actions.path.JSONPath;
+import net.minidev.json.actions.path.TreePath;
 
 import java.util.Collection;
 import java.util.Stack;
@@ -27,14 +27,14 @@ import java.util.Stack;
  * @author adoneitan@gmail.com
  *
  */
-public class CopyPathsAction implements NavigateAction
+public class CopyPathsAction implements JSONNavigateAction
 {
 	protected JSONObject destTree;
 	protected JSONObject destBranch;
 	protected Stack<Object> destNodeStack;
 
 	@Override
-	public boolean handleNavigationStart(JSONObject source, Collection<String> pathsToCopy)
+	public boolean start(JSONObject source, Collection<String> pathsToCopy)
 	{
 		if (source == null)
 		{
@@ -55,15 +55,18 @@ public class CopyPathsAction implements NavigateAction
 	}
 
 	@Override
-	public boolean handleJSONObject(JSONPath jp, JSONObject o)
+	public boolean recurInto(TreePath jp, JSONObject o)
 	{
 		//reached JSONObject node - instantiate it and recur
 		handleNewNode(jp, new JSONObject());
 		return true;
 	}
 
-	private void handleNewNode(JSONPath jp, Object node)
+	private void handleNewNode(TreePath jp, Object node)
 	{
+		if (!jp.hasPrev()) {
+			return;
+		}
 		if (destNodeStack.peek() instanceof JSONObject) {
 			((JSONObject) destNodeStack.peek()).put(jp.curr(), node);
 		}
@@ -74,7 +77,7 @@ public class CopyPathsAction implements NavigateAction
 	}
 
 	@Override
-	public boolean handleJSONArrray(JSONPath jp, JSONArray o)
+	public boolean recurInto(TreePath jp, JSONArray o)
 	{
 		//reached JSONArray node - instantiate it and recur
 		handleNewNode(jp, new JSONArray());
@@ -82,32 +85,32 @@ public class CopyPathsAction implements NavigateAction
 	}
 
 	@Override
-	public void handlePrematureNavigatedBranchEnd(JSONPath jp, Object source) {
+	public void handlePrematureNavigatedBranchEnd(TreePath jp, Object source) {
 		throw new IllegalArgumentException("branch is shorter than path - path not found in source: '" + jp.origin() + "'");
 	}
 
 	@Override
-	public void handleJSONObjectLeaf(JSONPath jp, Object o) {
+	public void handleLeaf(TreePath jp, Object o) {
 		((JSONObject) destNodeStack.peek()).put(jp.curr(), o);
 	}
 
 	@Override
-	public void handleJSONArrayLeaf(int arrIndex, Object o) {
+	public void handleLeaf(TreePath jp, int arrIndex, Object o) {
 		((JSONArray) destNodeStack.peek()).add(o);
 	}
 
 	@Override
-	public void handleJSONArrayEnd(JSONPath jp) {
+	public void recurEnd(TreePath jp, JSONObject jo) {
 		destNodeStack.pop();
 	}
 
 	@Override
-	public void handleObjectEnd(JSONPath jp) {
+	public void recurEnd(TreePath jp, JSONArray ja) {
 		destNodeStack.pop();
 	}
 
 	@Override
-	public boolean handleNextPath(String path)
+	public boolean pathStart(String path)
 	{
 		destBranch = new JSONObject();
 		destNodeStack = new Stack<Object>();
@@ -116,22 +119,22 @@ public class CopyPathsAction implements NavigateAction
 	}
 
 	@Override
-	public void handlePathEnd(String path) {
+	public void pathEnd(String path) {
 		destTree.merge(destBranch);
 	}
 
 	@Override
-	public boolean failPathSilently(String path, Exception e) {
+	public boolean failSilently(String path, Exception e) {
 		return false;
 	}
 
 	@Override
-	public boolean failPathFast(String path, Exception e) {
+	public boolean failFast(String path, Exception e) {
 		return false;
 	}
 
 	@Override
-	public void handleNavigationEnd() {
+	public void end() {
 
 	}
 

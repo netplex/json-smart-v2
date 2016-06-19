@@ -1,100 +1,100 @@
 package net.minidev.json.actions.navigate;
 
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
-import net.minidev.json.actions.path.JSONPath;
+import net.minidev.json.actions.path.TreePath;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
- * An interface for a processing action on the nodes of a {@link JSONObject} while navigating its branches.
+ * An interface for a processing action on the nodes of a {@link M} while navigating its branches.
  * <p>
  * See package-info for more details
  *
  * @author adoneitan@gmail.com
  */
-public interface NavigateAction
+public interface NavigateAction<M extends Map<String, Object>, L extends List<Object>>
 {
 	/**
-	 * called before any navigation of the {@link JSONObject} starts
+	 * called before any navigation of the {@link M} starts
 	 * @return true if navigation should start at all
 	 */
-	boolean handleNavigationStart(JSONObject objectToNavigate, Collection<String> pathsToNavigate);
+	boolean start(M objectToNavigate, Collection<String> pathsToNavigate);
 
 	/**
 	 * called before navigation of a new path starts
 	 * @return true if the specified path should be navigated
 	 */
-	boolean handleNextPath(String path);
+	boolean pathStart(String path);
 
 	/**
 	 * reached end of branch in source before end of specified json path -
 	 * the specified path does not exist in the source.
 	 */
-	void handlePrematureNavigatedBranchEnd(JSONPath jp, Object source);
+	void handlePrematureNavigatedBranchEnd(TreePath tp, Object source);
 
 	/**
 	 * called after the navigation of a path ends
 	 */
-	void handlePathEnd(String path);
+	void pathEnd(String path);
 
 	/**
 	 * called if navigation of a path throws an exception
 	 * @return true if the failure on this path should not abort the rest of the navigation
 	 */
-	boolean failPathSilently(String path, Exception e);
+	boolean failSilently(String path, Exception e);
 
 	/**
 	 * called if navigation of a path throws an exception
 	 * @return true if the failure on this path should abort the rest of the navigation
 	 */
-	boolean failPathFast(String path, Exception e);
+	boolean failFast(String path, Exception e);
 
 	/**
 	 * called when an object node is encountered on the path
 	 * @return true if the navigator should navigate into the object
 	 */
-	boolean handleJSONObject(JSONPath jp, JSONObject sourceNode);
+	boolean recurInto(TreePath tp, M sourceNode);
 
 	/**
 	 * called when an array node is encountered on the path
 	 * @return true if the navigator should navigate into the array
 	 */
-	boolean handleJSONArrray(JSONPath jp, JSONArray sourceNode);
+	boolean recurInto(TreePath tp, L sourceNode);
 
 	/**
-	 * called when a leaf node is reached in a JSONObject.
-	 * a leaf in a JSONObject is a key-value pair where the value is not a container itself
-	 * (it is not a JSONObject nor a JSONArray)
-	 * @param jp - the JsonPath pointing to the leaf
+	 * called when a leaf node is reached in a M.
+	 * a leaf in a M is a key-value pair where the value is not a container itself
+	 * (it is not a M nor a L)
+	 * @param tp - the JsonPath pointing to the leaf
 	 */
-	void handleJSONObjectLeaf(JSONPath jp, Object value);
+	void handleLeaf(TreePath tp, Object value);
 
 	/**
-	 * called when a leaf in a JSONArray is reached.
-	 * a leaf in a JSONArray is a non-container item
-	 * (it is not a JSONObject nor a JSONArray)
-	 * @param arrIndex - the index of the item in the JSONArray
+	 * called when a leaf in a L is reached.
+	 * a leaf in a L is a non-container item
+	 * (it is not a M nor a L)
+	 * @param arrIndex - the index of the item in the L
 	 * @param arrItem - the item
 	 */
-	void handleJSONArrayLeaf(int arrIndex, Object arrItem);
+	void handleLeaf(TreePath tp, int arrIndex, Object arrItem);
 
 	/**
-	 * called after all the items of an array have been visited
-	 * @param jp - the JsonPath pointing to the array
+	 * called when navigation of an {@link M} type object ends
+	 * @param tp the path pointing to the object
 	 */
-	void handleJSONArrayEnd(JSONPath jp);
+	void recurEnd(TreePath tp, M m);
 
 	/**
-	 * called after all the entries of a JSONObject have been visited
-	 * @param jp - the JsonPath pointing to the object
+	 * called when navigation of an {@link L} type object ends
+	 * @param tp the path pointing to the object
 	 */
-	void handleObjectEnd(JSONPath jp);
+	void recurEnd(TreePath tp, L l);
 
 	/**
 	 * called after all navigation ends, and just before the navigation method exits
 	 */
-	void handleNavigationEnd();
+	void end();
 
 	/**
 	 * holds the result of the navigation, as assigned by the action implementing this interface

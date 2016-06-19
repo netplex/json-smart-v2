@@ -1,21 +1,21 @@
 package net.minidev.json.actions.path;
 
 
-import net.minidev.json.JSONObject;
-
 import java.util.Arrays;
+import java.util.Map;
 import java.util.List;
 import java.util.ListIterator;
 
 /**
- * {@link JSONPath} represents an n-gram formatted path
- * corresponding to a branch in a {@link JSONObject}
+ * {@link TreePath} represents an n-gram formatted path
+ * corresponding to a branch in a tree of {@link Map}s
+ * and {@link List}s
  * <p>
  * See package-info for more details
  *
  * @author adoneitan@gmail.com
  */
-public class JSONPath
+public class TreePath
 {
 
 	protected enum Step {NONE, NEXT, PREV}
@@ -28,7 +28,7 @@ public class JSONPath
 	protected StringBuilder remainder;
 	protected PathDelimiter delim;
 
-	public JSONPath(String path, PathDelimiter delim)
+	public TreePath(String path, PathDelimiter delim)
 	{
 		this.delim = delim;
 		checkPath(path);
@@ -197,9 +197,9 @@ public class JSONPath
 	}
 
 	@Override
-	public JSONPath clone() throws CloneNotSupportedException
+	public TreePath clone() throws CloneNotSupportedException
 	{
-		JSONPath cloned = new JSONPath(this.path, this.delim);
+		TreePath cloned = new TreePath(this.path, this.delim);
 		while (cloned.nextIndex() != this.nextIndex()) {
 			cloned.next();
 		}
@@ -218,16 +218,16 @@ public class JSONPath
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		JSONPath jsonPath = (JSONPath) o;
+		TreePath treePath = (TreePath) o;
 
-		return path().equals(jsonPath.path()) &&
-				hasNext() == jsonPath.hasNext() &&
-				hasPrev() == jsonPath.hasPrev() &&
-				curr().equals(jsonPath.curr()) &&
-				origin().equals(jsonPath.origin()) &&
-				remainder().equals(jsonPath.remainder()) &&
-				lastStep == jsonPath.lastStep &&
-				delim.equals(jsonPath.delim);
+		return path().equals(treePath.path()) &&
+				hasNext() == treePath.hasNext() &&
+				hasPrev() == treePath.hasPrev() &&
+				curr().equals(treePath.curr()) &&
+				origin().equals(treePath.origin()) &&
+				remainder().equals(treePath.remainder()) &&
+				lastStep == treePath.lastStep &&
+				delim.equals(treePath.delim);
 
 	}
 
