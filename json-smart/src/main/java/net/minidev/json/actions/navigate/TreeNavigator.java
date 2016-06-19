@@ -25,6 +25,7 @@ import java.util.Map;
  * the navigator like so: new JSONNavigator("k1.k2")
  *
  * @author adoneitan@gmail.com
+ * @since 15 June 2016.
  *
  */
 public class TreeNavigator<M extends Map<String, Object>, L extends List<Object>>

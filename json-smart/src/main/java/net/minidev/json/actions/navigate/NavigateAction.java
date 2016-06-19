@@ -12,20 +12,21 @@ import java.util.Map;
  * See package-info for more details
  *
  * @author adoneitan@gmail.com
+ * @since 15 June 2016
  */
 public interface NavigateAction<M extends Map<String, Object>, L extends List<Object>>
 {
-	/**
-	 * called before any navigation of the {@link M} starts
-	 * @return true if navigation should start at all
-	 */
-	boolean start(M objectToNavigate, Collection<String> pathsToNavigate);
-
 	/**
 	 * called before navigation of a new path starts
 	 * @return true if the specified path should be navigated
 	 */
 	boolean pathStart(String path);
+
+	/**
+	 * called before any navigation of the {@link M} starts
+	 * @return true if navigation should start at all
+	 */
+	boolean start(M objectToNavigate, Collection<String> pathsToNavigate);
 
 	/**
 	 * reached end of branch in source before end of specified json path -

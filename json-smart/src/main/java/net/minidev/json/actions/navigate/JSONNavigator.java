@@ -6,7 +6,8 @@ import net.minidev.json.JSONObject;
 import java.util.List;
 
 /**
- * Created by eitanraviv on 6/15/16.
+ * @author adoneitan@gmail.com
+ * @since 15 June 2016.
  */
 public class JSONNavigator extends TreeNavigator<JSONObject, JSONArray>
 {

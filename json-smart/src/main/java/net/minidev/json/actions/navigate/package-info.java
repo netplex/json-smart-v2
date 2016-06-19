@@ -1,10 +1,10 @@
 /**
- * <b>Navigate user-specified paths in a {@link net.minidev.json.JSONObject} and process them</b>
+ * <b>Navigate user-specified paths in a tree made up of {@link java.util.Map}s and {@link java.util.List} and process them</b>
  * <p>
- * {@link net.minidev.json.actions.navigate.JSONNavigatorOld} only navigates through branches corresponding
+ * {@link net.minidev.json.actions.navigate.TreeNavigator} only navigates through branches corresponding
  * to user-specified paths. For each path, the navigation starts at the root and moves down the branch.
  * <p>
- * The {@link net.minidev.json.actions.navigate.JSONNavigatorOld} accepts a
+ * The {@link net.minidev.json.actions.navigate.TreeNavigator} accepts a
  * {@link net.minidev.json.actions.navigate.NavigateAction} and provides callback hooks at each significant
  * step which the {@link net.minidev.json.actions.navigate.NavigateAction} may use to process
  * the nodes.

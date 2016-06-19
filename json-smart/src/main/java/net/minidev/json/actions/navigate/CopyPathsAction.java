@@ -25,6 +25,7 @@ import java.util.Stack;
  * See unit tests for more examples
  *
  * @author adoneitan@gmail.com
+ * @since 15 March 2016.
  *
  */
 public class CopyPathsAction implements JSONNavigateAction
