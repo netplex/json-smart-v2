@@ -42,16 +42,10 @@ public class CopyPathsAction implements JSONNavigateAction
 			destTree = null;
 			return false;
 		}
-
 		destTree = new JSONObject();
 		if (pathsToCopy == null || pathsToCopy.size() == 0) {
 			return false;
 		}
-
-		/**
-		 * using ARRAY_PUSH which adds any new entry encountered in arrays, effectively
-		 * allowing duplicate objects in the array, which is supported by Gigya
-		 */
 		return true;
 	}
 
@@ -86,8 +80,13 @@ public class CopyPathsAction implements JSONNavigateAction
 	}
 
 	@Override
-	public void handlePrematureNavigatedBranchEnd(TreePath jp, Object source) {
+	public void foundLeafBeforePathEnd(TreePath jp, Object obj) {
 		throw new IllegalArgumentException("branch is shorter than path - path not found in source: '" + jp.origin() + "'");
+	}
+
+	@Override
+	public void pathTailNotFound(TreePath jp, Object source) {
+		throw new IllegalArgumentException("cannot find next element of path - path not found in source: '" + jp.origin() + "'");
 	}
 
 	@Override

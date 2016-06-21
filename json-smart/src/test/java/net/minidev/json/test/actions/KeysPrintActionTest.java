@@ -1,7 +1,9 @@
-package net.minidev.json.actions.traverse;
+package net.minidev.json.test.actions;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
+import net.minidev.json.actions.traverse.JSONTraverser;
+import net.minidev.json.actions.traverse.KeysPrintAction;
 import net.minidev.json.parser.ParseException;
 import org.junit.Test;
 

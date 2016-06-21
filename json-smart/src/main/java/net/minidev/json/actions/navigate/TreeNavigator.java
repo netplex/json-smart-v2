@@ -82,7 +82,7 @@ public class TreeNavigator<M extends Map<String, Object>, L extends List<Object>
 		action.end();
 	}
 
-	private void nav(TreePath jp, M map)
+	public void nav(TreePath jp, M map)
 	{
 		if (map == null || !action.recurInto(jp, map))
 		{
@@ -95,9 +95,9 @@ public class TreeNavigator<M extends Map<String, Object>, L extends List<Object>
 			String key = jp.next();
 			if (!map.containsKey(key))
 			{
-				// reached end of branch in source before end of specified json path -
-				// the specified path is illegal because it does not exist in the source.
-				action.handlePrematureNavigatedBranchEnd(jp, map);
+				// cannot find next element of path in the source -
+				// the specified path does not exist in the source
+				action.pathTailNotFound(jp, map);
 			}
 			else if (map.get(key) instanceof Map)
 			{
@@ -113,7 +113,7 @@ public class TreeNavigator<M extends Map<String, Object>, L extends List<Object>
 			{
 				// reached leaf node (not a container) in source but specified path expects children -
 				// the specified path is illegal because it does not exist in the source.
-				action.handlePrematureNavigatedBranchEnd(jp, map.get(key));
+				action.foundLeafBeforePathEnd(jp, map.get(key));
 			}
 			else if (!jp.hasNext())
 			{
@@ -128,7 +128,7 @@ public class TreeNavigator<M extends Map<String, Object>, L extends List<Object>
 		action.recurEnd(jp, (M) map);
 	}
 
-	private void nav(TreePath jp, L list)
+	public void nav(TreePath jp, L list)
 	{
 		if (list == null || !action.recurInto(jp, (L) list))
 		{

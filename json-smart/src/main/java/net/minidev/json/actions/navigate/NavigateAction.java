@@ -29,10 +29,10 @@ public interface NavigateAction<M extends Map<String, Object>, L extends List<Ob
 	boolean start(M objectToNavigate, Collection<String> pathsToNavigate);
 
 	/**
-	 * reached end of branch in source before end of specified json path -
-	 * the specified path does not exist in the source.
+	 * reached end of branch in source before end of specified path -
+	 * the specified path does not exist in the source
 	 */
-	void handlePrematureNavigatedBranchEnd(TreePath tp, Object source);
+	void pathTailNotFound(TreePath tp, Object source);
 
 	/**
 	 * called after the navigation of a path ends
@@ -62,6 +62,12 @@ public interface NavigateAction<M extends Map<String, Object>, L extends List<Ob
 	 * @return true if the navigator should navigate into the array
 	 */
 	boolean recurInto(TreePath tp, L sourceNode);
+
+	/**
+	 * reached leaf node (not a container) in source but specified path expects children -
+	 * the specified path does not exist in the source
+ 	 */
+	void foundLeafBeforePathEnd(TreePath jp, Object obj);
 
 	/**
 	 * called when a leaf node is reached in a M.
@@ -101,4 +107,5 @@ public interface NavigateAction<M extends Map<String, Object>, L extends List<Ob
 	 * holds the result of the navigation, as assigned by the action implementing this interface
 	 */
 	Object result();
+
 }
