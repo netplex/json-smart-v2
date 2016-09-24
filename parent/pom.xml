@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.minidev</groupId>
 	<artifactId>minidev-parent</artifactId>
-	<version>2.2.1</version>
+	<version>2.2.1-b-SNAPSHOT</version>
 	<name>Minidev super pom</name>
 	<description>minidev common properties.</description>
 	<packaging>pom</packaging>
@@ -140,6 +140,7 @@
 		<!-- <module>../db</module> -->
 		<!-- <module>../html</module> -->
 		<module>../accessors-smart</module>
+		<module>../accessors-smart-action</module>
 		<module>../json-smart</module>
 		<!-- <module>../json-smart-mini</module> -->
 		<!-- <module>../minibase</module> -->
@@ -158,12 +159,8 @@
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
- <!-- 
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
--->
+		<!-- <snapshotRepository> <id>ossrh</id> <url>https://oss.sonatype.org/content/repositories/snapshots</url> 
+			</snapshotRepository> -->
 	</distributionManagement>
 
 	<profiles>
@@ -232,8 +229,8 @@
 						<artifactId>maven-release-plugin</artifactId>
 						<version>2.5.2</version>
 						<configuration>
-						    <mavenExecutorId>forked-path</mavenExecutorId>
-    						<arguments>-Psonatype-oss-release</arguments>
+							<mavenExecutorId>forked-path</mavenExecutorId>
+							<arguments>-Psonatype-oss-release</arguments>
 							<autoVersionSubmodules>false</autoVersionSubmodules>
 							<useReleaseProfile>false</useReleaseProfile>
 							<releaseProfiles>release</releaseProfiles>
@@ -268,6 +265,11 @@
 			</dependency>
 			<dependency>
 				<groupId>net.minidev</groupId>
+				<artifactId>json-smart-action</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.minidev</groupId>
 				<artifactId>accessors-smart</artifactId>
 				<version>1.1</version>
 			</dependency>
@@ -279,7 +281,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>3.8.2</version>
+				<version>4.12</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
