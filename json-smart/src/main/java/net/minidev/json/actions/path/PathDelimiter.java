@@ -13,7 +13,7 @@ public abstract class PathDelimiter {
 
 	public PathDelimiter(char delim) {
 		this.delimChar = delim;
-		this.delimStr = "" + delim;
+		this.delimStr = String.valueOf(delim);
 	}
 
 	public PathDelimiter withAcceptDelimiterInNodeName(boolean acceptDelimInKey) {
