@@ -20,3 +20,5 @@ json-smart/target/
 *.classpath
 *.project
 *.prefs
+*.iml
+.idea
