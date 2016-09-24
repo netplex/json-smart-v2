@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.minidev</groupId>
 	<artifactId>minidev-parent</artifactId>
-	<version>2.2.1-b-SNAPSHOT</version>
+	<version>2.3-SNAPSHOT</version>
 	<name>Minidev super pom</name>
 	<description>minidev common properties.</description>
 	<packaging>pom</packaging>
@@ -19,7 +19,7 @@
 			<id>uriel</id>
 			<name>Uriel Chemouni</name>
 			<email>uchemouni@gmail.com</email>
-			<timezone>GMT+1</timezone>
+			<timezone>GMT-7</timezone>
 			<roles>
 			</roles>
 		</developer>

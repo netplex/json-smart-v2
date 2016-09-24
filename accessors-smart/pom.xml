@@ -18,7 +18,7 @@
             <id>uriel</id>
             <name>Uriel Chemouni</name>
             <email>uchemouni@gmail.com</email>
-            <timezone>GMT+1</timezone>
+            <timezone>GMT-7</timezone>
             <roles>
             </roles>
         </developer>
