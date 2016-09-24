@@ -34,7 +34,7 @@ public class PathLocatorTest
 	}
 
 	@Parameterized.Parameters
-	public static Collection params() {
+	public static Collection<Object[]> params() {
 		return Arrays.asList(new Object[][]{
 
 				//nulls, bad/empty keys

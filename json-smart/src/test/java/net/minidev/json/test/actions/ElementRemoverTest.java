@@ -23,80 +23,85 @@ public class ElementRemoverTest {
 	private String elementsToRemove;
 	private String expectedJson;
 
-	public ElementRemoverTest(String jsonToClean, String elementsToRemove, String expectedJson)
-	{
-		this.jsonToClean = jsonToClean;
-		this.elementsToRemove = elementsToRemove;
-		this.expectedJson = expectedJson;
+	public ElementRemoverTest(String jsonToClean, String elementsToRemove, String expectedJson) {
+		this.jsonToClean = filter(jsonToClean);
+		this.elementsToRemove = filter(elementsToRemove);
+		this.expectedJson = filter(expectedJson);
 	}
 
+	private static String filter(String test) {
+		if (test == null)
+			return null;
+		return test.replace("'", "\"");
+	}
+	
 	@Parameterized.Parameters
-	public static Collection params() {
-		return Arrays.asList(new String[][]{
-				{"{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}", null,                             "{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}"},
-				{"{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}", "{}",                             "{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}"},
-				{"{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}", "{\"k0\":\"v2\"}",                "{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}"},
-				{"{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}", "{\"k2\":\"v2\"}",                "{\"k0\":{},\"k1\":{\"k3\":\"v3\"}}"},
-				{"{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}", "{\"k0\":{\"k2\":\"v2\"}}",       "{\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}"},
-				{"{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}", "{\"k2\":\"v2\",\"k3\":\"v3\"}",  "{\"k0\":{},\"k1\":{}}"},
-				{"{\"k0\":{}}",                                                   "{}",                             "{\"k0\":{}}"},
+	public static Collection<String[]> params() {
+		List<String[]>  list = Arrays.asList(new String[][]{
+				{"{'k0':{'k2':'v2'},'k1':{'k2':'v2','k3':'v3'}}", null,                     "{'k0':{'k2':'v2'},'k1':{'k2':'v2','k3':'v3'}}"},
+				{"{'k0':{'k2':'v2'},'k1':{'k2':'v2','k3':'v3'}}", "{}",                     "{'k0':{'k2':'v2'},'k1':{'k2':'v2','k3':'v3'}}"},
+				{"{'k0':{'k2':'v2'},'k1':{'k2':'v2','k3':'v3'}}", "{'k0':'v2'}",            "{'k0':{'k2':'v2'},'k1':{'k2':'v2','k3':'v3'}}"},
+				{"{'k0':{'k2':'v2'},'k1':{'k2':'v2','k3':'v3'}}", "{'k2':'v2'}",            "{'k0':{},'k1':{'k3':'v3'}}"},
+				{"{'k0':{'k2':'v2'},'k1':{'k2':'v2','k3':'v3'}}", "{'k0':{'k2':'v2'}}",     "{'k1':{'k2':'v2','k3':'v3'}}"},
+				{"{'k0':{'k2':'v2'},'k1':{'k2':'v2','k3':'v3'}}", "{'k2':'v2','k3':'v3'}",  "{'k0':{},'k1':{}}"},
+				{"{'k0':{}}",                                     "{}",                     "{'k0':{}}"},
 		});
+		return list;
 	}
 
 	@Test
-	public void test() throws ParseException
-	{
+	public void test() throws ParseException {
 		JSONObject objectToClean = jsonToClean != null ? (JSONObject) JSONValue.parseWithException(jsonToClean) : null;
-		JSONObject expectedObject = expectedJson != null ? (JSONObject) JSONValue.parseWithException(expectedJson): null;
-		JSONObject toRemove = elementsToRemove != null ? (JSONObject) JSONValue.parseWithException(elementsToRemove): null;
+		JSONObject expectedObject = expectedJson != null ? (JSONObject) JSONValue.parseWithException(expectedJson) : null;
+		JSONObject toRemove = elementsToRemove != null ? (JSONObject) JSONValue.parseWithException(elementsToRemove) : null;
 		ElementRemover er = new ElementRemover(toRemove);
 		er.remove(objectToClean);
 		assertEquals(expectedObject, objectToClean);
 	}
 
-//	private ElementRemover switchKeyToRemove()
-//	{
-//		long m = System.currentTimeMillis();
-//		if (elementsToRemove == null && m % 4 == 0)
-//		{
-//			System.out.println("cast to String");
-//			return new ElementRemover((String)null);
-//		}
-//		else if (elementsToRemove == null && m % 4 == 1)
-//		{
-//			System.out.println("cast to String[]");
-//			return new ElementRemover((String[])null);
-//		}
-//		else if (elementsToRemove == null && m % 4 == 2)
-//		{
-//			System.out.println("cast to JSONArray");
-//			return new ElementRemover((JSONArray)null);
-//		}
-//		else if (elementsToRemove == null && m % 4 == 3)
-//		{
-//			System.out.println("cast to List<String>");
-//			return new ElementRemover((List<String>)null);
-//		}
-//		else if (elementsToRemove instanceof String)
-//		{
-//			return new ElementRemover((String) elementsToRemove);
-//		}
-//		else if (elementsToRemove instanceof String[])
-//		{
-//			return new ElementRemover((String[]) elementsToRemove);
-//		}
-//		else if (elementsToRemove instanceof JSONArray)
-//		{
-//			return new ElementRemover((JSONArray) elementsToRemove);
-//		}
-//		else if (elementsToRemove instanceof List<?>)
-//		{
-//			return new ElementRemover((List<String>) elementsToRemove);
-//		}
-//		else
-//		{
-//			throw new IllegalArgumentException("bad test setup: wrong type of key to remove");
-//		}
-//	}
+	//	private ElementRemover switchKeyToRemove()
+	//	{
+	//		long m = System.currentTimeMillis();
+	//		if (elementsToRemove == null && m % 4 == 0)
+	//		{
+	//			System.out.println("cast to String");
+	//			return new ElementRemover((String)null);
+	//		}
+	//		else if (elementsToRemove == null && m % 4 == 1)
+	//		{
+	//			System.out.println("cast to String[]");
+	//			return new ElementRemover((String[])null);
+	//		}
+	//		else if (elementsToRemove == null && m % 4 == 2)
+	//		{
+	//			System.out.println("cast to JSONArray");
+	//			return new ElementRemover((JSONArray)null);
+	//		}
+	//		else if (elementsToRemove == null && m % 4 == 3)
+	//		{
+	//			System.out.println("cast to List<String>");
+	//			return new ElementRemover((List<String>)null);
+	//		}
+	//		else if (elementsToRemove instanceof String)
+	//		{
+	//			return new ElementRemover((String) elementsToRemove);
+	//		}
+	//		else if (elementsToRemove instanceof String[])
+	//		{
+	//			return new ElementRemover((String[]) elementsToRemove);
+	//		}
+	//		else if (elementsToRemove instanceof JSONArray)
+	//		{
+	//			return new ElementRemover((JSONArray) elementsToRemove);
+	//		}
+	//		else if (elementsToRemove instanceof List<?>)
+	//		{
+	//			return new ElementRemover((List<String>) elementsToRemove);
+	//		}
+	//		else
+	//		{
+	//			throw new IllegalArgumentException("bad test setup: wrong type of key to remove");
+	//		}
+	//	}
 
 }

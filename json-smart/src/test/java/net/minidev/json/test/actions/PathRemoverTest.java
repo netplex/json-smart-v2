@@ -36,7 +36,7 @@ public class PathRemoverTest
 	}
 
 	@Parameterized.Parameters
-	public static Collection params() {
+	public static Collection<Object[]> params() {
 		return Arrays.asList(new Object[][]{
 				{null,                                                             "key",                    null                                             }, // null json
 				{"{}",                                                             "key",                    "{}"                                             }, // empty json
