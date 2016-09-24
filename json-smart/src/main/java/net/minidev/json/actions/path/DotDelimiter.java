@@ -7,17 +7,14 @@ package net.minidev.json.actions.path;
  * @author adoneitan@gmail.com
  * @since 31 May2016
  */
-public class DotDelimiter extends PathDelimiter
-{
+public class DotDelimiter extends PathDelimiter {
 	protected static final char DELIM_CHAR = '.';
 
-	public DotDelimiter()
-	{
+	public DotDelimiter() {
 		super(DELIM_CHAR);
 	}
 
-	public String regex()
-	{
+	public String regex() {
 		return "\\.";
 	}
 }

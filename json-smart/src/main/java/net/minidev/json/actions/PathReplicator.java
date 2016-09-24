@@ -36,17 +36,13 @@ import java.util.List;
  * @author adoneitan@gmail.com
  * @since 15 March 2016.
  */
-public class PathReplicator
-{
+public class PathReplicator {
 	protected List<String> pathsToCopy;
 
-	public PathReplicator(JSONArray pathsToCopy)
-	{
+	public PathReplicator(JSONArray pathsToCopy) {
 		if (pathsToCopy == null || pathsToCopy.isEmpty()) {
 			this.pathsToCopy = Collections.emptyList();
-		}
-		else
-		{
+		} else {
 			this.pathsToCopy = new LinkedList<String>();
 			for (Object s : pathsToCopy) {
 				this.pathsToCopy.add((String) s);
@@ -54,20 +50,16 @@ public class PathReplicator
 		}
 	}
 
-	public PathReplicator(List<String> pathsToCopy)
-	{
-		this.pathsToCopy = pathsToCopy == null || pathsToCopy.size() == 0 ?
-				Collections.<String>emptyList() : pathsToCopy;
+	public PathReplicator(List<String> pathsToCopy) {
+		this.pathsToCopy = pathsToCopy == null || pathsToCopy.size() == 0 ? Collections.<String> emptyList() : pathsToCopy;
 	}
 
-	public PathReplicator(String... pathsToCopy)
-	{
-		this.pathsToCopy = pathsToCopy == null || pathsToCopy.length == 0 ?
-				Collections.<String>emptyList() : new LinkedList<String>(Arrays.asList(pathsToCopy));
+	public PathReplicator(String... pathsToCopy) {
+		this.pathsToCopy = pathsToCopy == null || pathsToCopy.length == 0 ? Collections.<String> emptyList()
+				: new LinkedList<String>(Arrays.asList(pathsToCopy));
 	}
 
-	public JSONObject replicate(JSONObject sourceObj) throws Exception
-	{
+	public JSONObject replicate(JSONObject sourceObj) throws Exception {
 		CopyPathsAction s = new CopyPathsAction();
 		JSONNavigator n = new JSONNavigator(s, pathsToCopy);
 		n.nav(sourceObj);

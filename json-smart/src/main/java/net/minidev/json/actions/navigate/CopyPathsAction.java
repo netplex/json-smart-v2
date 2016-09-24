@@ -28,17 +28,14 @@ import java.util.Stack;
  * @since 15 March 2016.
  *
  */
-public class CopyPathsAction implements JSONNavigateAction
-{
+public class CopyPathsAction implements JSONNavigateAction {
 	protected JSONObject destTree;
 	protected JSONObject destBranch;
 	protected Stack<Object> destNodeStack;
 
 	@Override
-	public boolean start(JSONObject source, Collection<String> pathsToCopy)
-	{
-		if (source == null)
-		{
+	public boolean start(JSONObject source, Collection<String> pathsToCopy) {
+		if (source == null) {
 			destTree = null;
 			return false;
 		}
@@ -50,30 +47,26 @@ public class CopyPathsAction implements JSONNavigateAction
 	}
 
 	@Override
-	public boolean recurInto(TreePath jp, JSONObject o)
-	{
+	public boolean recurInto(TreePath jp, JSONObject o) {
 		//reached JSONObject node - instantiate it and recur
 		handleNewNode(jp, new JSONObject());
 		return true;
 	}
 
-	private void handleNewNode(TreePath jp, Object node)
-	{
+	private void handleNewNode(TreePath jp, Object node) {
 		if (!jp.hasPrev()) {
 			return;
 		}
 		if (destNodeStack.peek() instanceof JSONObject) {
 			((JSONObject) destNodeStack.peek()).put(jp.curr(), node);
-		}
-		else if (destNodeStack.peek() instanceof JSONArray) {
+		} else if (destNodeStack.peek() instanceof JSONArray) {
 			((JSONArray) destNodeStack.peek()).add(node);
 		}
 		destNodeStack.push(node);
 	}
 
 	@Override
-	public boolean recurInto(TreePath jp, JSONArray o)
-	{
+	public boolean recurInto(TreePath jp, JSONArray o) {
 		//reached JSONArray node - instantiate it and recur
 		handleNewNode(jp, new JSONArray());
 		return true;
@@ -110,8 +103,7 @@ public class CopyPathsAction implements JSONNavigateAction
 	}
 
 	@Override
-	public boolean pathStart(String path)
-	{
+	public boolean pathStart(String path) {
 		destBranch = new JSONObject();
 		destNodeStack = new Stack<Object>();
 		destNodeStack.push(destBranch);

@@ -33,18 +33,14 @@ import java.util.List;
  *
  * @author adoneitan@gmail.com
  */
-public class PathsRetainer
-{
+public class PathsRetainer {
 	protected List<String> pathsToRetain;
 	protected PathDelimiter pathDelimiter = new DotDelimiter().withAcceptDelimiterInNodeName(false);
 
-	public PathsRetainer(JSONArray pathsToRetain)
-	{
+	public PathsRetainer(JSONArray pathsToRetain) {
 		if (pathsToRetain == null || pathsToRetain.isEmpty()) {
 			this.pathsToRetain = Collections.emptyList();
-		}
-		else
-		{
+		} else {
 			this.pathsToRetain = new LinkedList<String>();
 			for (Object s : pathsToRetain) {
 				this.pathsToRetain.add((String) s);
@@ -52,25 +48,21 @@ public class PathsRetainer
 		}
 	}
 
-	public PathsRetainer(List<String> pathsToRetain)
-	{
-		this.pathsToRetain = pathsToRetain == null || pathsToRetain.size() == 0 ?
-				Collections.<String>emptyList() : pathsToRetain;
+	public PathsRetainer(List<String> pathsToRetain) {
+		this.pathsToRetain = pathsToRetain == null || pathsToRetain.size() == 0 ? Collections.<String> emptyList() : pathsToRetain;
 	}
 
-	public PathsRetainer(String... pathsToRetain)
-	{
-		this.pathsToRetain = pathsToRetain == null || pathsToRetain.length == 0 ?
-				Collections.<String>emptyList() : new LinkedList<String>(Arrays.asList(pathsToRetain));
+	public PathsRetainer(String... pathsToRetain) {
+		this.pathsToRetain = pathsToRetain == null || pathsToRetain.length == 0 ? Collections.<String> emptyList()
+				: new LinkedList<String>(Arrays.asList(pathsToRetain));
 	}
 
 	public PathsRetainer with(PathDelimiter pathDelimiter) {
 		this.pathDelimiter = pathDelimiter;
 		return this;
 	}
-	
-	public JSONObject retain(JSONObject object)
-	{
+
+	public JSONObject retain(JSONObject object) {
 		/**
 		 * a path to retain which contains a path in the object, but is not itself a path in the object,
 		 * will cause the sub-path to be retained although it shouldn't:

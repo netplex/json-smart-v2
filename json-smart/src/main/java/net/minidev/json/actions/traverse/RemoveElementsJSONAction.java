@@ -19,40 +19,34 @@ import java.util.Map.Entry;
  * @author adoneitan@gmail.com
  *
  */
-public class RemoveElementsJsonAction implements JSONTraverseAction
-{
+public class RemoveElementsJsonAction implements JSONTraverseAction {
 	protected JSONObject result;
 	protected final Map<String, Object> elementsToRemove;
 	protected final boolean allowDotChar;
 
-	public RemoveElementsJsonAction(Map<String, Object> elementsToRemove, boolean allowDotChar)
-	{
+	public RemoveElementsJsonAction(Map<String, Object> elementsToRemove, boolean allowDotChar) {
 		this.elementsToRemove = elementsToRemove;
 		this.allowDotChar = allowDotChar;
 	}
 
-	public RemoveElementsJsonAction(Map<String, Object> elementsToRemove)
-	{
+	public RemoveElementsJsonAction(Map<String, Object> elementsToRemove) {
 		this(elementsToRemove, false);
 	}
 
 	@Override
-	public boolean start(JSONObject object)
-	{
+	public boolean start(JSONObject object) {
 		result = object;
 		return object != null && elementsToRemove != null && elementsToRemove.size() > 0;
 	}
 
 	@Override
-	public boolean removeEntry(String fullPathToEntry, Entry<String, Object> entry)
-	{
+	public boolean removeEntry(String fullPathToEntry, Entry<String, Object> entry) {
 		return elementsToRemove.entrySet().contains(entry);
 	}
 
 	@Override
-	public boolean traverseEntry(String fullPathToEntry, Entry<String, Object> entry)
-	{
-		//must traverse the whole object
+	public boolean traverseEntry(String fullPathToEntry, Entry<String, Object> entry) {
+		// must traverse the whole object
 		return true;
 	}
 
@@ -67,20 +61,17 @@ public class RemoveElementsJsonAction implements JSONTraverseAction
 	}
 
 	@Override
-	public void handleLeaf(String pathToEntry, Entry<String, Object> entry)
-	{
-
+	public void handleLeaf(String pathToEntry, Entry<String, Object> entry) {
 	}
 
 	@Override
-	public void handleLeaf(String fullPathToContainingList, int listIndex, Object listItem)
-	{
+	public void handleLeaf(String fullPathToContainingList, int listIndex, Object listItem) {
 
 	}
 
 	@Override
 	public void end() {
-		//nothing to do
+		// nothing to do
 	}
 
 	@Override

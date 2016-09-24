@@ -9,17 +9,14 @@ import java.util.Map.Entry;
  * @author adoneitan@gmail.com
  * @since  5/24/16.
  */
-public class KeysPrintAction implements JSONTraverseAction
-{
+public class KeysPrintAction implements JSONTraverseAction {
 	@Override
-	public boolean start(JSONObject object)
-	{
+	public boolean start(JSONObject object) {
 		return true;
 	}
 
 	@Override
-	public boolean traverseEntry(String fullPathToEntry, Entry<String, Object> entry)
-	{
+	public boolean traverseEntry(String fullPathToEntry, Entry<String, Object> entry) {
 		System.out.println(entry.getKey());
 		return true;
 	}
@@ -35,32 +32,27 @@ public class KeysPrintAction implements JSONTraverseAction
 	}
 
 	@Override
-	public void handleLeaf(String pathToEntry,  Entry<String, Object> entry)
-	{
+	public void handleLeaf(String pathToEntry, Entry<String, Object> entry) {
 
 	}
 
 	@Override
-	public void handleLeaf(String fullPathToContainingList, int listIndex, Object listItem)
-	{
+	public void handleLeaf(String fullPathToContainingList, int listIndex, Object listItem) {
 
 	}
 
 	@Override
-	public boolean removeEntry(String fullPathToEntry, Entry<String, Object> entry)
-	{
+	public boolean removeEntry(String fullPathToEntry, Entry<String, Object> entry) {
 		return false;
 	}
 
 	@Override
-	public void end()
-	{
+	public void end() {
 
 	}
 
 	@Override
-	public Object result()
-	{
+	public Object result() {
 		return null;
 	}
 

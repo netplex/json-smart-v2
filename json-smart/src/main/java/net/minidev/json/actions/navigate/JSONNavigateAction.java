@@ -11,7 +11,6 @@ import net.minidev.json.JSONObject;
  * @author adoneitan@gmail.com
  * @since 15 June 2016.
  */
-public interface JSONNavigateAction extends NavigateAction<JSONObject, JSONArray>
-{
+public interface JSONNavigateAction extends NavigateAction<JSONObject, JSONArray> {
 
 }

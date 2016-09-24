@@ -19,33 +19,28 @@ import java.util.Map.Entry;
  * @author adoneitan@gmail.com
  *
  */
-public class RemovePathsJsonAction implements JSONTraverseAction
-{
+public class RemovePathsJsonAction implements JSONTraverseAction {
 	protected JSONObject result;
 	protected List<String> pathsToRemove;
 
-	public RemovePathsJsonAction(List<String> pathsToRemove)
-	{
+	public RemovePathsJsonAction(List<String> pathsToRemove) {
 		this.pathsToRemove = pathsToRemove;
 	}
 
 	@Override
-	public boolean start(JSONObject object)
-	{
+	public boolean start(JSONObject object) {
 		result = object;
 		return object != null && pathsToRemove != null && pathsToRemove.size() > 0;
 	}
 
 	@Override
-	public boolean removeEntry(String fullPathToEntry, Entry<String, Object> entry)
-	{
+	public boolean removeEntry(String fullPathToEntry, Entry<String, Object> entry) {
 		return pathsToRemove.contains(fullPathToEntry);
 	}
 
 	@Override
-	public boolean traverseEntry(String fullPathToEntry, Entry<String, Object> entry)
-	{
-		//must traverse the whole object
+	public boolean traverseEntry(String fullPathToEntry, Entry<String, Object> entry) {
+		// must traverse the whole object
 		return true;
 	}
 
@@ -60,20 +55,18 @@ public class RemovePathsJsonAction implements JSONTraverseAction
 	}
 
 	@Override
-	public void handleLeaf(String pathToEntry, Entry<String, Object> entry)
-	{
+	public void handleLeaf(String pathToEntry, Entry<String, Object> entry) {
 
 	}
 
 	@Override
-	public void handleLeaf(String fullPathToContainingList, int listIndex, Object listItem)
-	{
+	public void handleLeaf(String fullPathToContainingList, int listIndex, Object listItem) {
 
 	}
 
 	@Override
 	public void end() {
-		//nothing to do
+		// nothing to do
 	}
 
 	@Override

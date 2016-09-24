@@ -14,8 +14,7 @@ import java.util.Map;
  * @author adoneitan@gmail.com
  * @since 15 June 2016
  */
-public interface NavigateAction<M extends Map<String, Object>, L extends List<Object>>
-{
+public interface NavigateAction<M extends Map<String, Object>, L extends List<Object>> {
 	/**
 	 * called before navigation of a new path starts
 	 * @return true if the specified path should be navigated
@@ -66,7 +65,7 @@ public interface NavigateAction<M extends Map<String, Object>, L extends List<Ob
 	/**
 	 * reached leaf node (not a container) in source but specified path expects children -
 	 * the specified path does not exist in the source
- 	 */
+	 */
 	void foundLeafBeforePathEnd(TreePath jp, Object obj);
 
 	/**

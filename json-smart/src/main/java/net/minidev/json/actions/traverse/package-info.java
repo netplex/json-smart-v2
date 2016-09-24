@@ -25,7 +25,6 @@
  * Object result = tAction.result();
  * </pre>
  *
-
  * @author adoneitan@gmail.com
  */
 package net.minidev.json.actions.traverse;

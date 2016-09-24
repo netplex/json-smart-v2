@@ -13,8 +13,7 @@ import java.util.Map.Entry;
  *
  * @author adoneitan@gmail.com
  */
-public interface TreeTraverseAction<M extends Map<String, Object>, L extends List<Object>>
-{
+public interface TreeTraverseAction<M extends Map<String, Object>, L extends List<Object>> {
 	/**
 	 * called before any traversal of the {@link M} tree starts
 	 * @return true if traversal should start at all

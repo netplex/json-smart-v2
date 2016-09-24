@@ -18,14 +18,12 @@ import java.util.Map.Entry;
  * @author adoneitan@gmail.com
  *
  */
-public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>>
-{
+public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>> {
 	protected TreeTraverseAction<M, L> action;
 	protected PathDelimiter delim;
 	protected String pathPrefix = "";
 
-	public TreeTraverser(TreeTraverseAction action, PathDelimiter delim)
-	{
+	public TreeTraverser(TreeTraverseAction action, PathDelimiter delim) {
 		this.action = action;
 		this.delim = delim;
 	}
@@ -35,67 +33,50 @@ public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>
 		return this;
 	}
 
-	public void traverse(M map)
-	{
-		if (action.start(map)){
+	public void traverse(M map) {
+		if (action.start(map)) {
 			depthFirst(pathPrefix, map);
 		}
 		action.end();
 	}
 
-	private void depthFirst(String fullPath, M map)
-	{
+	private void depthFirst(String fullPath, M map) {
 		if (map == null || map.entrySet() == null || !action.recurInto(fullPath, map)) {
 			return;
 		}
 		Iterator<Entry<String, Object>> it = map.entrySet().iterator();
-		while (it.hasNext())
-		{
+		while (it.hasNext()) {
 			Entry<String, Object> entry = it.next();
 			String fullPathToEntry = buildPath(fullPath, entry.getKey());
 
 			if (!action.traverseEntry(fullPathToEntry, entry)) {
 				continue;
-			}
-			else if (action.removeEntry(fullPathToEntry, entry))
-			{
+			} else if (action.removeEntry(fullPathToEntry, entry)) {
 				it.remove();
 				continue;
 			}
 
-			if (entry.getValue() instanceof Map)
-			{
+			if (entry.getValue() instanceof Map) {
 				depthFirst(fullPathToEntry, (M) entry.getValue());
-			}
-			else if (entry.getValue() instanceof List)
-			{
+			} else if (entry.getValue() instanceof List) {
 				depthFirst(fullPathToEntry, (L) entry.getValue());
-			}
-			else
-			{
+			} else {
 				action.handleLeaf(fullPathToEntry, entry);
 			}
 		}
 	}
 
-	private void depthFirst(String fullPath, L list)
-	{
+	private void depthFirst(String fullPath, L list) {
 		if (!action.recurInto(fullPath, (L) list)) {
 			return;
 		}
 		int listIndex = 0;
-		for (Object listItem : list.toArray())
-		{
-			if (listItem instanceof Map)
-			{
+		for (Object listItem : list.toArray()) {
+			if (listItem instanceof Map) {
 				depthFirst(fullPath, (M) listItem);
-			}
-			else if (listItem instanceof List)
-			{
+			} else if (listItem instanceof List) {
 				depthFirst(fullPath, (L) listItem);
-			}
-			else
-			{
+			} else {
 				action.handleLeaf(fullPath, listIndex, listItem);
 			}
 			listIndex++;

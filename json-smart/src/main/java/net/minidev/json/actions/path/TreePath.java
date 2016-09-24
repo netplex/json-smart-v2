@@ -1,6 +1,5 @@
 package net.minidev.json.actions.path;
 
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.List;
@@ -15,10 +14,12 @@ import java.util.ListIterator;
  *
  * @author adoneitan@gmail.com
  */
-public class TreePath
-{
+public class TreePath {
 
-	protected enum Step {NONE, NEXT, PREV}
+	protected enum Step {
+		NONE, NEXT, PREV
+	}
+
 	protected final String path;
 	protected List<String> keys;
 	protected ListIterator<String> keysItr;
@@ -28,8 +29,7 @@ public class TreePath
 	protected StringBuilder remainder;
 	protected PathDelimiter delim;
 
-	public TreePath(String path, PathDelimiter delim)
-	{
+	public TreePath(String path, PathDelimiter delim) {
 		this.delim = delim;
 		checkPath(path);
 		this.path = path;
@@ -37,8 +37,7 @@ public class TreePath
 		reset();
 	}
 
-	public void reset()
-	{
+	public void reset() {
 		keysItr = keys.listIterator();
 		currKey = "";
 		lastStep = Step.NONE;
@@ -54,8 +53,7 @@ public class TreePath
 		return keysItr.nextIndex();
 	}
 
-	public String next()
-	{
+	public String next() {
 		currKey = keysItr.next();
 		/** when changing direction the {@link ListIterator} does not really
 		 * move backward so an extra step is performed */
@@ -75,8 +73,7 @@ public class TreePath
 		return keysItr.previousIndex();
 	}
 
-	public String prev()
-	{
+	public String prev() {
 		String temp = currKey;
 		currKey = keysItr.previous();
 		/** when changing direction the {@link ListIterator} does not really
@@ -89,8 +86,7 @@ public class TreePath
 		return currKey;
 	}
 
-	private void remainderDecrement()
-	{
+	private void remainderDecrement() {
 		if (length() == 1)
 			remainder = new StringBuilder("");
 		else if (remainder.indexOf(delim.str()) < 0)
@@ -99,8 +95,7 @@ public class TreePath
 			remainder.delete(0, remainder.indexOf(delim.str()) + 1);
 	}
 
-	private void originDecrement()
-	{
+	private void originDecrement() {
 		if (length() == 1)
 			origin = new StringBuilder("");
 		else if (origin.indexOf(delim.str()) < 0)
@@ -109,16 +104,14 @@ public class TreePath
 			origin.delete(origin.lastIndexOf(delim.str()), origin.length());
 	}
 
-	private void originIncrement()
-	{
+	private void originIncrement() {
 		if (origin.length() != 0) {
 			origin.append(delim.chr());
 		}
 		origin.append(currKey);
 	}
 
-	private void remainderIncrement(String prev)
-	{
+	private void remainderIncrement(String prev) {
 		if (remainder.length() == 0)
 			remainder = new StringBuilder(prev);
 		else
@@ -171,14 +164,12 @@ public class TreePath
 		return keys.size();
 	}
 
-	public String subPath(int firstIndex, int lastIndex)
-	{
+	public String subPath(int firstIndex, int lastIndex) {
 		if (lastIndex < firstIndex) {
 			throw new IllegalArgumentException("bad call to subPath");
 		}
 		StringBuilder sb = new StringBuilder(path.length());
-		for (int i = firstIndex; i <= lastIndex; i++)
-		{
+		for (int i = firstIndex; i <= lastIndex; i++) {
 			sb.append(keys.get(i));
 			if (i < lastIndex) {
 				sb.append(delim.chr());
@@ -188,8 +179,7 @@ public class TreePath
 		return sb.toString();
 	}
 
-	private void checkPath(String path)
-	{
+	private void checkPath(String path) {
 		if (path == null || path.equals(""))
 			throw new IllegalArgumentException("path cannot be null or empty");
 		if (path.startsWith(delim.str()) || path.endsWith(delim.str()) || path.contains(delim.str() + delim.str()))
@@ -197,8 +187,7 @@ public class TreePath
 	}
 
 	@Override
-	public TreePath clone() throws CloneNotSupportedException
-	{
+	public TreePath clone() throws CloneNotSupportedException {
 		TreePath cloned = new TreePath(this.path, this.delim);
 		while (cloned.nextIndex() != this.nextIndex()) {
 			cloned.next();
@@ -215,19 +204,16 @@ public class TreePath
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
 		TreePath treePath = (TreePath) o;
 
-		return path().equals(treePath.path()) &&
-				hasNext() == treePath.hasNext() &&
-				hasPrev() == treePath.hasPrev() &&
-				curr().equals(treePath.curr()) &&
-				origin().equals(treePath.origin()) &&
-				remainder().equals(treePath.remainder()) &&
-				lastStep == treePath.lastStep &&
-				delim.equals(treePath.delim);
+		return path().equals(treePath.path()) && hasNext() == treePath.hasNext() && hasPrev() == treePath.hasPrev() && curr().equals(treePath.curr())
+				&& origin().equals(treePath.origin()) && remainder().equals(treePath.remainder()) && lastStep == treePath.lastStep
+				&& delim.equals(treePath.delim);
 
 	}
 
@@ -244,5 +230,3 @@ public class TreePath
 		return result;
 	}
 }
-
-

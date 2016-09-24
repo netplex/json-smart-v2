@@ -7,18 +7,15 @@ package net.minidev.json.actions.path;
  * @author adoneitan@gmail.com
  * @since 31 May 2016
  */
-public class SlashDelimiter extends PathDelimiter
-{
+public class SlashDelimiter extends PathDelimiter {
 	protected static final char DELIM_CHAR = '/';
 
-	public SlashDelimiter()
-	{
+	public SlashDelimiter() {
 		super(DELIM_CHAR);
 		super.withAcceptDelimiterInNodeName(false);
 	}
 
-	public String regex()
-	{
+	public String regex() {
 		return "\\/";
 	}
 }

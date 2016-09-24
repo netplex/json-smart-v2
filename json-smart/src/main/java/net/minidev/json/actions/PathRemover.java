@@ -34,17 +34,13 @@ import java.util.List;
  * @author adoneitan@gmail.com
  *
  */
-public class PathRemover
-{
+public class PathRemover {
 	protected List<String> pathsToRemove;
 
-	public PathRemover(JSONArray pathsToRemove)
-	{
+	public PathRemover(JSONArray pathsToRemove) {
 		if (pathsToRemove == null || pathsToRemove.isEmpty()) {
 			this.pathsToRemove = Collections.emptyList();
-		}
-		else
-		{
+		} else {
 			this.pathsToRemove = new ArrayList<String>();
 			for (Object s : pathsToRemove) {
 				this.pathsToRemove.add((String) s);
@@ -52,20 +48,15 @@ public class PathRemover
 		}
 	}
 
-	public PathRemover(List<String> pathsToRemove)
-	{
-		this.pathsToRemove = pathsToRemove == null || pathsToRemove.size() == 0 ?
-				Collections.<String>emptyList() : pathsToRemove;
+	public PathRemover(List<String> pathsToRemove) {
+		this.pathsToRemove = pathsToRemove == null || pathsToRemove.size() == 0 ? Collections.<String> emptyList() : pathsToRemove;
 	}
 
-	public PathRemover(String... pathsToRemove)
-	{
-		this.pathsToRemove = pathsToRemove == null || pathsToRemove.length == 0 ?
-				Collections.<String>emptyList() : Arrays.asList(pathsToRemove);
+	public PathRemover(String... pathsToRemove) {
+		this.pathsToRemove = pathsToRemove == null || pathsToRemove.length == 0 ? Collections.<String> emptyList() : Arrays.asList(pathsToRemove);
 	}
 
-	public JSONObject remove(JSONObject objectToClean)
-	{
+	public JSONObject remove(JSONObject objectToClean) {
 		JSONTraverseAction strategy = new RemovePathsJsonAction(this.pathsToRemove);
 		JSONTraverser traversal = new JSONTraverser(strategy);
 		traversal.traverse(objectToClean);

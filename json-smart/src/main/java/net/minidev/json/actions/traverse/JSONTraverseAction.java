@@ -10,6 +10,5 @@ import net.minidev.json.JSONObject;
  *
  * @author adoneitan@gmail.com
  */
-public interface JSONTraverseAction extends TreeTraverseAction<JSONObject, JSONArray>
-{
+public interface JSONTraverseAction extends TreeTraverseAction<JSONObject, JSONArray> {
 }

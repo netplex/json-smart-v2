@@ -6,14 +6,12 @@ package net.minidev.json.actions.path;
  * @author adoneitan@gmail.com
  * @since 31 May 2016
  */
-public abstract class PathDelimiter
-{
+public abstract class PathDelimiter {
 	protected char delimChar;
 	protected String delimStr;
 	protected boolean acceptDelimInKey;
 
-	public PathDelimiter(char delim)
-	{
+	public PathDelimiter(char delim) {
 		this.delimChar = delim;
 		this.delimStr = "" + delim;
 	}
@@ -23,8 +21,7 @@ public abstract class PathDelimiter
 		return this;
 	}
 
-	public boolean accept(String key)
-	{
+	public boolean accept(String key) {
 		if (!acceptDelimInKey && key.contains(delimStr))
 			return false;
 		return true;

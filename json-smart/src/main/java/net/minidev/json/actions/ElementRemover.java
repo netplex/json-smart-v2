@@ -26,22 +26,18 @@ import java.util.*;
  * @author adoneitan@gmail.com
  *
  */
-public class ElementRemover
-{
+public class ElementRemover {
 	private Map<String, Object> elementsToRemove;
 
-	public ElementRemover(Map<String, Object> elementsToRemove)
-	{
-		this.elementsToRemove = elementsToRemove == null ? Collections.<String, Object>emptyMap() : elementsToRemove;
+	public ElementRemover(Map<String, Object> elementsToRemove) {
+		this.elementsToRemove = elementsToRemove == null ? Collections.<String, Object> emptyMap() : elementsToRemove;
 	}
 
-	public ElementRemover(JSONObject elementsToRemove)
-	{
-		this.elementsToRemove = elementsToRemove == null ? Collections.<String, Object>emptyMap() : elementsToRemove;
+	public ElementRemover(JSONObject elementsToRemove) {
+		this.elementsToRemove = elementsToRemove == null ? Collections.<String, Object> emptyMap() : elementsToRemove;
 	}
 
-	public JSONObject remove(JSONObject objectToClean)
-	{
+	public JSONObject remove(JSONObject objectToClean) {
 		JSONTraverseAction strategy = new RemoveElementsJsonAction(this.elementsToRemove);
 		JSONTraverser traversal = new JSONTraverser(strategy);
 		traversal.traverse(objectToClean);

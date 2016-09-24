@@ -20,8 +20,6 @@ import java.lang.annotation.Target;
  * Read/Write using field if the field is public (default )
  * 
  * 
- * 
- * 
  * @author uriel
  * 
  */

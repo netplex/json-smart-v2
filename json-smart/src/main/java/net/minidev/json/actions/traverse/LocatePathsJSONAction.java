@@ -21,33 +21,29 @@ import java.util.Map.Entry;
  * @author adoneitan@gmail.com
  *
  */
-public class LocatePathsJsonAction implements JSONTraverseAction
-{
+public class LocatePathsJsonAction implements JSONTraverseAction {
 	protected List<String> pathsFound;
 	protected List<String> pathsToFind;
 	protected PathDelimiter delim;
 
 	/**
 	 *
-	 * @param pathsToFind A path to a field in the {@link JSONObject} should be specified in n-gram format where keys are chained:
-	 * k0[[[.k1].k2]...]
+	 * @param pathsToFind
+	 *            A path to a field in the {@link JSONObject} should be specified in n-gram format where keys are chained: k0[[[.k1].k2]...]
 	 */
-	public LocatePathsJsonAction(List<String> pathsToFind, PathDelimiter delim)
-	{
+	public LocatePathsJsonAction(List<String> pathsToFind, PathDelimiter delim) {
 		this.pathsToFind = pathsToFind;
 		this.delim = delim;
 		pathsFound = new LinkedList<String>();
 	}
 
 	@Override
-	public boolean start(JSONObject object)
-	{
+	public boolean start(JSONObject object) {
 		return object != null && pathsToFind != null && pathsToFind.size() > 0;
 	}
 
 	@Override
-	public boolean traverseEntry(String fullPathToEntry, Entry<String, Object> entry)
-	{
+	public boolean traverseEntry(String fullPathToEntry, Entry<String, Object> entry) {
 		if (!delim.accept(entry.getKey())) {
 			return false;
 		}
@@ -76,14 +72,13 @@ public class LocatePathsJsonAction implements JSONTraverseAction
 	}
 
 	@Override
-	public boolean removeEntry(String fullPathToEntry, Entry<String, Object> entry)
-	{
+	public boolean removeEntry(String fullPathToEntry, Entry<String, Object> entry) {
 		return false;
 	}
 
 	@Override
 	public void end() {
-		//nothing to do
+		// nothing to do
 	}
 
 	@Override
@@ -91,11 +86,9 @@ public class LocatePathsJsonAction implements JSONTraverseAction
 		return pathsFound;
 	}
 
-	private void locatePath(String pathToEntry)
-	{
-		if (pathsToFind.contains(pathToEntry))
-		{
-			//reached end of path that is being searched
+	private void locatePath(String pathToEntry) {
+		if (pathsToFind.contains(pathToEntry)) {
+			// reached end of path that is being searched
 			pathsFound.add(pathToEntry);
 		}
 	}
