@@ -19,23 +19,20 @@ import static org.junit.Assert.assertEquals;
  * @author adoneitan@gmail.com
  */
 @RunWith(Parameterized.class)
-public class PathReplicatorTest
-{
+public class PathReplicatorTest {
 	private String jsonSource;
 	private Object pathsToCopy;
 	private Object expected;
 
-	public PathReplicatorTest(String jsonSource, Object pathsToCopy, Object expected)
-	{
+	public PathReplicatorTest(String jsonSource, Object pathsToCopy, Object expected) {
 		this.jsonSource = jsonSource;
 		this.pathsToCopy = pathsToCopy;
 		this.expected = expected;
 	}
 
 	@Parameterized.Parameters
-	public static Collection params()
-	{
-		return Arrays.asList(new Object[][]{
+	public static Collection params() {
+		return Arrays.asList(new Object[][] {
 
 				//nulls, bad/empty keys
 				{null,                                                  null,                           null                                                  },
@@ -120,9 +117,8 @@ public class PathReplicatorTest
 	}
 
 	@Test
-	public void test() throws Exception
-	{
-		JSONObject objectSource = jsonSource != null ? (JSONObject) JSONValue.parseWithException(jsonSource) :null;
+	public void test() throws Exception {
+		JSONObject objectSource = jsonSource != null ? (JSONObject) JSONValue.parseWithException(jsonSource) : null;
 		PathReplicator copier = switchKeyToCopy();
 		JSONObject copied = copier.replicate(objectSource);
 		JSONObject expectedObj = expected != null ? (JSONObject) JSONValue.parseWithException((String) expected) : null;
@@ -130,101 +126,64 @@ public class PathReplicatorTest
 	}
 
 	@Test
-	public void test2() throws Exception
-	{
-		JSONObject objectSource = jsonSource != null ? (JSONObject) JSONValue.parseWithException(jsonSource) :null;
+	public void test2() throws Exception {
+		JSONObject objectSource = jsonSource != null ? (JSONObject) JSONValue.parseWithException(jsonSource) : null;
 		PathReplicator copier = switchKeyToCopy2();
 		JSONObject copied = copier.replicate(objectSource);
 		JSONObject expectedObj = expected != null ? (JSONObject) JSONValue.parseWithException((String) expected) : null;
 		assertEquals(expectedObj, copied);
 	}
 
-	private PathReplicator switchKeyToCopy()
-	{
+	private PathReplicator switchKeyToCopy() {
 		long m = System.currentTimeMillis();
-		if (pathsToCopy == null && m % 4 == 0)
-		{
+		if (pathsToCopy == null && m % 4 == 0) {
 			System.out.println("cast to String");
-			return new PathReplicator((String)null);
-		}
-		else if (pathsToCopy == null && m % 4 == 1)
-		{
+			return new PathReplicator((String) null);
+		} else if (pathsToCopy == null && m % 4 == 1) {
 			System.out.println("cast to String[]");
-			return new PathReplicator((String[])null);
-		}
-		else if (pathsToCopy == null && m % 4 == 2)
-		{
+			return new PathReplicator((String[]) null);
+		} else if (pathsToCopy == null && m % 4 == 2) {
 			System.out.println("cast to JSONArray");
-			return new PathReplicator((JSONArray)null);
-		}
-		else if (pathsToCopy == null && m % 4 == 3)
-		{
+			return new PathReplicator((JSONArray) null);
+		} else if (pathsToCopy == null && m % 4 == 3) {
 			System.out.println("cast to List<String>");
-			return new PathReplicator((List<String>)null);
-		}
-		else if (pathsToCopy instanceof String)
-		{
+			return new PathReplicator((List<String>) null);
+		} else if (pathsToCopy instanceof String) {
 			return new PathReplicator((String) pathsToCopy);
-		}
-		else if (pathsToCopy instanceof String[])
-		{
+		} else if (pathsToCopy instanceof String[]) {
 			return new PathReplicator((String[]) pathsToCopy);
-		}
-		else if (pathsToCopy instanceof JSONArray)
-		{
+		} else if (pathsToCopy instanceof JSONArray) {
 			return new PathReplicator((JSONArray) pathsToCopy);
-		}
-		else if (pathsToCopy instanceof List<?>)
-		{
+		} else if (pathsToCopy instanceof List<?>) {
 			return new PathReplicator((List<String>) pathsToCopy);
-		}
-		else
-		{
+		} else {
 			throw new IllegalArgumentException("bad test setup: wrong type of key to remove");
 		}
 	}
 
-	private PathReplicator switchKeyToCopy2()
-	{
+	private PathReplicator switchKeyToCopy2() {
 		long m = System.currentTimeMillis();
-		if (pathsToCopy == null && m % 4 == 0)
-		{
+		if (pathsToCopy == null && m % 4 == 0) {
 			System.out.println("cast to String");
-			return new PathReplicator((String)null);
-		}
-		else if (pathsToCopy == null && m % 4 == 1)
-		{
+			return new PathReplicator((String) null);
+		} else if (pathsToCopy == null && m % 4 == 1) {
 			System.out.println("cast to String[]");
-			return new PathReplicator((String[])null);
-		}
-		else if (pathsToCopy == null && m % 4 == 2)
-		{
+			return new PathReplicator((String[]) null);
+		} else if (pathsToCopy == null && m % 4 == 2) {
 			System.out.println("cast to JSONArray");
-			return new PathReplicator((JSONArray)null);
-		}
-		else if (pathsToCopy == null && m % 4 == 3)
-		{
+			return new PathReplicator((JSONArray) null);
+		} else if (pathsToCopy == null && m % 4 == 3) {
 			System.out.println("cast to List<String>");
-			return new PathReplicator((List<String>)null);
-		}
-		else if (pathsToCopy instanceof String)
-		{
+			return new PathReplicator((List<String>) null);
+		} else if (pathsToCopy instanceof String) {
 			return new PathReplicator((String) pathsToCopy);
-		}
-		else if (pathsToCopy instanceof String[])
-		{
+		} else if (pathsToCopy instanceof String[]) {
 			return new PathReplicator((String[]) pathsToCopy);
-		}
-		else if (pathsToCopy instanceof JSONArray)
-		{
+		} else if (pathsToCopy instanceof JSONArray) {
 			return new PathReplicator((JSONArray) pathsToCopy);
-		}
-		else if (pathsToCopy instanceof List<?>)
-		{
+		} else if (pathsToCopy instanceof List<?>) {
 			return new PathReplicator((List<String>) pathsToCopy);
-		}
-		else
-		{
+		} else {
 			throw new IllegalArgumentException("bad test setup: wrong type of key to remove");
 		}
 	}

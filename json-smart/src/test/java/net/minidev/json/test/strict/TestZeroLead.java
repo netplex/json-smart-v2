@@ -42,7 +42,7 @@ public class TestZeroLead extends TestCase {
 		// PERMISIVE
 		JSONValue.parseWithException(s);
 	}
-	
+
 	public void test00001() throws Exception {
 		String s = "{\"t\":00001}";
 		JSONObject o = (JSONObject) new JSONParser(JSONParser.MODE_PERMISSIVE).parse(s);
@@ -57,14 +57,14 @@ public class TestZeroLead extends TestCase {
 	}
 
 	// disable in 1.1
-//	public void testDup() throws Exception {
-//		String s = "{'t':1,'t':2}";
-//		try {
-//			new JSONParser(JSONParser.MODE_PERMISSIVE).parse(s);
-//			assertEquals("Should Stack", "");
-//		} catch (ParseException e) {
-//			assertEquals(ParseException.ERROR_UNEXPECTED_DUPLICATE_KEY, e.getErrorType());
-//		}
-//	}
+	//	public void testDup() throws Exception {
+	//		String s = "{'t':1,'t':2}";
+	//		try {
+	//			new JSONParser(JSONParser.MODE_PERMISSIVE).parse(s);
+	//			assertEquals("Should Stack", "");
+	//		} catch (ParseException e) {
+	//			assertEquals(ParseException.ERROR_UNEXPECTED_DUPLICATE_KEY, e.getErrorType());
+	//		}
+	//	}
 
 }

@@ -21,23 +21,21 @@ import static org.junit.Assert.assertEquals;
  * @author adoneitan@gmail.com
  */
 @RunWith(Parameterized.class)
-public class PathsRetainerTest
-{
+public class PathsRetainerTest {
 	private String jsonToReduce;
 	private Object keyToKeep;
 	private String expectedReducedJson;
 
-	public PathsRetainerTest(String jsonToReduce, Object keyToKeep, String expectedReducedJson)
-	{
+	public PathsRetainerTest(String jsonToReduce, Object keyToKeep, String expectedReducedJson) {
 		this.jsonToReduce = jsonToReduce;
 		this.keyToKeep = keyToKeep;
 		this.expectedReducedJson = expectedReducedJson;
 	}
 
 	@Parameterized.Parameters
-	public static Collection params()
-	{
-		return Arrays.asList(new Object[][]{
+	public static Collection params() {
+		return Arrays
+				.asList(new Object[][] {
 
 				//nulls, bad/empty keys
 				{null,                                                  null,                           null                                                  },
@@ -113,56 +111,37 @@ public class PathsRetainerTest
 	}
 
 	@Test
-	public void test() throws ParseException
-	{
-		JSONObject objectToReduce = jsonToReduce != null ? (JSONObject) JSONValue.parseWithException(jsonToReduce) :null;
-		JSONObject expectedReducedObj = expectedReducedJson != null ? (JSONObject) JSONValue.parseWithException(expectedReducedJson):null;
+	public void test() throws ParseException {
+		JSONObject objectToReduce = jsonToReduce != null ? (JSONObject) JSONValue.parseWithException(jsonToReduce) : null;
+		JSONObject expectedReducedObj = expectedReducedJson != null ? (JSONObject) JSONValue.parseWithException(expectedReducedJson) : null;
 		PathsRetainer retainer = switchKeyToRemove().with(new DotDelimiter().withAcceptDelimiterInNodeName(false));
 		JSONObject reducedObj = retainer.retain(objectToReduce);
 		assertEquals(expectedReducedObj, reducedObj);
 	}
 
-	private PathsRetainer switchKeyToRemove()
-	{
+	private PathsRetainer switchKeyToRemove() {
 		long m = System.currentTimeMillis();
-		if (keyToKeep == null && m % 4 == 0)
-		{
+		if (keyToKeep == null && m % 4 == 0) {
 			System.out.println("cast to String");
-			return new PathsRetainer((String)null);
-		}
-		else if (keyToKeep == null && m % 4 == 1)
-		{
+			return new PathsRetainer((String) null);
+		} else if (keyToKeep == null && m % 4 == 1) {
 			System.out.println("cast to String[]");
-			return new PathsRetainer((String[])null);
-		}
-		else if (keyToKeep == null && m % 4 == 2)
-		{
+			return new PathsRetainer((String[]) null);
+		} else if (keyToKeep == null && m % 4 == 2) {
 			System.out.println("cast to JSONArray");
-			return new PathsRetainer((JSONArray)null);
-		}
-		else if (keyToKeep == null && m % 4 == 3)
-		{
+			return new PathsRetainer((JSONArray) null);
+		} else if (keyToKeep == null && m % 4 == 3) {
 			System.out.println("cast to List<String>");
-			return new PathsRetainer((List<String>)null);
-		}
-		else if (keyToKeep instanceof String)
-		{
+			return new PathsRetainer((List<String>) null);
+		} else if (keyToKeep instanceof String) {
 			return new PathsRetainer((String) keyToKeep);
-		}
-		else if (keyToKeep instanceof String[])
-		{
+		} else if (keyToKeep instanceof String[]) {
 			return new PathsRetainer((String[]) keyToKeep);
-		}
-		else if (keyToKeep instanceof JSONArray)
-		{
+		} else if (keyToKeep instanceof JSONArray) {
 			return new PathsRetainer((JSONArray) keyToKeep);
-		}
-		else if (keyToKeep instanceof List<?>)
-		{
+		} else if (keyToKeep instanceof List<?>) {
 			return new PathsRetainer((List<String>) keyToKeep);
-		}
-		else
-		{
+		} else {
 			throw new IllegalArgumentException("bad test setup: wrong type of key to remove");
 		}
 	}

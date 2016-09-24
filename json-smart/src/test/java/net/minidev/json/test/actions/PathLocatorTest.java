@@ -34,8 +34,7 @@ public class PathLocatorTest
 	}
 
 	@Parameterized.Parameters
-	public static Collection params()
-	{
+	public static Collection params() {
 		return Arrays.asList(new Object[][]{
 
 				//nulls, bad/empty keys
@@ -115,44 +114,27 @@ public class PathLocatorTest
 	private PathLocator switchKeyToRemove()
 	{
 		long m = System.currentTimeMillis();
-		if (keysToFind == null && m % 4 == 0)
-		{
+		if (keysToFind == null && m % 4 == 0) {
 			System.out.println("cast to String");
 			return new PathLocator((String)null);
-		}
-		else if (keysToFind == null && m % 4 == 1)
-		{
+		} else if (keysToFind == null && m % 4 == 1) {
 			System.out.println("cast to String[]");
 			return new PathLocator((String[])null);
-		}
-		else if (keysToFind == null && m % 4 == 2)
-		{
+		} else if (keysToFind == null && m % 4 == 2) {
 			System.out.println("cast to JSONArray");
 			return new PathLocator((JSONArray)null);
-		}
-		else if (keysToFind == null && m % 4 == 3)
-		{
+		} else if (keysToFind == null && m % 4 == 3) {
 			System.out.println("cast to List<String>");
 			return new PathLocator((List<String>)null);
-		}
-		else if (keysToFind instanceof String)
-		{
+		} else if (keysToFind instanceof String) {
 			return new PathLocator((String) keysToFind);
-		}
-		else if (keysToFind instanceof String[])
-		{
+		} else if (keysToFind instanceof String[]) {
 			return new PathLocator((String[]) keysToFind);
-		}
-		else if (keysToFind instanceof JSONArray)
-		{
+		} else if (keysToFind instanceof JSONArray) {
 			return new PathLocator((JSONArray) keysToFind);
-		}
-		else if (keysToFind instanceof List<?>)
-		{
+		} else if (keysToFind instanceof List<?>) {
 			return new PathLocator((List<String>) keysToFind);
-		}
-		else
-		{
+		} else {
 			throw new IllegalArgumentException("bad test setup: wrong type of key to remove");
 		}
 	}

@@ -1,6 +1,5 @@
 package net.minidev.json.test.actions;
 
-import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import net.minidev.json.actions.ElementRemover;
@@ -19,8 +18,7 @@ import static org.junit.Assert.assertEquals;
  * @author adoneitan@gmail.com
  */
 @RunWith(Parameterized.class)
-public class ElementRemoverTest
-{
+public class ElementRemoverTest {
 	private String jsonToClean;
 	private String elementsToRemove;
 	private String expectedJson;
@@ -33,10 +31,8 @@ public class ElementRemoverTest
 	}
 
 	@Parameterized.Parameters
-	public static Collection params()
-	{
-		return Arrays.asList(new Object[][]{
-
+	public static Collection params() {
+		return Arrays.asList(new String[][]{
 				{"{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}", null,                             "{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}"},
 				{"{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}", "{}",                             "{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}"},
 				{"{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}", "{\"k0\":\"v2\"}",                "{\"k0\":{\"k2\":\"v2\"},\"k1\":{\"k2\":\"v2\",\"k3\":\"v3\"}}"},

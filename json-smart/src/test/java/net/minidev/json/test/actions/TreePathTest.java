@@ -11,13 +11,11 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author adoneitan@gmail.com
  */
-public class TreePathTest
-{
+public class TreePathTest {
 	private static final PathDelimiter delim = new DotDelimiter().withAcceptDelimiterInNodeName(true);
 
 	@Test
-	public void testIterator()
-	{
+	public void testIterator() {
 		TreePath jp = new TreePath("a.b.c", delim);
 		assertTrue(jp.nextIndex() == 0);
 		assertTrue(jp.prevIndex() == -1);
@@ -72,15 +70,13 @@ public class TreePathTest
 	}
 
 	@Test
-	public void testSubPath()
-	{
+	public void testSubPath() {
 		TreePath jp = new TreePath("a.b.c", delim);
-		assertTrue(jp.subPath(1,2).equals("b.c"));
+		assertTrue(jp.subPath(1, 2).equals("b.c"));
 	}
 
 	@Test
-	public void testClone() throws CloneNotSupportedException
-	{
+	public void testClone() throws CloneNotSupportedException {
 		TreePath jp1 = new TreePath("a.b.c", delim);
 		TreePath jp2 = jp1.clone();
 		assertTrue(jp1.equals(jp2));

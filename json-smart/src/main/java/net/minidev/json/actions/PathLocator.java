@@ -28,18 +28,14 @@ import java.util.List;
  *
  * @author adoneitan@gmail.com
  */
-public class PathLocator
-{
+public class PathLocator {
 	protected List<String> pathsToFind;
 	protected PathDelimiter pathDelimiter = new DotDelimiter().withAcceptDelimiterInNodeName(false);
 
-	public PathLocator(JSONArray pathsToFind)
-	{
+	public PathLocator(JSONArray pathsToFind) {
 		if (pathsToFind == null || pathsToFind.isEmpty()) {
 			this.pathsToFind = Collections.emptyList();
-		}
-		else
-		{
+		} else {
 			this.pathsToFind = new ArrayList<String>();
 			for (Object s : pathsToFind) {
 				this.pathsToFind.add((String) s);
@@ -47,16 +43,12 @@ public class PathLocator
 		}
 	}
 
-	public PathLocator(List<String> pathsToFind)
-	{
-		this.pathsToFind = pathsToFind == null || pathsToFind.size() == 0 ?
-				Collections.<String>emptyList() : pathsToFind;
+	public PathLocator(List<String> pathsToFind) {
+		this.pathsToFind = pathsToFind == null || pathsToFind.size() == 0 ? Collections.<String> emptyList() : pathsToFind;
 	}
 
-	public PathLocator(String... pathsToFind)
-	{
-		this.pathsToFind = pathsToFind == null || pathsToFind.length == 0 ?
-				Collections.<String>emptyList() : Arrays.asList(pathsToFind);
+	public PathLocator(String... pathsToFind) {
+		this.pathsToFind = pathsToFind == null || pathsToFind.length == 0 ? Collections.<String> emptyList() : Arrays.asList(pathsToFind);
 	}
 
 	public PathLocator with(PathDelimiter pathDelimiter) {
@@ -64,8 +56,7 @@ public class PathLocator
 		return this;
 	}
 
-	public List<String> locate(JSONObject object)
-	{
+	public List<String> locate(JSONObject object) {
 		JSONTraverseAction action = new LocatePathsJsonAction(this.pathsToFind, pathDelimiter);
 		JSONTraverser traversal = new JSONTraverser(action).with(pathDelimiter);
 		traversal.traverse(object);

@@ -36,10 +36,8 @@ public class PathRemoverTest
 	}
 
 	@Parameterized.Parameters
-	public static Collection params()
-	{
+	public static Collection params() {
 		return Arrays.asList(new Object[][]{
-
 				{null,                                                             "key",                    null                                             }, // null json
 				{"{}",                                                             "key",                    "{}"                                             }, // empty json
 				{"{\"first\": null}",                                              null,                     "{\"first\": null}"                              }, // null key
@@ -91,44 +89,27 @@ public class PathRemoverTest
 	private PathRemover switchKeyToRemove()
 	{
 		long m = System.currentTimeMillis();
-		if (keyToRemove == null && m % 4 == 0)
-		{
+		if (keyToRemove == null && m % 4 == 0) {
 			System.out.println("cast to String");
 			return new PathRemover((String)null);
-		}
-		else if (keyToRemove == null && m % 4 == 1)
-		{
+		} else if (keyToRemove == null && m % 4 == 1) {
 			System.out.println("cast to String[]");
 			return new PathRemover((String[])null);
-		}
-		else if (keyToRemove == null && m % 4 == 2)
-		{
+		} else if (keyToRemove == null && m % 4 == 2) {
 			System.out.println("cast to JSONArray");
 			return new PathRemover((JSONArray)null);
-		}
-		else if (keyToRemove == null && m % 4 == 3)
-		{
+		} else if (keyToRemove == null && m % 4 == 3) {
 			System.out.println("cast to List<String>");
 			return new PathRemover((List<String>)null);
-		}
-		else if (keyToRemove instanceof String)
-		{
+		} else if (keyToRemove instanceof String) {
 			return new PathRemover((String)keyToRemove);
-		}
-		else if (keyToRemove instanceof String[])
-		{
+		} else if (keyToRemove instanceof String[]) {
 			return new PathRemover((String[])keyToRemove);
-		}
-		else if (keyToRemove instanceof JSONArray)
-		{
+		} else if (keyToRemove instanceof JSONArray) {
 			return new PathRemover((JSONArray)keyToRemove);
-		}
-		else if (keyToRemove instanceof List<?>)
-		{
+		} else if (keyToRemove instanceof List<?>) {
 			return new PathRemover((List<String>)keyToRemove);
-		}
-		else
-		{
+		} else {
 			throw new IllegalArgumentException("bad test setup: wrong type of key to remove");
 		}
 	}
