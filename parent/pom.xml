@@ -140,7 +140,7 @@
 		<!-- <module>../db</module> -->
 		<!-- <module>../html</module> -->
 		<module>../accessors-smart</module>
-		<module>../accessors-smart-action</module>
+		<module>../json-smart-action</module>
 		<module>../json-smart</module>
 		<!-- <module>../json-smart-mini</module> -->
 		<!-- <module>../minibase</module> -->

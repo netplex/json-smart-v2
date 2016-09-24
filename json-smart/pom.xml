@@ -250,8 +250,10 @@
 						<Bundle-Name>${project.artifactId}</Bundle-Name>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Export-Package>
-							net.minidev.json, net.minidev.json.annotate, net.minidev.json.parser,
-							net.minidev.json.reader, net.minidev.json.writer
+							net.minidev.json, net.minidev.json.annotate,
+							net.minidev.json.parser,
+							net.minidev.json.reader,
+							net.minidev.json.writer
 						</Export-Package>
 					</instructions>
 				</configuration>
