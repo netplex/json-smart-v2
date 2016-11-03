@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.minidev</groupId>
     <artifactId>accessors-smart</artifactId>
-    <version>1.1</version>
+    <version>1.2-SNAPSHOT</version>
     <name>ASM based accessors helper used by json-smart</name>
     <description>Java reflect give poor performance on getter setter an constructor calls, accessors-smart use ASM to speed up those calls.
     </description>
@@ -257,8 +257,6 @@
                         <Export-Package>
                             net.minidev.asm, net.minidev.asm.ex
                         </Export-Package>
-                        <!-- Private-Package></Private-Package -->
-                        <Embed-Dependency>asm;groupId=org.ow2.asm;inline=true</Embed-Dependency>
                     </instructions>
                 </configuration>
             </plugin>
