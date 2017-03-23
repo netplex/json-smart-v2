@@ -63,8 +63,13 @@ class JSONParserString extends JSONParserMemory {
 	}
 
 	protected void extractStringTrim(int start, int stop) {
+		while (start < stop-1 && Character.isWhitespace(in.charAt(start))) {
+			start++;
+		}
+		while (stop-1 > start && Character.isWhitespace(in.charAt(stop-1))) {
+			stop--;
+		}
 		extractString(start, stop);
-		xs = xs.trim();
 	}
 
 	protected int indexOf(char c, int pos) {
