@@ -101,7 +101,7 @@ public abstract class JsonReaderI<T> {
 	/**
 	 * Allow a mapper to converte a temprary structure to the final data format.
 	 * 
-	 * example: convert an List<Integer> to an int[]
+	 * example: convert an List&lt;Integer&gt; to an int[]
 	 */
 	@SuppressWarnings("unchecked")
 	public T convert(Object current) {

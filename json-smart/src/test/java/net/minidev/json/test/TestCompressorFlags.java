@@ -8,7 +8,7 @@ import net.minidev.json.JSONValue;
 /**
  * Test all Compression Styles
  * 
- * @author Uriel Chemouni <uchemouni@gmail.com>
+ * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  *
  */
 public class TestCompressorFlags extends TestCase {

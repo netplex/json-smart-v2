@@ -27,7 +27,7 @@ import net.minidev.json.writer.JsonReaderI;
  * 
  * @since 1.0.9
  * 
- * @author Uriel Chemouni <uchemouni@gmail.com>
+ * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
 public class JSONNavi<T> {
 	private JsonReaderI<? super T> mapper;

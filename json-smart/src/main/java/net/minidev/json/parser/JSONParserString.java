@@ -22,7 +22,7 @@ import net.minidev.json.writer.JsonReaderI;
 /**
  * Parser for JSON text. Please note that JSONParser is NOT thread-safe.
  * 
- * @author Uriel Chemouni <uchemouni@gmail.com>
+ * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
 class JSONParserString extends JSONParserMemory {
 	private String in;
@@ -63,8 +63,13 @@ class JSONParserString extends JSONParserMemory {
 	}
 
 	protected void extractStringTrim(int start, int stop) {
+		while (start < stop-1 && Character.isWhitespace(in.charAt(start))) {
+			start++;
+		}
+		while (stop-1 > start && Character.isWhitespace(in.charAt(stop-1))) {
+			stop--;
+		}
 		extractString(start, stop);
-		xs = xs.trim();
 	}
 
 	protected int indexOf(char c, int pos) {

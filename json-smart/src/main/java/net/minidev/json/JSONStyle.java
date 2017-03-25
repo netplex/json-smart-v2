@@ -23,7 +23,7 @@ import net.minidev.json.JStylerObj.StringProtector;
 /**
  * JSONStyle object configure JSonSerializer reducing output size
  * 
- * @author Uriel Chemouni <uchemouni@gmail.com>
+ * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
 public class JSONStyle {
 	/**
@@ -57,7 +57,7 @@ public class JSONStyle {
 	private boolean _protect4Web;
 	private boolean _protectValues;
 	private boolean _ignore_null;
-
+	
 	private MustProtect mpKey;
 	private MustProtect mpValue;
 
