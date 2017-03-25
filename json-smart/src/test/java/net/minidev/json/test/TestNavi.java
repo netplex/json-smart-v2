@@ -49,6 +49,6 @@ public class TestNavi extends TestCase {
 		nav = JSONNavi.newInstance();
 		nav.set("type", "bundle").at("data").array().atNext().set("type", "object").set("name", "obj1").up().atNext().set("type", "object").set("name", "obj2").root();
 		s2 = nav.toString();
-		assertEquals(expected, nav.toString());
+		assertEquals(expected, s2);
 	}
 }

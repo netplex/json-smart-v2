@@ -2,7 +2,6 @@ package net.minidev.json.testMapping;
 
 import java.io.IOException;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
@@ -23,7 +22,7 @@ public class TestCustomMappingInstant extends TestCase {
 		ParseException e = null;
 		
 		JSONValue.toJSONString(true, JSONStyle.MAX_COMPRESS);
-		Assert.assertEquals(true, true);
+		//Assert.assertEquals(true, true);
 	}
 	
 // Need JDK 1.8
