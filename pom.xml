@@ -134,9 +134,9 @@
 	</reporting>
 
 	<modules>
-		<module>../accessors-smart</module>
-		<module>../json-smart-action</module>
-		<module>../json-smart</module>
+		<module>accessors-smart</module>
+		<module>json-smart-action</module>
+		<module>json-smart</module>
 	</modules>
 
 	<distributionManagement>
