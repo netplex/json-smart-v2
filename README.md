@@ -4,9 +4,14 @@
 
 # Changelog
 
-### *V SNAPSHOOT*
+### *V 2.3*
+* Patch 37 [issue 37](http://code.google.com/p/json-smart/issues/detail?id=37)
+* explicite support of char 127 [issue 18](http://code.google.com/p/json-smart/issues/detail?id=18)
+* integrate json-smart-action from Eitan Raviv [PR 31](https://github.com/netplex/json-smart-v2/pull/31)
 
- * empty
+### *V 2.2.2*
+ * Fix support for default java datetime format for US locale
+ * update my time Zone from Paris to San Francisco.
 
 ### *V 2.2.1*
 * Fix issue in strict mode [issue gh-17](https://github.com/netplex/json-smart-v2/issues/17)
