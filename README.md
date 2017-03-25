@@ -8,6 +8,7 @@
 * Patch 37 [issue 37](http://code.google.com/p/json-smart/issues/detail?id=37)
 * explicite support of char 127 [issue 18](http://code.google.com/p/json-smart/issues/detail?id=18)
 * integrate json-smart-action from Eitan Raviv [PR 31](https://github.com/netplex/json-smart-v2/pull/31)
+* Remove hard codded e.printStackTrace() [issue 33](https://github.com/netplex/json-smart-v2/issues/33)
 
 ### *V 2.2.2*
  * Fix support for default java datetime format for US locale

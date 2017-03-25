@@ -102,7 +102,6 @@ public class JSONValue {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, defaultReader.getMapper(mapTo));
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -139,7 +138,6 @@ public class JSONValue {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, defaultReader.getMapper(mapTo));
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -156,7 +154,6 @@ public class JSONValue {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, defaultReader.getMapper(mapTo));
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -173,7 +170,6 @@ public class JSONValue {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, new UpdaterMapper<T>(defaultReader, toUpdate));
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -188,7 +184,6 @@ public class JSONValue {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, mapper);
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -205,7 +200,6 @@ public class JSONValue {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, defaultReader.getMapper(mapTo));
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -222,7 +216,6 @@ public class JSONValue {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, new UpdaterMapper<T>(defaultReader, toUpdate));
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -239,7 +232,6 @@ public class JSONValue {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, new UpdaterMapper<T>(defaultReader, toUpdate));
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -268,7 +260,6 @@ public class JSONValue {
 			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
 			return p.parse(in, mapper);
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -352,7 +343,6 @@ public class JSONValue {
 			new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(input, new CompessorMapper(defaultReader, sb, style));
 			return sb.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
 			return input;
 		}
 	}
