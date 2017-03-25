@@ -17,6 +17,7 @@ public class TestDateConvert extends TestCase {
 		tests.add("23 janvier 2012 13:42:12");
 		tests.add("lundi 23 janvier 2012 13:42:12");
 		tests.add("2012-01-23 13:42:12");
+		tests.add("Thu Jan 23 13:42:12 PST 2012");
 		//
 		for (String testDate : tests) {
 			Date parsed = null;

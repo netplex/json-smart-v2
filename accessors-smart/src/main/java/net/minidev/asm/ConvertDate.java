@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.StringTokenizer;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 public class ConvertDate {
@@ -40,6 +41,7 @@ public class ConvertDate {
 	static {
 		voidData.add("CET");
 		voidData.add("MEZ");
+		voidData.add("PST");
 		voidData.add("Uhr");
 		voidData.add("h");
 		voidData.add("pm");
@@ -118,6 +120,8 @@ public class ConvertDate {
 			return null;
 		if (obj instanceof Date)
 			return (Date) obj;
+		if (obj instanceof Number)
+			return new Date(((Number)obj).longValue());
 		if (obj instanceof String) {
 			StringTokenizer st = new StringTokenizer((String) obj, " -/:,.+");
 			String s1 = "";
@@ -204,8 +208,12 @@ public class ConvertDate {
 				return null;
 			s1 = st.nextToken();
 		}
-		cal.set(Calendar.YEAR, getYear(s1));
-
+		if (s1.length() == 4)
+			cal.set(Calendar.YEAR, getYear(s1));
+		else if (s1.length() == 2) {
+			return addHour2(st, cal, s1);
+			
+		}
 		// /if (st.hasMoreTokens())
 		// return null;
 		// s1 = st.nextToken();
@@ -236,6 +244,10 @@ public class ConvertDate {
 				return cal.getTime();
 			s1 = st.nextToken();
 		}
+		return addHour2(st, cal, s1);
+	}
+	
+	private static Date addHour2(StringTokenizer st, Calendar cal, String s1) {
 		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(s1));
 
 		if (!st.hasMoreTokens())
@@ -273,6 +285,10 @@ public class ConvertDate {
 		s1 = trySkip(st, s1, cal);
 		// if (s1.equalsIgnoreCase("pm"))
 		// cal.add(Calendar.HOUR_OF_DAY, 12);
+		
+		if (s1.length() == 4 && Character.isDigit(s1.charAt(0)))
+			cal.set(Calendar.YEAR, getYear(s1));
+
 		return cal.getTime();
 	}
 
@@ -280,6 +296,8 @@ public class ConvertDate {
 		while (voidData.contains(s1)) {
 			if (s1.equalsIgnoreCase("pm"))
 				cal.add(Calendar.HOUR_OF_DAY, 12);
+			if (s1.equalsIgnoreCase("PST"))
+				cal.setTimeZone(TimeZone.getTimeZone("PST"));
 			if (!st.hasMoreTokens())
 				return null;
 			s1 = st.nextToken();
