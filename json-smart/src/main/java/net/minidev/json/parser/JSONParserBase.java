@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.omg.stub.java.rmi._Remote_Stub;
+
 import net.minidev.json.writer.JsonReader;
 import net.minidev.json.writer.JsonReaderI;
 
@@ -35,7 +37,7 @@ import net.minidev.json.writer.JsonReaderI;
  * @see JSONParserMemory
  * @see JSONParserStream
  * 
- * @author Uriel Chemouni <uchemouni@gmail.com>
+ * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
 abstract class JSONParserBase {
 	protected char c;
@@ -82,6 +84,7 @@ abstract class JSONParserBase {
 	protected final boolean ignoreControlChar;
 	protected final boolean useHiPrecisionFloat;
 	protected final boolean useIntegerStorage;
+	protected final boolean reject127;
 
 	public JSONParserBase(int permissiveMode) {
 		this.acceptNaN = (permissiveMode & JSONParser.ACCEPT_NAN) > 0;
@@ -94,6 +97,7 @@ abstract class JSONParserBase {
 		this.useHiPrecisionFloat = (permissiveMode & JSONParser.USE_HI_PRECISION_FLOAT) > 0;
 		this.checkTaillingData = (permissiveMode & (JSONParser.ACCEPT_TAILLING_DATA | JSONParser.ACCEPT_TAILLING_SPACE)) != (JSONParser.ACCEPT_TAILLING_DATA | JSONParser.ACCEPT_TAILLING_SPACE);
 		this.checkTaillingSpace = (permissiveMode & JSONParser.ACCEPT_TAILLING_SPACE) == 0;
+		this.reject127 = (permissiveMode & JSONParser.REJECT_127_CHAR) > 0;
 	}
 
 	public void checkControleChar() throws ParseException {
@@ -106,8 +110,10 @@ abstract class JSONParserBase {
 				continue;
 			if (c <= 31)
 				throw new ParseException(pos + i, ParseException.ERROR_UNEXPECTED_CHAR, c);
-			if (c == 127)
-				throw new ParseException(pos + i, ParseException.ERROR_UNEXPECTED_CHAR, c);
+			if (c == 127) {
+				if (reject127)
+					throw new ParseException(pos + i, ParseException.ERROR_UNEXPECTED_CHAR, c);
+			}
 		}
 	}
 
@@ -656,16 +662,20 @@ abstract class JSONParserBase {
 			case (char) 23: // End transmission block, not the same as EOT
 			case (char) 24: // Cancel line, MPE echoes !!!
 			case (char) 25: // End of medium, Control-Y interrupt
-				// case (char) 26: // Substitute
+			// case (char) 26: // Substitute == EOI
 			case (char) 27: // escape
 			case (char) 28: // File Separator
 			case (char) 29: // Group Separator
 			case (char) 30: // Record Separator
 			case (char) 31: // Unit Separator
+				if (ignoreControlChar)
+					continue;
+				throw new ParseException(pos, ERROR_UNEXPECTED_CHAR, c);				
 			case (char) 127: // del
 				if (ignoreControlChar)
 					continue;
-				throw new ParseException(pos, ERROR_UNEXPECTED_CHAR, c);
+				if (reject127)
+					throw new ParseException(pos, ERROR_UNEXPECTED_CHAR, c);
 			default:
 				sb.append(c);
 			}

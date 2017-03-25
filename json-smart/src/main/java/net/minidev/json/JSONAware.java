@@ -19,7 +19,7 @@ package net.minidev.json;
  * Beans that support customized output of JSON text shall implement this
  * interface.
  * 
- * @author FangYidong<fangyidong@yahoo.com.cn>
+ * @author FangYidong &lt;fangyidong@yahoo.com.cn&gt;
  */
 public interface JSONAware {
 	/**
