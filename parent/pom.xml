@@ -134,20 +134,9 @@
 	</reporting>
 
 	<modules>
-		<!-- <module>../commons</module> -->
-		<!-- <module>../conf</module> -->
-		<!-- <module>../csv</module> -->
-		<!-- <module>../db</module> -->
-		<!-- <module>../html</module> -->
 		<module>../accessors-smart</module>
 		<module>../json-smart-action</module>
 		<module>../json-smart</module>
-		<!-- <module>../json-smart-mini</module> -->
-		<!-- <module>../minibase</module> -->
-		<!-- <module>../minibase-srv</module> -->
-		<!-- <module>../minibase-gae</module> -->
-		<!-- <module>../ovh</module> -->
-		<!-- <module>../types</module> -->
 	</modules>
 
 	<distributionManagement>
@@ -267,11 +256,6 @@
 				<groupId>net.minidev</groupId>
 				<artifactId>json-smart-action</artifactId>
 				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>net.minidev</groupId>
-				<artifactId>accessors-smart</artifactId>
-				<version>1.1</version>
 			</dependency>
 			<dependency>
 				<groupId>net.minidev</groupId>

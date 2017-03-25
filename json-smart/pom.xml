@@ -56,6 +56,7 @@
 		<dependency>
 			<groupId>net.minidev</groupId>
 			<artifactId>accessors-smart</artifactId>
+            <version>1.2</version>
 		</dependency>
 	</dependencies>
 	<scm>
