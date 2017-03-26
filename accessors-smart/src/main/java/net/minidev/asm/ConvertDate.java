@@ -37,31 +37,21 @@ public class ConvertDate {
 			return month.intValue();
 		}
 	}
-
-	static {
-		voidData.add("CET");
+	static TreeMap<String, TimeZone> timeZoneMapping;
+	static {		
+		 timeZoneMapping = new TreeMap<String, TimeZone>();
 		voidData.add("MEZ");
-		voidData.add("PST");
 		voidData.add("Uhr");
 		voidData.add("h");
 		voidData.add("pm");
 		voidData.add("PM");
+		voidData.add("AM");
 		voidData.add("o'clock");
-
-		// for (int c = 1; c <= 31; c++) {
-		// String s = Integer.toString(c);
-		// if (c < 10)
-		// daysTable.put("0".concat(s), c - 1);
-		// daysTable.put(s, c - 1);
-		// }
-
-		// for (int c = 1; c <= 12; c++) {
-		// String s = Integer.toString(c);
-		// if (c < 10)
-		// monthsTable.put("0".concat(s), c - 1);
-		// monthsTable.put(s, c - 1);
-		// }
-
+		
+		for (String tz : TimeZone.getAvailableIDs()) {
+			timeZoneMapping.put(tz, TimeZone.getTimeZone(tz));
+		}
+		
 		for (Locale locale : DateFormatSymbols.getAvailableLocales()) {
 			if ("ja".equals(locale.getLanguage()))
 				continue;
@@ -292,17 +282,35 @@ public class ConvertDate {
 		return cal.getTime();
 	}
 
+	/**
+	 * Handle some Date Keyword like PST UTC am pm ...
+	 * @param st
+	 * @param s1
+	 * @param cal
+	 * @return
+	 */
 	private static String trySkip(StringTokenizer st, String s1, Calendar cal) {
-		while (voidData.contains(s1)) {
-			if (s1.equalsIgnoreCase("pm"))
-				cal.add(Calendar.HOUR_OF_DAY, 12);
-			if (s1.equalsIgnoreCase("PST"))
-				cal.setTimeZone(TimeZone.getTimeZone("PST"));
-			if (!st.hasMoreTokens())
-				return null;
-			s1 = st.nextToken();
+		while (true) {
+			TimeZone tz = timeZoneMapping.get(s1);
+			if (tz != null) {
+				cal.setTimeZone(tz);
+				if (!st.hasMoreTokens())
+					return null;
+				s1 = st.nextToken();
+				continue;
+			}
+			if (voidData.contains(s1)) {
+				if (s1.equalsIgnoreCase("pm"))
+					cal.add(Calendar.AM_PM, Calendar.PM);
+				if (s1.equalsIgnoreCase("am"))
+					cal.add(Calendar.AM_PM, Calendar.AM);
+				if (!st.hasMoreTokens())
+					return null;
+				s1 = st.nextToken();
+				continue;
+			}
+			return s1;
 		}
-		return s1;
 	}
 
 }
