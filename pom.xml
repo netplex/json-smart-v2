@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.minidev</groupId>
 	<artifactId>minidev-parent</artifactId>
-	<version>2.3-SNAPSHOT</version>
+	<version>2.3</version>
 	<name>Minidev super pom</name>
 	<description>minidev common properties.</description>
 	<packaging>pom</packaging>
@@ -163,8 +163,9 @@
 				</property>
 			</activation>
 			<properties>
-				<gpg.keyname>8E322ED0</gpg.keyname>
+				<!--<gpg.keyname>8E322ED0</gpg.keyname> -->
 				<!-- 2C8DF6EC Loosed Key -->
+				<gpg.keyname>2C8DF6EC</gpg.keyname>
 				<!-- <gpg.keyname>Uriel Chemouni (dev) <uchemouni@gmail.com></gpg.keyname> -->
 				<!-- GPG Key ID to use for signing -->
 			</properties>
