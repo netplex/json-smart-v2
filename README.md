@@ -1,5 +1,6 @@
 # json-smart-v2
 [![Build Status](https://travis-ci.org/netplex/json-smart-v2.svg?branch=master)](https://travis-ci.org/netplex/json-smart-v2)
+[![Coverage Status](https://coveralls.io/repos/github/netplex/json-smart-v2/badge.svg?branch=master)](https://coveralls.io/github/netplex/json-smart-v2?branch=master)
 
 [the new WIKI is here](https://github.com/netplex/json-smart/wiki)
 
