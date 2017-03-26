@@ -3,16 +3,14 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.minidev/json-smart/badge.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/net.minidev/json-smart/)
 [![Coverage Status](https://coveralls.io/repos/github/netplex/json-smart-v2/badge.svg?branch=master)](https://coveralls.io/github/netplex/json-smart-v2?branch=master)
 
-
-
 [WIKI is here](https://github.com/netplex/json-smart/wiki)
 
 # Changelog
 
 ### *V 2.3*
 * Patch 37 [issue 37](http://code.google.com/p/json-smart/issues/detail?id=37)
-* explicite support of char 127 [issue 18](http://code.google.com/p/json-smart/issues/detail?id=18)
-* integrate json-smart-action from Eitan Raviv [PR 31](https://github.com/netplex/json-smart-v2/pull/31)
+* Explicite support of char 127 [issue 18](http://code.google.com/p/json-smart/issues/detail?id=18)
+* Integrate json-smart-action from Eitan Raviv [PR 31](https://github.com/netplex/json-smart-v2/pull/31)
 * Remove hard codded e.printStackTrace() [issue 33](https://github.com/netplex/json-smart-v2/issues/33)
 * Improve date parsing code to support all timeZones [issue 29](https://github.com/netplex/json-smart-v2/issues/29)
 
