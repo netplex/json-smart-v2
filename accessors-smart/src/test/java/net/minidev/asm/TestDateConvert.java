@@ -23,7 +23,7 @@ public class TestDateConvert extends TestCase {
 		//
 		ConvertDate.convertToDate(null);
 		for (String testDate : tests) {
-			String jobName = "Parsing FR Date:" + tests;
+			String jobName = "Parsing FR Date:" + testDate;
 			Date parsed = null;
 			try {
 				parsed = ConvertDate.convertToDate(testDate);
