@@ -9,11 +9,12 @@ import java.util.Locale;
 import junit.framework.TestCase;
 
 public class TestDateConvert extends TestCase {
-
-	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	// we do not test the century
+	SimpleDateFormat sdfFull = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+	SimpleDateFormat sdfLT = new SimpleDateFormat("dd/MM/yy HH:mm");
 
 	public void testDateFR() throws Exception {
-		String expectedDateText = "23/01/2012 13:42:12";
+		String expectedDateText = "23/01/12 13:42:12";
 		ArrayList<String> tests = new ArrayList<String>();
 		tests.add("23 janvier 2012 13:42:12");
 		tests.add("lundi 23 janvier 2012 13:42:12");
@@ -22,14 +23,14 @@ public class TestDateConvert extends TestCase {
 		//
 		ConvertDate.convertToDate(null);
 		for (String testDate : tests) {
+			String jobName = "Parsing FR Date:" + tests;
 			Date parsed = null;
 			try {
 				parsed = ConvertDate.convertToDate(testDate);
 			} catch (Exception e) {
-				System.err.println("can not parse:" + testDate);
-				e.printStackTrace();
+				throw new Exception(jobName, e);
 			}
-			assertEquals(expectedDateText, sdf.format(parsed));
+			assertEquals(jobName, expectedDateText, sdfFull.format(parsed));
 		}
 	}
 
@@ -62,9 +63,9 @@ public class TestDateConvert extends TestCase {
 
 	public void testDateLocalized(Locale locale) throws Exception {
 		// PM test
-		fullTestDate(sdf.parse("23/01/2012 13:42:59"), locale);
+		fullTestDate(sdfFull.parse("23/01/2012 13:42:59"), locale);
 		// AM test
-		fullTestDate(sdf.parse("23/01/2012 01:42:59"), locale);
+		fullTestDate(sdfFull.parse("23/01/2012 01:42:59"), locale);
 	}
 
 	/**
@@ -78,21 +79,32 @@ public class TestDateConvert extends TestCase {
 	}
 
 	public void fullTestDate(Date expectedDate, Locale locale, String sizeName, int sizeId) throws Exception {
-		String expectedDateText = sdf.format(expectedDate);
+		String jobName = "Test date format Local:" + locale + " format: " + sizeName;
 		DateFormat FormatEN = DateFormat.getDateTimeInstance(sizeId, sizeId, locale);
 		String testDate = FormatEN.format(expectedDate);
 		Date parse = null;
 		try {
-			parse = ConvertDate.convertToDate(testDate);
+			// can not parse US Date in short mode.
+			if (sizeId == DateFormat.SHORT && locale.equals(Locale.US))
+				return;
+				//parse = ConvertDate.convertToDate(obj)(testDate);
+			else
+				parse = ConvertDate.convertToDate(testDate);
 		} catch (Exception e) {
-			super.fail("fail to parse " + testDate + " Generated using java " + sizeName);
-			//System.err.println("can not parse:" + testDate + " - DateFormat." + sizeName);
-			e.printStackTrace();
+			throw new Exception(jobName, e);
 		}
-		String resultStr = sdf.format(parse);
 		//System.err.println("TEST: " + testDate + " readed as: " + resultStr);
-		if (testDate.contains("59"))
-			assertEquals("Test date format Local:" + locale + " format: " + sizeName, expectedDateText, resultStr);
+		// is source format contains second
+		if (testDate.contains("59")) {
+			String resultStr = sdfFull.format(parse);
+			String expectedDateText = sdfFull.format(expectedDate);
+			assertEquals(jobName, expectedDateText, resultStr);
+		} else {
+			String resultStr = sdfLT.format(parse);
+			String expectedDateText = sdfLT.format(expectedDate);
+			assertEquals(jobName, expectedDateText, resultStr);
+		}
+//			System.err.printf("no sec for Format %-6s %-40s -> %10s\n", sizeName, testDate, resultStr);
 	}
 
 }
