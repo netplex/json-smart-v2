@@ -1,4 +1,5 @@
 # json-smart-v2
+[![Build Status](https://travis-ci.org/netplex/json-smart-v2.svg?branch=master)](https://travis-ci.org/netplex/json-smart-v2)
 
 [the new WIKI is here](https://github.com/netplex/json-smart/wiki)
 
