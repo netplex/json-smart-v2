@@ -3,7 +3,9 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.minidev/json-smart/badge.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/net.minidev/json-smart/)
 [![Coverage Status](https://coveralls.io/repos/github/netplex/json-smart-v2/badge.svg?branch=master)](https://coveralls.io/github/netplex/json-smart-v2?branch=master)
 
-[the new WIKI is here](https://github.com/netplex/json-smart/wiki)
+
+
+[WIKI is here](https://github.com/netplex/json-smart/wiki)
 
 # Changelog
 
@@ -16,19 +18,19 @@
 
 ### *V 2.2.2*
  * Fix support for default java datetime format for US locale
- * update my time Zone from Paris to San Francisco.
+ * Update my time Zone from Paris to San Francisco.
 
 ### *V 2.2.1*
 * Fix issue in strict mode [issue gh-17](https://github.com/netplex/json-smart-v2/issues/17)
 * Add a licence Copy at the root project level [issue gh-16](https://github.com/netplex/json-smart-v2/issues/16)
-* change InputStream input reading to use UTF8. [issue 48](http://code.google.com/p/json-smart/issues/detail?id=48)
+* Change InputStream input reading to use UTF8. [issue 48](http://code.google.com/p/json-smart/issues/detail?id=48)
 
 ### *V 2.2*
-* rename asm to accessors-smart due to conflict name with asm.ow2.org lib. fix [PR-10] (https://github.com/netplex/json-smart-v2/pull/10)
-* fix OSGI error fix [PR-2] (https://github.com/netplex/json-smart-v2/pull/2)
-* add support for BigDecimal
-* improve JSONObject.getAsNumber() helper
-* add a Field Remaper
+* Rename asm to accessors-smart due to conflict name with asm.ow2.org lib. fix [PR-10](https://github.com/netplex/json-smart-v2/pull/10)
+* Fix OSGI error fix [PR-2](https://github.com/netplex/json-smart-v2/pull/2)
+* Add support for BigDecimal
+* Improve JSONObject.getAsNumber() helper
+* Add a Field Remaper
 
 ### *V 2.1*
   * net.minidev.json.mapper renamed to net.minidev.json.writer
