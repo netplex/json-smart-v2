@@ -141,9 +141,13 @@ abstract class JSONParserBase {
 			checkLeadinZero();
 		if (!useHiPrecisionFloat)
 			return Float.parseFloat(xs);
-		if (xs.length() > 18) // follow JSonIJ parsing method
-			return new BigDecimal(xs);
-		return Double.parseDouble(xs);
+		double value = Double.parseDouble(xs);
+		if (xs.length() > 18) { // follow JSonIJ parsing method
+			if(!String.valueOf(value).equals(xs)) {
+				return new BigDecimal(xs);
+			}
+		}
+		return value;
 	}
 
 	/**

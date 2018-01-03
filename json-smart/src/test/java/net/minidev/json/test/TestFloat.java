@@ -8,7 +8,7 @@ import net.minidev.json.parser.JSONParser;
 public class TestFloat extends TestCase {
 	public static String[] TRUE_NUMBERS = new String[] { "1.0", "123.456", "1.0E1", "123.456E12", "1.0E+1",
 			"123.456E+12", "1.0E-1", "123.456E-12", "1.0e1", "123.456e12", "1.0e+1", "123.456e+12", "1.0e-1",
-			"123.456e-12" };
+			"123.456e-12", "0.12345678912345678" };
 
 	public static String[] FALSE_NUMBERS = new String[] { "1.0%", "123.45.6", "1.0E", "++123.456E12", "+-01",
 			"1.0E+1.2" };
