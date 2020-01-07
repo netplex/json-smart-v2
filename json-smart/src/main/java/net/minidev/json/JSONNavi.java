@@ -451,7 +451,7 @@ public class JSONNavi<T> {
 				return this;
 			if (isArray())
 				failure("can not use Object feature on Array.", null);
-			failure("Can not use current possition as Object", null);
+			failure("Can not use current position as Object", null);
 		} else {
 			current = mapper.createObject();
 		}
@@ -477,7 +477,7 @@ public class JSONNavi<T> {
 				return this;
 			if (isObject())
 				failure("can not use Object feature on Array.", null);
-			failure("Can not use current possition as Object", null);
+			failure("Can not use current position as Object", null);
 		} else {
 			current = mapper.createArray();
 		}

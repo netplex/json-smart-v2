@@ -96,7 +96,7 @@ public class JSONArray extends ArrayList<Object> implements List<Object>, JSONAw
 	}
 
 	/**
-	 * Explicitely Serialize Object as JSon String
+	 * Explicitly Serialize Object as JSon String
 	 */
 	public String toJSONString() {
 		return toJSONString(this, JSONValue.COMPRESSION);
@@ -107,14 +107,14 @@ public class JSONArray extends ArrayList<Object> implements List<Object>, JSONAw
 	}
 
 	/**
-	 * Override natif toStirng()
+	 * Override native toString()
 	 */
 	public String toString() {
 		return toJSONString();
 	}
 
 	/**
-	 * JSONAwareEx inferface
+	 * JSONAwareEx interface
 	 * 
 	 * @param compression
 	 *            compression param

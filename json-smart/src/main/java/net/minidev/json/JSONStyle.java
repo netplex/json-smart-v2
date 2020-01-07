@@ -152,7 +152,7 @@ public class JSONStyle {
 	}
 
 	/**
-	 * Start the first Obeject element
+	 * Start the first Object element
 	 */
 	public void objectFirstStart(Appendable out) throws IOException {
 	}

@@ -181,7 +181,7 @@ class JStylerObj {
 	}
 
 	public static boolean isUnicode(char c) {
-		// ANSI controle char
+		// ANSI control char
 		return ((c >= '\u0000' && c <= '\u001F') ||
 				// DEL or unicode ctrl
 				(c >= '\u007F' && c <= '\u009F') ||
@@ -261,7 +261,7 @@ class JStylerObj {
 					}
 				}
 			} catch (IOException e) {
-				throw new RuntimeException("Impossible Exeption");
+				throw new RuntimeException("Impossible Exception");
 			}
 		}
 	}

@@ -49,8 +49,8 @@ public class BeansAccessBuilder {
 	final String accessClassNameInternal;
 	final String classNameInternal;
 	final HashMap<Class<?>, Method> convMtds = new HashMap<Class<?>, Method>();
-//	Class<? extends Exception> exeptionClass = net.minidev.asm.ex.NoSuchFieldException.class;
-	Class<? extends Exception> exeptionClass = NoSuchFieldException.class;
+//	Class<? extends Exception> exceptionClass = net.minidev.asm.ex.NoSuchFieldException.class;
+	Class<? extends Exception> exceptionClass = NoSuchFieldException.class;
 
 	/**
 	 * Build reflect bytecode from accessor list.
@@ -158,8 +158,8 @@ public class BeansAccessBuilder {
 				i++;
 			}
 		}
-		if (exeptionClass != null)
-			throwExIntParam(mv, exeptionClass);
+		if (exceptionClass != null)
+			throwExIntParam(mv, exceptionClass);
 		else
 			mv.visitInsn(RETURN);
 		mv.visitMaxs(0, 0);
@@ -224,8 +224,8 @@ public class BeansAccessBuilder {
 			}
 		}
 
-		if (exeptionClass != null)
-			throwExIntParam(mv, exeptionClass);
+		if (exceptionClass != null)
+			throwExIntParam(mv, exceptionClass);
 		else {
 			mv.visitInsn(ACONST_NULL);
 			mv.visitInsn(ARETURN);
@@ -251,8 +251,8 @@ public class BeansAccessBuilder {
 				mv.visitFrame(F_SAME, 0, null, 0, null);
 				i++;
 			}
-			if (exeptionClass != null)
-				throwExStrParam(mv, exeptionClass);
+			if (exceptionClass != null)
+				throwExStrParam(mv, exceptionClass);
 			else
 				mv.visitInsn(RETURN);
 			mv.visitMaxs(0, 0); // 2,4
@@ -287,8 +287,8 @@ public class BeansAccessBuilder {
 				mv.visitFrame(F_SAME, 0, null, 0, null);
 				i++;
 			}
-			if (exeptionClass != null)
-				throwExStrParam(mv, exeptionClass);
+			if (exceptionClass != null)
+				throwExStrParam(mv, exceptionClass);
 			else {
 				mv.visitInsn(ACONST_NULL);
 				mv.visitInsn(ARETURN);
@@ -347,7 +347,7 @@ public class BeansAccessBuilder {
 		 */
 		mv.visitVarInsn(ALOAD, 1);
 		mv.visitTypeInsn(CHECKCAST, classNameInternal);
-		// get VELUE
+		// get VALUE
 		mv.visitVarInsn(ALOAD, 3);
 		Type fieldType = Type.getType(acc.getType());
 		Class<?> type = acc.getType();
@@ -355,7 +355,7 @@ public class BeansAccessBuilder {
 
 		Method conMtd = convMtds.get(type);
 		if (conMtd != null) {
-			// external converion
+			// external conversion
 			String clsSig = Type.getInternalName(conMtd.getDeclaringClass());
 			String mtdName = conMtd.getName();
 			String mtdSig = Type.getMethodDescriptor(conMtd);
@@ -436,7 +436,7 @@ public class BeansAccessBuilder {
 	private void ifNotEqJmp(MethodVisitor mv, int param, int value, Label label) {
 		mv.visitVarInsn(ILOAD, param);
 		if (value == 0) {
-			/* notest forvalue 0 */
+			/* notest for value 0 */
 			mv.visitJumpInsn(IFNE, label);
 		} else if (value == 1) {
 			mv.visitInsn(ICONST_1);

@@ -97,7 +97,7 @@ public class JSONParser {
 	/**
 	 * strict RFC4627 mode.
 	 * 
-	 * slower than PERMISIF MODE.
+	 * slower than PERMISSIVE MODE.
 	 * 
 	 * @since 1.0.6
 	 */
@@ -139,7 +139,7 @@ public class JSONParser {
 	}
 
 	/**
-	 * cached construcor
+	 * cached constructor
 	 * 
 	 * @return instance of JSONParserInputStream
 	 */
@@ -150,7 +150,7 @@ public class JSONParser {
 	}
 
 	/**
-	 * cached construcor
+	 * cached constructor
 	 * 
 	 * @return instance of JSONParserString
 	 */
@@ -161,7 +161,7 @@ public class JSONParser {
 	}
 
 	/**
-	 * cached construcor
+	 * cached constructor
 	 * 
 	 * @return instance of JSONParserByteArray
 	 */

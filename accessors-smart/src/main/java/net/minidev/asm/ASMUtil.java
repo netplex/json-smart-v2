@@ -33,7 +33,7 @@ import org.objectweb.asm.Type;
  */
 public class ASMUtil {
 	/**
-	 * Append the call of proper autoboxing method for the given primitif type.
+	 * Append the call of proper autoboxing method for the given primitive type.
 	 */
 	public static void autoBoxing(MethodVisitor mv, Class<?> clz) {
 		autoBoxing(mv, Type.getType(clz));
@@ -68,7 +68,7 @@ public class ASMUtil {
 	}
 
 	/**
-	 * Append the call of proper autoboxing method for the given primitif type.
+	 * Append the call of proper autoboxing method for the given primitive type.
 	 */
 	protected static void autoBoxing(MethodVisitor mv, Type fieldType) {
 		switch (fieldType.getSort()) {
@@ -146,7 +146,7 @@ public class ASMUtil {
 
 	/**
 	 * Append the call of proper extract primitive type of an boxed object. this
-	 * methode use Number interface to unbox object
+	 * method use Number interface to unbox object
 	 */
 	protected static void autoUnBoxing2(MethodVisitor mv, Type fieldType) {
 		switch (fieldType.getSort()) {

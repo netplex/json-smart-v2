@@ -209,7 +209,7 @@ public class JSONObject extends HashMap<String, Object> implements JSONAware, JS
 			return o1;
 		if (o2 instanceof JSONObject)
 			return merge(o1, (JSONObject) o2);
-		throw new RuntimeException("JSON megre can not merge JSONObject with " + o2.getClass());
+		throw new RuntimeException("JSON merge can not merge JSONObject with " + o2.getClass());
 	}
 
 	private static JSONObject merge(JSONObject o1, JSONObject o2) {

@@ -54,7 +54,7 @@ public class JsonWriter {
 	}
 	
 	/**
-	 * try to find a Writer by Cheking implemented interface
+	 * try to find a Writer by Checking implemented interface
 	 * @param clazz class to serialize
 	 * @return a Writer or null
 	 */
