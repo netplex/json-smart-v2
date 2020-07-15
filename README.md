@@ -24,6 +24,9 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 
 # Changelog
 
+### *V 2.4*
+* java 11 build
+
 ### *V 2.3*
 * Patch 37 [issue 37](http://code.google.com/p/json-smart/issues/detail?id=37)
 * Explicite support of char 127 [issue 18](http://code.google.com/p/json-smart/issues/detail?id=18)
