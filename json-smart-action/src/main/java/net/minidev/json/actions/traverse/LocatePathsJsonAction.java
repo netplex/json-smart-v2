@@ -30,6 +30,7 @@ public class LocatePathsJsonAction implements JSONTraverseAction {
 	 *
 	 * @param pathsToFind
 	 *            A path to a field in the {@link JSONObject} should be specified in n-gram format where keys are chained: k0[[[.k1].k2]...]
+	 * @param delim -
 	 */
 	public LocatePathsJsonAction(List<String> pathsToFind, PathDelimiter delim) {
 		this.pathsToFind = pathsToFind;

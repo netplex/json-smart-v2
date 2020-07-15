@@ -1,13 +1,17 @@
 package net.minidev.asm;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.HashMap;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
+// import junit.framework.TestCase;
 import net.minidev.asm.bean.BTest;
 
-public class ASMTest extends TestCase {
+public class ASMTest {
 
-	@SuppressWarnings({ "unused" })
+	@Test
 	public void testGet() throws Exception {
 		long T1;
 
@@ -116,6 +120,7 @@ public class ASMTest extends TestCase {
 		// System.out.println("// Time: " + T1);
 	}
 
+	@Test
 	private void subtext(BeansAccess<BTest> acc) {
 		BTest t = new BTest();
 		acc.set(t, "pubBoolValue", true);

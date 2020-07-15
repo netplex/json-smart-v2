@@ -30,6 +30,10 @@ public class RetainPathsJsonAction implements JSONTraverseAction
 	protected JSONObject result;
 	protected List<String> pathsToRetain;
 
+	/**
+	 * @param pathsToRetain TODO
+	 * @param delim TODO
+	 */
 	public RetainPathsJsonAction(List<String> pathsToRetain, PathDelimiter delim)
 	{
 		this.pathsToRetain = new ArrayList<String>(pathsToRetain);
@@ -96,6 +100,10 @@ public class RetainPathsJsonAction implements JSONTraverseAction
 	 * if the full path to the entry is not contained in any of the paths to retain - remove it from the object
 	 *  this step does not remove entries whose full path is contained in a path to retain but are not equal to an
 	 *  entry to retain
+	 * 
+	 * @param pathToEntry  TODO
+	 * @param entry  TODO
+	 * @return  TODO
 	 */
 	protected boolean discardPath(String pathToEntry, Entry<String, Object> entry)
 	{
@@ -107,6 +115,10 @@ public class RetainPathsJsonAction implements JSONTraverseAction
 		return false;
 	}
 
+	/**
+	 * @param path TODO
+	 * @return TODO
+	 */
 	protected boolean foundAsPrefix(String path)
 	{
 		for (String p : pathsToRetain) {

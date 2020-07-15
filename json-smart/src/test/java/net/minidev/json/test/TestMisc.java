@@ -39,13 +39,13 @@ public class TestMisc extends TestCase {
 	public void testFloat() throws Exception {
 		String s = "123.5";
 		Object o = JSONValue.parseWithException(s);
-		assertEquals(o, new Double(123.5));
+		assertEquals(o, Double.valueOf(123.5));
 	}
 
 	public void testFloat2() throws Exception {
 		String s = "123.5E1";
 		Object o = JSONValue.parseWithException(s);
-		assertEquals(o, new Double(1235));
+		assertEquals(o, Double.valueOf(1235));
 	}
 
 	public void testFloat3() throws Exception {

@@ -39,7 +39,8 @@ public class ConvertDate {
 	}
 	static TreeMap<String, TimeZone> timeZoneMapping;
 	static {		
-		 timeZoneMapping = new TreeMap<String, TimeZone>();
+		timeZoneMapping = new TreeMap<String, TimeZone>();
+		voidData.add("at");
 		voidData.add("MEZ");
 		voidData.add("Uhr");
 		voidData.add("h");
@@ -113,6 +114,7 @@ public class ConvertDate {
 		if (obj instanceof Number)
 			return new Date(((Number)obj).longValue());
 		if (obj instanceof String) {
+			obj = ((String) obj).replace("p.m.", "pm");
 			StringTokenizer st = new StringTokenizer((String) obj, " -/:,.+");
 			String s1 = "";
 			if (!st.hasMoreTokens())
@@ -238,6 +240,7 @@ public class ConvertDate {
 	}
 	
 	private static Date addHour2(StringTokenizer st, Calendar cal, String s1) {
+		s1 = trySkip(st, s1, cal);
 		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(s1));
 
 		if (!st.hasMoreTokens())

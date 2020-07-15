@@ -1,10 +1,13 @@
 package net.minidev.asm.bean;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 import net.minidev.asm.BeansAccess;
 
-public class TestAsmAtom extends TestCase {
+public class TestAsmAtom {
 
+	@Test
 	public void testpub() throws Exception {
 		// int fieldID = 0;
 		String fieldID = "value";

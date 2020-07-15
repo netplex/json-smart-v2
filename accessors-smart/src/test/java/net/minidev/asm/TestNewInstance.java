@@ -2,9 +2,10 @@ package net.minidev.asm;
 
 import java.util.TreeMap;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class TestNewInstance extends TestCase {
+public class TestNewInstance {
+	@Test
 	public void testLangUtilPkg() {
 		@SuppressWarnings("rawtypes")
 		BeansAccess<TreeMap> acTm = BeansAccess.get(TreeMap.class);

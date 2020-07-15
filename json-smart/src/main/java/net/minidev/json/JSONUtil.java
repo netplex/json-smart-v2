@@ -186,7 +186,6 @@ public class JSONUtil {
 
 	public static class JsonSmartFieldFilter implements FieldFilter {
 
-		@Override
 		public boolean canUse(Field field) {
 			JsonIgnore ignore = field.getAnnotation(JsonIgnore.class);
 			if (ignore != null && ignore.value())
@@ -194,7 +193,6 @@ public class JSONUtil {
 			return true;
 		}
 
-		@Override
 		public boolean canUse(Field field, Method method) {
 			JsonIgnore ignore = method.getAnnotation(JsonIgnore.class);
 			if (ignore != null && ignore.value())
@@ -202,12 +200,10 @@ public class JSONUtil {
 			return true;
 		}
 
-		@Override
 		public boolean canRead(Field field) {
 			return true;
 		}
 
-		@Override
 		public boolean canWrite(Field field) {
 			return true;
 		}
