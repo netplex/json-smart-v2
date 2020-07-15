@@ -80,7 +80,7 @@ public abstract class BeansAccess<T> {
 			if (access != null)
 				return access;
 		}
-		// extract all access methodes
+		// extract all access methods
 		Accessor[] accs = ASMUtil.getAccessors(type, filter);
 
 

@@ -94,7 +94,7 @@ public class CompessorMapper extends JsonReaderI<CompessorMapper> {
 	@Override
 	public void setValue(Object current, String key, Object value) throws IOException {
 		// System.out.println("setValue(" + key + "," + value + ")");
-		// if comprossor => data allready writed
+		// if compressor => data already be written
 		if (isCompressor(value)) {
 			addComma();
 			return;

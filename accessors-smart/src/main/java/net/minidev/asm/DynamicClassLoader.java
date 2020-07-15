@@ -18,7 +18,7 @@ package net.minidev.asm;
 import java.lang.reflect.Method;
 
 /**
- * Simple extension from ClassLoader overiding the loadClass(String name,
+ * Simple extension from ClassLoader overriding the loadClass(String name,
  * boolean resolve) method and allowing to register new classes
  * 
  * @author uriel

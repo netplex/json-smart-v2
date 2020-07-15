@@ -36,10 +36,10 @@ import net.minidev.json.writer.UpdaterMapper;
 
 /**
  * JSONValue is the helper class In most of case you should use those static
- * methode to user JSON-smart
+ * method to user JSON-smart
  * 
  * 
- * The most commonly use methode are {@link #parse(String)}
+ * The most commonly use method are {@link #parse(String)}
  * {@link #toJSONString(Object)}
  * 
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;

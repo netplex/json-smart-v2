@@ -25,7 +25,7 @@ import java.lang.reflect.Type;
  * 
  * field, getter setter
  * 
- * this object is used internally by BeansAcces
+ * this object is used internally by BeansAccess
  * 
  * @see BeansAccess
  * 

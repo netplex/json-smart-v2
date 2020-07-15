@@ -8,7 +8,7 @@ import java.util.Map;
 import net.minidev.json.parser.ParseException;
 
 /**
- * Simple solution to supporr on read filed renaming
+ * Simple solution to support on read field renaming
  * 
  * @author uriel
  *

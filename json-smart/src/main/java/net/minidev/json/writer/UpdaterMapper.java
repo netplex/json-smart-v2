@@ -81,7 +81,7 @@ public class UpdaterMapper<T> extends JsonReaderI<T> {
 	}
 
 	/**
-	 * Allow a mapper to converte a temprary structure to the final data format.
+	 * Allow a mapper to convert a temporary structure to the final data format.
 	 * 
 	 * example: convert an List&lt;Integer&gt; to an int[]
 	 */
