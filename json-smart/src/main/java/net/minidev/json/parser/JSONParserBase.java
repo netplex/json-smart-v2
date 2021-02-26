@@ -138,20 +138,20 @@ abstract class JSONParserBase {
 
 	protected Number extractFloat() throws ParseException {
 		if (!acceptLeadinZero)
-		    checkLeadinZero();
-		
-		try {		
-		    if (!useHiPrecisionFloat)
+			checkLeadinZero();
+
+		try {
+			if (!useHiPrecisionFloat)
 				return Float.parseFloat(xs);
-				
-		    if (xs.length() > 18) // follow JSonIJ parsing method
+
+			if (xs.length() > 18) // follow JSonIJ parsing method
 				return new BigDecimal(xs);
 
-			return Double.parseDouble(xs); 	 
+			return Double.parseDouble(xs);
 
-		} catch(Exception e){
-			throw new ParseException(pos, ERROR_UNEXPECTED_TOKEN, xs);	
-		} 
+		} catch(NumberFormatException e){
+			throw new ParseException(pos, ERROR_UNEXPECTED_TOKEN, xs);
+		}
 	}
 
 	/**
