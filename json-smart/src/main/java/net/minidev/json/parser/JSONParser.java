@@ -87,6 +87,13 @@ public class JSONParser {
 	 */
 	public final static int REJECT_127_CHAR = 1024;
 
+	/**
+	 * Use double if possible for big digits, if no precision lost is observed
+	 * 
+	 * @since 2.4
+	 */
+	public final static int BIG_DIGIT_UNRESTRICTED = 2048;
+	
 	
 	/**
 	 * smart mode, fastest parsing mode. accept lots of non standard json syntax
@@ -109,7 +116,7 @@ public class JSONParser {
 	 * 
 	 * @since 1.0.7
 	 */
-	public final static int MODE_JSON_SIMPLE = ACCEPT_USELESS_COMMA | USE_HI_PRECISION_FLOAT | ACCEPT_TAILLING_DATA | ACCEPT_TAILLING_SPACE | REJECT_127_CHAR;
+	public final static int MODE_JSON_SIMPLE = ACCEPT_USELESS_COMMA | USE_HI_PRECISION_FLOAT | ACCEPT_TAILLING_DATA | ACCEPT_TAILLING_SPACE | REJECT_127_CHAR | BIG_DIGIT_UNRESTRICTED;
 	/**
 	 * Strictest parsing mode
 	 * 

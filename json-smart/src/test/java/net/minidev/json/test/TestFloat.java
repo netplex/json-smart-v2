@@ -12,7 +12,22 @@ public class TestFloat extends TestCase {
 
 	public static String[] FALSE_NUMBERS = new String[] { "1.0%", "123.45.6", "1.0E", "++123.456E12", "+-01",
 			"1.0E+1.2" };
-
+		
+	public void testPrecisionFloat() throws Exception {
+		JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
+		for (int len = 15; len < 25; len++) {
+			StringBuilder sb = new StringBuilder("0.");
+			for (int i = 0; i < len; i++) {
+				sb.append("123456789".charAt(i % 9));
+			}
+			String s = sb.toString();
+			String json = "{v:" + s + "}";
+			JSONObject obj = (JSONObject) p.parse(json);
+			Object value = obj.get("v").toString();
+			assertEquals("Should not loose precision on a " + len + " digits long", s, value);
+		}
+	}
+	
 	public void testFloat() throws Exception {
 		JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
 		for (String s : TRUE_NUMBERS) {

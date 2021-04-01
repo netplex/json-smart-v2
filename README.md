@@ -19,12 +19,11 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 [WIKI is here](https://github.com/netplex/json-smart/wiki)
 
 
-
-
-
 # Changelog
 
 ### *V 2.4*
+* add BIG_DIGIT_UNRESTRICTED to avoid BigDigit usage on some Double.
+* fix CVE-2021-27568
 * java 11 build
 
 ### *V 2.3*
