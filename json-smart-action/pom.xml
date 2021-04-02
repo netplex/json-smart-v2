@@ -85,7 +85,9 @@
             </activation>
             <properties>
             	<!-- My old Is back -->
-                <gpg.keyname>2C8DF6EC</gpg.keyname>
+				<!-- <gpg.keyname>2C8DF6EC</gpg.keyname> -->
+				<!-- 2021 rsa4096 key-->
+				<gpg.keyname>53BE126D</gpg.keyname>
                 <!-- <gpg.keyname>8E322ED0</gpg.keyname> -->
                 <!-- <gpg.keyname>Uriel Chemouni (dev) <uchemouni@gmail.com></gpg.keyname> -->
                 <!-- GPG Key ID to use for signing -->

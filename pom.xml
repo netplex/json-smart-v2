@@ -19,7 +19,7 @@
 			<id>uriel</id>
 			<name>Uriel Chemouni</name>
 			<email>uchemouni@gmail.com</email>
-			<timezone>GMT-7</timezone>
+			<timezone>GMT+3</timezone>
 			<roles>
 			</roles>
 		</developer>
@@ -151,7 +151,7 @@
 		<!-- <snapshotRepository> <id>ossrh</id> <url>https://oss.sonatype.org/content/repositories/snapshots</url> 
 			</snapshotRepository> -->
 	</distributionManagement>
-
+	<!-- release with: mvn clean deploy -P release-sign-artifacts-->
 	<profiles>
 		<profile>
 			<id>release-sign-artifacts</id>
@@ -165,7 +165,9 @@
 			<properties>
 				<!--<gpg.keyname>8E322ED0</gpg.keyname> -->
 				<!-- 2C8DF6EC Loosed Key -->
-				<gpg.keyname>2C8DF6EC</gpg.keyname>
+				<!-- <gpg.keyname>2C8DF6EC</gpg.keyname> -->
+				<!-- 2021 rsa4096 key-->
+				<gpg.keyname>53BE126D</gpg.keyname>
 				<!-- <gpg.keyname>Uriel Chemouni (dev) <uchemouni@gmail.com></gpg.keyname> -->
 				<!-- GPG Key ID to use for signing -->
 			</properties>
