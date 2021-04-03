@@ -34,6 +34,9 @@ import org.objectweb.asm.Type;
 public class ASMUtil {
 	/**
 	 * Append the call of proper autoboxing method for the given primitive type.
+	 * 
+	 * @param mv  MethodVisitor
+	 * @param clz expected class
 	 */
 	public static void autoBoxing(MethodVisitor mv, Class<?> clz) {
 		autoBoxing(mv, Type.getType(clz));
@@ -69,6 +72,9 @@ public class ASMUtil {
 
 	/**
 	 * Append the call of proper autoboxing method for the given primitive type.
+	 * 
+	 * @param mv        MethodVisitor
+	 * @param fieldType expected class
 	 */
 	protected static void autoBoxing(MethodVisitor mv, Type fieldType) {
 		switch (fieldType.getSort()) {
@@ -101,6 +107,9 @@ public class ASMUtil {
 
 	/**
 	 * Append the call of proper extract primitive type of an boxed object.
+	 * 
+	 * @param mv        MethodVisitor
+	 * @param fieldType expected class
 	 */
 	protected static void autoUnBoxing1(MethodVisitor mv, Type fieldType) {
 		switch (fieldType.getSort()) {
@@ -147,6 +156,9 @@ public class ASMUtil {
 	/**
 	 * Append the call of proper extract primitive type of an boxed object. this
 	 * method use Number interface to unbox object
+	 * 
+	 * @param mv        MethodVisitor
+	 * @param fieldType expected class
 	 */
 	protected static void autoUnBoxing2(MethodVisitor mv, Type fieldType) {
 		switch (fieldType.getSort()) {
@@ -193,8 +205,7 @@ public class ASMUtil {
 	/**
 	 * return a array of new Label (used for switch/case generation)
 	 * 
-	 * @param cnt
-	 *            number of label to return
+	 * @param cnt number of label to return
 	 */
 	public static Label[] newLabels(int cnt) {
 		Label[] r = new Label[cnt];
@@ -203,6 +214,10 @@ public class ASMUtil {
 		return r;
 	}
 
+	/**
+	 * @param key the field name
+	 * @return setter name
+	 */
 	public static String getSetterName(String key) {
 		int len = key.length();
 		char[] b = new char[len + 3];
@@ -219,6 +234,10 @@ public class ASMUtil {
 		return new String(b);
 	}
 
+	/**
+	 * @param key the field name
+	 * @return getter name
+	 */
 	public static String getGetterName(String key) {
 		int len = key.length();
 		char[] b = new char[len + 3];
@@ -235,6 +254,10 @@ public class ASMUtil {
 		return new String(b);
 	}
 
+	/**
+	 * @param key the boolean field name
+	 * @return boolean getter name
+	 */
 	public static String getIsName(String key) {
 		int len = key.length();
 		char[] b = new char[len + 2];

@@ -116,6 +116,7 @@ public class PathLocatorTest
 		assertEquals(Arrays.asList(expectedFound), found);
 	}
 
+	@SuppressWarnings("unchecked")
 	private PathLocator switchKeyToRemove()
 	{
 		long m = System.currentTimeMillis();

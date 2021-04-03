@@ -5,16 +5,14 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import net.minidev.json.parser.ParseException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+// import org.junit.runner.RunWith;
+// import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -89,6 +87,7 @@ public class PathRemoverTest
 		assertEquals(expectedObject, objectToClean);
 	}
 
+	@SuppressWarnings("unchecked")
 	private PathRemover switchKeyToRemove()
 	{
 		long m = System.currentTimeMillis();

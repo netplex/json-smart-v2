@@ -25,7 +25,7 @@ import net.minidev.json.parser.ParseException;
  * 
  * @author uriel Chemouni
  *
- * @param <T>
+ * @param <T> result type
  */
 public abstract class JsonReaderI<T> {
 	public final JsonReader base;
@@ -33,7 +33,7 @@ public abstract class JsonReaderI<T> {
 	/**
 	 * Reader can be link to the JsonReader Base
 	 * 
-	 * @param base
+	 * @param base parent reader
 	 */
 	public JsonReaderI(JsonReader base) {
 		this.base = base;
@@ -43,6 +43,7 @@ public abstract class JsonReaderI<T> {
 
 	/**
 	 * called when json-smart parser meet an object key
+	 * @param key key name
 	 */
 	public JsonReaderI<?> startObject(String key) throws ParseException, IOException {
 		throw new RuntimeException(ERR_MSG + " startObject(String key) in " + this.getClass() + " key=" + key);
@@ -51,8 +52,7 @@ public abstract class JsonReaderI<T> {
 	/**
 	 * called when json-smart parser start an array.
 	 * 
-	 * @param key
-	 *            the destination key name, or null.
+	 * @param key the destination key name, or null.
 	 */
 	public JsonReaderI<?> startArray(String key) throws ParseException, IOException {
 		throw new RuntimeException(ERR_MSG + " startArray in " + this.getClass() + " key=" + key);

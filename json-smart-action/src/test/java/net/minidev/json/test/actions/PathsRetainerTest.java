@@ -6,9 +6,9 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import net.minidev.json.actions.path.DotDelimiter;
 import net.minidev.json.parser.ParseException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+
+// import org.junit.runner.RunWith;
+// import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,13 +19,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author adoneitan@gmail.com
  */
-@RunWith(Parameterized.class)
+// @RunWith(Parameterized.class)
 public class PathsRetainerTest {
 	private String jsonToReduce;
 	private Object keyToKeep;
@@ -126,6 +125,7 @@ public class PathsRetainerTest {
 		assertEquals(expectedReducedObj, reducedObj);
 	}
 
+	@SuppressWarnings("unchecked")
 	private PathsRetainer switchKeyToRemove() {
 		long m = System.currentTimeMillis();
 		if (keyToKeep == null && m % 4 == 0) {

@@ -333,6 +333,9 @@ public class JSONValue {
 	/**
 	 * Reformat Json input keeping element order
 	 * 
+	 * @param input text to parse
+	 * @param style parse options
+	 * 
 	 * @since 1.0.6.2
 	 * 
 	 *        need to be rewrite in 2.0
@@ -350,6 +353,8 @@ public class JSONValue {
 	/**
 	 * Compress Json input keeping element order
 	 * 
+	 * @param input text to parse
+	 * 
 	 * @since 1.0.6.1
 	 * 
 	 *        need to be rewrite in 2.0
@@ -360,6 +365,7 @@ public class JSONValue {
 
 	/**
 	 * Compress Json input keeping element order
+	 * @param input text to parse
 	 * 
 	 * @since 1.0.6.1
 	 */
@@ -369,6 +375,8 @@ public class JSONValue {
 
 	/**
 	 * Parse JSON text into java object from the input source.
+	 * 
+	 * @param in source to parse
 	 * 
 	 * @see JSONParser
 	 * 
@@ -382,6 +390,7 @@ public class JSONValue {
 	/**
 	 * Parse JSON text into java object from the input source.
 	 * 
+	 * @param in source to parse
 	 * @see JSONParser
 	 * 
 	 * @return Instance of the following: JSONObject, JSONArray, String,
@@ -394,6 +403,8 @@ public class JSONValue {
 	/**
 	 * Parse JSON text into java object from the input source.
 	 * 
+	 * @param in source to parse
+	 * 	 
 	 * @see JSONParser
 	 * 
 	 * @return Instance of the following: JSONObject, JSONArray, String,
@@ -406,17 +417,21 @@ public class JSONValue {
 	/**
 	 * Parse JSON text into java object from the input source.
 	 * 
+	 * @param input string to parse
+
 	 * @see JSONParser
 	 * 
 	 * @return Instance of the following: JSONObject, JSONArray, String,
 	 *         java.lang.Number, java.lang.Boolean, null
 	 */
-	public static Object parseWithException(String s) throws ParseException {
-		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(s, defaultReader.DEFAULT);
+	public static Object parseWithException(String input) throws ParseException {
+		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(input, defaultReader.DEFAULT);
 	}
 
 	/**
 	 * Parse input json as a mapTo class
+	 * 
+	 * @param in source to parse
 	 * 
 	 * mapTo can be a bean
 	 * 
@@ -430,6 +445,8 @@ public class JSONValue {
 	/**
 	 * Parse valid RFC4627 JSON text into java object from the input source.
 	 * 
+	 * @param in source to parse
+
 	 * @see JSONParser
 	 * 
 	 * @return Instance of the following: JSONObject, JSONArray, String,
@@ -442,6 +459,7 @@ public class JSONValue {
 	/**
 	 * Parse valid RFC4627 JSON text into java object from the input source.
 	 * 
+	 * @param s source to parse
 	 * @see JSONParser
 	 * 
 	 * @return Instance of the following: JSONObject, JSONArray, String,

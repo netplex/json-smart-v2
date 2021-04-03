@@ -143,6 +143,7 @@ public class PathReplicatorTest {
 		assertEquals(expectedObj, copied);
 	}
 
+	@SuppressWarnings("unchecked")
 	private PathReplicator switchKeyToCopy() {
 		long m = System.currentTimeMillis();
 		if (pathsToCopy == null && m % 4 == 0) {
@@ -170,6 +171,7 @@ public class PathReplicatorTest {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private PathReplicator switchKeyToCopy2() {
 		long m = System.currentTimeMillis();
 		if (pathsToCopy == null && m % 4 == 0) {
