@@ -50,6 +50,7 @@ class DynamicClassLoader extends ClassLoader {
 		return clzz;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static <T> T directInstance(Class<? extends T> parent, String clsName, byte[] clsData) throws InstantiationException, IllegalAccessException {
 		Class<T> clzz = directLoad(parent, clsName, clsData);
 		return clzz.newInstance();

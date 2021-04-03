@@ -382,6 +382,7 @@ public class JSONNavi<T> {
 	/**
 	 * get the current object value as Integer if the current Object can not be
 	 * cast as Integer return null.
+	 * @return the current node value as an Integer
 	 */
 	public Integer asIntegerObj() {
 		if (current == null)
@@ -459,6 +460,7 @@ public class JSONNavi<T> {
 	/**
 	 * Set current value as Json Object You can also skip this call, Objects can
 	 * be create automatically.
+	 * @return the current node as an object
 	 */
 	@SuppressWarnings("unchecked")
 	public JSONNavi<T> object() {
@@ -485,6 +487,8 @@ public class JSONNavi<T> {
 	/**
 	 * Set current value as Json Array You can also skip this call Arrays can be
 	 * create automatically.
+	 * 
+	 * @return the current node as an array
 	 */
 	@SuppressWarnings("unchecked")
 	public JSONNavi<T> array() {
@@ -510,6 +514,8 @@ public class JSONNavi<T> {
 
 	/**
 	 * set current value as Number
+	 * @param num new value for the current node
+	 * @return this for code chaining
 	 */
 	public JSONNavi<T> set(Number num) {
 		if (failure)
@@ -521,6 +527,9 @@ public class JSONNavi<T> {
 
 	/**
 	 * set current value as Boolean
+	 * @param num new value for the current node
+	 * 
+	 * @return this for code chaining
 	 */
 	public JSONNavi<T> set(Boolean bool) {
 		if (failure)
@@ -532,6 +541,9 @@ public class JSONNavi<T> {
 
 	/**
 	 * set current value as String
+	 * @param text text value
+	 * 
+	 * @return this for code chaining
 	 */
 	public JSONNavi<T> set(String text) {
 		if (failure)
