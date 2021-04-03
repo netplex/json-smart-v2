@@ -1,6 +1,5 @@
 package net.minidev.json.test;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
@@ -31,22 +30,27 @@ public class TestInvalidNumber extends TestCase {
 		assertEquals("should handle invalid number '" + test + "' as string", convertedValue, test);
 	}
 	
+	@Test
 	public void testF1() {
 		validFloatAsFloat("51e88");
 	}
 
+	@Test
 	public void testF2() {
 		validFloatAsFloat("51e+88");
 	}
 
+	@Test
 	public void testF3() {
 		validFloatAsFloat("51e-88");
 	}
 
+	@Test
 	public void testF4() {
 		invalidFloatAsText("51ee88");
 	}
 
+	@Test
 	public void testCVE_2021_27568() {
 		try {
 			JSONValue.parseWithException("{a:-.}");

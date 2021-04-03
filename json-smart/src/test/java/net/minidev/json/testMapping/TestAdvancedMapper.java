@@ -3,13 +3,13 @@ package net.minidev.json.testMapping;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import junit.framework.TestCase;
 import net.minidev.asm.BeansAccessConfig;
 import net.minidev.json.JSONValue;
 
 public class TestAdvancedMapper extends TestCase {
 	public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
+	@Test
 	public void testCustomBean() throws Exception {
 		BeansAccessConfig.addTypeMapper(Object.class, MyLocalConverterot.class);
 		String s = "{'val':2,'date':'19/04/2010'}";

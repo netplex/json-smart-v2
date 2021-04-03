@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>net.minidev</groupId>
 		<artifactId>minidev-parent</artifactId>
-		<version>2.3</version>
+		<version>2.4.1</version>
 	</parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>json-smart-action</artifactId>
@@ -47,11 +47,11 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+    		<groupId>org.junit.jupiter</groupId>
+    		<artifactId>junit-jupiter-api</artifactId>
+    		<scope>test</scope>
+		</dependency>
         <dependency>
             <groupId>net.minidev</groupId>
             <artifactId>json-smart</artifactId>

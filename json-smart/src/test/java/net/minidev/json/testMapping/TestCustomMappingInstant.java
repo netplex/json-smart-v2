@@ -2,10 +2,11 @@ package net.minidev.json.testMapping;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
 import net.minidev.json.parser.ParseException;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Test JDK 8+ java.time.Instant
@@ -15,8 +16,9 @@ import net.minidev.json.parser.ParseException;
  * @author uriel
  *
  */
-public class TestCustomMappingInstant extends TestCase {
+public class TestCustomMappingInstant {
 	
+	@Test
 	public void test_dummy() throws IOException {
 		@SuppressWarnings("unused")
 		ParseException e = null;

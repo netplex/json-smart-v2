@@ -4,7 +4,6 @@ import net.minidev.json.actions.PathReplicator;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -12,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -145,16 +146,16 @@ public class PathReplicatorTest {
 	private PathReplicator switchKeyToCopy() {
 		long m = System.currentTimeMillis();
 		if (pathsToCopy == null && m % 4 == 0) {
-			System.out.println("cast to String");
+			// System.out.println("cast to String");
 			return new PathReplicator((String) null);
 		} else if (pathsToCopy == null && m % 4 == 1) {
-			System.out.println("cast to String[]");
+			// System.out.println("cast to String[]");
 			return new PathReplicator((String[]) null);
 		} else if (pathsToCopy == null && m % 4 == 2) {
-			System.out.println("cast to JSONArray");
+			// System.out.println("cast to JSONArray");
 			return new PathReplicator((JSONArray) null);
 		} else if (pathsToCopy == null && m % 4 == 3) {
-			System.out.println("cast to List<String>");
+			// System.out.println("cast to List<String>");
 			return new PathReplicator((List<String>) null);
 		} else if (pathsToCopy instanceof String) {
 			return new PathReplicator((String) pathsToCopy);
@@ -172,16 +173,16 @@ public class PathReplicatorTest {
 	private PathReplicator switchKeyToCopy2() {
 		long m = System.currentTimeMillis();
 		if (pathsToCopy == null && m % 4 == 0) {
-			System.out.println("cast to String");
+			// System.out.println("cast to String");
 			return new PathReplicator((String) null);
 		} else if (pathsToCopy == null && m % 4 == 1) {
-			System.out.println("cast to String[]");
+			// System.out.println("cast to String[]");
 			return new PathReplicator((String[]) null);
 		} else if (pathsToCopy == null && m % 4 == 2) {
-			System.out.println("cast to JSONArray");
+			// System.out.println("cast to JSONArray");
 			return new PathReplicator((JSONArray) null);
 		} else if (pathsToCopy == null && m % 4 == 3) {
-			System.out.println("cast to List<String>");
+			// System.out.println("cast to List<String>");
 			return new PathReplicator((List<String>) null);
 		} else if (pathsToCopy instanceof String) {
 			return new PathReplicator((String) pathsToCopy);

@@ -1,19 +1,23 @@
 package net.minidev.json.test;
 
-import junit.framework.TestCase;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 
+import org.junit.jupiter.api.Test;
+
 public class MustThrows {
 
+	@Test
 	public static void testStrictInvalidJson(String json, int execptionType) throws Exception {
 		testStrictInvalidJson(json, execptionType, null);
 	}
 
+	@Test
 	public static void testStrictInvalidJson(String json, int execptionType, Class<?> cls) throws Exception {
 		testInvalidJson(json, JSONParser.MODE_RFC4627, execptionType, cls);
 	}
 
+	@Test
 	public static void testInvalidJson(String json, int permissifMode, int execptionType) throws Exception {
 		testInvalidJson(json, permissifMode, execptionType, null);
 	}

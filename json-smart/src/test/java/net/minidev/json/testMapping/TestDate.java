@@ -1,9 +1,11 @@
 package net.minidev.json.testMapping;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONValue;
 
-public class TestDate extends TestCase {
+import org.junit.jupiter.api.Test;
+
+public class TestDate {
+	@Test
 	public void testBooleans() throws Exception {
 		String s = "[true,true,false]";
 		boolean[] bs = new boolean[] { true, true, false };
@@ -11,6 +13,7 @@ public class TestDate extends TestCase {
 		assertEquals(s, s2);
 	}
 
+	@Test
 	public void testInts() throws Exception {
 		String s = "[1,2,3]";
 		int[] bs = new int[] { 1, 2, 3 };

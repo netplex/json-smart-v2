@@ -17,7 +17,7 @@ public class KeysPrintAction implements JSONTraverseAction {
 
 	@Override
 	public boolean traverseEntry(String fullPathToEntry, Entry<String, Object> entry) {
-		System.out.println(entry.getKey());
+		// System.out.println(entry.getKey());
 		return true;
 	}
 

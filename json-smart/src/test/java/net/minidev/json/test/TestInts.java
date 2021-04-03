@@ -6,22 +6,24 @@ import java.math.BigInteger;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
-import junit.framework.TestCase;
 
-public class TestInts extends TestCase {
+public class TestInts {
 
+	@Test
 	public void testIntMax() throws Exception {
 		String s = "{t:" + Integer.MAX_VALUE + "}";
 		JSONObject o = (JSONObject) new JSONParser(JSONParser.MODE_PERMISSIVE).parse(s);
 		assertEquals(o.get("t"), Integer.MAX_VALUE);
 	}
 
+	@Test
 	public void testIntMin() throws Exception {
 		String s = "{t:" + Integer.MIN_VALUE + "}";
 		JSONObject o = (JSONObject) new JSONParser(JSONParser.MODE_PERMISSIVE).parse(s);
 		assertEquals(o.get("t"), Integer.MIN_VALUE);
 	}
 
+	@Test
 	public void testIntResult() throws Exception {
 		String s = "{\"t\":1}";
 		JSONObject o = (JSONObject) new JSONParser(JSONParser.MODE_RFC4627).parse(s);
@@ -34,18 +36,21 @@ public class TestInts extends TestCase {
 		assertEquals(o.get("t"), Integer.valueOf(1));
 	}
 
+	@Test
 	public void testInt() throws Exception {
 		String s = "{t:90}";
 		JSONObject o = (JSONObject) new JSONParser(JSONParser.MODE_PERMISSIVE).parse(s);
 		assertEquals(o.get("t"), Integer.valueOf(90));
 	}
 
+	@Test
 	public void testIntNeg() throws Exception {
 		String s = "{t:-90}";
 		JSONObject o = (JSONObject) new JSONParser(JSONParser.MODE_PERMISSIVE).parse(s);
 		assertEquals(o.get("t"), -90);
 	}
 
+	@Test
 	public void testBigInt() throws Exception {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < 10; i++)
@@ -57,6 +62,7 @@ public class TestInts extends TestCase {
 		assertEquals(o.get("t"), big);
 	}
 
+	@Test
 	public void testBigDoubleInt() throws Exception {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < 10; i++)
@@ -74,6 +80,7 @@ public class TestInts extends TestCase {
 		assertEquals(o.get("t"), big);
 	}
 
+	@Test
 	public void testjunkTaillingData() throws Exception {
 		String s = "{\"t\":124}$ifsisg045";
 

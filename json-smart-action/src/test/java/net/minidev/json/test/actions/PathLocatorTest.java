@@ -16,6 +16,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.jupiter.api.Test;
+
 /**
  * @author adoneitan@gmail.com
  */
@@ -115,16 +117,16 @@ public class PathLocatorTest
 	{
 		long m = System.currentTimeMillis();
 		if (keysToFind == null && m % 4 == 0) {
-			System.out.println("cast to String");
+			// System.out.println("cast to String");
 			return new PathLocator((String)null);
 		} else if (keysToFind == null && m % 4 == 1) {
-			System.out.println("cast to String[]");
+			// System.out.println("cast to String[]");
 			return new PathLocator((String[])null);
 		} else if (keysToFind == null && m % 4 == 2) {
-			System.out.println("cast to JSONArray");
+			// System.out.println("cast to JSONArray");
 			return new PathLocator((JSONArray)null);
 		} else if (keysToFind == null && m % 4 == 3) {
-			System.out.println("cast to List<String>");
+			// System.out.println("cast to List<String>");
 			return new PathLocator((List<String>)null);
 		} else if (keysToFind instanceof String) {
 			return new PathLocator((String) keysToFind);

@@ -1,11 +1,11 @@
 package net.minidev.json.test;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 
 public class TestFloatStrict extends TestCase {
 
+	@Test
 	public void testFloat() throws Exception {
 		for (String s : TestFloat.TRUE_NUMBERS) {
 			String json = "{\"v\":" + s + "}";
@@ -16,6 +16,7 @@ public class TestFloatStrict extends TestCase {
 		}
 	}
 
+	@Test
 	public void testNonFloat() throws Exception {
 		for (String s : TestFloat.FALSE_NUMBERS) {
 			String json = "{\"v\":" + s + "}";

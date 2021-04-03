@@ -4,9 +4,10 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import net.minidev.json.actions.ElementRemover;
 import net.minidev.json.parser.ParseException;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
@@ -58,50 +59,4 @@ public class ElementRemoverTest {
 		er.remove(objectToClean);
 		assertEquals(expectedObject, objectToClean);
 	}
-
-	//	private ElementRemover switchKeyToRemove()
-	//	{
-	//		long m = System.currentTimeMillis();
-	//		if (elementsToRemove == null && m % 4 == 0)
-	//		{
-	//			System.out.println("cast to String");
-	//			return new ElementRemover((String)null);
-	//		}
-	//		else if (elementsToRemove == null && m % 4 == 1)
-	//		{
-	//			System.out.println("cast to String[]");
-	//			return new ElementRemover((String[])null);
-	//		}
-	//		else if (elementsToRemove == null && m % 4 == 2)
-	//		{
-	//			System.out.println("cast to JSONArray");
-	//			return new ElementRemover((JSONArray)null);
-	//		}
-	//		else if (elementsToRemove == null && m % 4 == 3)
-	//		{
-	//			System.out.println("cast to List<String>");
-	//			return new ElementRemover((List<String>)null);
-	//		}
-	//		else if (elementsToRemove instanceof String)
-	//		{
-	//			return new ElementRemover((String) elementsToRemove);
-	//		}
-	//		else if (elementsToRemove instanceof String[])
-	//		{
-	//			return new ElementRemover((String[]) elementsToRemove);
-	//		}
-	//		else if (elementsToRemove instanceof JSONArray)
-	//		{
-	//			return new ElementRemover((JSONArray) elementsToRemove);
-	//		}
-	//		else if (elementsToRemove instanceof List<?>)
-	//		{
-	//			return new ElementRemover((List<String>) elementsToRemove);
-	//		}
-	//		else
-	//		{
-	//			throw new IllegalArgumentException("bad test setup: wrong type of key to remove");
-	//		}
-	//	}
-
 }

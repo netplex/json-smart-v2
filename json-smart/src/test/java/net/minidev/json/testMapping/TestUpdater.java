@@ -1,14 +1,16 @@
 package net.minidev.json.testMapping;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONValue;
 import net.minidev.json.testMapping.TestMapPublic.T123;
 import net.minidev.json.testMapping.TestMapPublic.T1;
 import net.minidev.json.testMapping.TestMapPublic.T2;
 import net.minidev.json.testMapping.TestMapPublic.T3;
 
+import org.junit.jupiter.api.Test;
+
 public class TestUpdater extends TestCase {
 
+	@Test
 	public void testUpdate1() throws Exception {
 		T3 t3 = new T3();
 		t3.age = 20;
@@ -22,6 +24,7 @@ public class TestUpdater extends TestCase {
 		assertEquals((Long) 120000L, t3.l);
 	}
 
+	@Test
 	public void testUpdateExistingBeans() throws Exception {
 		T123 t123 = new T123();
 		T1 t1 = new T1(); 
@@ -39,6 +42,7 @@ public class TestUpdater extends TestCase {
 		assertEquals(res.t3.name, "valueT3");
 	}
 
+	@Test
 	public void testUpdateNullBean() throws Exception {
 		T123 t123 = new T123();
 		T1 t1 = new T1(); 

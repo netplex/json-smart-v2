@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -122,16 +124,16 @@ public class PathsRetainerTest {
 	private PathsRetainer switchKeyToRemove() {
 		long m = System.currentTimeMillis();
 		if (keyToKeep == null && m % 4 == 0) {
-			System.out.println("cast to String");
+			// System.out.println("cast to String");
 			return new PathsRetainer((String) null);
 		} else if (keyToKeep == null && m % 4 == 1) {
-			System.out.println("cast to String[]");
+			// System.out.println("cast to String[]");
 			return new PathsRetainer((String[]) null);
 		} else if (keyToKeep == null && m % 4 == 2) {
-			System.out.println("cast to JSONArray");
+			// System.out.println("cast to JSONArray");
 			return new PathsRetainer((JSONArray) null);
 		} else if (keyToKeep == null && m % 4 == 3) {
-			System.out.println("cast to List<String>");
+			// System.out.println("cast to List<String>");
 			return new PathsRetainer((List<String>) null);
 		} else if (keyToKeep instanceof String) {
 			return new PathsRetainer((String) keyToKeep);

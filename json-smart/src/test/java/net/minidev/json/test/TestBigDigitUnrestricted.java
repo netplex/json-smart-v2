@@ -2,13 +2,15 @@ package net.minidev.json.test;
 
 import java.math.BigDecimal;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 
-public class TestBigDigitUnrestricted extends TestCase {
+import org.junit.jupiter.api.Test;
+
+public class TestBigDigitUnrestricted {
 	public static String[] VALID_DOUBLE_JSON = new String[] {"{\"v\":0.12345678912345678}"}; 
 	
+	@Test
 	public void testRestrictedBigDigit() throws Exception {
 		JSONParser p = new JSONParser(JSONParser.MODE_RFC4627);
 		String json = VALID_DOUBLE_JSON[0];
@@ -17,6 +19,7 @@ public class TestBigDigitUnrestricted extends TestCase {
 		assertEquals("Should not Store this big number as a double", Double.class, value.getClass());
 	}
 	
+	@Test
 	public void testUnrestrictedBigDigit() throws Exception {
 		JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
 		String json = VALID_DOUBLE_JSON[0];

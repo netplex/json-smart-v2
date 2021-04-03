@@ -1,10 +1,12 @@
 package net.minidev.json.test;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONArray;
 import net.minidev.json.parser.JSONParser;
 
-public class JSONSimpleTest extends TestCase {
+import org.junit.jupiter.api.Test;
+
+public class JSONSimpleTest {
+	@Test
 	public void testLong() throws Exception {
 		String s = "[1]";
 		JSONParser p = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
@@ -12,6 +14,7 @@ public class JSONSimpleTest extends TestCase {
 		assertEquals(Long.valueOf(1), (Long) array.get(0));
 	}
 
+	@Test
 	public void testDefault() throws Exception {
 		String s = "[1]";
 		JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);

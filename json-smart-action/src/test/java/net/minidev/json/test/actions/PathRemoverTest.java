@@ -16,6 +16,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.jupiter.api.Test;
+
 /**
  * Tests {@link PathRemover}
  *
@@ -90,16 +92,16 @@ public class PathRemoverTest
 	{
 		long m = System.currentTimeMillis();
 		if (keyToRemove == null && m % 4 == 0) {
-			System.out.println("cast to String");
+			// System.out.println("cast to String");
 			return new PathRemover((String)null);
 		} else if (keyToRemove == null && m % 4 == 1) {
-			System.out.println("cast to String[]");
+			// System.out.println("cast to String[]");
 			return new PathRemover((String[])null);
 		} else if (keyToRemove == null && m % 4 == 2) {
-			System.out.println("cast to JSONArray");
+			// System.out.println("cast to JSONArray");
 			return new PathRemover((JSONArray)null);
 		} else if (keyToRemove == null && m % 4 == 3) {
-			System.out.println("cast to List<String>");
+			// System.out.println("cast to List<String>");
 			return new PathRemover((List<String>)null);
 		} else if (keyToRemove instanceof String) {
 			return new PathRemover((String)keyToRemove);

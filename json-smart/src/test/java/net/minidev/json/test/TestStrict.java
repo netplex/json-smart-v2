@@ -1,12 +1,14 @@
 package net.minidev.json.test;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 
+import org.junit.jupiter.api.Test;
+
 public class TestStrict extends TestCase {
 
+	@Test
 	public void testS1() throws Exception {
 		String text = "My Test";
 		String s = "{t:\"" + text + "\"}";
@@ -14,6 +16,7 @@ public class TestStrict extends TestCase {
 		assertEquals(o.get("t"), text);
 	}
 
+	@Test
 	public void testS2() throws Exception {
 		String text = "My Test";
 		String s = "{t:'" + text + "'}";
@@ -21,6 +24,7 @@ public class TestStrict extends TestCase {
 		assertEquals(o.get("t"), text);
 	}
 
+	@Test
 	public void testSEscape() throws Exception {
 		String text = "My\r\nTest";
 		String text2 = "My\\r\\nTest";
@@ -29,6 +33,7 @@ public class TestStrict extends TestCase {
 		assertEquals(o.get("t"), text);
 	}
 
+	@Test
 	public void testBadString() throws Exception {
 		String s = "{\"t\":\"Before\u000CAfter\"}";
 		JSONObject o = (JSONObject) new JSONParser(JSONParser.MODE_PERMISSIVE).parse(s);
@@ -44,6 +49,7 @@ public class TestStrict extends TestCase {
 	/**
 	 * issue report gitHub 8 by jochenberger
 	 */
+	@Test
 	public void testDataAfterValue() throws Exception {
 		String s = "{\"foo\":\"bar\"x}";
 		MustThrows.testInvalidJson(s, JSONParser.MODE_STRICTEST | JSONParser.ACCEPT_TAILLING_SPACE, ParseException.ERROR_UNEXPECTED_TOKEN);

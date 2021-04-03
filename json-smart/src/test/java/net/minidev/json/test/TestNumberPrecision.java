@@ -2,11 +2,13 @@ package net.minidev.json.test;
 
 import java.math.BigInteger;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONValue;
 
-public class TestNumberPrecision extends TestCase {
+import org.junit.jupiter.api.Test;
+
+public class TestNumberPrecision {
+	@Test
 	public void testMaxLong() {		
 		Long v = Long.MAX_VALUE;
 		String s = "[" + v + "]";
@@ -15,6 +17,7 @@ public class TestNumberPrecision extends TestCase {
 		assertEquals(v, r);
 	}
 
+	@Test
 	public void testMinLong() {
 		Long v = Long.MIN_VALUE;
 		String s = "[" + v + "]";
@@ -23,6 +26,7 @@ public class TestNumberPrecision extends TestCase {
 		assertEquals(v, r);
 	}
 
+	@Test
 	public void testMinBig() {
 		BigInteger v = BigInteger.valueOf(Long.MIN_VALUE).subtract(BigInteger.ONE);
 		String s = "[" + v + "]";
@@ -31,6 +35,7 @@ public class TestNumberPrecision extends TestCase {
 		assertEquals(v, r);
 	}
 
+	@Test
 	public void testMaxBig() {
 		BigInteger v = BigInteger.valueOf(Long.MAX_VALUE).add(BigInteger.ONE);
 		String s = "[" + v + "]";

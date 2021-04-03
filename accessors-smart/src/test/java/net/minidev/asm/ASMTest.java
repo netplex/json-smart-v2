@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
-// import junit.framework.TestCase;
 import net.minidev.asm.bean.BTest;
 
 public class ASMTest {

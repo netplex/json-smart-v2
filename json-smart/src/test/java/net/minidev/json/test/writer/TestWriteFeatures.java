@@ -1,11 +1,11 @@
 package net.minidev.json.test.writer;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
 
 public class TestWriteFeatures extends TestCase {
 
+	@Test
 	public void testS1() throws Exception {
 		Beans beans = new Beans();
 		String s = JSONValue.toJSONString(beans, JSONStyle.MAX_COMPRESS);
