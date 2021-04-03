@@ -3,6 +3,9 @@ package net.minidev.json.test;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.junit.jupiter.api.Test;
 
 public class MustThrows {
@@ -30,11 +33,11 @@ public class MustThrows {
 				p.parse(json);
 			else
 				p.parse(json, cls);
-			TestCase.assertFalse("Exception Should Occure parsing:" + json, true);
+			assertFalse(true, "Exception Should Occure parsing:" + json);
 		} catch (ParseException e) {
 			if (execptionType == -1)
 				execptionType = e.getErrorType();
-			TestCase.assertEquals(execptionType, e.getErrorType());
+			assertEquals(execptionType, e.getErrorType());
 		}
 	}
 

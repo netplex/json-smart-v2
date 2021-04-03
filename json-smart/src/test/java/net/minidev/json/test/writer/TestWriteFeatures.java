@@ -1,9 +1,13 @@
 package net.minidev.json.test.writer;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
 
-public class TestWriteFeatures extends TestCase {
+public class TestWriteFeatures {
 
 	@Test
 	public void testS1() throws Exception {

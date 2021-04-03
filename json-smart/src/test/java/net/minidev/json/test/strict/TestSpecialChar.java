@@ -1,5 +1,9 @@
 package net.minidev.json.test.strict;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
 import net.minidev.json.JSONArray;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
@@ -10,7 +14,7 @@ import net.minidev.json.test.MustThrows;
  * @author uriel
  *
  */
-public class TestSpecialChar extends TestCase {
+public class TestSpecialChar {
 	
 	@Test
 	public void testSpecial127() throws Exception {

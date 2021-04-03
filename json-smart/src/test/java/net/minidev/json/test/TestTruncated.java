@@ -4,7 +4,7 @@ import net.minidev.json.parser.ParseException;
 
 import org.junit.jupiter.api.Test;
 
-public class TestTruncated extends TestCase {
+public class TestTruncated {
 
 	@Test
 	public void testS1() throws Exception {

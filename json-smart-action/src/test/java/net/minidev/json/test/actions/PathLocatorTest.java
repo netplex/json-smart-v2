@@ -5,29 +5,32 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import net.minidev.json.parser.ParseException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+// import org.junit.Test;
+// import org.junit.runner.RunWith;
+// import org.junit.runners.Parameterized;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
 
 /**
  * @author adoneitan@gmail.com
  */
-@RunWith(Parameterized.class)
+// @ExtendWith(Parameterized.class)
 public class PathLocatorTest
 {
 	private String jsonToSearch;
 	private Object keysToFind;
 	private String[] expectedFound;
 
+	@ParameterizedTest
 	public PathLocatorTest(String jsonToSearch, Object keysToFind, String[] expectedFound)
 	{
 		this.jsonToSearch = jsonToSearch;

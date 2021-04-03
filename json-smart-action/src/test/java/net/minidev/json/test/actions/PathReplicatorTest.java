@@ -4,8 +4,10 @@ import net.minidev.json.actions.PathReplicator;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+// import org.junit.runner.RunWith;
+// import org.junit.runners.Parameterized;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,8 +15,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author adoneitan@gmail.com

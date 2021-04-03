@@ -2,9 +2,12 @@ package net.minidev.json.testMapping;
 
 import net.minidev.json.JSONValue;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
-public class TestFieldRename extends TestCase {
+public class TestFieldRename {
 
 	public static class TRen {
 		public String new_;

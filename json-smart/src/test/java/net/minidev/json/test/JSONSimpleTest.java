@@ -3,6 +3,8 @@ package net.minidev.json.test;
 import net.minidev.json.JSONArray;
 import net.minidev.json.parser.JSONParser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 public class JSONSimpleTest {

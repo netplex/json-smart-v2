@@ -2,6 +2,8 @@ package net.minidev.json.testMapping;
 
 import net.minidev.json.JSONValue;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 public class TestDate {

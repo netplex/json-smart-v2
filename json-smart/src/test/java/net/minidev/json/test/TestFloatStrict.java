@@ -1,9 +1,13 @@
 package net.minidev.json.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 
-public class TestFloatStrict extends TestCase {
+public class TestFloatStrict {
 
 	@Test
 	public void testFloat() throws Exception {
@@ -12,7 +16,7 @@ public class TestFloatStrict extends TestCase {
 			Double val = Double.valueOf(s.trim());
 			JSONObject obj = (JSONObject) new JSONParser(JSONParser.MODE_RFC4627).parse(json);
 			Object value = obj.get("v");
-			assertEquals("Should be parse as double", val, value);
+			assertEquals(val, value, "Should be parse as double");
 		}
 	}
 

@@ -4,14 +4,12 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import net.minidev.json.actions.ElementRemover;
 import net.minidev.json.parser.ParseException;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests {@link ElementRemover}

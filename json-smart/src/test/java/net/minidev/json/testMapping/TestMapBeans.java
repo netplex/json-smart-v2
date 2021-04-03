@@ -7,7 +7,7 @@ import net.minidev.json.JSONValue;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestMapBeans extends TestCase {
+public class TestMapBeans {
 
 	@Test
 	public void testObjInts() throws Exception {

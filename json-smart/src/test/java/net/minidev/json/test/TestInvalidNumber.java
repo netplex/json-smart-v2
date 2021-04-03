@@ -1,5 +1,10 @@
 package net.minidev.json.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import org.junit.jupiter.api.Test;
+
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
@@ -8,7 +13,7 @@ import net.minidev.json.JSONValue;
  * @author uriel
  *
  */
-public class TestInvalidNumber extends TestCase {
+public class TestInvalidNumber {
 
 	private void validFloatAsFloat(String test) {
 		JSONObject o = new JSONObject();
@@ -54,21 +59,21 @@ public class TestInvalidNumber extends TestCase {
 	public void testCVE_2021_27568() {
 		try {
 			JSONValue.parseWithException("{a:-.}");
-			assertFalse("should Throws Exception before", true);
+			assertFalse(true, "should Throws Exception before");
 		} catch (Exception e) {
 			assertEquals("should throw EOF", e.getMessage(), "Unexpected token -. at position 5.");
 		}
 
 		try {
 			JSONValue.parseWithException("{a:2e+}");
-			assertFalse("should Throws Exception before", true);
+			assertFalse(true, "should Throws Exception before");
 		} catch (Exception e) {
 			assertEquals("should throw EOF", e.getMessage(), "Unexpected token 2e+ at position 6.");
 		}
 
 		try {
 			JSONValue.parseWithException("{a:[45e-}");
-			assertFalse("should Throws Exception before", true);
+			assertFalse(true, "should Throws Exception before");
 		} catch (Exception e) {
 			assertEquals("should throw EOF", e.getMessage(), "Unexpected End Of File position 8: EOF");
 		}

@@ -1,5 +1,7 @@
 package net.minidev.json.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.math.BigDecimal;
 
 import net.minidev.json.JSONObject;
@@ -16,7 +18,7 @@ public class TestBigDigitUnrestricted {
 		String json = VALID_DOUBLE_JSON[0];
 		JSONObject obj = (JSONObject) p.parse(json);
 		Object value = obj.get("v");
-		assertEquals("Should not Store this big number as a double", Double.class, value.getClass());
+		assertEquals(Double.class, value.getClass(), "Should not Store this big number as a double");
 	}
 	
 	@Test
@@ -25,7 +27,7 @@ public class TestBigDigitUnrestricted {
 		String json = VALID_DOUBLE_JSON[0];
 		JSONObject obj = (JSONObject) p.parse(json);
 		Object value = obj.get("v");
-		assertEquals("Should not Store this big number as a double", BigDecimal.class, value.getClass());
+		assertEquals(BigDecimal.class, value.getClass(), "Should not Store this big number as a double");
 	}
 
 }

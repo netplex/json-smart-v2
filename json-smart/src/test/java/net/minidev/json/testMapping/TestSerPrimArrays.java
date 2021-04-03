@@ -1,5 +1,7 @@
 package net.minidev.json.testMapping;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,7 +15,6 @@ public class TestSerPrimArrays {
 	String testDateString;
 	Date testDate;
 
-	@Test
 	public TestSerPrimArrays() {
 		try {
 			sdf = new SimpleDateFormat("dd/MM/yyyy");

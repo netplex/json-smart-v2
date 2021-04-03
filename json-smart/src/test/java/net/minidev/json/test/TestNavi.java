@@ -5,8 +5,9 @@ import net.minidev.json.JSONNavi;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestNavi extends TestCase {
+public class TestNavi {
 	@Test
 	public void testNaviWrite() {
 		JSONNavi<JSONAwareEx> nav = JSONNavi.newInstance();
@@ -35,7 +36,7 @@ public class TestNavi extends TestCase {
 		String json = "{name:foo,str:null,ar:[1,2,3,4]}";
 		JSONNavi<JSONAwareEx> nav = new JSONNavi<JSONAwareEx>(json, JSONAwareEx.class);
 		nav.at(5);
-		assertTrue("Navigator should be in error stat", nav.hasFailure());
+		assertTrue(nav.hasFailure(), "Navigator should be in error stat");
 		nav.root();
 		assertEquals(3, nav.at("ar").at(2).asInt());
 		nav.up(2);

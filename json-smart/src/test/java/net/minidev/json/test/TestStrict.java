@@ -4,9 +4,11 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
-public class TestStrict extends TestCase {
+public class TestStrict {
 
 	@Test
 	public void testS1() throws Exception {

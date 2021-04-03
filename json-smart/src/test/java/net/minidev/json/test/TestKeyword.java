@@ -6,8 +6,9 @@ import net.minidev.json.parser.ParseException;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class TestKeyword extends TestCase {
+public class TestKeyword {
 
 	@Test
 	public void testBool() throws Exception {

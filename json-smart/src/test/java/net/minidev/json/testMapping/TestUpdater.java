@@ -6,9 +6,11 @@ import net.minidev.json.testMapping.TestMapPublic.T1;
 import net.minidev.json.testMapping.TestMapPublic.T2;
 import net.minidev.json.testMapping.TestMapPublic.T3;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
-public class TestUpdater extends TestCase {
+public class TestUpdater {
 
 	@Test
 	public void testUpdate1() throws Exception {

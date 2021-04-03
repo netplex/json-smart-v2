@@ -2,9 +2,11 @@ package net.minidev.json.test;
 
 import net.minidev.json.JSONValue;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
-public class TestCompressor extends TestCase {
+public class TestCompressor {
 	@Test
 	public void testCompressor() {
 		String j = "{'a':{'b':'c','d':'e'},f:[1,2,'XYZ']}".replace('\'', '"');

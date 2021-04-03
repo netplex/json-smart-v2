@@ -1,12 +1,16 @@
 package net.minidev.json.testMapping;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.junit.jupiter.api.Test;
 
 import net.minidev.asm.BeansAccessConfig;
 import net.minidev.json.JSONValue;
 
-public class TestAdvancedMapper extends TestCase {
+public class TestAdvancedMapper {
 	public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	@Test

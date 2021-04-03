@@ -1,5 +1,7 @@
 package net.minidev.json.testMapping;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -7,7 +9,7 @@ import net.minidev.json.JSONValue;
 
 import org.junit.jupiter.api.Test;
 
-public class TestMapPublic extends TestCase {
+public class TestMapPublic {
 	@Test
 	public void testObjInts() throws Exception {
 		String s = "{\"vint\":[1,2,3]}";

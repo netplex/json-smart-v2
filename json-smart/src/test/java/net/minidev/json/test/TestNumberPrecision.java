@@ -1,5 +1,7 @@
 package net.minidev.json.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.math.BigInteger;
 
 import net.minidev.json.JSONArray;

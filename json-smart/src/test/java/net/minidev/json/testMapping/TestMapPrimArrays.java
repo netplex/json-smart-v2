@@ -2,9 +2,11 @@ package net.minidev.json.testMapping;
 
 import net.minidev.json.JSONValue;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
-public class TestMapPrimArrays extends TestCase {
+public class TestMapPrimArrays {
 	@Test
 	public void testInts() throws Exception {
 		String s = "[1,2,3]";

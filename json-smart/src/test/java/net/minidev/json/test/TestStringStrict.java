@@ -1,8 +1,10 @@
 package net.minidev.json.test;
 
+import org.junit.jupiter.api.Test;
+
 import net.minidev.json.parser.ParseException;
 
-public class TestStringStrict extends TestCase {
+public class TestStringStrict {
 
 	@Test
 	public void testS1() throws Exception {

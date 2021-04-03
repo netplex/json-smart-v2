@@ -1,7 +1,11 @@
 package net.minidev.json.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
+
+import org.junit.jupiter.api.Test;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;

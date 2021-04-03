@@ -1,5 +1,7 @@
 package net.minidev.json.testMapping;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Map;
 import java.util.TreeMap;
 

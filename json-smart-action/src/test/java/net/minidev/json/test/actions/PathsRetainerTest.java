@@ -16,8 +16,11 @@ import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author adoneitan@gmail.com
@@ -28,13 +31,15 @@ public class PathsRetainerTest {
 	private Object keyToKeep;
 	private String expectedReducedJson;
 
+	@ParameterizedTest
+	@MethodSource("params")
 	public PathsRetainerTest(String jsonToReduce, Object keyToKeep, String expectedReducedJson) {
 		this.jsonToReduce = jsonToReduce;
 		this.keyToKeep = keyToKeep;
 		this.expectedReducedJson = expectedReducedJson;
 	}
 
-	@Parameterized.Parameters
+	// @Parameterized.Parameters
 	public static Collection params() {
 		return Arrays
 				.asList(new Object[][] {

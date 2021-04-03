@@ -6,7 +6,7 @@ import net.minidev.json.test.MustThrows;
 
 import org.junit.jupiter.api.Test;
 
-public class TestExcessiveComma extends TestCase {
+public class TestExcessiveComma {
 	@Test
 	public void testExcessiveComma1A() throws Exception {
 		String s = "[1,2,,3]";

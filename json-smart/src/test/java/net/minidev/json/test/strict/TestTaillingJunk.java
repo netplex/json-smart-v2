@@ -5,12 +5,14 @@ import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import net.minidev.json.test.MustThrows;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 /**
  * @since 1.0.7
  */
-public class TestTaillingJunk extends TestCase {
+public class TestTaillingJunk {
 
 	@Test
 	public void testTaillingSpace() throws Exception {

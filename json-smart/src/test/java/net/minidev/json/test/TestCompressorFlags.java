@@ -4,6 +4,8 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -12,7 +14,7 @@ import org.junit.jupiter.api.Test;
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  *
  */
-public class TestCompressorFlags extends TestCase {
+public class TestCompressorFlags {
 
 	@Test
 	public void testProtect() throws Exception {
