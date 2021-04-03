@@ -117,7 +117,7 @@ public class BeansAccessBuilder {
 			mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
 			mv.visitCode();
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitMethodInsn(INVOKESPECIAL, METHOD_ACCESS_NAME, "<init>", "()V");
+			mv.visitMethodInsn(INVOKESPECIAL, METHOD_ACCESS_NAME, "<init>", "()V", false);
 			mv.visitInsn(RETURN);
 			mv.visitMaxs(1, 1);
 			mv.visitEnd();
@@ -192,7 +192,7 @@ public class BeansAccessBuilder {
 					mv.visitFieldInsn(GETFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
 				} else {
 					String sig = Type.getMethodDescriptor(acc.getter);
-					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.getter.getName(), sig);
+					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.getter.getName(), sig, false);
 				}
 				ASMUtil.autoBoxing(mv, fieldType);
 				mv.visitInsn(ARETURN);
@@ -213,7 +213,7 @@ public class BeansAccessBuilder {
 					if (acc.getter == null)
 						throw new RuntimeException("no Getter for field " + acc.getName() + " in class " + this.className);
 					String sig = Type.getMethodDescriptor(acc.getter);
-					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.getter.getName(), sig);
+					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.getter.getName(), sig, false);
 				}
 				ASMUtil.autoBoxing(mv, fieldType);
 				mv.visitInsn(ARETURN);
@@ -244,7 +244,7 @@ public class BeansAccessBuilder {
 			for (Accessor acc : accs) {
 				mv.visitVarInsn(ALOAD, 2);
 				mv.visitLdcInsn(acc.fieldName);
-				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
 				mv.visitJumpInsn(IFEQ, labels[i]);
 				internalSetFiled(mv, acc);
 				mv.visitLabel(labels[i]);
@@ -270,7 +270,7 @@ public class BeansAccessBuilder {
 			for (Accessor acc : accs) {
 				mv.visitVarInsn(ALOAD, 2); // methodName
 				mv.visitLdcInsn(acc.fieldName);
-				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
 				mv.visitJumpInsn(IFEQ, labels[i]);
 				mv.visitVarInsn(ALOAD, 1); // object
 				mv.visitTypeInsn(CHECKCAST, classNameInternal);
@@ -279,7 +279,7 @@ public class BeansAccessBuilder {
 					mv.visitFieldInsn(GETFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
 				} else {
 					String sig = Type.getMethodDescriptor(acc.getter);
-					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.getter.getName(), sig);
+					mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.getter.getName(), sig, false);
 				}
 				ASMUtil.autoBoxing(mv, fieldType);
 				mv.visitInsn(ARETURN);
@@ -302,7 +302,7 @@ public class BeansAccessBuilder {
 			mv.visitCode();
 			mv.visitTypeInsn(NEW, classNameInternal);
 			mv.visitInsn(DUP);
-			mv.visitMethodInsn(INVOKESPECIAL, classNameInternal, "<init>", "()V");
+			mv.visitMethodInsn(INVOKESPECIAL, classNameInternal, "<init>", "()V", false);
 			mv.visitInsn(ARETURN);
 			mv.visitMaxs(2, 1);
 			mv.visitEnd();
@@ -359,15 +359,15 @@ public class BeansAccessBuilder {
 			String clsSig = Type.getInternalName(conMtd.getDeclaringClass());
 			String mtdName = conMtd.getName();
 			String mtdSig = Type.getMethodDescriptor(conMtd);
-			mv.visitMethodInsn(INVOKESTATIC, clsSig, mtdName, mtdSig);
+			mv.visitMethodInsn(INVOKESTATIC, clsSig, mtdName, mtdSig, false);
 		} else if (acc.isEnum()) {
 			// builtIn Enum Conversion
 			Label isNull = new Label();
 			mv.visitJumpInsn(IFNULL, isNull);
 			mv.visitVarInsn(ALOAD, 3);
 			// mv.visitTypeInsn(CHECKCAST, "java/lang/String");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;");
-			mv.visitMethodInsn(INVOKESTATIC, destClsName, "valueOf", "(Ljava/lang/String;)L" + destClsName + ";");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false);
+			mv.visitMethodInsn(INVOKESTATIC, destClsName, "valueOf", "(Ljava/lang/String;)L" + destClsName + ";", false);
 			mv.visitVarInsn(ASTORE, 3);
 			mv.visitLabel(isNull);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
@@ -380,7 +380,7 @@ public class BeansAccessBuilder {
 			Label isNull = new Label();
 			mv.visitJumpInsn(IFNULL, isNull);
 			mv.visitVarInsn(ALOAD, 3);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false);
 			mv.visitVarInsn(ASTORE, 3);
 			mv.visitLabel(isNull);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
@@ -396,7 +396,7 @@ public class BeansAccessBuilder {
 			mv.visitFieldInsn(PUTFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
 		} else {
 			String sig = Type.getMethodDescriptor(acc.setter);
-			mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.setter.getName(), sig);
+			mv.visitMethodInsn(INVOKEVIRTUAL, classNameInternal, acc.setter.getName(), sig, false);
 		}
 		mv.visitInsn(RETURN);
 	}
@@ -410,9 +410,9 @@ public class BeansAccessBuilder {
 		mv.visitInsn(DUP);
 		mv.visitLdcInsn("mapping " + this.className + " failed to map field:");
 		mv.visitVarInsn(ILOAD, 2);
-		mv.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "toString", "(I)Ljava/lang/String;");
-		mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;");
-		mv.visitMethodInsn(INVOKESPECIAL, exSig, "<init>", "(Ljava/lang/String;)V");
+		mv.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "toString", "(I)Ljava/lang/String;", false);
+		mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
+		mv.visitMethodInsn(INVOKESPECIAL, exSig, "<init>", "(Ljava/lang/String;)V", false);
 		mv.visitInsn(ATHROW);
 	}
 
@@ -425,8 +425,8 @@ public class BeansAccessBuilder {
 		mv.visitInsn(DUP);
 		mv.visitLdcInsn("mapping " + this.className + " failed to map field:");
 		mv.visitVarInsn(ALOAD, 2);
-		mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;");
-		mv.visitMethodInsn(INVOKESPECIAL, exSig, "<init>", "(Ljava/lang/String;)V");
+		mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
+		mv.visitMethodInsn(INVOKESPECIAL, exSig, "<init>", "(Ljava/lang/String;)V", false);
 		mv.visitInsn(ATHROW);
 	}
 

@@ -1,6 +1,10 @@
 package net.minidev.json.test;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import org.junit.jupiter.api.Test;
+
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
@@ -9,7 +13,7 @@ import net.minidev.json.JSONValue;
  * @author uriel
  *
  */
-public class TestInvalidNumber extends TestCase {
+public class TestInvalidNumber {
 
 	private void validFloatAsFloat(String test) {
 		JSONObject o = new JSONObject();
@@ -18,7 +22,7 @@ public class TestInvalidNumber extends TestCase {
 		assertEquals("{a:\"" + test + "\"}", comp);
 		o = JSONValue.parse(comp, JSONObject.class);
 		Object convertedValue = o.get("a");
-		assertEquals("Should handle valid number '" + test + "' as number", convertedValue, test);
+		assertEquals(convertedValue, test, "Should handle valid number '" + test + "' as number");
 	}
 	
 	private void invalidFloatAsText(String test) {
@@ -28,45 +32,50 @@ public class TestInvalidNumber extends TestCase {
 		assertEquals("{a:" + test + "}", comp);
 		o = JSONValue.parse(comp, JSONObject.class);
 		Object convertedValue = o.get("a");
-		assertEquals("should handle invalid number '" + test + "' as string", convertedValue, test);
+		assertEquals(convertedValue, test, "should handle invalid number '" + test + "' as string");
 	}
 	
+	@Test
 	public void testF1() {
 		validFloatAsFloat("51e88");
 	}
 
+	@Test
 	public void testF2() {
 		validFloatAsFloat("51e+88");
 	}
 
+	@Test
 	public void testF3() {
 		validFloatAsFloat("51e-88");
 	}
 
+	@Test
 	public void testF4() {
 		invalidFloatAsText("51ee88");
 	}
 
+	@Test
 	public void testCVE_2021_27568() {
 		try {
 			JSONValue.parseWithException("{a:-.}");
-			assertFalse("should Throws Exception before", true);
+			assertFalse(true, "should Throws Exception before");
 		} catch (Exception e) {
-			assertEquals("should throw EOF", e.getMessage(), "Unexpected token -. at position 5.");
+			assertEquals(e.getMessage(), "Unexpected token -. at position 5.", "should throw EOF");
 		}
 
 		try {
 			JSONValue.parseWithException("{a:2e+}");
-			assertFalse("should Throws Exception before", true);
+			assertFalse(true, "should Throws Exception before");
 		} catch (Exception e) {
-			assertEquals("should throw EOF", e.getMessage(), "Unexpected token 2e+ at position 6.");
+			assertEquals(e.getMessage(), "Unexpected token 2e+ at position 6.", "should throw EOF");
 		}
 
 		try {
 			JSONValue.parseWithException("{a:[45e-}");
-			assertFalse("should Throws Exception before", true);
+			assertFalse(true, "should Throws Exception before");
 		} catch (Exception e) {
-			assertEquals("should throw EOF", e.getMessage(), "Unexpected End Of File position 8: EOF");
+			assertEquals(e.getMessage(), "Unexpected End Of File position 8: EOF", "should throw EOF");
 		}
 	}
 }

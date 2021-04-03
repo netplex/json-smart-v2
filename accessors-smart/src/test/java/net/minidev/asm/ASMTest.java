@@ -6,14 +6,13 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
-// import junit.framework.TestCase;
 import net.minidev.asm.bean.BTest;
 
 public class ASMTest {
 
 	@Test
 	public void testGet() throws Exception {
-		long T1;
+		// long T1;
 
 		BeansAccess<BTest> acBT = BeansAccess.get(BTest.class);
 		// BeansAccess acHand = new BTestBeansAccessB();
@@ -28,7 +27,7 @@ public class ASMTest {
 		// String clsPath = FastMap1Builder.getName(m.size());
 		// String clsName = clsPath.replace("/", ".");
 
-		byte[] data;
+		// byte[] data;
 
 		// data = FastMap1Builder.dump(m.size());
 		// data = FastMap2Builder.dump(m);

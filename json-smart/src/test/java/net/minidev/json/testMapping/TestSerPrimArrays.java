@@ -1,12 +1,15 @@
 package net.minidev.json.testMapping;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONValue;
 
-public class TestSerPrimArrays extends TestCase {
+import org.junit.jupiter.api.Test;
+
+public class TestSerPrimArrays {
 	SimpleDateFormat sdf;
 
 	String testDateString;
@@ -22,12 +25,14 @@ public class TestSerPrimArrays extends TestCase {
 
 	}
 
+	@Test
 	public void testDate() throws Exception {
 		String s = "'" + testDateString + "'";
 		Date dt = JSONValue.parse(s, Date.class);
 		assertEquals(dt, this.testDate);
 	}
 
+	@Test
 	public void testDtObj() throws Exception {
 		String s = "{date:'" + testDateString + "'}";
 		ADate dt = JSONValue.parse(s, ADate.class);

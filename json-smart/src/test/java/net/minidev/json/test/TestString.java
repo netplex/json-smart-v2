@@ -1,16 +1,21 @@
 package net.minidev.json.test;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 
-public class TestString extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.Test;
+
+public class TestString {
+
+	@Test
 	public void testS0() throws Exception {
 		MustThrows.testStrictInvalidJson("{\"1\":\"one\"\n\"2\":\"two\"}", ParseException.ERROR_UNEXPECTED_TOKEN);
 	}
 
+	@Test
 	public void testS1() throws Exception {
 		String text = "My Test";
 		String s = "{t:\"" + text + "\"}";
@@ -18,6 +23,7 @@ public class TestString extends TestCase {
 		assertEquals(o.get("t"), text);
 	}
 
+	@Test
 	public void testS2() throws Exception {
 		String text = "My Test";
 		String s = "{t:'" + text + "'}";
@@ -25,6 +31,7 @@ public class TestString extends TestCase {
 		assertEquals(o.get("t"), text);
 	}
 
+	@Test
 	public void testSEscape() throws Exception {
 		String text = "My\r\nTest";
 		String text2 = "My\\r\\nTest";
@@ -33,6 +40,7 @@ public class TestString extends TestCase {
 		assertEquals(o.get("t"), text);
 	}
 
+	@Test
 	public void testBadString() throws Exception {
 		String s = "{\"t\":\"Before\u000CAfter\"}";
 		JSONObject o = (JSONObject) new JSONParser(JSONParser.MODE_PERMISSIVE).parse(s);

@@ -1,9 +1,12 @@
 package net.minidev.json.test;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Test all Compression Styles
@@ -11,8 +14,9 @@ import net.minidev.json.JSONValue;
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  *
  */
-public class TestCompressorFlags extends TestCase {
+public class TestCompressorFlags {
 
+	@Test
 	public void testProtect() throws Exception {
 		String compressed = "{k:value}";
 		String nCompress = "{\"k\":\"value\"}";
@@ -42,6 +46,7 @@ public class TestCompressorFlags extends TestCase {
 		assertEquals("{\"k\":value}", r);
 	}
 
+	@Test
 	public void testAggresive() throws Exception {
 		String r;
 		JSONStyle style;
@@ -76,6 +81,7 @@ public class TestCompressorFlags extends TestCase {
 		assertEquals("{a b:c d}", r);
 	}
 
+	@Test
 	public void test4Web() throws Exception {
 		String NProtectValue = "{\"k\":\"http:\\/\\/url\"}";
 		

@@ -34,6 +34,9 @@ import org.objectweb.asm.Type;
 public class ASMUtil {
 	/**
 	 * Append the call of proper autoboxing method for the given primitive type.
+	 * 
+	 * @param mv  MethodVisitor
+	 * @param clz expected class
 	 */
 	public static void autoBoxing(MethodVisitor mv, Class<?> clz) {
 		autoBoxing(mv, Type.getType(clz));
@@ -69,72 +72,78 @@ public class ASMUtil {
 
 	/**
 	 * Append the call of proper autoboxing method for the given primitive type.
+	 * 
+	 * @param mv        MethodVisitor
+	 * @param fieldType expected class
 	 */
 	protected static void autoBoxing(MethodVisitor mv, Type fieldType) {
 		switch (fieldType.getSort()) {
 		case Type.BOOLEAN:
-			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;");
+			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
 			break;
 		case Type.BYTE:
-			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Byte", "valueOf", "(B)Ljava/lang/Byte;");
+			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Byte", "valueOf", "(B)Ljava/lang/Byte;", false);
 			break;
 		case Type.CHAR:
-			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Character", "valueOf", "(C)Ljava/lang/Character;");
+			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Character", "valueOf", "(C)Ljava/lang/Character;", false);
 			break;
 		case Type.SHORT:
-			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Short", "valueOf", "(S)Ljava/lang/Short;");
+			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Short", "valueOf", "(S)Ljava/lang/Short;", false);
 			break;
 		case Type.INT:
-			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;");
+			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;", false);
 			break;
 		case Type.FLOAT:
-			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Float", "valueOf", "(F)Ljava/lang/Float;");
+			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Float", "valueOf", "(F)Ljava/lang/Float;", false);
 			break;
 		case Type.LONG:
-			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;");
+			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;", false);
 			break;
 		case Type.DOUBLE:
-			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;");
+			mv.visitMethodInsn(INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;", false);
 			break;
 		}
 	}
 
 	/**
 	 * Append the call of proper extract primitive type of an boxed object.
+	 * 
+	 * @param mv        MethodVisitor
+	 * @param fieldType expected class
 	 */
 	protected static void autoUnBoxing1(MethodVisitor mv, Type fieldType) {
 		switch (fieldType.getSort()) {
 		case Type.BOOLEAN:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
 			break;
 		case Type.BYTE:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Byte");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Byte", "byteValue", "()B");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Byte", "byteValue", "()B", false);
 			break;
 		case Type.CHAR:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Character");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Character", "charValue", "()C");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Character", "charValue", "()C", false);
 			break;
 		case Type.SHORT:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Short");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Short", "shortValue", "()S");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Short", "shortValue", "()S", false);
 			break;
 		case Type.INT:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Integer");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
 			break;
 		case Type.FLOAT:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Float");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Float", "floatValue", "()F");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Float", "floatValue", "()F", false);
 			break;
 		case Type.LONG:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Long");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Long", "longValue", "()J");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Long", "longValue", "()J", false);
 			break;
 		case Type.DOUBLE:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Double");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D", false);
 			break;
 		case Type.ARRAY:
 			mv.visitTypeInsn(CHECKCAST, fieldType.getInternalName());
@@ -147,40 +156,43 @@ public class ASMUtil {
 	/**
 	 * Append the call of proper extract primitive type of an boxed object. this
 	 * method use Number interface to unbox object
+	 * 
+	 * @param mv        MethodVisitor
+	 * @param fieldType expected class
 	 */
 	protected static void autoUnBoxing2(MethodVisitor mv, Type fieldType) {
 		switch (fieldType.getSort()) {
 		case Type.BOOLEAN:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
 			break;
 		case Type.BYTE:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Number");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Number", "byteValue", "()B");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Number", "byteValue", "()B", false);
 			break;
 		case Type.CHAR:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Character");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Character", "charValue", "()C");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Character", "charValue", "()C", false);
 			break;
 		case Type.SHORT:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Number");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Number", "shortValue", "()S");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Number", "shortValue", "()S", false);
 			break;
 		case Type.INT:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Number");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Number", "intValue", "()I");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Number", "intValue", "()I", false);
 			break;
 		case Type.FLOAT:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Number");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Number", "floatValue", "()F");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Number", "floatValue", "()F", false);
 			break;
 		case Type.LONG:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Number");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Number", "longValue", "()J");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Number", "longValue", "()J", false);
 			break;
 		case Type.DOUBLE:
 			mv.visitTypeInsn(CHECKCAST, "java/lang/Number");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Number", "doubleValue", "()D");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Number", "doubleValue", "()D", false);
 			break;
 		case Type.ARRAY:
 			mv.visitTypeInsn(CHECKCAST, fieldType.getInternalName());
@@ -193,8 +205,7 @@ public class ASMUtil {
 	/**
 	 * return a array of new Label (used for switch/case generation)
 	 * 
-	 * @param cnt
-	 *            number of label to return
+	 * @param cnt number of label to return
 	 */
 	public static Label[] newLabels(int cnt) {
 		Label[] r = new Label[cnt];
@@ -203,6 +214,10 @@ public class ASMUtil {
 		return r;
 	}
 
+	/**
+	 * @param key the field name
+	 * @return setter name
+	 */
 	public static String getSetterName(String key) {
 		int len = key.length();
 		char[] b = new char[len + 3];
@@ -219,6 +234,10 @@ public class ASMUtil {
 		return new String(b);
 	}
 
+	/**
+	 * @param key the field name
+	 * @return getter name
+	 */
 	public static String getGetterName(String key) {
 		int len = key.length();
 		char[] b = new char[len + 3];
@@ -235,6 +254,10 @@ public class ASMUtil {
 		return new String(b);
 	}
 
+	/**
+	 * @param key the boolean field name
+	 * @return boolean getter name
+	 */
 	public static String getIsName(String key) {
 		int len = key.length();
 		char[] b = new char[len + 2];

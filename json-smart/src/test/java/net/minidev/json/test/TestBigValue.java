@@ -1,19 +1,23 @@
 package net.minidev.json.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
-import junit.framework.TestCase;
 
-public class TestBigValue extends TestCase {
+import org.junit.jupiter.api.Test;
+
+public class TestBigValue {
 	String bigStr = "12345678901234567890123456789";
 
 	/**
 	 * test BigDecimal serialization
 	 */
+	@Test
 	public void testBigDecimal() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		BigDecimal bigDec = new BigDecimal(bigStr + "." + bigStr);
@@ -29,6 +33,7 @@ public class TestBigValue extends TestCase {
 	/**
 	 * test BigInteger serialization
 	 */
+	@Test
 	public void testBigInteger() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		BigInteger bigInt = new BigInteger(bigStr);

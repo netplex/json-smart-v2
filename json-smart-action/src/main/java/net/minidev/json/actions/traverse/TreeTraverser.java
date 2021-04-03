@@ -23,12 +23,12 @@ public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>
 	protected PathDelimiter delim;
 	protected String pathPrefix = "";
 
-	public TreeTraverser(TreeTraverseAction action, PathDelimiter delim) {
+	public TreeTraverser(TreeTraverseAction<M, L> action, PathDelimiter delim) {
 		this.action = action;
 		this.delim = delim;
 	}
 
-	public TreeTraverser with(String pathPrefix) {
+	public TreeTraverser<M, L> with(String pathPrefix) {
 		this.pathPrefix = pathPrefix;
 		return this;
 	}
@@ -40,6 +40,7 @@ public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>
 		action.end();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void depthFirst(String fullPath, M map) {
 		if (map == null || map.entrySet() == null || !action.recurInto(fullPath, map)) {
 			return;
@@ -66,6 +67,7 @@ public class TreeTraverser<M extends Map<String, Object>, L extends List<Object>
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void depthFirst(String fullPath, L list) {
 		if (!action.recurInto(fullPath, (L) list)) {
 			return;

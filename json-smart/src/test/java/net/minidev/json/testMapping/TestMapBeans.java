@@ -2,35 +2,42 @@ package net.minidev.json.testMapping;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONValue;
 
-public class TestMapBeans extends TestCase {
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+public class TestMapBeans {
+
+	@Test
 	public void testObjInts() throws Exception {
 		String s = "{\"vint\":[1,2,3]}";
 		T1 r = JSONValue.parse(s, T1.class);
 		assertEquals(3, r.vint[2]);
 	}
 
+	@Test
 	public void testObjIntKey() throws Exception {
 		String s = "{\"data\":{\"1\":\"toto\"}}";
 		T2 r = JSONValue.parse(s, T2.class);
 		assertEquals("toto", r.data.get(1));
 	}
 
+	@Test
 	public void testObjEnumKey() throws Exception {
 		String s = "{\"data\":{\"red\":10}}";
 		T3 r = JSONValue.parse(s, T3.class);
 		assertEquals((Integer)10, r.data.get(ColorEnum.red));
 	}
 
+	@Test
 	public void testObjBool1() throws Exception {
 		String s = "{\"data\":true}";
 		T4 r = JSONValue.parse(s, T4.class);
 		assertEquals(true, r.data);
 	}
 
+	@Test
 	public void testObjBool2() throws Exception {
 		String s = "{\"data\":true}";
 		T5 r = JSONValue.parse(s, T5.class);

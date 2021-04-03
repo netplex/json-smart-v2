@@ -1,11 +1,13 @@
 package net.minidev.json.test;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.parser.JSONParser;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestFloat extends TestCase {
+public class TestFloat {
 	public static String[] TRUE_NUMBERS = new String[] { "1.0", "123.456", "1.0E1", "123.456E12", "1.0E+1",
 			"123.456E+12", "1.0E-1", "123.456E-12", "1.0e1", "123.456e12", "1.0e+1", "123.456e+12", "1.0e-1",
 			"123.456e-12" };
@@ -13,6 +15,7 @@ public class TestFloat extends TestCase {
 	public static String[] FALSE_NUMBERS = new String[] { "1.0%", "123.45.6", "1.0E", "++123.456E12", "+-01",
 			"1.0E+1.2" };
 		
+	@Test
 	public void testPrecisionFloat() throws Exception {
 		JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
 		for (int len = 15; len < 25; len++) {
@@ -24,10 +27,11 @@ public class TestFloat extends TestCase {
 			String json = "{v:" + s + "}";
 			JSONObject obj = (JSONObject) p.parse(json);
 			Object value = obj.get("v").toString();
-			assertEquals("Should not loose precision on a " + len + " digits long", s, value);
+			assertEquals(s, value, "Should not loose precision on a " + len + " digits long");
 		}
 	}
 	
+	@Test
 	public void testFloat() throws Exception {
 		JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
 		for (String s : TRUE_NUMBERS) {
@@ -35,29 +39,31 @@ public class TestFloat extends TestCase {
 			Double val = Double.valueOf(s.trim());
 			JSONObject obj = (JSONObject) p.parse(json);
 			Object value = obj.get("v");
-			assertEquals("Should be parse as double", val, value);
+			assertEquals(val, value, "Should be parse as double");
 		}
 	}
 
+	@Test
 	public void testNonFloat() throws Exception {
 		JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
 		for (String s : FALSE_NUMBERS) {
 			String json = "{v:" + s + "}";
 			JSONObject obj = (JSONObject) p.parse(json);
-			assertEquals("Should be parse as string", s, obj.get("v"));
+			assertEquals(s, obj.get("v"), "Should be parse as string");
 
 			String correct = "{\"v\":\"" + s + "\"}";
-			assertEquals("Should be re serialized as", correct, obj.toJSONString());
+			assertEquals(correct, obj.toJSONString(), "Should be re serialized as");
 		}
 	}
 	/**
 	 * Error reported in issue 44
 	 */
+	@Test
 	public void testUUID() {
 		String UUID = "58860611416142319131902418361e88";
 		JSONObject obj = new JSONObject();
 		obj.put("uuid", UUID);
-		String compressed =obj.toJSONString(JSONStyle.MAX_COMPRESS); 
+		String compressed = obj.toJSONString(JSONStyle.MAX_COMPRESS); 
 		assertTrue(compressed.contains("uuid:\""));
 	}
 }

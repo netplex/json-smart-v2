@@ -1,10 +1,14 @@
 package net.minidev.json.test;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONAwareEx;
 import net.minidev.json.JSONNavi;
 
-public class TestNavi extends TestCase {
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+public class TestNavi {
+	@Test
 	public void testNaviWrite() {
 		JSONNavi<JSONAwareEx> nav = JSONNavi.newInstance();
 		nav.set("name", "jhone").set("age", 42).at("childName").add("fifi", "riri", "loulou").up().at("cat")
@@ -14,6 +18,7 @@ public class TestNavi extends TestCase {
 		assertEquals(s1, s2);
 	}
 
+	@Test
 	public void testNaviWrite2() {
 		JSONNavi<JSONAwareEx> nav = JSONNavi.newInstance();
 		nav.at("name").set("toto").up().set("tutu", "V2").at("size").set("width", 10).set("higth", 35).up(3)
@@ -26,11 +31,12 @@ public class TestNavi extends TestCase {
 		assertEquals(s1, s2);
 	}
 
+	@Test
 	public void testNaviRead() {
 		String json = "{name:foo,str:null,ar:[1,2,3,4]}";
 		JSONNavi<JSONAwareEx> nav = new JSONNavi<JSONAwareEx>(json, JSONAwareEx.class);
 		nav.at(5);
-		assertTrue("Navigator should be in error stat", nav.hasFailure());
+		assertTrue(nav.hasFailure(), "Navigator should be in error stat");
 		nav.root();
 		assertEquals(3, nav.at("ar").at(2).asInt());
 		nav.up(2);
@@ -39,6 +45,7 @@ public class TestNavi extends TestCase {
 		assertEquals("foo", nav.at("name").asString());
 	}
 	
+	@Test
 	public void testNaviWriteArray() {
 		String expected = "{'type':'bundle','data':[{'type':'object','name':'obj1'},{'type':'object','name':'obj2'}]}".replace('\'', '"');
 		JSONNavi<JSONAwareEx> nav = JSONNavi.newInstance();

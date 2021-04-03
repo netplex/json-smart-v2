@@ -287,6 +287,10 @@ public class JSONValue {
 	/**
 	 * Parse Json input to a java Object keeping element order
 	 * 
+	 * @param in json source
+	 * 
+	 * @return a OrderedMap preserving field order.
+	 * 
 	 * @since 1.0.6.1
 	 */
 	public static Object parseKeepingOrder(Reader in) {
@@ -300,7 +304,11 @@ public class JSONValue {
 	/**
 	 * Parse Json input to a java Object keeping element order
 	 * 
-	 * @since 1.0.6.1
+	 * @param in json source
+	 * 
+	 * @return a OrderedMap preserving field order.\
+	 * 
+ 	 * @since 1.0.6.1 
 	 */
 	public static Object parseKeepingOrder(String in) {
 		try {
@@ -311,31 +319,14 @@ public class JSONValue {
 	}
 
 	/**
-	 * Parse Json Using SAX event handler
-	 * 
-	 * @since 1.0.6.2
-	 * @removed in 2.0
-	 */
-	// public static void SAXParse(String input, ContentHandler handler) throws
-	// ParseException {
-	// }
-
-	/**
-	 * Parse Json Using SAX event handler
-	 * 
-	 * @since 1.0.6.2
-	 * @removed in 2.0
-	 */
-	// public static void SAXParse(Reader input, ContentHandler handler) throws
-	// ParseException, IOException {
-	// }
-
-	/**
 	 * Reformat Json input keeping element order
 	 * 
+	 * @param input text to parse
+	 * @param style parse options
+	 * 
 	 * @since 1.0.6.2
 	 * 
-	 *        need to be rewrite in 2.0
+	 * @return json string
 	 */
 	public static String compress(String input, JSONStyle style) {
 		try {
@@ -350,6 +341,8 @@ public class JSONValue {
 	/**
 	 * Compress Json input keeping element order
 	 * 
+	 * @param input text to parse
+	 * 
 	 * @since 1.0.6.1
 	 * 
 	 *        need to be rewrite in 2.0
@@ -360,6 +353,7 @@ public class JSONValue {
 
 	/**
 	 * Compress Json input keeping element order
+	 * @param input text to parse
 	 * 
 	 * @since 1.0.6.1
 	 */
@@ -369,6 +363,8 @@ public class JSONValue {
 
 	/**
 	 * Parse JSON text into java object from the input source.
+	 * 
+	 * @param in source to parse
 	 * 
 	 * @see JSONParser
 	 * 
@@ -382,6 +378,7 @@ public class JSONValue {
 	/**
 	 * Parse JSON text into java object from the input source.
 	 * 
+	 * @param in source to parse
 	 * @see JSONParser
 	 * 
 	 * @return Instance of the following: JSONObject, JSONArray, String,
@@ -394,6 +391,8 @@ public class JSONValue {
 	/**
 	 * Parse JSON text into java object from the input source.
 	 * 
+	 * @param in source to parse
+	 * 	 
 	 * @see JSONParser
 	 * 
 	 * @return Instance of the following: JSONObject, JSONArray, String,
@@ -406,21 +405,28 @@ public class JSONValue {
 	/**
 	 * Parse JSON text into java object from the input source.
 	 * 
+	 * @param input string to parse
+
 	 * @see JSONParser
+	 * 
+	 * @throws ParseException if input in invalid
 	 * 
 	 * @return Instance of the following: JSONObject, JSONArray, String,
 	 *         java.lang.Number, java.lang.Boolean, null
 	 */
-	public static Object parseWithException(String s) throws ParseException {
-		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(s, defaultReader.DEFAULT);
+	public static Object parseWithException(String input) throws ParseException {
+		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(input, defaultReader.DEFAULT);
 	}
 
 	/**
 	 * Parse input json as a mapTo class
 	 * 
-	 * mapTo can be a bean
+	 * @param in source to parse
+	 * @param mapTo destination type, mapTo can be a javabean
 	 * 
 	 * @since 2.0
+	 * 
+	 * @return unserialized object of type mapTo
 	 */
 	public static <T> T parseWithException(String in, Class<T> mapTo) throws ParseException {
 		JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
@@ -430,6 +436,8 @@ public class JSONValue {
 	/**
 	 * Parse valid RFC4627 JSON text into java object from the input source.
 	 * 
+	 * @param in source to parse
+
 	 * @see JSONParser
 	 * 
 	 * @return Instance of the following: JSONObject, JSONArray, String,
@@ -442,6 +450,7 @@ public class JSONValue {
 	/**
 	 * Parse valid RFC4627 JSON text into java object from the input source.
 	 * 
+	 * @param s source to parse
 	 * @see JSONParser
 	 * 
 	 * @return Instance of the following: JSONObject, JSONArray, String,
@@ -558,7 +567,7 @@ public class JSONValue {
 	 * <p>
 	 * If this object is a Map or a List, and it's also a JSONStreamAware or a
 	 * JSONAware, JSONStreamAware or JSONAware will be considered firstly.
-	 * <p>
+	 * </p>
 	 * 
 	 * @see JSONObject#writeJSON(Map, Appendable)
 	 * @see JSONArray#writeJSONString(List, Appendable)
@@ -593,6 +602,10 @@ public class JSONValue {
 	 * JSONAware, JSONStreamAware or JSONAware will be considered firstly.
 	 * <p>
 	 * 
+	 * @param value object to serialize
+	 * 
+	 * @return json string
+	 * 
 	 * @see JSONObject#writeJSON(Map, Appendable)
 	 * @see JSONArray#writeJSONString(List, Appendable)
 	 */
@@ -609,6 +622,9 @@ public class JSONValue {
 	 * DO NOT call this method from toJSONString() of a class that implements
 	 * both JSONAware and Map or List with "this" as the parameter, use
 	 * JSONObject.toJSONString(Map) or JSONArray.toJSONString(List) instead.
+	 * 
+	 * @param object to serialize
+	 * @param compression serialisation options
 	 * 
 	 * @see JSONObject#toJSONString(Map)
 	 * @see JSONArray#toJSONString(List)
@@ -633,6 +649,11 @@ public class JSONValue {
 	/**
 	 * Escape quotes, \, /, \r, \n, \b, \f, \t and other control characters
 	 * (U+0000 through U+001F).
+	 * 
+	 * @param s string to escape
+	 * @param compression compression options
+	 * 
+	 * @return escaped string
 	 */
 	public static String escape(String s, JSONStyle compression) {
 		if (s == null)

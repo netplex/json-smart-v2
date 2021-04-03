@@ -86,6 +86,8 @@ public class JSONNavi<T> {
 
 	/**
 	 * return to root node
+	 * 
+	 * @return the root node
 	 */
 	public JSONNavi<T> root() {
 		this.current = this.root;
@@ -299,6 +301,8 @@ public class JSONNavi<T> {
 	/**
 	 * get the current object value as String if the current Object is null
 	 * return null.
+	 * 
+	 * @return value as string
 	 */
 	public String asString() {
 		if (current == null)
@@ -311,6 +315,8 @@ public class JSONNavi<T> {
 	/**
 	 * get the current value as double if the current Object is null return
 	 * Double.NaN
+	 * 
+	 * @return value as double
 	 */
 	public double asDouble() {
 		if (current instanceof Number)
@@ -321,6 +327,8 @@ public class JSONNavi<T> {
 	/**
 	 * get the current object value as Double if the current Double can not be
 	 * cast as Integer return null.
+	 * 
+	 * @return value as Double
 	 */
 	public Double asDoubleObj() {
 		if (current == null)
@@ -336,8 +344,10 @@ public class JSONNavi<T> {
 	/**
 	 * get the current value as float if the current Object is null return
 	 * Float.NaN
+	 * 
+	 * @return value as float
 	 */
-	public double asFloat() {
+	public float asFloat() {
 		if (current instanceof Number)
 			return ((Number) current).floatValue();
 		return Float.NaN;
@@ -360,6 +370,8 @@ public class JSONNavi<T> {
 
 	/**
 	 * get the current value as int if the current Object is null return 0
+	 * 
+	 * @return value as Int
 	 */
 	public int asInt() {
 		if (current instanceof Number)
@@ -370,6 +382,7 @@ public class JSONNavi<T> {
 	/**
 	 * get the current object value as Integer if the current Object can not be
 	 * cast as Integer return null.
+	 * @return the current node value as an Integer
 	 */
 	public Integer asIntegerObj() {
 		if (current == null)
@@ -390,6 +403,8 @@ public class JSONNavi<T> {
 
 	/**
 	 * get the current value as long if the current Object is null return 0
+	 * 
+	 * @return value as long
 	 */
 	public long asLong() {
 		if (current instanceof Number)
@@ -400,6 +415,8 @@ public class JSONNavi<T> {
 	/**
 	 * get the current object value as Long if the current Object can not be
 	 * cast as Long return null.
+	 * 
+ 	 * @return value as Long
 	 */
 	public Long asLongObj() {
 		if (current == null)
@@ -417,6 +434,8 @@ public class JSONNavi<T> {
 	/**
 	 * get the current value as boolean if the current Object is null or is not
 	 * a boolean return false
+	 * 
+	 * @return boolean
 	 */
 	public boolean asBoolean() {
 		if (current instanceof Boolean)
@@ -427,6 +446,8 @@ public class JSONNavi<T> {
 	/**
 	 * get the current object value as Boolean if the current Object is not a
 	 * Boolean return null.
+	 * 
+	 * @return Boolean object
 	 */
 	public Boolean asBooleanObj() {
 		if (current == null)
@@ -439,6 +460,7 @@ public class JSONNavi<T> {
 	/**
 	 * Set current value as Json Object You can also skip this call, Objects can
 	 * be create automatically.
+	 * @return the current node as an object
 	 */
 	@SuppressWarnings("unchecked")
 	public JSONNavi<T> object() {
@@ -465,6 +487,8 @@ public class JSONNavi<T> {
 	/**
 	 * Set current value as Json Array You can also skip this call Arrays can be
 	 * create automatically.
+	 * 
+	 * @return the current node as an array
 	 */
 	@SuppressWarnings("unchecked")
 	public JSONNavi<T> array() {
@@ -490,6 +514,8 @@ public class JSONNavi<T> {
 
 	/**
 	 * set current value as Number
+	 * @param num new value for the current node
+	 * @return this for code chaining
 	 */
 	public JSONNavi<T> set(Number num) {
 		if (failure)
@@ -501,6 +527,9 @@ public class JSONNavi<T> {
 
 	/**
 	 * set current value as Boolean
+	 * @param num new value for the current node
+	 * 
+	 * @return this for code chaining
 	 */
 	public JSONNavi<T> set(Boolean bool) {
 		if (failure)
@@ -512,6 +541,9 @@ public class JSONNavi<T> {
 
 	/**
 	 * set current value as String
+	 * @param text text value
+	 * 
+	 * @return this for code chaining
 	 */
 	public JSONNavi<T> set(String text) {
 		if (failure)
@@ -543,6 +575,8 @@ public class JSONNavi<T> {
 
 	/**
 	 * is the current node is an array
+	 * 
+	 * @return true if the current node is an array
 	 */
 	public boolean isArray() {
 		return isArray(current);
@@ -550,6 +584,8 @@ public class JSONNavi<T> {
 
 	/**
 	 * is the current node is an object
+	 * 
+	 * @return true if the current node is an object
 	 */
 	public boolean isObject() {
 		return isObject(current);
@@ -557,6 +593,8 @@ public class JSONNavi<T> {
 
 	/**
 	 * check if Object is an Array
+	 * 
+	 * @return true if the object is an array
 	 */
 	private boolean isArray(Object obj) {
 		if (obj == null)
@@ -566,6 +604,7 @@ public class JSONNavi<T> {
 
 	/**
 	 * check if Object is an Map
+	 * @return true if the object node is an object
 	 */
 	private boolean isObject(Object obj) {
 		if (obj == null)
@@ -575,6 +614,7 @@ public class JSONNavi<T> {
 
 	/**
 	 * internal cast to List
+	 * @return casted object
 	 */
 	@SuppressWarnings("unchecked")
 	private List<Object> a(Object obj) {

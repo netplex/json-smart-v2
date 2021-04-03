@@ -62,6 +62,7 @@ public class PathsRetainer {
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
 	public JSONObject retain(JSONObject object) {
 		/**
 		 * a path to retain which contains a path in the object, but is not itself a path in the object,

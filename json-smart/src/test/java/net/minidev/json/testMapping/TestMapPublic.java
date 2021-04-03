@@ -1,12 +1,16 @@
 package net.minidev.json.testMapping;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Map;
 import java.util.TreeMap;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONValue;
 
-public class TestMapPublic extends TestCase {
+import org.junit.jupiter.api.Test;
+
+public class TestMapPublic {
+	@Test
 	public void testObjInts() throws Exception {
 		String s = "{\"vint\":[1,2,3]}";
 		T1 r = JSONValue.parse(s, T1.class);
@@ -15,6 +19,7 @@ public class TestMapPublic extends TestCase {
 
 	String MultiTyepJson = "{\"name\":\"B\",\"age\":120,\"cost\":12000,\"flag\":3,\"valid\":true,\"f\":1.2,\"d\":1.5,\"l\":12345678912345}";
 
+	@Test
 	public void testObjMixte() throws Exception {
 		T2 r = JSONValue.parse(MultiTyepJson, T2.class);
 		assertEquals("B", r.name);
@@ -27,6 +32,7 @@ public class TestMapPublic extends TestCase {
 		assertEquals(12345678912345L, r.l);
 	}
 
+	@Test
 	public void testObjMixtePrim() throws Exception {
 		T3 r = JSONValue.parse(MultiTyepJson, T3.class);
 		assertEquals("B", r.name);

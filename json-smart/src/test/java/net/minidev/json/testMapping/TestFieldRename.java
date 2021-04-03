@@ -1,15 +1,20 @@
 package net.minidev.json.testMapping;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONValue;
 
-public class TestFieldRename extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+public class TestFieldRename {
 
 	public static class TRen {
 		public String new_;
 		public String default_;
 	}
 
+	@Test
 	public void testRemap() throws Exception {
 		String text = "{'new':'foo','default':'bar'}";
 		JSONValue.remapField(TRen.class, "default", "default_");

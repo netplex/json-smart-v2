@@ -1,9 +1,13 @@
 package net.minidev.json.test;
 
-import junit.framework.TestCase;
 import net.minidev.json.JSONValue;
 
-public class TestCompressor extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+public class TestCompressor {
+	@Test
 	public void testCompressor() {
 		String j = "{'a':{'b':'c','d':'e'},f:[1,2,'XYZ']}".replace('\'', '"');
 		String sol = j.replace(" ", "").replace("\"", "");
@@ -11,6 +15,7 @@ public class TestCompressor extends TestCase {
 		assertEquals(sol, comp);
 	}
 
+	@Test
 	public void testCompressor2() {
 		String j = "[{} ]";
 		String sol = j.replace(" ", "");
@@ -18,6 +23,7 @@ public class TestCompressor extends TestCase {
 		assertEquals(sol, comp);
 	}
 
+	@Test
 	public void testCompressor3() {
 		String j = "[[],[],[] ]";
 		String sol = j.replace(" ", "");
@@ -25,6 +31,7 @@ public class TestCompressor extends TestCase {
 		assertEquals(sol, comp);
 	}
 
+	@Test
 	public void testCompressor4() {
 		String j = "[[1],[2,3],[4] ]";
 		String sol = j.replace(" ", "");
@@ -32,6 +39,7 @@ public class TestCompressor extends TestCase {
 		assertEquals(sol, comp);
 	}
 
+	@Test
 	public void testCompressor5() {
 		String j = "[{},{},{} ]";
 		String sol = j.replace(" ", "");
@@ -39,6 +47,7 @@ public class TestCompressor extends TestCase {
 		assertEquals(sol, comp);
 	}
 
+	@Test
 	public void testCompressor6() {
 		String j = "[{a:b},{c:d},{e:f}]";
 		String sol = j;

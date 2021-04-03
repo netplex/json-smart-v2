@@ -30,10 +30,10 @@ import java.util.Map;
  */
 public class TreeNavigator<M extends Map<String, Object>, L extends List<Object>> {
 	protected List<String> pathsToNavigate;
-	protected NavigateAction action;
+	protected NavigateAction<M, L> action;
 	protected String pathPrefix = "";
 
-	public TreeNavigator(NavigateAction action, List<String> pathsToNavigate) {
+	public TreeNavigator(NavigateAction<M, L> action, List<String> pathsToNavigate) {
 		if (action == null) {
 			throw new IllegalArgumentException("NavigateAction cannot be null");
 		}
@@ -41,12 +41,12 @@ public class TreeNavigator<M extends Map<String, Object>, L extends List<Object>
 		this.pathsToNavigate = pathsToNavigate;
 	}
 
-	public TreeNavigator with(String pathPrefix) {
+	public TreeNavigator<M, L> with(String pathPrefix) {
 		this.pathPrefix = pathPrefix;
 		return this;
 	}
 
-	public TreeNavigator(NavigateAction action, String... pathsToNavigate) {
+	public TreeNavigator(NavigateAction<M, L> action, String... pathsToNavigate) {
 		this(action, Arrays.asList(pathsToNavigate));
 	}
 
@@ -71,6 +71,7 @@ public class TreeNavigator<M extends Map<String, Object>, L extends List<Object>
 		action.end();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void nav(TreePath jp, M map) {
 		if (map == null || !action.recurInto(jp, map)) {
 			//source is null - navigation impossible
@@ -103,6 +104,7 @@ public class TreeNavigator<M extends Map<String, Object>, L extends List<Object>
 		action.recurEnd(jp, (M) map);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void nav(TreePath jp, L list) {
 		if (list == null || !action.recurInto(jp, (L) list)) {
 			//list is null - navigation impossible
