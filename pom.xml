@@ -7,11 +7,11 @@
 	<name>Minidev super pom</name>
 	<description>minidev common properties.</description>
 	<packaging>pom</packaging>
-	<url>http://www.minidev.net/</url>
+	<url>https://urielch.github.io/</url>
 
 	<organization>
 		<name>Chemouni Uriel</name>
-		<url>http://www.minidev.net/</url>
+		<url>https://urielch.github.io/</url>
 	</organization>
 
 	<developers>

@@ -8,10 +8,10 @@
     <description>Java reflect give poor performance on getter setter an constructor calls, accessors-smart use ASM to speed up those calls.
     </description>
     <packaging>bundle</packaging>
-    <url>http://www.minidev.net/</url>
+    <url>https://urielch.github.io/</url>
     <organization>
         <name>Chemouni Uriel</name>
-        <url>http://www.minidev.net/</url>
+        <url>https://urielch.github.io/</url>
     </organization>
     <developers>
         <developer>

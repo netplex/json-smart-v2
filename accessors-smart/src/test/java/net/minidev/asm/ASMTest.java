@@ -45,7 +45,6 @@ public class ASMTest {
 		// f = new FastMapTest_3();
 		// f = new FastMapTest_2<String>(m);
 		// f = new FastMapTest_3();
-		// System.out.println(m.get("A"));
 		// 4 entré
 		// map => 1.279
 		// fastMap => 3.323
@@ -102,7 +101,6 @@ public class ASMTest {
 		// m.get("I");
 		// }
 		// T = System.nanoTime() - T;
-		// System.out.println(NumberFormat.getInstance().format(T));
 		// 10 774 968
 		// 596 295 451
 		// 2 321 087 341
@@ -116,7 +114,6 @@ public class ASMTest {
 		// for (int i = 0; i < 2000000; i++)
 		// subtext(ac);
 		// T1 = System.currentTimeMillis() - T1;
-		// System.out.println("// Time: " + T1);
 	}
 
 	@Test
