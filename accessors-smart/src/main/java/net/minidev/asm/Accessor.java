@@ -72,7 +72,7 @@ public class Accessor {
 	 * @return if Accessor is public
 	 */
 	public boolean isPublic() {
-		return setter == null;
+		return setter == null && getter == null;
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class Accessor {
 		if (setter != null && !filter.canUse(field, setter))
 			setter = null;
 
-		// disable
+		// no access disable
 		if (getter == null && setter == null && this.field == null)
 			return;
 

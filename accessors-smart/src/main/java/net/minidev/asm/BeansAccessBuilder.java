@@ -122,8 +122,12 @@ public class BeansAccessBuilder {
 			mv.visitMaxs(1, 1);
 			mv.visitEnd();
 		}
-
-		// set(Object object, int methodIndex, Object value)
+		
+		
+		////////////
+		// Build SETter using filed index
+		//		
+		// public void set(Object object, int fieldId, Object value)
 		mv = cw.visitMethod(ACC_PUBLIC, "set", "(Ljava/lang/Object;ILjava/lang/Object;)V", null, null);
 		mv.visitCode();
 		// if no Field simply return
@@ -165,10 +169,12 @@ public class BeansAccessBuilder {
 		mv.visitMaxs(0, 0);
 		mv.visitEnd();
 
+		////////////
+		// Build GETter using filed index
+		//		
 		// public Object get(Object object, int fieldId)
 		mv = cw.visitMethod(ACC_PUBLIC, "get", "(Ljava/lang/Object;I)Ljava/lang/Object;", null, null);
 		mv.visitCode();
-		// if (USE_HASH)
 		if (accs.length == 0) {
 			mv.visitFrame(F_SAME, 0, null, 0, null);
 		} else if (accs.length > HASH_LIMIT) {
@@ -188,7 +194,7 @@ public class BeansAccessBuilder {
 				mv.visitVarInsn(ALOAD, 1);
 				mv.visitTypeInsn(CHECKCAST, classNameInternal);
 				Type fieldType = Type.getType(acc.getType());
-				if (acc.isPublic()) {
+				if (acc.isPublic() || acc.getter == null) {
 					mv.visitFieldInsn(GETFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
 				} else {
 					String sig = Type.getMethodDescriptor(acc.getter);
@@ -207,7 +213,7 @@ public class BeansAccessBuilder {
 				mv.visitVarInsn(ALOAD, 1);
 				mv.visitTypeInsn(CHECKCAST, classNameInternal);
 				Type fieldType = Type.getType(acc.getType());
-				if (acc.isPublic()) {
+				if (acc.isPublic() || acc.getter == null) {
 					mv.visitFieldInsn(GETFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
 				} else {
 					if (acc.getter == null)
@@ -233,8 +239,12 @@ public class BeansAccessBuilder {
 		mv.visitMaxs(0, 0);
 		mv.visitEnd();
 
+		
+		////////////
+		// Build SETter using filed Name
+		//		
+		// public Object set(Object object, String methodName, Object value)
 		if (!USE_HASH) {
-			// Object get(Object object, String methodName)
 			mv = cw.visitMethod(ACC_PUBLIC, "set", "(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/Object;)V", null, null);
 			mv.visitCode();
 
@@ -259,8 +269,11 @@ public class BeansAccessBuilder {
 			mv.visitEnd();
 		}
 
+		////////////
+		// Build GETter using filed Name
+		//		
+		// public Object get(Object object, String methodName)
 		if (!USE_HASH) {
-			// get(Object object, String methodName)
 			mv = cw.visitMethod(ACC_PUBLIC, "get", "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;", null, null);
 			mv.visitCode();
 
@@ -275,7 +288,7 @@ public class BeansAccessBuilder {
 				mv.visitVarInsn(ALOAD, 1); // object
 				mv.visitTypeInsn(CHECKCAST, classNameInternal);
 				Type fieldType = Type.getType(acc.getType());
-				if (acc.isPublic()) {
+				if (acc.isPublic() || acc.getter == null) {
 					mv.visitFieldInsn(GETFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
 				} else {
 					String sig = Type.getMethodDescriptor(acc.getter);
@@ -296,6 +309,10 @@ public class BeansAccessBuilder {
 			mv.visitMaxs(0, 0);
 			mv.visitEnd();
 		}
+
+		////////////
+		// Build constructor
+		//		
 
 		{
 			mv = cw.visitMethod(ACC_PUBLIC, "newInstance", "()Ljava/lang/Object;", null, null);
@@ -392,7 +409,7 @@ public class BeansAccessBuilder {
 			// just check Cast
 			mv.visitTypeInsn(CHECKCAST, destClsName);
 		}
-		if (acc.isPublic()) {
+		if (acc.isPublic() || acc.setter == null) {
 			mv.visitFieldInsn(PUTFIELD, classNameInternal, acc.getName(), fieldType.getDescriptor());
 		} else {
 			String sig = Type.getMethodDescriptor(acc.setter);

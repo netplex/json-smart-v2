@@ -84,7 +84,6 @@ public abstract class BeansAccess<T> {
 		// extract all access methods
 		Accessor[] accs = ASMUtil.getAccessors(type, filter);
 
-
 		// create new class name
 		String className = type.getName();
 		String accessClassName;
