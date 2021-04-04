@@ -28,20 +28,12 @@ import net.minidev.json.reader.JsonWriter;
  * @author FangYidong &lt;fangyidong@yahoo.com.cn&gt;
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
-public class JSONObject extends HashMap<String, Object> implements JSONAware, JSONAwareEx, JSONStreamAwareEx {
+public class JSONObject extends HashMap<String, Object> implements JSONAwareEx, JSONStreamAwareEx {
 	private static final long serialVersionUID = -503443796854799292L;
 
 	public JSONObject() {
 		super();
 	}
-
-	// /**
-	// * Allow simply casting to Map<String, XXX>
-	// */
-	// @SuppressWarnings("unchecked")
-	// public <T> T cast() {
-	// return (T) this;
-	// }
 
 	/**
 	 * Escape quotes, \, /, \r, \n, \b, \f, \t and other control characters

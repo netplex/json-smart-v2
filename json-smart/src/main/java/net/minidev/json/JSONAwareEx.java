@@ -23,7 +23,7 @@ package net.minidev.json;
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
 
-public interface JSONAwareEx extends JSONAware{
+public interface JSONAwareEx extends JSONAware {
 	/**
 	 * @return JSON text
 	 */
