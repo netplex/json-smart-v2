@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.minidev</groupId>
 	<artifactId>minidev-parent</artifactId>
-	<version>2.4.3</version>
+	<version>2.4.4</version>
 	<name>Minidev super pom</name>
 	<description>minidev common properties.</description>
 	<packaging>pom</packaging>
@@ -125,9 +125,9 @@
 	</reporting>
 
 	<modules>
-		<module>accessors-smart</module>
-		<module>json-smart-action</module>
-		<module>json-smart</module>
+		<!-- <module>accessors-smart</module> -->
+		<!-- <module>json-smart-action</module> -->
+		<!-- <module>json-smart</module> -->
 	</modules>
 
 	<distributionManagement>
