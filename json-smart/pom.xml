@@ -225,6 +225,12 @@
     		<scope>test</scope>
 		</dependency>
 		<dependency>
+    		<groupId>org.junit.jupiter</groupId>
+    		<artifactId>junit-jupiter-params</artifactId>
+            <version>5.7.1</version>
+    		<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>net.minidev</groupId>
 			<artifactId>accessors-smart</artifactId>
             <version>2.4.6</version>
