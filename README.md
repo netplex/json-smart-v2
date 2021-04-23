@@ -8,6 +8,7 @@
 
 ### *V 2.3.1*
 * Fixes [issue #60](https://github.com/netplex/json-smart-v2/issues/60) (CVE-2021-27568)
+* Fixes [issue #73](https://github.com/netplex/json-smart-v2/issues/73)
 
 ### *V 2.3*
 * Patch 37 [issue 37](http://code.google.com/p/json-smart/issues/detail?id=37)
