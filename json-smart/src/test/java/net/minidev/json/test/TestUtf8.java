@@ -13,7 +13,7 @@ import net.minidev.json.JSONValue;
 public class TestUtf8 extends TestCase {
 
 	public static Map<String, String> nonLatinTexts = new HashMap<String, String>();
-	{
+	static {
 		nonLatinTexts.put("Sinhala", "සිංහල ජාතිය");
 		nonLatinTexts.put("Japanese", "日本語");
 		nonLatinTexts.put("Russian", "Русский");
