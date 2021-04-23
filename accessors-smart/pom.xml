@@ -252,13 +252,16 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>3.5.1</version> <!-- 3.0.0 need java 7+ -->
+                <version>5.1.2</version> <!-- 3.0.0 need java 7+ -->
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Bundle-Version>${project.version}</Bundle-Version>
+                        <Import-Package>
+                        	org.objectweb.asm;version="[8.0,10)",*
+                        </Import-Package>
                         <Export-Package>
                             net.minidev.asm, net.minidev.asm.ex
                         </Export-Package>
