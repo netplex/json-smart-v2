@@ -4,8 +4,7 @@
     <artifactId>accessors-smart</artifactId>
     <version>2.4.6</version>
     <name>ASM based accessors helper used by json-smart</name>
-    <description>Java reflect give poor performance on getter setter an constructor calls, accessors-smart use ASM to speed up those calls.
-    </description>
+    <description>Java reflect give poor performance on getter setter an constructor calls, accessors-smart use ASM to speed up those calls.</description>
     <packaging>bundle</packaging>
     <url>https://urielch.github.io/</url>
     <organization>
@@ -19,6 +18,7 @@
             <email>uchemouni@gmail.com</email>
             <timezone>GMT+3</timezone>
         </developer>
+
 
 
 
@@ -38,7 +38,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-
     <scm>
         <connection>scm:git:https://github.com/netplex/json-smart-v2.git</connection>
         <developerConnection>scm:git:https://github.com/netplex/json-smart-v2.git</developerConnection>
@@ -73,7 +72,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <!-- updated on 29/07/2015 -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
                         <version>1.6</version>
@@ -108,7 +106,7 @@
 						tag, deploy) to try: mvn release:prepare -DdryRun=true && mvn release:clean 
 						to perform: mvn release:prepare release:perform Read http://nexus.sonatype.org/oss-repository-hosting.html#3 
 						for instructions on releasing to this project's Sonatype repository -->
-                    <plugin> <!-- updated on 04/04/2021 -->
+                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-release-plugin</artifactId>
                         <version>3.0.0-M1</version>
@@ -226,6 +224,7 @@
                 <version>5.7.1</version>
                 <scope>test</scope>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
             <dependency>
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm</artifactId>
