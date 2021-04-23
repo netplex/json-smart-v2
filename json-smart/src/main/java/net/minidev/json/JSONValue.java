@@ -540,8 +540,12 @@ public class JSONValue {
 	public final static JsonReader defaultReader = new JsonReader();
 
 	/**
-	 * remap field from java to json. 
+	 * Remap field from java to json, useful to avoid protected keyword in java class.
+	 *
 	 * @since 2.1.1
+	 * @param type type to alter
+	 * @param jsonFieldName field name in json
+	 * @param javaFieldName field name in java
 	 */
 	public static <T> void remapField(Class<T> type, String jsonFieldName, String javaFieldName) {
 		defaultReader.remapField(type, jsonFieldName, javaFieldName);
@@ -623,7 +627,7 @@ public class JSONValue {
 	 * both JSONAware and Map or List with "this" as the parameter, use
 	 * JSONObject.toJSONString(Map) or JSONArray.toJSONString(List) instead.
 	 * 
-	 * @param object to serialize
+	 * @param value to serialize
 	 * @param compression serialisation options
 	 * 
 	 * @see JSONObject#toJSONString(Map)
