@@ -30,6 +30,9 @@ public abstract class BeansAccess<T> {
 	private HashMap<String, Accessor> map;
 	private Accessor[] accs;
 
+	/**
+	 * @param accs Accessor list
+	 */
 	protected void setAccessor(Accessor[] accs) {
 		int i = 0;
 		this.accs = accs;
@@ -40,10 +43,16 @@ public abstract class BeansAccess<T> {
 		}
 	}
 
+	/**
+	 * @return a map
+	 */
 	public HashMap<String, Accessor> getMap() {
 		return map;
 	}
 
+	/**
+	 * @return Accessor list
+	 */
 	public Accessor[] getAccessors() {
 		return accs;
 	}
@@ -58,8 +67,8 @@ public abstract class BeansAccess<T> {
 	/**
 	 * return the BeansAccess corresponding to a type
 	 * 
-	 * @param type
-	 *            to be access
+	 * @param type to be access
+	 * @param <P> working type
 	 * @return the BeansAccess
 	 */
 	static public <P> BeansAccess<P> get(Class<P> type) {
@@ -69,8 +78,9 @@ public abstract class BeansAccess<T> {
 	/**
 	 * return the BeansAccess corresponding to a type
 	 * 
-	 * @param type
-	 *            to be access
+	 * @param filter FieldFilter
+	 * @param type to be access
+	 * @param <P> working type
 	 * @return the BeansAccess
 	 */
 	@SuppressWarnings("deprecation")
@@ -124,6 +134,10 @@ public abstract class BeansAccess<T> {
 		}
 	}
 
+	/**
+	 * @param type current type
+	 * @return parents hierarchy
+	 */
 	private static LinkedList<Class<?>> getParents(Class<?> type) {
 		LinkedList<Class<?>> m = new LinkedList<Class<?>>();
 		while (type != null && !type.equals(Object.class)) {
@@ -137,7 +151,8 @@ public abstract class BeansAccess<T> {
 	}
 
 	/**
-	 * 
+	 * @param access accessor to use
+	 * @param m mapping
 	 */
 	private static void addAlias(BeansAccess<?> access, HashMap<String, String> m) {
 		// HashMap<String, String> m =
@@ -155,21 +170,32 @@ public abstract class BeansAccess<T> {
 
 	/**
 	 * set field value by field index
+	 * 
+	 * @param object object to alter
+	 * @param methodIndex field id to update
+	 * @param value new value
 	 */
 	abstract public void set(T object, int methodIndex, Object value);
 
 	/**
 	 * get field value by field index
+	 * @param object object to operate
+	 * @param methodIndex field number to operate
+	 * @return value of the field
 	 */
 	abstract public Object get(T object, int methodIndex);
 
 	/**
 	 * create a new targeted object
+	 * @return new instance
 	 */
 	abstract public T newInstance();
 
 	/**
-	 * set field value by fieldname
+	 * set field value by field name
+	 * @param object target object
+	 * @param methodName methodName
+	 * @param value new field value
 	 */
 	public void set(T object, String methodName, Object value) {
 		int i = getIndex(methodName);
@@ -179,7 +205,10 @@ public abstract class BeansAccess<T> {
 	}
 
 	/**
-	 * get field value by fieldname
+	 * get field value by field name
+	 * @param object object to operate
+	 * @param methodName getter to call
+	 * @return field value returned by the getter
 	 */
 	public Object get(T object, String methodName) {
 		return get(object, getIndex(methodName));
@@ -187,6 +216,8 @@ public abstract class BeansAccess<T> {
 
 	/**
 	 * Returns the index of the field accessor.
+	 * @param name field name 
+	 * @return id of the field
 	 */
 	public int getIndex(String name) {
 		Accessor ac = map.get(name);

@@ -10,18 +10,33 @@ import java.lang.reflect.Method;
 public interface FieldFilter {
 	/**
 	 * NOT Implemented YET
+	 * 
+	 * @param field the field
+	 * @return boolean
 	 */
 	public boolean canUse(Field field);
 
+	/**
+	 * 
+	 * @param field the field
+	 * @param method the method
+	 * @return boolean
+	 */
 	public boolean canUse(Field field, Method method);
 
 	/**
 	 * NOT Implemented YET
+	 * 
+	 * @param field the field
+	 * @return boolean
 	 */
 	public boolean canRead(Field field);
 
 	/**
 	 * NOT Implemented YET
+	 * 
+	 * @param field the field
+	 * @return boolean
 	 */
 	public boolean canWrite(Field field);
 }

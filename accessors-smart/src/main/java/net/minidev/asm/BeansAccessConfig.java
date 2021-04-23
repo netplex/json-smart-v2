@@ -59,6 +59,9 @@ public class BeansAccessConfig {
 	 * public static DestinationType Method(Object data);
 	 * 
 	 * @see DefaultConverter
+	 * 
+	 * @param clz class
+	 * @param mapper mapper
 	 */
 	public static void addTypeMapper(Class<?> clz, Class<?> mapper) {
 		synchronized (classMapper) {

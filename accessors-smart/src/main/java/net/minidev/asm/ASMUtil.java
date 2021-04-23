@@ -45,7 +45,8 @@ public class ASMUtil {
 	/**
 	 * Extract all Accessor for the field of the given class.
 	 * 
-	 * @param type
+	 * @param type type
+	 * @param filter FieldFilter
 	 * @return all Accessor available
 	 */
 	static public Accessor[] getAccessors(Class<?> type, FieldFilter filter) {
@@ -206,6 +207,7 @@ public class ASMUtil {
 	 * return a array of new Label (used for switch/case generation)
 	 * 
 	 * @param cnt number of label to return
+	 * @return a Label array
 	 */
 	public static Label[] newLabels(int cnt) {
 		Label[] r = new Label[cnt];

@@ -15,7 +15,6 @@ public class ConvertDate {
 	static TreeMap<String, Integer> monthsTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
 	static TreeMap<String, Integer> daysTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
 	private static HashSet<String> voidData = new HashSet<String>();
-
 	public static class StringCmpNS implements Comparator<String> {
 		@Override
 		public int compare(String o1, String o2) {
@@ -105,6 +104,8 @@ public class ConvertDate {
 
 	/**
 	 * try read a Date from a Object
+	 * @param obj object to convert to date
+	 * @return a date value
 	 */
 	public static Date convertToDate(Object obj) {
 		if (obj == null)
@@ -138,6 +139,12 @@ public class ConvertDate {
 		throw new RuntimeException("Primitive: Can not convert " + obj.getClass().getName() + " to int");
 	}
 
+	/**
+	 * 
+	 * @param st StringTokenizer
+	 * @param s1 previous token
+	 * @return a Date
+	 */
 	private static Date getYYYYMMDD(StringTokenizer st, String s1) {
 		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
 		cal.setTimeInMillis(0);
@@ -167,18 +174,26 @@ public class ConvertDate {
 		return cal.getTime();
 	}
 
+	/**
+	 * @param s1 2 years date
+	 * @return a 1900 or 2000 year
+	 */
 	private static int getYear(String s1) {
 		int year = Integer.parseInt(s1);
 		// CET ?
 		if (year < 100) {
-			if (year > 23)
+			if (year > 30)
 				year += 2000;
 			else
 				year += 1900;
 		}
 		return year;
 	}
-
+	/**
+	 * @param st StringTokenizer
+	 * @param s1 privious token
+	 * @return a date
+	 */
 	private static Date getMMDDYYYY(StringTokenizer st, String s1) {
 		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
 		Integer month = monthsTable.get(s1);
@@ -213,6 +228,12 @@ public class ConvertDate {
 		// return cal.getTime();
 	}
 
+	/**
+	 * parse a date as DDMMYYYY
+	 * @param st StringTokenizer
+	 * @param s1 previous token
+	 * @return a Date
+	 */
 	private static Date getDDMMYYYY(StringTokenizer st, String s1) {
 		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
 		int day = Integer.parseInt(s1);
@@ -229,6 +250,12 @@ public class ConvertDate {
 		return addHour(st, cal, null);
 	}
 
+	/**
+	 * @param st StringTokenizer
+	 * @param cal Calendar
+	 * @param s1 previous token
+	 * @return a Date
+	 */
 	private static Date addHour(StringTokenizer st, Calendar cal, String s1) {
 		// String s1;
 		if (s1 == null) {
@@ -239,6 +266,12 @@ public class ConvertDate {
 		return addHour2(st, cal, s1);
 	}
 	
+	/**
+	 * @param st StringTokenizer
+	 * @param cal Calendar
+	 * @param s1 previous token
+	 * @return a Date
+	 */
 	private static Date addHour2(StringTokenizer st, Calendar cal, String s1) {
 		s1 = trySkip(st, s1, cal);
 		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(s1));
@@ -287,10 +320,10 @@ public class ConvertDate {
 
 	/**
 	 * Handle some Date Keyword like PST UTC am pm ...
-	 * @param st
-	 * @param s1
-	 * @param cal
-	 * @return
+	 * @param st StringTokenizer
+	 * @param s1 previous token
+	 * @param cal Calendar
+	 * @return a date
 	 */
 	private static String trySkip(StringTokenizer st, String s1, Calendar cal) {
 		while (true) {
