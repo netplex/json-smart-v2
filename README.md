@@ -21,7 +21,19 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 
 # Changelog
 
+### *V next*
+* overwride system default encoding when parssing bytes[] [PR 71](https://github.com/netplex/json-smart-v2/pull/74)
+
+### *V 2.4.6*
+* Correct publish issue 3th time [issue 69](https://github.com/netplex/json-smart-v2/issues/69)
+* Support latest asm in accessor-smart [issue 70](https://github.com/netplex/json-smart-v2/issues/70)
+* Drop legacy parent pom
+
+### *V 2.4.5*
+* Correct publish issue 2nd time [issue 69](https://github.com/netplex/json-smart-v2/issues/69)
+
 ### *V 2.4.4*
+* Correct publish issue 1st time [issue 69](https://github.com/netplex/json-smart-v2/issues/69)
 * fix ArrayIndexOutOfBoundsException [issue 68](https://github.com/netplex/json-smart-v2/pull/68)
 
 ### *V 2.4*
