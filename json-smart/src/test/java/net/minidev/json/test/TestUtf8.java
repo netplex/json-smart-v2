@@ -19,7 +19,8 @@ public class TestUtf8 {
 				Arguments.of("Russian", "Русский"), Arguments.of("Farsi", "فارسی"), Arguments.of("Korean", "한국어"),
 				Arguments.of("Armenian", "Հայերեն"), Arguments.of("Hindi", "हिन्दी"), Arguments.of("Hebrew", "עברית"),
 				Arguments.of("Chinese", "中文"), Arguments.of("Amharic", "አማርኛ"), Arguments.of("Malayalam", "മലയാളം"),
-				Arguments.of("Assyrian Neo-Aramaic", "ܐܬܘܪܝܐ"), Arguments.of("Georgian", "მარგალური"));
+				Arguments.of("Assyrian Neo-Aramaic", "ܐܬܘܪܝܐ"), Arguments.of("Georgian", "მარგალური"),
+				Arguments.of("Emojis", "🐶🐱🐭🐹🐰🦊🐻🐼🐻‍❄🐨🐯🦁🐮🐷🐽🐸🐵🙈🙉🙊🐒🐔🐧🐦🐤🐣🐥🦆🦅🦉🦇🐺🐗🐴🦄🐝🐛"));
 	};
 
 	@ParameterizedTest
