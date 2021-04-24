@@ -527,7 +527,7 @@ public class JSONNavi<T> {
 
 	/**
 	 * set current value as Boolean
-	 * @param num new value for the current node
+	 * @param bool new value for the current node
 	 * 
 	 * @return this for code chaining
 	 */
