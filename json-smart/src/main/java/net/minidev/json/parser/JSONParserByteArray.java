@@ -19,9 +19,6 @@ import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_EOF;
 import net.minidev.json.JSONValue;
 import net.minidev.json.writer.JsonReaderI;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-
 /**
  * Parser for JSON text. Please note that JSONParser is NOT thread-safe.
  * 
@@ -62,7 +59,7 @@ class JSONParserByteArray extends JSONParserMemory {
 	}
 
 	protected void extractString(int beginIndex, int endIndex) {
-		xs = new String(in, beginIndex, endIndex - beginIndex, StandardCharsets.UTF_8);
+		xs = new String(in, beginIndex, endIndex - beginIndex);
 	}
 
 	protected void extractStringTrim(int start, int stop) {
@@ -74,7 +71,7 @@ class JSONParserByteArray extends JSONParserMemory {
 		while ((start < stop) && (val[stop - 1] <= ' ')) {
 			stop--;
 		}
-		xs = new String(in, start, stop - start, StandardCharsets.UTF_8);
+		xs = new String(in, start, stop - start);
 	}
 
 	protected int indexOf(char c, int pos) {
