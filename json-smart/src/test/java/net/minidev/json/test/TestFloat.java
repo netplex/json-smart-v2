@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 
 public class TestFloat extends TestCase {
 	public static String[] TRUE_NUMBERS = new String[] { "1.0", "123.456", "1.0E1", "123.456E12", "1.0E+1",
@@ -12,6 +13,8 @@ public class TestFloat extends TestCase {
 
 	public static String[] FALSE_NUMBERS = new String[] { "1.0%", "123.45.6", "1.0E", "++123.456E12", "+-01",
 			"1.0E+1.2" };
+
+	public static String[] INVALID_NUMBERS = new String[] {"-.", "2e+", "[45e-"};
 
 	public void testFloat() throws Exception {
 		JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
@@ -35,6 +38,20 @@ public class TestFloat extends TestCase {
 			assertEquals("Should be re serialized as", correct, obj.toJSONString());
 		}
 	}
+
+	public void testInvalidNumbers() {
+		JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
+		for (String s : INVALID_NUMBERS) {
+			String json = "{v:" + s + "}";
+			try {
+				p.parse(json);
+				fail("Expected exception was not thrown.");
+			} catch (ParseException e) {
+				// everything is fine, we expected ParseException
+			}
+		}
+	}
+
 	/**
 	 * Error reported in issue 44
 	 */
