@@ -39,6 +39,7 @@ public class ConvertDate {
 	static TreeMap<String, TimeZone> timeZoneMapping;
 	static {		
 		timeZoneMapping = new TreeMap<String, TimeZone>();
+		voidData.add("à"); // added for french 1st of may 2021
 		voidData.add("at");
 		voidData.add("MEZ");
 		voidData.add("Uhr");
@@ -115,7 +116,9 @@ public class ConvertDate {
 		if (obj instanceof Number)
 			return new Date(((Number)obj).longValue());
 		if (obj instanceof String) {
-			obj = ((String) obj).replace("p.m.", "pm");
+			obj = ((String) obj)
+				.replace("p.m.", "pm")
+				.replace("a.m.", "am"); // added on 1st of may 2021
 			StringTokenizer st = new StringTokenizer((String) obj, " -/:,.+");
 			String s1 = "";
 			if (!st.hasMoreTokens())
@@ -330,6 +333,7 @@ public class ConvertDate {
 			TimeZone tz = timeZoneMapping.get(s1);
 			if (tz != null) {
 				cal.setTimeZone(tz);
+				// sould cancel ofset time zome added on 1st of may 2021
 				if (!st.hasMoreTokens())
 					return null;
 				s1 = st.nextToken();

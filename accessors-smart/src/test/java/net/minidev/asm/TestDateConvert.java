@@ -81,9 +81,9 @@ public class TestDateConvert extends TestCase {
 	}
 
 	public void fullTestDate(Date expectedDate, Locale locale, String sizeName, int sizeId) throws Exception {
-		String jobName = "Test date format Local:" + locale + " format: " + sizeName;
 		DateFormat FormatEN = DateFormat.getDateTimeInstance(sizeId, sizeId, locale);
 		String testDate = FormatEN.format(expectedDate);
+		String jobName = "Test date format \"" + testDate + "\" Local:" + locale + " format: " + sizeName;
 		Date parse = null;
 		try {
 			// can not parse US Date in short mode.
