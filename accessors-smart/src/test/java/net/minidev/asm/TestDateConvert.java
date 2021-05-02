@@ -1,14 +1,17 @@
 package net.minidev.asm;
 
+import java.io.Console;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import junit.framework.TestCase;
 
 public class TestDateConvert extends TestCase {
+	static TimeZone PARIS = TimeZone.getTimeZone("Europe/Paris");
 	// we do not test the century
 	SimpleDateFormat sdfFull = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 	SimpleDateFormat sdfLT = new SimpleDateFormat("dd/MM/yy HH:mm");
@@ -36,6 +39,13 @@ public class TestDateConvert extends TestCase {
 		}
 	}
 
+	public TestDateConvert() {
+		super();
+		ConvertDate.defaultTimeZone = PARIS;
+		sdfFull.setTimeZone(PARIS);
+		sdfLT.setTimeZone(PARIS);
+	}
+
 	public void testAdvanceTimeStamp() throws Exception {
 		String testDate = "2014-08-27T12:53:10+02:00";
 		ConvertDate.convertToDate(testDate);
@@ -61,13 +71,31 @@ public class TestDateConvert extends TestCase {
 		testDateLocalized(Locale.ITALY);
 	}
 
-	// MISSING JAPAN / CHINA
+	public void testDateCANADA_FRENCH() throws Exception {
+		testDateLocalized(Locale.CANADA_FRENCH);
+	}
+
+	public void testDateJAPAN() throws Exception {
+		testDateLocalized(Locale.JAPAN);
+	}
+	
+	//public void testDateCHINA() throws Exception {
+	//	testDateLocalized(Locale.CHINA);
+	//}
+
+	//public void testDateCHINESE() throws Exception {
+	//	testDateLocalized(Locale.CHINESE);
+	//}
+
+	// MISSING CHINA / CHINESE
 
 	public void testDateLocalized(Locale locale) throws Exception {
 		// PM test
-		fullTestDate(sdfFull.parse("23/01/2012 13:42:59"), locale);
+		Date pm = sdfFull.parse("23/01/2012 13:42:59");
+		fullTestDate(pm, locale);
 		// AM test
-		fullTestDate(sdfFull.parse("23/01/2012 01:42:59"), locale);
+		Date am = sdfFull.parse("23/01/2012 01:42:59");
+		fullTestDate(am, locale);
 	}
 
 	/**
@@ -82,6 +110,7 @@ public class TestDateConvert extends TestCase {
 
 	public void fullTestDate(Date expectedDate, Locale locale, String sizeName, int sizeId) throws Exception {
 		DateFormat FormatEN = DateFormat.getDateTimeInstance(sizeId, sizeId, locale);
+		FormatEN.setTimeZone(PARIS);
 		String testDate = FormatEN.format(expectedDate);
 		String jobName = "Test date format \"" + testDate + "\" Local:" + locale + " format: " + sizeName;
 		Date parse = null;
@@ -89,13 +118,11 @@ public class TestDateConvert extends TestCase {
 			// can not parse US Date in short mode.
 			if (sizeId == DateFormat.SHORT && locale.equals(Locale.US))
 				return;
-				//parse = ConvertDate.convertToDate(obj)(testDate);
-			else
-				parse = ConvertDate.convertToDate(testDate);
+			parse = ConvertDate.convertToDate(testDate);
 		} catch (Exception e) {
 			throw new Exception(jobName, e);
 		}
-		//System.err.println("TEST: " + testDate + " readed as: " + resultStr);
+		// System.err.println("TEST: " + testDate + " readed as: " + resultStr);
 		// is source format contains second
 		if (testDate.contains("59")) {
 			String resultStr = sdfFull.format(parse);
