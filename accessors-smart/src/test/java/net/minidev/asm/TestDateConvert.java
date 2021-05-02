@@ -115,9 +115,13 @@ public class TestDateConvert extends TestCase {
 		String jobName = "Test date format \"" + testDate + "\" Local:" + locale + " format: " + sizeName;
 		Date parse = null;
 		try {
-			// can not parse US Date in short mode.
-			if (sizeId == DateFormat.SHORT && locale.equals(Locale.US))
-				return;
+			// can not parse US style Date in short mode (due to reversed day/month).
+			if (sizeId == DateFormat.SHORT) {
+				if (locale.equals(Locale.US))
+					return;
+				if (locale.equals(Locale.CANADA_FRENCH))
+					return;
+			}
 			parse = ConvertDate.convertToDate(testDate);
 		} catch (Exception e) {
 			throw new Exception(jobName, e);
