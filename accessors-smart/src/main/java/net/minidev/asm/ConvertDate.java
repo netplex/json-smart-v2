@@ -15,6 +15,9 @@ public class ConvertDate {
 	static TreeMap<String, Integer> monthsTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
 	static TreeMap<String, Integer> daysTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
 	private static HashSet<String> voidData = new HashSet<String>();
+	/**
+	 * overwrite system time zone
+	 */
 	public static TimeZone defaultTimeZone;
 	public static class StringCmpNS implements Comparator<String> {
 		@Override
@@ -37,6 +40,22 @@ public class ConvertDate {
 			return month.intValue();
 		}
 	}
+
+	/**
+	 * @return a current timezoned 01/01/2000 00:00:00 GregorianCalendar
+	 */
+	private static GregorianCalendar newCalandar() {
+		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
+		if (defaultTimeZone != null)
+			cal.setTimeZone(defaultTimeZone);
+		TimeZone TZ = cal.getTimeZone();
+		if (TZ == null) {
+			TZ = TimeZone.getDefault();
+		}
+		cal.setTimeInMillis(-TZ.getRawOffset());
+		return cal;
+	}
+	
 	static TreeMap<String, TimeZone> timeZoneMapping;
 	static {		
 		timeZoneMapping = new TreeMap<String, TimeZone>();
@@ -154,10 +173,7 @@ public class ConvertDate {
 	 * @return a Date
 	 */
 	private static Date getYYYYMMDD(StringTokenizer st, String s1) {
-		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
-		cal.setTimeInMillis(0);
-		if (defaultTimeZone != null)
-			cal.setTimeZone(defaultTimeZone);
+		GregorianCalendar cal = newCalandar();
 
 		int year = Integer.parseInt(s1);
 		cal.set(Calendar.YEAR, year);
@@ -205,10 +221,7 @@ public class ConvertDate {
 	 * @return a date
 	 */
 	private static Date getMMDDYYYY(StringTokenizer st, String s1) {
-		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
-		cal.setTimeInMillis(0);
-		if (defaultTimeZone != null)
-			cal.setTimeZone(defaultTimeZone);
+		GregorianCalendar cal = newCalandar();
 
 		Integer month = monthsTable.get(s1);
 		if (month == null)
@@ -249,10 +262,8 @@ public class ConvertDate {
 	 * @return a Date
 	 */
 	private static Date getDDMMYYYY(StringTokenizer st, String s1) {
-		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
-		cal.setTimeInMillis(0);
-		if (defaultTimeZone != null)
-			cal.setTimeZone(defaultTimeZone);
+		GregorianCalendar cal = newCalandar();
+		
 		int day = Integer.parseInt(s1);
 		cal.set(Calendar.DAY_OF_MONTH, day);
 		if (!st.hasMoreTokens())

@@ -1,6 +1,5 @@
 package net.minidev.asm;
 
-import java.io.Console;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,7 +10,8 @@ import java.util.TimeZone;
 import junit.framework.TestCase;
 
 public class TestDateConvert extends TestCase {
-	static TimeZone PARIS = TimeZone.getTimeZone("Europe/Paris");
+	// static TimeZone PARIS = TimeZone.getTimeZone("Europe/Paris");
+	static TimeZone MY_TZ = TimeZone.getTimeZone("PST");
 	// we do not test the century
 	SimpleDateFormat sdfFull = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 	SimpleDateFormat sdfLT = new SimpleDateFormat("dd/MM/yy HH:mm");
@@ -41,9 +41,11 @@ public class TestDateConvert extends TestCase {
 
 	public TestDateConvert() {
 		super();
-		ConvertDate.defaultTimeZone = PARIS;
-		sdfFull.setTimeZone(PARIS);
-		sdfLT.setTimeZone(PARIS);
+		ConvertDate.defaultTimeZone = MY_TZ;
+		if (MY_TZ != null) {
+			sdfFull.setTimeZone(MY_TZ);
+			sdfLT.setTimeZone(MY_TZ);
+		}
 	}
 
 	public void testAdvanceTimeStamp() throws Exception {
@@ -110,7 +112,9 @@ public class TestDateConvert extends TestCase {
 
 	public void fullTestDate(Date expectedDate, Locale locale, String sizeName, int sizeId) throws Exception {
 		DateFormat FormatEN = DateFormat.getDateTimeInstance(sizeId, sizeId, locale);
-		FormatEN.setTimeZone(PARIS);
+		if (MY_TZ != null) {
+			FormatEN.setTimeZone(MY_TZ);
+		}
 		String testDate = FormatEN.format(expectedDate);
 		String jobName = "Test date format \"" + testDate + "\" Local:" + locale + " format: " + sizeName;
 		Date parse = null;
