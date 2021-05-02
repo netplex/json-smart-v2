@@ -21,7 +21,7 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 
 ### *V 2.4.7*
 * full timezone support in date parsing
-* set default charset to UTF-8 wheme parsing byte[]
+* set default charset to UTF-8 when parsing byte[] contents
 
 ### *V 2.4.6*
 * remove paren pom
