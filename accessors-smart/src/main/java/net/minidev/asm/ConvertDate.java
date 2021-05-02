@@ -15,6 +15,10 @@ public class ConvertDate {
 	static TreeMap<String, Integer> monthsTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
 	static TreeMap<String, Integer> daysTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
 	private static HashSet<String> voidData = new HashSet<String>();
+	/**
+	 * overwrite system time zone
+	 */
+	public static TimeZone defaultTimeZone;
 	public static class StringCmpNS implements Comparator<String> {
 		@Override
 		public int compare(String o1, String o2) {
@@ -36,16 +40,36 @@ public class ConvertDate {
 			return month.intValue();
 		}
 	}
+
+	/**
+	 * @return a current timezoned 01/01/2000 00:00:00 GregorianCalendar
+	 */
+	private static GregorianCalendar newCalandar() {
+		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
+		if (defaultTimeZone != null)
+			cal.setTimeZone(defaultTimeZone);
+		TimeZone TZ = cal.getTimeZone();
+		if (TZ == null) {
+			TZ = TimeZone.getDefault();
+		}
+		cal.setTimeInMillis(-TZ.getRawOffset());
+		return cal;
+	}
+	
 	static TreeMap<String, TimeZone> timeZoneMapping;
 	static {		
 		timeZoneMapping = new TreeMap<String, TimeZone>();
+		voidData.add("à"); // added for french 1st of may 2021
 		voidData.add("at");
 		voidData.add("MEZ");
 		voidData.add("Uhr");
 		voidData.add("h");
 		voidData.add("pm");
 		voidData.add("PM");
+		voidData.add("am");
 		voidData.add("AM");
+		voidData.add("min"); // Canada french
+		voidData.add("um"); // German
 		voidData.add("o'clock");
 		
 		for (String tz : TimeZone.getAvailableIDs()) {
@@ -115,8 +139,11 @@ public class ConvertDate {
 		if (obj instanceof Number)
 			return new Date(((Number)obj).longValue());
 		if (obj instanceof String) {
-			obj = ((String) obj).replace("p.m.", "pm");
-			StringTokenizer st = new StringTokenizer((String) obj, " -/:,.+");
+			obj = ((String) obj)
+				.replace("p.m.", "pm")
+				.replace("a.m.", "am"); // added on 1st of may 2021
+			StringTokenizer st = new StringTokenizer((String) obj, " -/:,.+年月日曜時分秒");
+			// 2012年1月23日月曜日 13時42分59秒 中央ヨーロッパ標準時
 			String s1 = "";
 			if (!st.hasMoreTokens())
 				return null;
@@ -146,8 +173,7 @@ public class ConvertDate {
 	 * @return a Date
 	 */
 	private static Date getYYYYMMDD(StringTokenizer st, String s1) {
-		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
-		cal.setTimeInMillis(0);
+		GregorianCalendar cal = newCalandar();
 
 		int year = Integer.parseInt(s1);
 		cal.set(Calendar.YEAR, year);
@@ -195,7 +221,8 @@ public class ConvertDate {
 	 * @return a date
 	 */
 	private static Date getMMDDYYYY(StringTokenizer st, String s1) {
-		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
+		GregorianCalendar cal = newCalandar();
+
 		Integer month = monthsTable.get(s1);
 		if (month == null)
 			throw new NullPointerException("can not parse " + s1 + " as month");
@@ -235,7 +262,8 @@ public class ConvertDate {
 	 * @return a Date
 	 */
 	private static Date getDDMMYYYY(StringTokenizer st, String s1) {
-		GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
+		GregorianCalendar cal = newCalandar();
+		
 		int day = Integer.parseInt(s1);
 		cal.set(Calendar.DAY_OF_MONTH, day);
 		if (!st.hasMoreTokens())
