@@ -10,7 +10,7 @@ import net.minidev.json.parser.JSONParser;
 import org.junit.jupiter.api.Test;
 
 public class TestBigDigitUnrestricted {
-	public static String[] VALID_DOUBLE_JSON = new String[] {"{\"v\":0.12345678912345678}"}; 
+	public static String[] VALID_DOUBLE_JSON = new String[] {"{\"v\":0.12345678912345678}", "\"v\":\"1.7976931348623157E308\"", "\"v\":\"1.7976931348623157E+308\"", "\"v\":\"1.7976931348623157e+308\""};
 	
 	@Test
 	public void testRestrictedBigDigit() throws Exception {

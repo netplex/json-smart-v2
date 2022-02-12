@@ -15,13 +15,17 @@ But now times had changed, most of the JSON API are now stable, and I'm now usin
 So I do not use my json-smart anymore. I had fun with this project. If you want to apply some change on json-smart create pull request, with a lots JUnit test.
 
 
-
 [WIKI is here](https://github.com/netplex/json-smart/wiki)
-
 
 # Changelog
 
-### *V next*
+### *V 2.4.8*
+
+* Fix the incorrect double compare with e,E+,e+ [PR 77](https://github.com/netplex/json-smart-v2/pull/77)
+
+### *V 2.4.7*
+* full timezone support in date parsing
+* set default charset to UTF-8 when parsing byte[] contents
 * overwride system default encoding when parssing bytes[] [PR 71](https://github.com/netplex/json-smart-v2/pull/74)
 
 ### *V 2.4.6*
@@ -40,6 +44,10 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 * add BIG_DIGIT_UNRESTRICTED to avoid BigDigit usage on some Double.
 * fix CVE-2021-27568
 * java 11 build
+
+### *V 2.3.1*
+* Fixes [issue #60](https://github.com/netplex/json-smart-v2/issues/60) (CVE-2021-27568)
+* full timezone support in date parsing
 
 ### *V 2.3*
 * Patch 37 [issue 37](http://code.google.com/p/json-smart/issues/detail?id=37)

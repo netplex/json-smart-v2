@@ -148,14 +148,16 @@ abstract class JSONParserBase {
 
 			// follow JSonIJ parsing method
 			if (xs.length() > 18) {
-				BigDecimal big = new BigDecimal(xs);
 				// use extra CPU to check if the result can be return as double without precision lost
 				if (!unrestictBigDigit) {
 					double asDouble = Double.parseDouble(xs);
-					if (String.valueOf(asDouble).equals(xs))
+					final String doubleStr = String.valueOf(asDouble);
+					// we need a compare compat `e` `E` `e+` `E+`
+					if (compareDoublePrecision(doubleStr, xs)){
 						return asDouble;
+					}
 				}
-				return big;
+				return new BigDecimal(xs);
 			}
 
 			return Double.parseDouble(xs);
@@ -163,6 +165,33 @@ abstract class JSONParserBase {
 		} catch(NumberFormatException e){
 			throw new ParseException(pos, ERROR_UNEXPECTED_TOKEN, xs);
 		}
+	}
+
+	private boolean compareDoublePrecision(String convert, String origin) {
+		final char[] charArray = convert.toCharArray();
+		final char[] originArray = origin.toCharArray();
+		if (charArray.length > originArray.length) {
+			return false;
+		}
+		int j = 0;
+		for (int i = 0; i < charArray.length; i++) {
+			if (charArray[i] < '0' || charArray[i] > '9') {
+				if (originArray[j] >= '0' && originArray[j] <= '9') {
+					return false;
+				} else {
+					j++;
+					if (originArray[j] == '+') {
+						j++;
+					}
+					continue;
+				}
+			}
+			if (charArray[i] != originArray[j]) {
+				return false;
+			}
+			j++;
+		}
+		return j == originArray.length;
 	}
 
 	/**
