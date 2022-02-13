@@ -24,6 +24,12 @@
             <email>adoneitan@gmail.com</email>
             <timezone>GMT+2</timezone>
         </developer>
+        <developer>
+            <id>Shoothzj</id>
+            <name>ZhangJian He</name>
+            <email>shoothzj@gmail.com</email>
+            <timezone>GMT+8</timezone>
+        </developer>
     </developers>
     <licenses>
         <license>
