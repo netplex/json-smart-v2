@@ -30,6 +30,13 @@ import net.minidev.json.reader.JsonWriter;
 public class JSONArray extends ArrayList<Object> implements List<Object>, JSONAwareEx, JSONStreamAwareEx {
 	private static final long serialVersionUID = 9106884089231309568L;
 
+	public JSONArray() {
+	}
+
+	public JSONArray(int initialCapacity) {
+		super(initialCapacity);
+	}
+
 	public static String toJSONString(List<? extends Object> list) {
 		return toJSONString(list, JSONValue.COMPRESSION);
 	}

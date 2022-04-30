@@ -35,6 +35,10 @@ public class JSONObject extends HashMap<String, Object> implements JSONAwareEx, 
 		super();
 	}
 
+	public JSONObject(int initialCapacity) {
+		super(initialCapacity);
+	}
+
 	/**
 	 * Escape quotes, \, /, \r, \n, \b, \f, \t and other control characters
 	 * (U+0000 through U+001F). It's the same as JSONValue.escape() only for
