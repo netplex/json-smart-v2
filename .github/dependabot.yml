@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "json-smart"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "maven"
+    directory: "json-smart-action"
+    schedule:
+      interval: "daily"
