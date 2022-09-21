@@ -43,6 +43,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<junit.version>5.9.1</junit.version>
 	</properties>
 	<scm>
 		<connection>scm:git:https://github.com/netplex/json-smart-v2.git</connection>
@@ -227,14 +228,14 @@
 		<dependency>
     		<groupId>org.junit.jupiter</groupId>
     		<artifactId>junit-jupiter-api</artifactId>
-			<version>5.9.1</version>
+			<version>${junit.version}</version>
     		<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
 		<dependency>
     		<groupId>org.junit.jupiter</groupId>
     		<artifactId>junit-jupiter-params</artifactId>
-            <version>5.8.2</version>
+            <version>${junit.version}</version>
     		<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.minidev/accessors-smart -->
