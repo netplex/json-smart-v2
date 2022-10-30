@@ -35,6 +35,7 @@
     </licenses>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.outputTimestamp>10</project.build.outputTimestamp>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -109,7 +110,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-release-plugin</artifactId>
-                        <version>3.0.0-M1</version>
+                        <version>3.0.0-M6</version>
                         <configuration>
                             <mavenExecutorId>forked-path</mavenExecutorId>
                             <arguments>-Psonatype-oss-release</arguments>
