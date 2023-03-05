@@ -19,6 +19,10 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 
 # Changelog
 
+### *V 2.4.9*
+
+* Enforce malicious input checking.
+
 ### *V 2.4.8*
 
 * Fix the incorrect double compare with e,E+,e+ [PR 77](https://github.com/netplex/json-smart-v2/pull/77)
