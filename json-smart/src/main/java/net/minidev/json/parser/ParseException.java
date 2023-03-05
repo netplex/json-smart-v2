@@ -1,7 +1,7 @@
 package net.minidev.json.parser;
 
 /*
- *    Copyright 2011 JSON-SMART authors
+ *    Copyright 2011-2023 JSON-SMART authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ public class ParseException extends Exception {
 	public static final int ERROR_UNEXPECTED_UNICODE = 4;
 	public static final int ERROR_UNEXPECTED_DUPLICATE_KEY = 5;
 	public static final int ERROR_UNEXPECTED_LEADING_0 = 6;
+	public static final int ERROR_UNEXPECTED_JSON_DEPTH = 7;
 
 	private int errorType;
 	private Object unexpectedObject;
@@ -110,6 +111,12 @@ public class ParseException extends Exception {
 			sb.append(".");
 		} else if (errorType == ERROR_UNEXPECTED_LEADING_0) {
 			sb.append("Unexpected leading 0 in digit for token:");
+			sb.append(unexpectedObject);
+			sb.append(" at position ");
+			sb.append(position);
+			sb.append(".");
+		} else if (errorType == ERROR_UNEXPECTED_JSON_DEPTH) {
+			sb.append("Malicious payload, having non natural depths, parsing stoped on ");
 			sb.append(unexpectedObject);
 			sb.append(" at position ");
 			sb.append(position);
