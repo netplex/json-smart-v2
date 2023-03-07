@@ -19,9 +19,9 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 
 # Changelog
 
-### *V 2.4.9*
+### *V 2.4.9* (2023-03-07)
 
-* Enforce malicious input checking.
+* Add depth limit of 400 when parsing JSON.
 
 ### *V 2.4.8*
 
