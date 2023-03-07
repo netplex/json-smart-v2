@@ -17,5 +17,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: unit tests
-        run: cd json-smart; mvn -B clean test
+      - name: unit tests json-smart-action
+        run: cd json-smart-action; mvn -B install; mvn -B clean test
+      - name: unit tests json-smart
+        run: cd ../json-smart; mvn -B clean test
