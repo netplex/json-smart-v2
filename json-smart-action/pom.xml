@@ -61,7 +61,7 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-	<!-- release with: mvn clean deploy -P release-sign-artifacts-->
+	<!-- release with: export GPG_TTY=$(tty); mvn clean deploy -P release-sign-artifacts -->
     <profiles>
         <profile>
             <id>release-sign-artifacts</id>
