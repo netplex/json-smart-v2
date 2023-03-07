@@ -21,7 +21,7 @@ jobs:
         run: cd accessors-smart; mvn -B install; mvn -B clean test
           
       - name: unit tests json-smart
-        run: cd ../json-smart; mvn -B clean test
+        run: cd json-smart; mvn -B clean test
 
       - name: unit tests json-smart-action
-        run: cd ../json-smart-action; mvn -B install; mvn -B clean test
+        run: cd json-smart-action; mvn -B install; mvn -B clean test
