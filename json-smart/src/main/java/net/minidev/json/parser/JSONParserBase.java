@@ -620,6 +620,7 @@ abstract class JSONParserBase {
 				// should loop skipping read step
 				skipSpace();
 				if (c == '}') {
+					this.depth--;
 					read(); /* unstack */
 					//
 					return mapper.convert(current);

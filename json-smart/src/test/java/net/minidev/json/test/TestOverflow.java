@@ -1,5 +1,6 @@
 package net.minidev.json.test;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONValue;
 import net.minidev.json.parser.ParseException;
 
@@ -28,5 +29,22 @@ public class TestOverflow {
 			return;
 		}
 		assertTrue(false);
+	}
+
+	@Test
+	public void shouldNotFailParsingArraysWith400Elements() throws Exception {
+		int size = 400;
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		for (int i=0; i < size; i++) {
+			sb.append("{a:true}");
+			if(i+1 < size) {
+				sb.append(",");
+			}
+		}
+		sb.append("]");
+		String s = sb.toString();
+		JSONArray array = (JSONArray) JSONValue.parseWithException(s);
+		assertEquals(array.size(), size);
 	}
 }
