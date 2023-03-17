@@ -19,6 +19,10 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 
 # Changelog
 
+### *V 2.4.10*
+
+* Fix unstacking issue with more than 400 elements in an array.
+
 ### *V 2.4.9* (2023-03-07)
 
 * Add depth limit of 400 when parsing JSON.
