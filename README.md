@@ -4,15 +4,15 @@
 [![Coverage Status](https://coveralls.io/repos/github/netplex/json-smart-v2/badge.svg?branch=master)](https://coveralls.io/github/netplex/json-smart-v2?branch=master)
 
 
-Json-smart development start in 2010, at that time SQL servers do not support native JSON fields, NoSQL databases slowly emerging, and all the existing JSON API were bogus. One this time I write lots of test to benchmark and compare JSON java parser. 
+Json-smart development started in 2010, when SQL servers did not support native JSON fields, NoSQL databases were slowly emerging, and all the existing JSON APIs were bogus. I wrote lots of tests to benchmark and compare JSON java parsers. 
 
-I never like SQL database, because it's almost impossible to update a data model without, impacting the production platform. Adding a column is a terrible operation.
+I never liked SQL databases because it's almost impossible to update a data model without impacting the production platform. Adding a column is a terrible operation.
 
-That way I started json-smart. all non-indexed data in my datastores were stored in a column as a is serialized JSON message. To fit MySQL varchar(255) fields, I try to make my JSON as small as possible, that why json-smart il optimized to produce small JSON-like String.
+So I started json-smart. All non-indexed data in my datastores were stored in a column as a serialized JSON message. To fit MySQL varchar(255) fields, I tried to make my JSON as small as possible, so json-smart is optimized to produce small JSON-like Strings.
 
-But now times had changed, most of the JSON API are now stable, and I'm now using document-oriented Databases and JSON native SQL types.
+Now times have changed: most of the JSON APIs are now stable, and I'm now using document-oriented databases and JSON-native SQL types.
 
-So I do not use my json-smart anymore. I had fun with this project. If you want to apply some change on json-smart create pull request, with a lots JUnit test.
+So I do not use my json-smart anymore. I had fun with this project. If you want to apply some change on json-smart create a pull request with lots of JUnit tests.
 
 
 [WIKI is here](https://github.com/netplex/json-smart/wiki)
