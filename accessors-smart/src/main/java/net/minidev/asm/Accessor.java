@@ -125,7 +125,7 @@ public class Accessor {
 	 * @return true if the field can be write
 	 */
 	public boolean isWritable() {
-		return field != null || getter != null;
+		return field != null || setter != null;
 	}
 
 	/**
