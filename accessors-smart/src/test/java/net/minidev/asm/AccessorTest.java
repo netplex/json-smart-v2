@@ -36,6 +36,30 @@ public class AccessorTest {
 
 	}
 
+	private static class AcceptNoneFilter implements FieldFilter {
+
+		@Override
+		public boolean canUse(Field field) {
+			return false;
+		}
+
+		@Override
+		public boolean canUse(Field field, Method method) {
+			return false;
+		}
+
+		@Override
+		public boolean canRead(Field field) {
+			return false;
+		}
+
+		@Override
+		public boolean canWrite(Field field) {
+			return false;
+		}
+
+	}
+
 	@Test
 	public void testWriteOnlyField() throws NoSuchFieldException, SecurityException {
 
@@ -43,6 +67,10 @@ public class AccessorTest {
 		Accessor accessor = new Accessor(AccessorTestPojo.class, writeOnlyField, new AcceptAllFilter());
 
 		assertTrue(accessor.isWritable());
+		assertFalse(accessor.isReadable());
+
+		accessor = new Accessor(AccessorTestPojo.class, writeOnlyField, new AcceptNoneFilter());
+		assertFalse(accessor.isWritable());
 		assertFalse(accessor.isReadable());
 
 	}
@@ -56,6 +84,9 @@ public class AccessorTest {
 		assertFalse(accessor.isWritable());
 		assertTrue(accessor.isReadable());
 
+		accessor = new Accessor(AccessorTestPojo.class, readOnlyField, new AcceptNoneFilter());
+		assertFalse(accessor.isWritable());
+		assertFalse(accessor.isReadable());
 	}
 
 	@Test
@@ -67,6 +98,9 @@ public class AccessorTest {
 		assertTrue(accessor.isWritable());
 		assertTrue(accessor.isReadable());
 
+		accessor = new Accessor(AccessorTestPojo.class, readAndWriteableField, new AcceptNoneFilter());
+		assertFalse(accessor.isWritable());
+		assertFalse(accessor.isReadable());
 	}
 
 }
