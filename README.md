@@ -19,6 +19,11 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 
 # Changelog
 
+### *V 2.4.11* (2023-05-18)
+
+* Fix error in isWritable in accessor-smart. [PR 147](https://github.com/netplex/json-smart-v2/pull/147)
+* Update json-smart dependency to use accessor-smart:2.4.11
+
 ### *V 2.4.10* (2023-03-17)
 
 * Fix unstacking issue with more than 400 elements in an array.
