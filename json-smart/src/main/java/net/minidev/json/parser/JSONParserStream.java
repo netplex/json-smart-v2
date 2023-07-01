@@ -34,6 +34,10 @@ abstract class JSONParserStream extends JSONParserBase {
 		super(permissiveMode);
 	}
 
+	public JSONParserStream(int permissiveMode, ParserOptions parserOptions) {
+		super(permissiveMode, parserOptions);
+	}
+
 	protected void readNQString(boolean[] stop) throws IOException {
 		sb.clear();
 		skipNQString(stop);

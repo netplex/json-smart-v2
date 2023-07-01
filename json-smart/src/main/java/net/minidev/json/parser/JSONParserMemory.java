@@ -35,6 +35,10 @@ abstract class JSONParserMemory extends JSONParserBase {
 		super(permissiveMode);
 	}
 
+	public JSONParserMemory(int permissiveMode, ParserOptions parserOptions) {
+		super(permissiveMode, parserOptions);
+	}
+
 	protected void readNQString(boolean[] stop) throws IOException {
 		int start = pos;
 		skipNQString(stop);

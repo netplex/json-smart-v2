@@ -93,6 +93,10 @@ abstract class JSONParserBase {
 	protected final boolean unrestictBigDigit;
 
 	public JSONParserBase(int permissiveMode) {
+		this(permissiveMode, new ParserOptions());
+	}
+
+	public JSONParserBase(int permissiveMode, ParserOptions parserOptions) {
 		this.acceptNaN = (permissiveMode & JSONParser.ACCEPT_NAN) > 0;
 		this.acceptNonQuote = (permissiveMode & JSONParser.ACCEPT_NON_QUOTE) > 0;
 		this.acceptSimpleQuote = (permissiveMode & JSONParser.ACCEPT_SIMPLE_QUOTE) > 0;
@@ -103,7 +107,7 @@ abstract class JSONParserBase {
 		this.useHiPrecisionFloat = (permissiveMode & JSONParser.USE_HI_PRECISION_FLOAT) > 0;
 		this.checkTaillingData = (permissiveMode & (JSONParser.ACCEPT_TAILLING_DATA
 				| JSONParser.ACCEPT_TAILLING_SPACE)) != (JSONParser.ACCEPT_TAILLING_DATA
-						| JSONParser.ACCEPT_TAILLING_SPACE);
+				| JSONParser.ACCEPT_TAILLING_SPACE);
 		this.checkTaillingSpace = (permissiveMode & JSONParser.ACCEPT_TAILLING_SPACE) == 0;
 		this.reject127 = (permissiveMode & JSONParser.REJECT_127_CHAR) > 0;
 		this.unrestictBigDigit = (permissiveMode & JSONParser.BIG_DIGIT_UNRESTRICTED) > 0;
