@@ -93,6 +93,13 @@ public class JSONParser {
 	 * @since 2.4
 	 */
 	public final static int BIG_DIGIT_UNRESTRICTED = 2048;
+
+	/**
+	 * If limit the max depth of json size
+	 *
+	 * @since 2.5
+	 */
+	public static final int FINITE_JSON_DEPTH = 4096;
 	
 	
 	/**
@@ -132,7 +139,7 @@ public class JSONParser {
 	/*
 	 * internal fields
 	 */
-	private int mode;
+	private final int mode;
 
 	private JSONParserInputStream pBinStream;
 	private JSONParserByteArray pBytes;
