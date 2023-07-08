@@ -91,7 +91,6 @@ abstract class JSONParserBase {
 	protected final boolean useIntegerStorage;
 	protected final boolean reject127;
 	protected final boolean unrestictBigDigit;
-
 	protected final boolean finiteJsonDepth;
 
 	public JSONParserBase(int permissiveMode) {
