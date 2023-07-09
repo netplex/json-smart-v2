@@ -46,7 +46,7 @@ public class TestOverflow {
 		}
 		String s = sb.toString();
 		try {
-			JSONParser parser = new JSONParser(DEFAULT_PERMISSIVE_MODE & ~JSONParser.FINITE_JSON_DEPTH);
+			JSONParser parser = new JSONParser(DEFAULT_PERMISSIVE_MODE & ~JSONParser.LIMIT_JSON_DEPTH);
 			parser.parse(s,  JSONValue.defaultReader.DEFAULT);
 		} catch (ParseException e) {
 			fail();

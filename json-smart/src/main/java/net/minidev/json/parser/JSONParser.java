@@ -99,7 +99,7 @@ public class JSONParser {
 	 *
 	 * @since 2.5
 	 */
-	public static final int FINITE_JSON_DEPTH = 4096;
+	public static final int LIMIT_JSON_DEPTH = 4096;
 	
 	
 	/**

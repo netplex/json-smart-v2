@@ -91,7 +91,7 @@ abstract class JSONParserBase {
 	protected final boolean useIntegerStorage;
 	protected final boolean reject127;
 	protected final boolean unrestictBigDigit;
-	protected final boolean finiteJsonDepth;
+	protected final boolean limitJsonDepth;
 
 	public JSONParserBase(int permissiveMode) {
 		this.acceptNaN = (permissiveMode & JSONParser.ACCEPT_NAN) > 0;
@@ -108,7 +108,7 @@ abstract class JSONParserBase {
 		this.checkTaillingSpace = (permissiveMode & JSONParser.ACCEPT_TAILLING_SPACE) == 0;
 		this.reject127 = (permissiveMode & JSONParser.REJECT_127_CHAR) > 0;
 		this.unrestictBigDigit = (permissiveMode & JSONParser.BIG_DIGIT_UNRESTRICTED) > 0;
-		this.finiteJsonDepth = (permissiveMode & JSONParser.FINITE_JSON_DEPTH) > 0;
+		this.limitJsonDepth = (permissiveMode & JSONParser.LIMIT_JSON_DEPTH) > 0;
 	}
 
 	public void checkControleChar() throws ParseException {
@@ -298,7 +298,7 @@ abstract class JSONParserBase {
 	protected <T> T readArray(JsonReaderI<T> mapper) throws ParseException, IOException {
 		if (c != '[')
 			throw new RuntimeException("Internal Error");
-		if (finiteJsonDepth && ++this.depth > MAX_DEPTH) {
+		if (limitJsonDepth && ++this.depth > MAX_DEPTH) {
 			throw new ParseException(pos, ERROR_UNEXPECTED_JSON_DEPTH, c);
 		}
 		Object current = mapper.createArray();
@@ -555,7 +555,7 @@ abstract class JSONParserBase {
 		//
 		if (c != '{')
 			throw new RuntimeException("Internal Error");
-		if (finiteJsonDepth && ++this.depth > MAX_DEPTH) {
+		if (limitJsonDepth && ++this.depth > MAX_DEPTH) {
 			throw new ParseException(pos, ERROR_UNEXPECTED_JSON_DEPTH, c);
 		}
 		Object current = mapper.createObject();
