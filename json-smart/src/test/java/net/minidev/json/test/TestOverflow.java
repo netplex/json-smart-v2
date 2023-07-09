@@ -2,10 +2,12 @@ package net.minidev.json.test;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONValue;
+import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 
+import static net.minidev.json.parser.JSONParser.DEFAULT_PERMISSIVE_MODE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +30,27 @@ public class TestOverflow {
 			assertEquals(e.getErrorType(), ParseException.ERROR_UNEXPECTED_JSON_DEPTH);
 			return;
 		}
-		assertTrue(false);
+		fail();
+	}
+
+	@Test
+	public void shouldNotFailWhenInfiniteJsonDepth() throws Exception {
+		int size = 500;
+		StringBuilder sb = new StringBuilder(10 + size*4);
+		for (int i=0; i < size; i++) {
+			sb.append("{a:");
+		}
+		sb.append("true");
+		for (int i=0; i < size; i++) {
+			sb.append("}");
+		}
+		String s = sb.toString();
+		try {
+			JSONParser parser = new JSONParser(DEFAULT_PERMISSIVE_MODE & ~JSONParser.LIMIT_JSON_DEPTH);
+			parser.parse(s,  JSONValue.defaultReader.DEFAULT);
+		} catch (ParseException e) {
+			fail();
+		}
 	}
 
 	@Test
