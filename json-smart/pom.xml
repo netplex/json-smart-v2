@@ -59,7 +59,7 @@ limitations under the License.
 		<project.build.outputTimestamp>10</project.build.outputTimestamp>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<junit.version>5.10.0</junit.version>
+		<junit.version>5.10.1</junit.version>
 	</properties>
 	<scm>
 		<connection>scm:git:https://github.com/netplex/json-smart-v2.git</connection>
