@@ -3,8 +3,8 @@ updates:
   - package-ecosystem: "maven"
     directory: "json-smart"
     schedule:
-      interval: "daily"
+      interval: "monthly"
   - package-ecosystem: "maven"
     directory: "json-smart-action"
     schedule:
-      interval: "daily"
+      interval: "monthly"
