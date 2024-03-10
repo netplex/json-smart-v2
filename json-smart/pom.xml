@@ -236,6 +236,10 @@ limitations under the License.
 							net.minidev.json.reader,
 							net.minidev.json.writer
 						</Export-Package>
+						<Import-Package>
+							net.minidev.asm;version="1.0",
+							*
+						</Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>
