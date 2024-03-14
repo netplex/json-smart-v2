@@ -19,6 +19,11 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 
 # Changelog
 
+### *V 2.5.1* (2024-03-14)
+
+* Bump all dependencies.
+* Fix OSGi import package version for net.minidev.asm. [PR 180](https://github.com/netplex/json-smart-v2/pull/180)
+
 ### *V 2.5.0* (2023-07-10)
 
 * Add flag to drop the limit of json depth. [PR 156](https://github.com/netplex/json-smart-v2/pull/156)
