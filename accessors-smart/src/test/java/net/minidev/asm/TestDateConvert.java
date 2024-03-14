@@ -102,11 +102,11 @@ public class TestDateConvert {
 
 	@Test
 	public void testDateJAPAN() throws Exception {
-		// if (getJavaVersion() == 8) {
-		// 	assertTrue(true, "Ignoring test for Java 8");
-		//} else {
-		testDateLocalized(Locale.JAPAN);
-		// }
+		if (getJavaVersion() == 8) {
+			assertTrue(true, "Ignoring Japan Date test for Java 8");
+		} else {
+			testDateLocalized(Locale.JAPAN);
+		}
 	}
 
 	// public void testDateCHINA() throws Exception {
