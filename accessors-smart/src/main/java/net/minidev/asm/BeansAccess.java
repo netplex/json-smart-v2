@@ -83,7 +83,6 @@ public abstract class BeansAccess<T> {
 	 * @param <P> working type
 	 * @return the BeansAccess
 	 */
-	@SuppressWarnings("deprecation")
 	static public <P> BeansAccess<P> get(Class<P> type, FieldFilter filter) {
 		{
 			@SuppressWarnings("unchecked")

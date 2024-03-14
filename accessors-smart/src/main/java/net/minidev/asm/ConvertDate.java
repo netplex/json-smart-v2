@@ -142,7 +142,8 @@ public class ConvertDate {
 			obj = ((String) obj)
 				.replace("p.m.", "pm")
 				.replace("a.m.", "am"); // added on 1st of may 2021
-			StringTokenizer st = new StringTokenizer((String) obj, " -/:,.+年月日曜時分秒");
+			// contains 2 differents spaces
+			StringTokenizer st = new StringTokenizer((String) obj, "  -/:,.+年月日曜時分秒");
 			// 2012年1月23日月曜日 13時42分59秒 中央ヨーロッパ標準時
 			String s1 = "";
 			if (!st.hasMoreTokens())
@@ -187,7 +188,7 @@ public class ConvertDate {
 
 		s1 = st.nextToken();
 		if (Character.isDigit(s1.charAt(0))) {
-			if (s1.length()==5 && s1.charAt(2) == 'T') {
+			if (s1.length() == 5 && s1.charAt(2) == 'T') {
 				// TIME + TIMEZONE
 				int day = Integer.parseInt(s1.substring(0,2));
 				cal.set(Calendar.DAY_OF_MONTH, day);

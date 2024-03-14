@@ -3,6 +3,7 @@ package com.mindev.pojos;
 public class AccessorTestPojo {
 
 	// Field with only setter method
+	@SuppressWarnings("unused")
 	private int writeOnlyField;
 	
 	// Field with only getter method
