@@ -187,7 +187,7 @@ public class ConvertDate {
 
 		s1 = st.nextToken();
 		if (Character.isDigit(s1.charAt(0))) {
-			if (s1.length()==5 && s1.charAt(2) == 'T') {
+			if (s1.length() == 5 && s1.charAt(2) == 'T') {
 				// TIME + TIMEZONE
 				int day = Integer.parseInt(s1.substring(0,2));
 				cal.set(Calendar.DAY_OF_MONTH, day);
