@@ -122,13 +122,13 @@ public class TestDateConvert {
 	}
 
 	public void fullTestDate(Date expectedDate, Locale locale, String sizeName, int sizeId) throws Exception {
-		String jobName = "Test date format Local:" + locale + " format: " + sizeName;
 		DateFormat FormatEN = DateFormat.getDateTimeInstance(sizeId, sizeId, locale);
 		if (MY_TZ != null) {
 			FormatEN.setTimeZone(MY_TZ);
 		}
 		String testDate = FormatEN.format(expectedDate);
 		Date parse = null;
+		String jobName = "Test date format Local:" + locale + " size:" + sizeName + " String:\"" + testDate + "\"";
 		try {
 			// can not parse US style Date in short mode (due to reversed day/month).
 			if (sizeId == DateFormat.SHORT) {
@@ -152,7 +152,7 @@ public class TestDateConvert {
 			String expectedDateText = sdfLT.format(expectedDate);
 			assertEquals(expectedDateText, resultStr, jobName);
 		}
-//			System.err.printf("no sec for Format %-6s %-40s -> %10s\n", sizeName, testDate, resultStr);
+		//			System.err.printf("no sec for Format %-6s %-40s -> %10s\n", sizeName, testDate, resultStr);
 	}
 
 }
