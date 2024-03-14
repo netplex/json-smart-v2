@@ -19,6 +19,10 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 
 # Changelog
 
+### *V 2.5.0* (2023-07-10)
+
+* Add flag to drop the limit of json depth. [PR 156](https://github.com/netplex/json-smart-v2/pull/156)
+
 ### *V 2.4.11* (2023-05-18)
 
 * Fix error in isWritable in accessor-smart. [PR 147](https://github.com/netplex/json-smart-v2/pull/147)
