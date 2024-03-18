@@ -11,14 +11,21 @@ import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
+/**
+ * Utility class for converting strings into {@link Date} objects, considering various global date formats.
+ * It handles different month and day names across languages, and supports timezone adjustments.
+ */
 public class ConvertDate {
 	static TreeMap<String, Integer> monthsTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
 	static TreeMap<String, Integer> daysTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
 	private static HashSet<String> voidData = new HashSet<String>();
 	/**
-	 * overwrite system time zone
-	 */
+     * Default TimeZone used for date conversions. Can be overwritten to change the default time zone.
+     */
 	public static TimeZone defaultTimeZone;
+	/**
+     * Comparator for case-insensitive string comparison. Used for sorting and comparing month and day names.
+     */
 	public static class StringCmpNS implements Comparator<String> {
 		@Override
 		public int compare(String o1, String o2) {
@@ -26,6 +33,12 @@ public class ConvertDate {
 		}
 	}
 
+	/**
+     * Retrieves the month's integer representation based on the provided month name.
+     * 
+     * @param month the name of the month
+     * @return the integer value of the month, or null if the month name is unrecognized
+     */
 	public static Integer getMonth(String month) {
 		return monthsTable.get(month);
 	}

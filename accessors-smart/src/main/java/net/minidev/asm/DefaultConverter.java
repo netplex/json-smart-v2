@@ -2,7 +2,20 @@ package net.minidev.asm;
 
 import net.minidev.asm.ex.ConvertException;
 
+/**
+ * Provides utility methods to convert objects to different primitive types and their wrapper classes.
+ * It supports conversion from {@link Number} instances and {@link String} representations of numbers
+ * to their corresponding primitive types or wrapper classes. Conversion from types that are not supported
+ * will result in a {@link ConvertException}.
+ */
 public class DefaultConverter {
+	/**
+     * Converts the given object to an {@code int}.
+     * 
+     * @param obj the object to convert
+     * @return the converted int value, or 0 if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to an int
+     */
 	public static int convertToint(Object obj) {
 		if (obj == null)
 			return 0;
@@ -13,6 +26,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to int");
 	}
 
+	/**
+     * Converts the given object to an {@link Integer}.
+     * 
+     * @param obj the object to convert
+     * @return the converted Integer, or {@code null} if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to an Integer
+     */
 	public static Integer convertToInt(Object obj) {
 		if (obj == null)
 			return null;
@@ -24,6 +44,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to Integer");
 	}
 
+	/**
+     * Converts the given object to a {@code short}.
+     * 
+     * @param obj the object to convert
+     * @return the converted short value, or 0 if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to a short
+     */
 	public static short convertToshort(Object obj) {
 		if (obj == null)
 			return 0;
@@ -34,6 +61,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to short");
 	}
 
+	/**
+     * Converts the given object to a {@code short}.
+     * 
+     * @param obj the object to convert
+     * @return the converted short value, or 0 if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to a short
+     */
 	public static Short convertToShort(Object obj) {
 		if (obj == null)
 			return null;
@@ -45,6 +79,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to Short");
 	}
 
+	/**
+     * Converts the given object to a {@code long}.
+     * 
+     * @param obj the object to convert
+     * @return the converted long value, or 0 if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to a long
+     */
 	public static long convertTolong(Object obj) {
 		if (obj == null)
 			return 0;
@@ -55,6 +96,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to long");
 	}
 
+	/**
+     * Converts the given object to a {@link Long}.
+     * 
+     * @param obj the object to convert
+     * @return the converted Long, or {@code null} if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to a Long
+     */
 	public static Long convertToLong(Object obj) {
 		if (obj == null)
 			return null;
@@ -66,6 +114,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert value '" + obj+ "' As " + obj.getClass().getName() + " to Long");
 	}
 
+	/**
+     * Converts the given object to a {@code byte}.
+     * 
+     * @param obj the object to convert
+     * @return the converted byte value, or 0 if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to a byte
+     */
 	public static byte convertTobyte(Object obj) {
 		if (obj == null)
 			return 0;
@@ -76,6 +131,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to byte");
 	}
 
+	/**
+     * Converts the given object to a {@link Byte}.
+     * 
+     * @param obj the object to convert
+     * @return the converted Byte, or {@code null} if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to a Byte
+     */
 	public static Byte convertToByte(Object obj) {
 		if (obj == null)
 			return null;
@@ -87,6 +149,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to Byte");
 	}
 
+	/**
+     * Converts the given object to a {@code float}.
+     * 
+     * @param obj the object to convert
+     * @return the converted float value, or 0f if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to a float
+     */
 	public static float convertTofloat(Object obj) {
 		if (obj == null)
 			return 0f;
@@ -97,6 +166,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to float");
 	}
 
+	/**
+     * Converts the given object to a {@link Byte}.
+     * 
+     * @param obj the object to convert
+     * @return the converted Byte, or {@code null} if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to a Byte
+     */
 	public static Float convertToFloat(Object obj) {
 		if (obj == null)
 			return null;
@@ -108,6 +184,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to Float");
 	}
 
+	/**
+     * Converts the given object to a {@code double}.
+     * 
+     * @param obj the object to convert
+     * @return the converted double value, or 0.0 if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to a double
+     */
 	public static double convertTodouble(Object obj) {
 		if (obj == null)
 			return 0.0;
@@ -118,6 +201,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to float");
 	}
 
+	/**
+     * Converts the given object to a {@link Double}.
+     * 
+     * @param obj the object to convert
+     * @return the converted Double, or {@code null} if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to a Double
+     */
 	public static Double convertToDouble(Object obj) {
 		if (obj == null)
 			return null;
@@ -129,6 +219,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to Float");
 	}
 
+	/**
+     * Converts the given object to a {@code char}.
+     * 
+     * @param obj the object to convert
+     * @return the converted char value, or a space character if the object is {@code null} or the string is empty
+     * @throws ConvertException if the object cannot be converted to a char
+     */
 	public static char convertTochar(Object obj) {
 		if (obj == null)
 			return ' ';
@@ -140,6 +237,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to char");
 	}
 
+	/**
+     * Converts the given object to a {@link Character}.
+     * 
+     * @param obj the object to convert
+     * @return the converted Character, or {@code null} if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to a Character
+     */
 	public static Character convertToChar(Object obj) {
 		if (obj == null)
 			return null;
@@ -154,6 +258,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to Character");
 	}
 
+	/**
+     * Converts the given object to a {@code boolean}.
+     * 
+     * @param obj the object to convert
+     * @return the converted boolean value, false if the object is {@code null} or represents the numeric value 0
+     * @throws ConvertException if the object cannot be converted to a boolean
+     */
 	public static boolean convertTobool(Object obj) {
 		if (obj == null)
 			return false;
@@ -170,6 +281,13 @@ public class DefaultConverter {
 		throw new ConvertException("Primitive: Can not convert " + obj.getClass().getName() + " to boolean");
 	}
 
+	/**
+     * Converts the given object to a {@link Boolean}.
+     * 
+     * @param obj the object to convert
+     * @return the converted Boolean, or {@code null} if the object is {@code null}
+     * @throws ConvertException if the object cannot be converted to a Boolean
+     */
 	public static Boolean convertToBool(Object obj) {
 		if (obj == null)
 			return null;

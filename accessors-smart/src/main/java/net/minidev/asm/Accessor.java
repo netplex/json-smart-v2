@@ -134,7 +134,6 @@ public class Accessor {
 	 * @param c      the handled class
 	 * @param field  the field to access
 	 * @param filter field filter
-	 *            
 	 */
 	public Accessor(Class<?> c, Field field, FieldFilter filter) {
 		this.fieldName = field.getName();
