@@ -38,6 +38,10 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+/**
+ * A builder class for dynamically creating {@link BeansAccess} classes for accessing bean properties efficiently.
+ * This class utilizes the ASM library to generate bytecode at runtime, thereby bypassing the need for Java reflection.
+ */
 public class BeansAccessBuilder {
 	static private String METHOD_ACCESS_NAME = Type.getInternalName(BeansAccess.class);
 
@@ -53,7 +57,7 @@ public class BeansAccessBuilder {
 	Class<? extends Exception> exceptionClass = NoSuchFieldException.class;
 
 	/**
-	 * Build reflect bytecode from accessor list.
+	 * Initializes a new builder instance for a given bean class.
 	 * 
 	 * @param type
 	 *            type to be access

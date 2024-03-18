@@ -56,7 +56,9 @@ public class Accessor {
 	 * Filed Type using JDK 5+ generics if available
 	 */
 	protected Type genericType;
-
+	/**
+     * The name of the field.
+     */
 	protected String fieldName;
 
 	/**
@@ -108,6 +110,8 @@ public class Accessor {
 	}
 
 	/**
+	 * Determines if the field is accessible for reading or writing operations.
+	 * 
 	 * @return true if the field can be read or write
 	 */
 	public boolean isUsable() {
@@ -115,6 +119,8 @@ public class Accessor {
 	}
 
 	/**
+	 * Checks if the field is readable, either directly or through a getter method.
+     *
 	 * @return true if the field can be read
 	 */
 	public boolean isReadable() {
@@ -122,6 +128,8 @@ public class Accessor {
 	}
 
 	/**
+	 * Determines if the field is writable, either directly or through a setter method.
+     *
 	 * @return true if the field can be write
 	 */
 	public boolean isWritable() {

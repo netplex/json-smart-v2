@@ -217,6 +217,8 @@ public class ASMUtil {
 	}
 
 	/**
+	 * Generates a setter method name for a given field name.
+	 * 
 	 * @param key the field name
 	 * @return setter name
 	 */
@@ -237,6 +239,8 @@ public class ASMUtil {
 	}
 
 	/**
+	 * Generates a getter method name for a given field name.
+	 * 
 	 * @param key the field name
 	 * @return getter name
 	 */
@@ -257,6 +261,8 @@ public class ASMUtil {
 	}
 
 	/**
+	 * Generates a boolean getter method name (is-method) for a given field name.
+	 * 
 	 * @param key the boolean field name
 	 * @return boolean getter name
 	 */

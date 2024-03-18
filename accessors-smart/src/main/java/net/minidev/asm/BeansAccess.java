@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Allow access reflect field using runtime generated accessor. BeansAccessor is
  * faster than java.lang.reflect.Method.invoke()
  * 
+ * @param <T> the type of the bean being accessed
  * @author uriel Chemouni
  */
 public abstract class BeansAccess<T> {
