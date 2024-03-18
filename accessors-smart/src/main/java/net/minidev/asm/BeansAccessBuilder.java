@@ -80,7 +80,10 @@ public class BeansAccessBuilder {
 		this.accessClassNameInternal = accessClassName.replace('.', '/');
 		this.classNameInternal = className.replace('.', '/');
 	}
-
+	/**
+	 * register multiple new conversion
+	 * @param conv conv list
+	 */
 	public void addConversion(Iterable<Class<?>> conv) {
 		if (conv == null)
 			return;
@@ -88,6 +91,10 @@ public class BeansAccessBuilder {
 			addConversion(c);
 	}
 
+	/**
+	 * Resister a new conversion
+	 * @param conv the conv
+	 */
 	public void addConversion(Class<?> conv) {
 		if (conv == null)
 			return;
@@ -106,6 +113,10 @@ public class BeansAccessBuilder {
 		}
 	}
 
+	/**
+	 * build the conversion class.
+	 * @return the new Class
+	 */
 	public Class<?> bulid() {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		MethodVisitor mv;

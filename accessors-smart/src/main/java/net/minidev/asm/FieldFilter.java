@@ -17,6 +17,7 @@ public interface FieldFilter {
 	public boolean canUse(Field field);
 
 	/**
+	 * Can the field be used
 	 * 
 	 * @param field the field
 	 * @param method the method

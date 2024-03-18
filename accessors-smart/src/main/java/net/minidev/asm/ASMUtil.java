@@ -33,6 +33,12 @@ import org.objectweb.asm.Type;
  */
 public class ASMUtil {
 	/**
+	 * default constructor
+	 */
+	public ASMUtil() {
+		super();
+	}
+	/**
 	 * Append the call of proper autoboxing method for the given primitive type.
 	 * 
 	 * @param mv  MethodVisitor

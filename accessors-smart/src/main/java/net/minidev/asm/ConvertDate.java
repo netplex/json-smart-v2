@@ -16,6 +16,12 @@ import java.util.TreeMap;
  * It handles different month and day names across languages, and supports timezone adjustments.
  */
 public class ConvertDate {
+	/**
+	 * default constructor
+	 */
+	public ConvertDate() {
+		super();
+	}
 	static TreeMap<String, Integer> monthsTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
 	static TreeMap<String, Integer> daysTable = new TreeMap<String, Integer>(new StringCmpNS()); // StringCmpNS.COMP
 	private static HashSet<String> voidData = new HashSet<String>();
@@ -27,6 +33,13 @@ public class ConvertDate {
      * Comparator for case-insensitive string comparison. Used for sorting and comparing month and day names.
      */
 	public static class StringCmpNS implements Comparator<String> {
+		/**
+		 * default constructor
+		 */
+		public StringCmpNS() {
+			super();
+		}
+
 		@Override
 		public int compare(String o1, String o2) {
 			return o1.compareToIgnoreCase(o2);

@@ -3,7 +3,16 @@ package net.minidev.asm;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
+/**
+ * Beans Access Config
+ */
 public class BeansAccessConfig {
+	/**
+	 * default constructor
+	 */
+	public BeansAccessConfig() {
+		super();
+	}
 	/**
 	 * Field type convertor for all classes
 	 * 
