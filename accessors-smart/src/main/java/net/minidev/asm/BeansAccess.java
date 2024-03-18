@@ -28,10 +28,18 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author uriel Chemouni
  */
 public abstract class BeansAccess<T> {
+	/**
+	 * default constuctor
+	 */
+	public BeansAccess() {
+		super();
+	}
+
 	private HashMap<String, Accessor> map;
 	private Accessor[] accs;
 
 	/**
+	 * set Accessor
 	 * @param accs Accessor list
 	 */
 	protected void setAccessor(Accessor[] accs) {
@@ -45,6 +53,7 @@ public abstract class BeansAccess<T> {
 	}
 
 	/**
+	 * get internal map
 	 * @return a map
 	 */
 	public HashMap<String, Accessor> getMap() {
@@ -52,6 +61,7 @@ public abstract class BeansAccess<T> {
 	}
 
 	/**
+	 * get internal accessor
 	 * @return Accessor list
 	 */
 	public Accessor[] getAccessors() {

@@ -9,11 +9,15 @@ package net.minidev.asm.ex;
 public class NoSuchFieldException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * default constructor
+	 */
 	public NoSuchFieldException() {
 		super();
 	}
 
 	/**
+	 * constuctor from message.
 	 * @param message the detail message. The detail message is saved for 
 	 *                later retrieval by the Throwable.getMessage() method.
 	 */

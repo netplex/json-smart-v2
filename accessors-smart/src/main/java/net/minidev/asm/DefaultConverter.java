@@ -10,6 +10,12 @@ import net.minidev.asm.ex.ConvertException;
  */
 public class DefaultConverter {
 	/**
+	 * Default constructor
+	 */
+	public DefaultConverter() {
+		super();
+	}
+	/**
      * Converts the given object to an {@code int}.
      * 
      * @param obj the object to convert
