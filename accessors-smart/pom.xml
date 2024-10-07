@@ -1,5 +1,5 @@
 <!--
-Copyright 2011-2023 JSON-SMART authors
+Copyright 2011-2024 JSON-SMART authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ limitations under the License.
             <id>uriel</id>
             <name>Uriel Chemouni</name>
             <email>uchemouni@gmail.com</email>
-            <timezone>GMT+3</timezone>
+            <timezone>GMT+1</timezone>
         </developer>
         <developer>
             <id>shoothzj</id>
@@ -90,9 +90,10 @@ limitations under the License.
             <build>
                 <plugins>
                     <plugin>
+                        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>3.2.7</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -105,9 +106,10 @@ limitations under the License.
                     </plugin>
                     <!-- Publish also javadocs when releasing - required by Sonatype -->
                     <plugin>
+                        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.2.0</version>
+						<version>3.10.1</version>
 						<configuration>
                           <source>8</source>
                 		</configuration>
@@ -125,9 +127,10 @@ limitations under the License.
 						to perform: mvn release:prepare release:perform Read http://nexus.sonatype.org/oss-repository-hosting.html#3 
 						for instructions on releasing to this project's Sonatype repository -->
                     <plugin>
+						<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-release-plugin -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-release-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>3.1.1</version>
                         <configuration>
                             <mavenExecutorId>forked-path</mavenExecutorId>
                             <arguments>-Psonatype-oss-release</arguments>
@@ -159,9 +162,10 @@ limitations under the License.
     <build>
         <plugins>
             <plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>bind-sources</id>
@@ -172,9 +176,10 @@ limitations under the License.
                 </executions>
             </plugin>
             <plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.13.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <source>${maven.compiler.source}</source>
@@ -182,22 +187,25 @@ limitations under the License.
                 </configuration>
             </plugin>
             <plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.3.1</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.4.2</version>
             </plugin>
             <plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.10.1</version>
                 <!-- ONLY NEEDED With jdk 1.7+ -->
                 <configuration>
                     <source>8</source>
@@ -214,9 +222,10 @@ limitations under the License.
                 </executions>
             </plugin>
             <plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.felix/maven-bundle-plugin -->
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>5.1.2</version> <!-- 3.0.0 need java 7+ -->
+                <version>5.1.9</version> <!-- 3.0.0 need java 7+ -->
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
@@ -239,14 +248,14 @@ limitations under the License.
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
-                <version>5.10.0</version>
+                <version>5.11.2</version>
                 <scope>test</scope>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
             <dependency>
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm</artifactId>
-                <version>9.6</version>
+                <version>9.7.1</version>
             </dependency>
         </dependencies>    
 </project>
