@@ -19,6 +19,10 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 
 # Changelog
 
+## *V 2.5.2* (2025-02-07)
+
+* Fix CVE-2024-57699 for predefined parsers. [PR 233](https://github.com/netplex/json-smart-v2/pull/233)
+
 ### *V 2.5.1* (2024-03-14)
 
 * Bump all dependencies.
