@@ -201,23 +201,23 @@ public class JSONObject extends HashMap<String, Object> implements JSONAwareEx, 
 	}
 
 	/**
-	 * merge two JSONObject with override or not
-	 * override = false will not override existing key
-	 * override = true will override the value with o2 of existing key
+	 * merge two JSONObject with overwrite or not
+	 * overwrite = false will not overwrite existing key
+	 * overwrite = true will overwrite the value with o2 of existing key
 	 */
-	public void merge(Object o2, boolean override) {
-		merge(this, o2, override);
+	public void merge(Object o2, boolean overwrite) {
+		merge(this, o2, overwrite);
 	}
 
-	protected static JSONObject merge(JSONObject o1, Object o2, boolean override) {
+	protected static JSONObject merge(JSONObject o1, Object o2, boolean overwrite) {
 		if (o2 == null)
 			return o1;
 		if (o2 instanceof JSONObject)
-			return merge(o1, (JSONObject) o2, override);
+			return merge(o1, (JSONObject) o2, overwrite);
 		throw new RuntimeException("JSON merge can not merge JSONObject with " + o2.getClass());
 	}
 
-	private static JSONObject merge(JSONObject o1, JSONObject o2, boolean override) {
+	private static JSONObject merge(JSONObject o1, JSONObject o2, boolean overwrite) {
 		if (o2 == null)
 			return o1;
 		for (String key : o1.keySet()) {
@@ -236,7 +236,7 @@ public class JSONObject extends HashMap<String, Object> implements JSONAwareEx, 
 			if (value1.equals(value2))
 				continue;
 			if (value1.getClass().equals(value2.getClass())) {
-				if (override) {
+				if (overwrite) {
 					o1.put(key, value2);
 					continue;
 				}
