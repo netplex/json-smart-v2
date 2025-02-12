@@ -2,6 +2,7 @@ package net.minidev.json.test;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Stream;
 
 import net.minidev.json.JSONObject;
@@ -47,7 +48,7 @@ public class TestUtf8 {
 	@MethodSource("languages")
 	public void supportI18nByteArrayInputStream(String language, String nonLatinText) throws Exception {
 		String json = "{\"key\":\"" + nonLatinText + "\"}";
-		ByteArrayInputStream bis = new ByteArrayInputStream(json.getBytes("utf8"));
+		ByteArrayInputStream bis = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
 		JSONObject obj = (JSONObject) JSONValue.parse(bis);
 		String actual = (String) obj.get("key");
 		assertEquals(nonLatinText, actual, "Parsing ByteArrayInputStream " + language + " text");
@@ -57,7 +58,7 @@ public class TestUtf8 {
 	@MethodSource("languages")
 	public void supportI18nBytes(String language, String nonLatinText) throws Exception {
 		String json = "{\"key\":\"" + nonLatinText + "\"}";
-		byte[] bs = json.getBytes("utf8");
+		byte[] bs = json.getBytes(StandardCharsets.UTF_8);
 		JSONObject obj = JSONValue.parse(bs, JSONObject.class);
 		String actual = (String) obj.get("key");
 		assertEquals(nonLatinText, actual, "Parsing bytes[] " + language + " text");
