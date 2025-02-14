@@ -1,0 +1,31 @@
+
+name: json smart formatting
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'temurin'
+          cache: 'maven'
+          
+      - name: Check formatting accessors-smart
+        run: cd accessors-smart; ./mvnw spotless:check
+
+      - name: Check formatting json-smart
+        run: cd json-smart; ./mvnw spotless:check
+
+      - name: Check formatting json-smart-action
+        run: cd json-smart-action; ./mvnw spotless:check

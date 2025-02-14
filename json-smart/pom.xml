@@ -252,6 +252,21 @@ limitations under the License.
 					</instructions>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>2.44.2</version>
+				<configuration>
+					<java>
+						<googleJavaFormat>
+							<version>1.25.2</version>
+							<style>GOOGLE</style>
+							<reflowLongStrings>true</reflowLongStrings>
+							<formatJavadoc>false</formatJavadoc>
+						</googleJavaFormat>
+					</java>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
