@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.List;
 import java.util.Map;
-
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import net.minidev.json.reader.JsonWriter;
@@ -35,645 +34,593 @@ import net.minidev.json.writer.JsonReaderI;
 import net.minidev.json.writer.UpdaterMapper;
 
 /**
- * JSONValue is the helper class In most of case you should use those static
- * method to user JSON-smart
- * 
- * 
- * The most commonly use method are {@link #parse(String)}
- * {@link #toJSONString(Object)}
- * 
+ * JSONValue is the helper class In most of case you should use those static method to user
+ * JSON-smart
+ *
+ * <p>The most commonly use method are {@link #parse(String)} {@link #toJSONString(Object)}
+ *
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
 public class JSONValue {
-	/**
-	 * Global default compression type
-	 */
-	public static JSONStyle COMPRESSION = JSONStyle.NO_COMPRESS;
+  /** Global default compression type */
+  public static JSONStyle COMPRESSION = JSONStyle.NO_COMPRESS;
 
-	/**
-	 * Parse JSON text into java object from the input source. Please use
-	 * parseWithException() if you don't want to ignore the exception. if you
-	 * want strict input check use parseStrict()
-	 * 
-	 * @see JSONParser#parse(Reader)
-	 * @see #parseWithException(Reader)
-	 * 
-	 * @return Instance of the following: JSONObject, JSONArray, String,
-	 *         java.lang.Number, java.lang.Boolean, null
-	 * 
-	 */
-	public static Object parse(InputStream in) {
-		try {
-			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in);
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse JSON text into java object from the input source. Please use parseWithException() if you
+   * don't want to ignore the exception. if you want strict input check use parseStrict()
+   *
+   * @see JSONParser#parse(Reader)
+   * @see #parseWithException(Reader)
+   * @return Instance of the following: JSONObject, JSONArray, String, java.lang.Number,
+   *     java.lang.Boolean, null
+   */
+  public static Object parse(InputStream in) {
+    try {
+      return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse JSON text into java object from the input source. Please use
-	 * parseWithException() if you don't want to ignore the exception. if you
-	 * want strict input check use parseStrict()
-	 * 
-	 * @see JSONParser#parse(Reader)
-	 * @see #parseWithException(Reader)
-	 * 
-	 * @return Instance of the following: JSONObject, JSONArray, String,
-	 *         java.lang.Number, java.lang.Boolean, null
-	 * 
-	 */
-	public static Object parse(byte[] in) {
-		try {
-			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in);
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse JSON text into java object from the input source. Please use parseWithException() if you
+   * don't want to ignore the exception. if you want strict input check use parseStrict()
+   *
+   * @see JSONParser#parse(Reader)
+   * @see #parseWithException(Reader)
+   * @return Instance of the following: JSONObject, JSONArray, String, java.lang.Number,
+   *     java.lang.Boolean, null
+   */
+  public static Object parse(byte[] in) {
+    try {
+      return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse input json as a mapTo class
-	 * 
-	 * mapTo can be a bean
-	 * 
-	 * @since 2.0
-	 */
-	public static <T> T parse(InputStream in, Class<T> mapTo) {
-		try {
-			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, defaultReader.getMapper(mapTo));
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse input json as a mapTo class
+   *
+   * <p>mapTo can be a bean
+   *
+   * @since 2.0
+   */
+  public static <T> T parse(InputStream in, Class<T> mapTo) {
+    try {
+      JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+      return p.parse(in, defaultReader.getMapper(mapTo));
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse JSON text into java object from the input source. Please use
-	 * parseWithException() if you don't want to ignore the exception. if you
-	 * want strict input check use parseStrict()
-	 * 
-	 * @see JSONParser#parse(Reader)
-	 * @see #parseWithException(Reader)
-	 * 
-	 * @return Instance of the following: JSONObject, JSONArray, String,
-	 *         java.lang.Number, java.lang.Boolean, null
-	 * 
-	 */
-	public static Object parse(Reader in) {
-		try {
-			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in);
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse JSON text into java object from the input source. Please use parseWithException() if you
+   * don't want to ignore the exception. if you want strict input check use parseStrict()
+   *
+   * @see JSONParser#parse(Reader)
+   * @see #parseWithException(Reader)
+   * @return Instance of the following: JSONObject, JSONArray, String, java.lang.Number,
+   *     java.lang.Boolean, null
+   */
+  public static Object parse(Reader in) {
+    try {
+      return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse input json as a mapTo class
-	 * 
-	 * mapTo can be a bean
-	 * 
-	 * @since 2.0
-	 */
-	public static <T> T parse(byte[] in, Class<T> mapTo) {
-		try {
-			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, defaultReader.getMapper(mapTo));
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse input json as a mapTo class
+   *
+   * <p>mapTo can be a bean
+   *
+   * @since 2.0
+   */
+  public static <T> T parse(byte[] in, Class<T> mapTo) {
+    try {
+      JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+      return p.parse(in, defaultReader.getMapper(mapTo));
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse input json as a mapTo class
-	 * 
-	 * mapTo can be a bean
-	 * 
-	 * @since 2.0
-	 */
-	public static <T> T parse(Reader in, Class<T> mapTo) {
-		try {
-			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, defaultReader.getMapper(mapTo));
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse input json as a mapTo class
+   *
+   * <p>mapTo can be a bean
+   *
+   * @since 2.0
+   */
+  public static <T> T parse(Reader in, Class<T> mapTo) {
+    try {
+      JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+      return p.parse(in, defaultReader.getMapper(mapTo));
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse input json as a mapTo class
-	 * 
-	 * mapTo can be a bean
-	 * 
-	 * @since 2.0
-	 */
-	public static <T> T parse(Reader in, T toUpdate) {
-		try {
-			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, new UpdaterMapper<T>(defaultReader, toUpdate));
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse input json as a mapTo class
+   *
+   * <p>mapTo can be a bean
+   *
+   * @since 2.0
+   */
+  public static <T> T parse(Reader in, T toUpdate) {
+    try {
+      JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+      return p.parse(in, new UpdaterMapper<T>(defaultReader, toUpdate));
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse input json as a mapTo class
-	 * 
-	 * @since 2.0
-	 */
-	protected static <T> T parse(Reader in, JsonReaderI<T> mapper) {
-		try {
-			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, mapper);
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse input json as a mapTo class
+   *
+   * @since 2.0
+   */
+  protected static <T> T parse(Reader in, JsonReaderI<T> mapper) {
+    try {
+      JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+      return p.parse(in, mapper);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse input json as a mapTo class
-	 * 
-	 * mapTo can be a bean
-	 * 
-	 * @since 2.0
-	 */
-	public static <T> T parse(String in, Class<T> mapTo) {
-		try {
-			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, defaultReader.getMapper(mapTo));
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse input json as a mapTo class
+   *
+   * <p>mapTo can be a bean
+   *
+   * @since 2.0
+   */
+  public static <T> T parse(String in, Class<T> mapTo) {
+    try {
+      JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+      return p.parse(in, defaultReader.getMapper(mapTo));
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse input json as a mapTo class
-	 * 
-	 * mapTo can be a bean
-	 * 
-	 * @since 2.0
-	 */
-	public static <T> T parse(InputStream in, T toUpdate) {
-		try {
-			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, new UpdaterMapper<T>(defaultReader, toUpdate));
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse input json as a mapTo class
+   *
+   * <p>mapTo can be a bean
+   *
+   * @since 2.0
+   */
+  public static <T> T parse(InputStream in, T toUpdate) {
+    try {
+      JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+      return p.parse(in, new UpdaterMapper<T>(defaultReader, toUpdate));
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse input json as a mapTo class
-	 * 
-	 * mapTo can be a bean
-	 * 
-	 * @since 2.0
-	 */
-	public static <T> T parse(String in, T toUpdate) {
-		try {
-			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, new UpdaterMapper<T>(defaultReader, toUpdate));
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse input json as a mapTo class
+   *
+   * <p>mapTo can be a bean
+   *
+   * @since 2.0
+   */
+  public static <T> T parse(String in, T toUpdate) {
+    try {
+      JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+      return p.parse(in, new UpdaterMapper<T>(defaultReader, toUpdate));
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse input json as a mapTo class
-	 * 
-	 * @since 2.0
-	 */
-	protected static <T> T parse(byte[] in, JsonReaderI<T> mapper) {
-		try {
-			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, mapper);
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse input json as a mapTo class
+   *
+   * @since 2.0
+   */
+  protected static <T> T parse(byte[] in, JsonReaderI<T> mapper) {
+    try {
+      JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+      return p.parse(in, mapper);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse input json as a mapTo class
-	 * 
-	 * @since 2.0
-	 */
-	protected static <T> T parse(String in, JsonReaderI<T> mapper) {
-		try {
-			JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-			return p.parse(in, mapper);
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse input json as a mapTo class
+   *
+   * @since 2.0
+   */
+  protected static <T> T parse(String in, JsonReaderI<T> mapper) {
+    try {
+      JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+      return p.parse(in, mapper);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse JSON text into java object from the input source. Please use
-	 * parseWithException() if you don't want to ignore the exception. if you
-	 * want strict input check use parseStrict()
-	 * 
-	 * @see JSONParser#parse(String)
-	 * @see #parseWithException(String)
-	 * 
-	 * @return Instance of the following: JSONObject, JSONArray, String,
-	 *         java.lang.Number, java.lang.Boolean, null
-	 * 
-	 */
-	public static Object parse(String s) {
-		try {
-			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(s);
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse JSON text into java object from the input source. Please use parseWithException() if you
+   * don't want to ignore the exception. if you want strict input check use parseStrict()
+   *
+   * @see JSONParser#parse(String)
+   * @see #parseWithException(String)
+   * @return Instance of the following: JSONObject, JSONArray, String, java.lang.Number,
+   *     java.lang.Boolean, null
+   */
+  public static Object parse(String s) {
+    try {
+      return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(s);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse Json input to a java Object keeping element order
-	 * 
-	 * @param in json source
-	 * 
-	 * @return a OrderedMap preserving field order.
-	 * 
-	 * @since 1.0.6.1
-	 */
-	public static Object parseKeepingOrder(Reader in) {
-		try {
-			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT_ORDERED);
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse Json input to a java Object keeping element order
+   *
+   * @param in json source
+   * @return a OrderedMap preserving field order.
+   * @since 1.0.6.1
+   */
+  public static Object parseKeepingOrder(Reader in) {
+    try {
+      return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT_ORDERED);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Parse Json input to a java Object keeping element order
-	 * 
-	 * @param in json source
-	 * 
-	 * @return a OrderedMap preserving field order.\
-	 * 
- 	 * @since 1.0.6.1 
-	 */
-	public static Object parseKeepingOrder(String in) {
-		try {
-			return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT_ORDERED);
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  /**
+   * Parse Json input to a java Object keeping element order
+   *
+   * @param in json source
+   * @return a OrderedMap preserving field order.\
+   * @since 1.0.6.1
+   */
+  public static Object parseKeepingOrder(String in) {
+    try {
+      return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT_ORDERED);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	/**
-	 * Reformat Json input keeping element order
-	 * 
-	 * @param input text to parse
-	 * @param style parse options
-	 * 
-	 * @since 1.0.6.2
-	 * 
-	 * @return json string
-	 */
-	public static String compress(String input, JSONStyle style) {
-		try {
-			StringBuilder sb = new StringBuilder();
-			new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(input, new CompessorMapper(defaultReader, sb, style));
-			return sb.toString();
-		} catch (Exception e) {
-			return input;
-		}
-	}
+  /**
+   * Reformat Json input keeping element order
+   *
+   * @param input text to parse
+   * @param style parse options
+   * @since 1.0.6.2
+   * @return json string
+   */
+  public static String compress(String input, JSONStyle style) {
+    try {
+      StringBuilder sb = new StringBuilder();
+      new JSONParser(DEFAULT_PERMISSIVE_MODE)
+          .parse(input, new CompessorMapper(defaultReader, sb, style));
+      return sb.toString();
+    } catch (Exception e) {
+      return input;
+    }
+  }
 
-	/**
-	 * Compress Json input keeping element order
-	 * 
-	 * @param input text to parse
-	 * 
-	 * @since 1.0.6.1
-	 * 
-	 *        need to be rewrite in 2.0
-	 */
-	public static String compress(String input) {
-		return compress(input, JSONStyle.MAX_COMPRESS);
-	}
+  /**
+   * Compress Json input keeping element order
+   *
+   * @param input text to parse
+   * @since 1.0.6.1
+   *     <p>need to be rewrite in 2.0
+   */
+  public static String compress(String input) {
+    return compress(input, JSONStyle.MAX_COMPRESS);
+  }
 
-	/**
-	 * Compress Json input keeping element order
-	 * @param input text to parse
-	 * 
-	 * @since 1.0.6.1
-	 */
-	public static String uncompress(String input) {
-		return compress(input, JSONStyle.NO_COMPRESS);
-	}
+  /**
+   * Compress Json input keeping element order
+   *
+   * @param input text to parse
+   * @since 1.0.6.1
+   */
+  public static String uncompress(String input) {
+    return compress(input, JSONStyle.NO_COMPRESS);
+  }
 
-	/**
-	 * Parse JSON text into java object from the input source.
-	 * 
-	 * @param in source to parse
-	 * 
-	 * @see JSONParser
-	 * 
-	 * @return Instance of the following: JSONObject, JSONArray, String,
-	 *         java.lang.Number, java.lang.Boolean, null
-	 */
-	public static Object parseWithException(byte[] in) throws IOException, ParseException {
-		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT);
-	}
+  /**
+   * Parse JSON text into java object from the input source.
+   *
+   * @param in source to parse
+   * @see JSONParser
+   * @return Instance of the following: JSONObject, JSONArray, String, java.lang.Number,
+   *     java.lang.Boolean, null
+   */
+  public static Object parseWithException(byte[] in) throws IOException, ParseException {
+    return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT);
+  }
 
-	/**
-	 * Parse JSON text into java object from the input source.
-	 * 
-	 * @param in source to parse
-	 * @see JSONParser
-	 * 
-	 * @return Instance of the following: JSONObject, JSONArray, String,
-	 *         java.lang.Number, java.lang.Boolean, null
-	 */
-	public static Object parseWithException(InputStream in) throws IOException, ParseException {
-		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT);
-	}
+  /**
+   * Parse JSON text into java object from the input source.
+   *
+   * @param in source to parse
+   * @see JSONParser
+   * @return Instance of the following: JSONObject, JSONArray, String, java.lang.Number,
+   *     java.lang.Boolean, null
+   */
+  public static Object parseWithException(InputStream in) throws IOException, ParseException {
+    return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT);
+  }
 
-	/**
-	 * Parse JSON text into java object from the input source.
-	 * 
-	 * @param in source to parse
-	 * 	 
-	 * @see JSONParser
-	 * 
-	 * @return Instance of the following: JSONObject, JSONArray, String,
-	 *         java.lang.Number, java.lang.Boolean, null
-	 */
-	public static Object parseWithException(Reader in) throws IOException, ParseException {
-		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT);
-	}
+  /**
+   * Parse JSON text into java object from the input source.
+   *
+   * @param in source to parse
+   * @see JSONParser
+   * @return Instance of the following: JSONObject, JSONArray, String, java.lang.Number,
+   *     java.lang.Boolean, null
+   */
+  public static Object parseWithException(Reader in) throws IOException, ParseException {
+    return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, defaultReader.DEFAULT);
+  }
 
-	/**
-	 * Parse JSON text into java object from the input source.
-	 * 
-	 * @param input string to parse
+  /**
+   * Parse JSON text into java object from the input source.
+   *
+   * @param input string to parse
+   * @see JSONParser
+   * @throws ParseException if input in invalid
+   * @return Instance of the following: JSONObject, JSONArray, String, java.lang.Number,
+   *     java.lang.Boolean, null
+   */
+  public static Object parseWithException(String input) throws ParseException {
+    return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(input, defaultReader.DEFAULT);
+  }
 
-	 * @see JSONParser
-	 * 
-	 * @throws ParseException if input in invalid
-	 * 
-	 * @return Instance of the following: JSONObject, JSONArray, String,
-	 *         java.lang.Number, java.lang.Boolean, null
-	 */
-	public static Object parseWithException(String input) throws ParseException {
-		return new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(input, defaultReader.DEFAULT);
-	}
+  /**
+   * Parse input json as a mapTo class
+   *
+   * @param in source to parse
+   * @param mapTo destination type, mapTo can be a javabean
+   * @since 2.0
+   * @return unserialized object of type mapTo
+   */
+  public static <T> T parseWithException(String in, Class<T> mapTo) throws ParseException {
+    JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
+    return p.parse(in, defaultReader.getMapper(mapTo));
+  }
 
-	/**
-	 * Parse input json as a mapTo class
-	 * 
-	 * @param in source to parse
-	 * @param mapTo destination type, mapTo can be a javabean
-	 * 
-	 * @since 2.0
-	 * 
-	 * @return unserialized object of type mapTo
-	 */
-	public static <T> T parseWithException(String in, Class<T> mapTo) throws ParseException {
-		JSONParser p = new JSONParser(DEFAULT_PERMISSIVE_MODE);
-		return p.parse(in, defaultReader.getMapper(mapTo));
-	}
+  /**
+   * Parse valid RFC4627 JSON text into java object from the input source.
+   *
+   * @param in source to parse
+   * @see JSONParser
+   * @return Instance of the following: JSONObject, JSONArray, String, java.lang.Number,
+   *     java.lang.Boolean, null
+   */
+  public static Object parseStrict(Reader in) throws IOException, ParseException {
+    return new JSONParser(MODE_RFC4627).parse(in, defaultReader.DEFAULT);
+  }
 
-	/**
-	 * Parse valid RFC4627 JSON text into java object from the input source.
-	 * 
-	 * @param in source to parse
+  /**
+   * Parse valid RFC4627 JSON text into java object from the input source.
+   *
+   * @param s source to parse
+   * @see JSONParser
+   * @return Instance of the following: JSONObject, JSONArray, String, java.lang.Number,
+   *     java.lang.Boolean, null
+   */
+  public static Object parseStrict(String s) throws ParseException {
+    return new JSONParser(MODE_RFC4627).parse(s, defaultReader.DEFAULT);
+  }
 
-	 * @see JSONParser
-	 * 
-	 * @return Instance of the following: JSONObject, JSONArray, String,
-	 *         java.lang.Number, java.lang.Boolean, null
-	 */
-	public static Object parseStrict(Reader in) throws IOException, ParseException {
-		return new JSONParser(MODE_RFC4627).parse(in, defaultReader.DEFAULT);
-	}
+  /**
+   * Check RFC4627 Json Syntax from input Reader
+   *
+   * @return if the input is valid
+   */
+  public static boolean isValidJsonStrict(Reader in) throws IOException {
+    try {
+      new JSONParser(MODE_RFC4627).parse(in, FakeMapper.DEFAULT);
+      return true;
+    } catch (ParseException e) {
+      return false;
+    }
+  }
 
-	/**
-	 * Parse valid RFC4627 JSON text into java object from the input source.
-	 * 
-	 * @param s source to parse
-	 * @see JSONParser
-	 * 
-	 * @return Instance of the following: JSONObject, JSONArray, String,
-	 *         java.lang.Number, java.lang.Boolean, null
-	 */
-	public static Object parseStrict(String s) throws ParseException {
-		return new JSONParser(MODE_RFC4627).parse(s, defaultReader.DEFAULT);
-	}
+  /**
+   * check RFC4627 Json Syntax from input String
+   *
+   * @return if the input is valid
+   */
+  public static boolean isValidJsonStrict(String s) {
+    try {
+      new JSONParser(MODE_RFC4627).parse(s, FakeMapper.DEFAULT);
+      return true;
+    } catch (ParseException e) {
+      return false;
+    }
+  }
 
-	/**
-	 * Check RFC4627 Json Syntax from input Reader
-	 * 
-	 * @return if the input is valid
-	 */
-	public static boolean isValidJsonStrict(Reader in) throws IOException {
-		try {
-			new JSONParser(MODE_RFC4627).parse(in, FakeMapper.DEFAULT);
-			return true;
-		} catch (ParseException e) {
-			return false;
-		}
-	}
+  /**
+   * Check Json Syntax from input Reader
+   *
+   * @return if the input is valid
+   */
+  public static boolean isValidJson(Reader in) throws IOException {
+    try {
+      new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, FakeMapper.DEFAULT);
+      return true;
+    } catch (ParseException e) {
+      return false;
+    }
+  }
 
-	/**
-	 * check RFC4627 Json Syntax from input String
-	 * 
-	 * @return if the input is valid
-	 */
-	public static boolean isValidJsonStrict(String s) {
-		try {
-			new JSONParser(MODE_RFC4627).parse(s, FakeMapper.DEFAULT);
-			return true;
-		} catch (ParseException e) {
-			return false;
-		}
-	}
+  /**
+   * Check Json Syntax from input String
+   *
+   * @return if the input is valid
+   */
+  public static boolean isValidJson(String s) {
+    try {
+      new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(s, FakeMapper.DEFAULT);
+      return true;
+    } catch (ParseException e) {
+      return false;
+    }
+  }
 
-	/**
-	 * Check Json Syntax from input Reader
-	 * 
-	 * @return if the input is valid
-	 */
-	public static boolean isValidJson(Reader in) throws IOException {
-		try {
-			new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(in, FakeMapper.DEFAULT);
-			return true;
-		} catch (ParseException e) {
-			return false;
-		}
-	}
+  /**
+   * Encode an object into JSON text and write it to out.
+   *
+   * <p>If this object is a Map or a List, and it's also a JSONStreamAware or a JSONAware,
+   * JSONStreamAware or JSONAware will be considered firstly.
+   *
+   * <p>
+   *
+   * @see JSONObject#writeJSON(Map, Appendable)
+   * @see JSONArray#writeJSONString(List, Appendable)
+   */
+  public static void writeJSONString(Object value, Appendable out) throws IOException {
+    writeJSONString(value, out, COMPRESSION);
+  }
 
-	/**
-	 * Check Json Syntax from input String
-	 * 
-	 * @return if the input is valid
-	 */
-	public static boolean isValidJson(String s) {
-		try {
-			new JSONParser(DEFAULT_PERMISSIVE_MODE).parse(s, FakeMapper.DEFAULT);
-			return true;
-		} catch (ParseException e) {
-			return false;
-		}
-	}
+  /** Serialisation class Data */
+  public static final JsonWriter defaultWriter = new JsonWriter();
 
-	/**
-	 * Encode an object into JSON text and write it to out.
-	 * <p>
-	 * If this object is a Map or a List, and it's also a JSONStreamAware or a
-	 * JSONAware, JSONStreamAware or JSONAware will be considered firstly.
-	 * <p>
-	 * 
-	 * @see JSONObject#writeJSON(Map, Appendable)
-	 * @see JSONArray#writeJSONString(List, Appendable)
-	 */
-	public static void writeJSONString(Object value, Appendable out) throws IOException {
-		writeJSONString(value, out, COMPRESSION);
-	}
+  /** deserialisation class Data */
+  public static final JsonReader defaultReader = new JsonReader();
 
-	/**
-	 * Serialisation class Data
-	 */
-	public final static JsonWriter defaultWriter = new JsonWriter();
-	/**
-	 * deserialisation class Data
-	 */
-	public final static JsonReader defaultReader = new JsonReader();
+  /**
+   * Remap field from java to json, useful to avoid protected keyword in java class.
+   *
+   * @since 2.1.1
+   * @param type type to alter
+   * @param jsonFieldName field name in json
+   * @param javaFieldName field name in java
+   */
+  public static <T> void remapField(Class<T> type, String jsonFieldName, String javaFieldName) {
+    defaultReader.remapField(type, jsonFieldName, javaFieldName);
+    defaultWriter.remapField(type, javaFieldName, jsonFieldName);
+  }
 
-	/**
-	 * Remap field from java to json, useful to avoid protected keyword in java class.
-	 *
-	 * @since 2.1.1
-	 * @param type type to alter
-	 * @param jsonFieldName field name in json
-	 * @param javaFieldName field name in java
-	 */
-	public static <T> void remapField(Class<T> type, String jsonFieldName, String javaFieldName) {
-		defaultReader.remapField(type, jsonFieldName, javaFieldName);
-		defaultWriter.remapField(type, javaFieldName, jsonFieldName);
-	}
+  /** Register a serializer for a class. */
+  public static <T> void registerWriter(Class<?> cls, JsonWriterI<T> writer) {
+    defaultWriter.registerWriter(writer, cls);
+  }
 
-	/**
-	 * Register a serializer for a class.
-	 */
-	public static <T> void registerWriter(Class<?> cls, JsonWriterI<T> writer) {
-		defaultWriter.registerWriter(writer, cls);
-	}
+  /** register a deserializer for a class. */
+  public static <T> void registerReader(Class<T> type, JsonReaderI<T> mapper) {
+    defaultReader.registerReader(type, mapper);
+  }
 
-	/**
-	 * register a deserializer for a class.
-	 */
-	public static <T> void registerReader(Class<T> type, JsonReaderI<T> mapper) {
-		defaultReader.registerReader(type, mapper);
-	}
+  /**
+   * Encode an object into JSON text and write it to out.
+   *
+   * <p>If this object is a Map or a List, and it's also a JSONStreamAware or a JSONAware,
+   * JSONStreamAware or JSONAware will be considered firstly.
+   *
+   * @see JSONObject#writeJSON(Map, Appendable)
+   * @see JSONArray#writeJSONString(List, Appendable)
+   */
+  @SuppressWarnings("unchecked")
+  public static void writeJSONString(Object value, Appendable out, JSONStyle compression)
+      throws IOException {
+    if (value == null) {
+      out.append("null");
+      return;
+    }
+    Class<?> clz = value.getClass();
+    @SuppressWarnings("rawtypes")
+    JsonWriterI w = defaultWriter.getWrite(clz);
+    if (w == null) {
+      if (clz.isArray()) w = JsonWriter.arrayWriter;
+      else {
+        w = defaultWriter.getWriterByInterface(value.getClass());
+        if (w == null) w = JsonWriter.beansWriterASM;
+        // w = JsonWriter.beansWriter;
+      }
+      defaultWriter.registerWriter(w, clz);
+    }
+    w.writeJSONString(value, out, compression);
+  }
 
-	/**
-	 * Encode an object into JSON text and write it to out.
-	 * <p>
-	 * If this object is a Map or a List, and it's also a JSONStreamAware or a
-	 * JSONAware, JSONStreamAware or JSONAware will be considered firstly.
-	 * </p>
-	 * 
-	 * @see JSONObject#writeJSON(Map, Appendable)
-	 * @see JSONArray#writeJSONString(List, Appendable)
-	 */
-	@SuppressWarnings("unchecked")
-	public static void writeJSONString(Object value, Appendable out, JSONStyle compression) throws IOException {
-		if (value == null) {
-			out.append("null");
-			return;
-		}
-		Class<?> clz = value.getClass();
-		@SuppressWarnings("rawtypes")
-		JsonWriterI w = defaultWriter.getWrite(clz);
-		if (w == null) {
-			if (clz.isArray())
-				w = JsonWriter.arrayWriter;
-			else {
-				w = defaultWriter.getWriterByInterface(value.getClass());
-				if (w == null)
-					w = JsonWriter.beansWriterASM;
-				// w = JsonWriter.beansWriter;
-			}
-			defaultWriter.registerWriter(w, clz);
-		}
-		w.writeJSONString(value, out, compression);
-	}
+  /**
+   * Encode an object into JSON text and write it to out.
+   *
+   * <p>If this object is a Map or a List, and it's also a JSONStreamAware or a JSONAware,
+   * JSONStreamAware or JSONAware will be considered firstly.
+   *
+   * <p>
+   *
+   * @param value object to serialize
+   * @return json string
+   * @see JSONObject#writeJSON(Map, Appendable)
+   * @see JSONArray#writeJSONString(List, Appendable)
+   */
+  public static String toJSONString(Object value) {
+    return toJSONString(value, COMPRESSION);
+  }
 
-	/**
-	 * Encode an object into JSON text and write it to out.
-	 * <p>
-	 * If this object is a Map or a List, and it's also a JSONStreamAware or a
-	 * JSONAware, JSONStreamAware or JSONAware will be considered firstly.
-	 * <p>
-	 * 
-	 * @param value object to serialize
-	 * 
-	 * @return json string
-	 * 
-	 * @see JSONObject#writeJSON(Map, Appendable)
-	 * @see JSONArray#writeJSONString(List, Appendable)
-	 */
-	public static String toJSONString(Object value) {
-		return toJSONString(value, COMPRESSION);
-	}
+  /**
+   * Convert an object to JSON text.
+   *
+   * <p>If this object is a Map or a List, and it's also a JSONAware, JSONAware will be considered
+   * firstly.
+   *
+   * <p>DO NOT call this method from toJSONString() of a class that implements both JSONAware and
+   * Map or List with "this" as the parameter, use JSONObject.toJSONString(Map) or
+   * JSONArray.toJSONString(List) instead.
+   *
+   * @param value to serialize
+   * @param compression serialisation options
+   * @see JSONObject#toJSONString(Map)
+   * @see JSONArray#toJSONString(List)
+   * @return JSON text, or "null" if value is null or it's an NaN or an INF number.
+   */
+  public static String toJSONString(Object value, JSONStyle compression) {
+    StringBuilder sb = new StringBuilder();
+    try {
+      writeJSONString(value, sb, compression);
+    } catch (IOException e) {
+      // can not append on a StringBuilder
+    }
+    return sb.toString();
+  }
 
-	/**
-	 * Convert an object to JSON text.
-	 * <p>
-	 * If this object is a Map or a List, and it's also a JSONAware, JSONAware
-	 * will be considered firstly.
-	 * <p>
-	 * DO NOT call this method from toJSONString() of a class that implements
-	 * both JSONAware and Map or List with "this" as the parameter, use
-	 * JSONObject.toJSONString(Map) or JSONArray.toJSONString(List) instead.
-	 * 
-	 * @param value to serialize
-	 * @param compression serialisation options
-	 * 
-	 * @see JSONObject#toJSONString(Map)
-	 * @see JSONArray#toJSONString(List)
-	 * 
-	 * @return JSON text, or "null" if value is null or it's an NaN or an INF
-	 *         number.
-	 */
-	public static String toJSONString(Object value, JSONStyle compression) {
-		StringBuilder sb = new StringBuilder();
-		try {
-			writeJSONString(value, sb, compression);
-		} catch (IOException e) {
-			// can not append on a StringBuilder
-		}
-		return sb.toString();
-	}
+  public static String escape(String s) {
+    return escape(s, COMPRESSION);
+  }
 
-	public static String escape(String s) {
-		return escape(s, COMPRESSION);
-	}
+  /**
+   * Escape quotes, \, /, \r, \n, \b, \f, \t and other control characters (U+0000 through U+001F).
+   *
+   * @param s string to escape
+   * @param compression compression options
+   * @return escaped string
+   */
+  public static String escape(String s, JSONStyle compression) {
+    if (s == null) return null;
+    StringBuilder sb = new StringBuilder();
+    compression.escape(s, sb);
+    return sb.toString();
+  }
 
-	/**
-	 * Escape quotes, \, /, \r, \n, \b, \f, \t and other control characters
-	 * (U+0000 through U+001F).
-	 * 
-	 * @param s string to escape
-	 * @param compression compression options
-	 * 
-	 * @return escaped string
-	 */
-	public static String escape(String s, JSONStyle compression) {
-		if (s == null)
-			return null;
-		StringBuilder sb = new StringBuilder();
-		compression.escape(s, sb);
-		return sb.toString();
-	}
+  public static void escape(String s, Appendable ap) {
+    escape(s, ap, COMPRESSION);
+  }
 
-	public static void escape(String s, Appendable ap) {
-		escape(s, ap, COMPRESSION);
-	}
-
-	public static void escape(String s, Appendable ap, JSONStyle compression) {
-		if (s == null)
-			return;
-		compression.escape(s, ap);
-	}
+  public static void escape(String s, Appendable ap, JSONStyle compression) {
+    if (s == null) return;
+    compression.escape(s, ap);
+  }
 }

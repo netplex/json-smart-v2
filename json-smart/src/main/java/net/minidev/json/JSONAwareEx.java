@@ -17,15 +17,14 @@ package net.minidev.json;
  */
 /**
  * Beans that support advanced output of JSON text shall implement this interface.
- * 
- * Adding compressions and formating features
- * 
+ *
+ * <p>Adding compressions and formating features
+ *
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
-
 public interface JSONAwareEx extends JSONAware {
-	/**
-	 * @return JSON text
-	 */
-	String toJSONString(JSONStyle compression);
+  /**
+   * @return JSON text
+   */
+  String toJSONString(JSONStyle compression);
 }

@@ -7,34 +7,32 @@ package net.minidev.json.actions.path;
  * @since 31 May 2016
  */
 public abstract class PathDelimiter {
-	protected char delimChar;
-	protected String delimStr;
-	protected boolean acceptDelimInKey;
+  protected char delimChar;
+  protected String delimStr;
+  protected boolean acceptDelimInKey;
 
-	public PathDelimiter(char delim) {
-		this.delimChar = delim;
-		this.delimStr = String.valueOf(delim);
-	}
+  public PathDelimiter(char delim) {
+    this.delimChar = delim;
+    this.delimStr = String.valueOf(delim);
+  }
 
-	public PathDelimiter withAcceptDelimiterInNodeName(boolean acceptDelimInKey) {
-		this.acceptDelimInKey = acceptDelimInKey;
-		return this;
-	}
+  public PathDelimiter withAcceptDelimiterInNodeName(boolean acceptDelimInKey) {
+    this.acceptDelimInKey = acceptDelimInKey;
+    return this;
+  }
 
-	public boolean accept(String key) {
-		if (!acceptDelimInKey && key.contains(delimStr))
-			return false;
-		return true;
-	}
+  public boolean accept(String key) {
+    if (!acceptDelimInKey && key.contains(delimStr)) return false;
+    return true;
+  }
 
-	public String str() {
-		return delimStr;
-	}
+  public String str() {
+    return delimStr;
+  }
 
-	public char chr() {
-		return delimChar;
-	}
+  public char chr() {
+    return delimChar;
+  }
 
-	public abstract String regex();
-
+  public abstract String regex();
 }

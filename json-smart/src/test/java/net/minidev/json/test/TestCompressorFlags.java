@@ -1,100 +1,93 @@
 package net.minidev.json.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 
 /**
  * Test all Compression Styles
- * 
- * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  *
+ * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
 public class TestCompressorFlags {
 
-	@Test
-	public void testProtect() throws Exception {
-		String compressed = "{k:value}";
-		String nCompress = "{\"k\":\"value\"}";
+  @Test
+  public void testProtect() throws Exception {
+    String compressed = "{k:value}";
+    String nCompress = "{\"k\":\"value\"}";
 
-		JSONObject obj = (JSONObject) JSONValue.parse(nCompress);
+    JSONObject obj = (JSONObject) JSONValue.parse(nCompress);
 
-		// test MAX_COMPRESS
-		String r = obj.toJSONString(JSONStyle.MAX_COMPRESS);
-		assertEquals(compressed, r);
+    // test MAX_COMPRESS
+    String r = obj.toJSONString(JSONStyle.MAX_COMPRESS);
+    assertEquals(compressed, r);
 
-		// test LT_COMPRESS
-		r = obj.toJSONString(JSONStyle.LT_COMPRESS);
-		assertEquals(nCompress, r);
+    // test LT_COMPRESS
+    r = obj.toJSONString(JSONStyle.LT_COMPRESS);
+    assertEquals(nCompress, r);
 
-		// test NO_COMPRESS
-		r = obj.toJSONString(JSONStyle.NO_COMPRESS);
-		assertEquals(nCompress, r);
+    // test NO_COMPRESS
+    r = obj.toJSONString(JSONStyle.NO_COMPRESS);
+    assertEquals(nCompress, r);
 
-		// only keys values
-		JSONStyle style = new JSONStyle(-1 & JSONStyle.FLAG_PROTECT_KEYS);
-		r = obj.toJSONString(style);
-		assertEquals("{k:\"value\"}", r);
+    // only keys values
+    JSONStyle style = new JSONStyle(-1 & JSONStyle.FLAG_PROTECT_KEYS);
+    r = obj.toJSONString(style);
+    assertEquals("{k:\"value\"}", r);
 
-		// only protect values
-		style = new JSONStyle(-1 & JSONStyle.FLAG_PROTECT_VALUES);
-		r = obj.toJSONString(style);
-		assertEquals("{\"k\":value}", r);
-	}
+    // only protect values
+    style = new JSONStyle(-1 & JSONStyle.FLAG_PROTECT_VALUES);
+    r = obj.toJSONString(style);
+    assertEquals("{\"k\":value}", r);
+  }
 
-	@Test
-	public void testAggresive() throws Exception {
-		String r;
-		JSONStyle style;
+  @Test
+  public void testAggresive() throws Exception {
+    String r;
+    JSONStyle style;
 
-		String NProtectValue = "{\"a b\":\"c d\"}";
-		JSONObject obj = (JSONObject) JSONValue.parse(NProtectValue);
-		
-		/**
-		 * Test Without Agressive
-		 */
-		style = new JSONStyle(-1 & JSONStyle.FLAG_PROTECT_KEYS);
-		r = obj.toJSONString(style);
-		assertEquals(NProtectValue, r);
+    String NProtectValue = "{\"a b\":\"c d\"}";
+    JSONObject obj = (JSONObject) JSONValue.parse(NProtectValue);
 
-		style = new JSONStyle(-1 & JSONStyle.FLAG_PROTECT_VALUES);
-		r = obj.toJSONString(style);
-		assertEquals(NProtectValue, r);
+    /** Test Without Agressive */
+    style = new JSONStyle(-1 & JSONStyle.FLAG_PROTECT_KEYS);
+    r = obj.toJSONString(style);
+    assertEquals(NProtectValue, r);
 
-		/**
-		 * Test With Agressive
-		 */
-		style = new JSONStyle(-1 & (JSONStyle.FLAG_PROTECT_VALUES | JSONStyle.FLAG_AGRESSIVE));
-		r = obj.toJSONString(style);
-		assertEquals("{\"a b\":c d}", r);
+    style = new JSONStyle(-1 & JSONStyle.FLAG_PROTECT_VALUES);
+    r = obj.toJSONString(style);
+    assertEquals(NProtectValue, r);
 
-		style = new JSONStyle(-1 & (JSONStyle.FLAG_PROTECT_KEYS | JSONStyle.FLAG_AGRESSIVE));
-		r = obj.toJSONString(style);
-		assertEquals("{a b:\"c d\"}", r);
+    /** Test With Agressive */
+    style = new JSONStyle(-1 & (JSONStyle.FLAG_PROTECT_VALUES | JSONStyle.FLAG_AGRESSIVE));
+    r = obj.toJSONString(style);
+    assertEquals("{\"a b\":c d}", r);
 
-		style = JSONStyle.MAX_COMPRESS;
-		r = obj.toJSONString(style);
-		assertEquals("{a b:c d}", r);
-	}
+    style = new JSONStyle(-1 & (JSONStyle.FLAG_PROTECT_KEYS | JSONStyle.FLAG_AGRESSIVE));
+    r = obj.toJSONString(style);
+    assertEquals("{a b:\"c d\"}", r);
 
-	@Test
-	public void test4Web() throws Exception {
-		String NProtectValue = "{\"k\":\"http:\\/\\/url\"}";
-		
-		JSONObject obj = (JSONObject) JSONValue.parse(NProtectValue);
+    style = JSONStyle.MAX_COMPRESS;
+    r = obj.toJSONString(style);
+    assertEquals("{a b:c d}", r);
+  }
 
-		String r = obj.toJSONString(JSONStyle.MAX_COMPRESS);
-		assertEquals("{k:\"http://url\"}", r);
-		
-		r = obj.toJSONString(JSONStyle.LT_COMPRESS);
-		assertEquals("{\"k\":\"http://url\"}", r);
+  @Test
+  public void test4Web() throws Exception {
+    String NProtectValue = "{\"k\":\"http:\\/\\/url\"}";
 
-		r = obj.toJSONString(JSONStyle.NO_COMPRESS);
-		assertEquals("{\"k\":\"http:\\/\\/url\"}", r);
-	}
+    JSONObject obj = (JSONObject) JSONValue.parse(NProtectValue);
 
+    String r = obj.toJSONString(JSONStyle.MAX_COMPRESS);
+    assertEquals("{k:\"http://url\"}", r);
+
+    r = obj.toJSONString(JSONStyle.LT_COMPRESS);
+    assertEquals("{\"k\":\"http://url\"}", r);
+
+    r = obj.toJSONString(JSONStyle.NO_COMPRESS);
+    assertEquals("{\"k\":\"http:\\/\\/url\"}", r);
+  }
 }

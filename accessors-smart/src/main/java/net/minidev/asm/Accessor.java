@@ -22,173 +22,164 @@ import java.lang.reflect.Type;
 
 /**
  * Contains all information needed to access a java field.
- * 
- * field, getter setter
- * 
- * this object is used internally by BeansAccess
- * 
+ *
+ * <p>field, getter setter
+ *
+ * <p>this object is used internally by BeansAccess
+ *
  * @see BeansAccess
- * 
  * @author Uriel Chemouni
  */
 public class Accessor {
-	/**
-	 * Field to access
-	 */
-	protected Field field;
-	/**
-	 * Setter Methods if available
-	 */
-	protected Method setter;
-	/**
-	 * getter Methods if available
-	 */
-	protected Method getter;
-	/**
-	 * Filed index in object
-	 */
-	protected int index;
-	/**
-	 * Filed Class
-	 */
-	protected Class<?> type;
-	/**
-	 * Filed Type using JDK 5+ generics if available
-	 */
-	protected Type genericType;
-	/**
-     * The name of the field.
-     */
-	protected String fieldName;
+  /** Field to access */
+  protected Field field;
 
-	/**
-	 * getter for index
-	 * @return Index
-	 */
-	public int getIndex() {
-		return index;
-	}
+  /** Setter Methods if available */
+  protected Method setter;
 
-	/**
-	 * is the field access using Field access type
-	 * @return if Accessor is public
-	 */
-	public boolean isPublic() {
-		return setter == null && getter == null;
-	}
+  /** getter Methods if available */
+  protected Method getter;
 
-	/**
-	 * is the field is an enum field
-	 * @return if Accessor return an Enum Class
-	 */
-	public boolean isEnum() {
-		return type.isEnum();
-	}
+  /** Filed index in object */
+  protected int index;
 
-	/**
-	 * return the field name
- 	 * @return the field name
-	 */
-	public String getName() {
-		return fieldName;
-	}
+  /** Filed Class */
+  protected Class<?> type;
 
-	/**
-	 * return field Class
-	 * @return field Class
-	 */
-	public Class<?> getType() {
-		return type;
-	}
+  /** Filed Type using JDK 5+ generics if available */
+  protected Type genericType;
 
-	/**
-	 * return generics field Type.
-	 * @return generics field Type.
-	 */
-	public Type getGenericType() {
-		return genericType;
-	}
+  /** The name of the field. */
+  protected String fieldName;
 
-	/**
-	 * Determines if the field is accessible for reading or writing operations.
-	 * 
-	 * @return true if the field can be read or write
-	 */
-	public boolean isUsable() {
-		return field != null || getter != null || setter != null;
-	}
+  /**
+   * getter for index
+   *
+   * @return Index
+   */
+  public int getIndex() {
+    return index;
+  }
 
-	/**
-	 * Checks if the field is readable, either directly or through a getter method.
-     *
-	 * @return true if the field can be read
-	 */
-	public boolean isReadable() {
-		return field != null || getter != null;
-	}
+  /**
+   * is the field access using Field access type
+   *
+   * @return if Accessor is public
+   */
+  public boolean isPublic() {
+    return setter == null && getter == null;
+  }
 
-	/**
-	 * Determines if the field is writable, either directly or through a setter method.
-     *
-	 * @return true if the field can be write
-	 */
-	public boolean isWritable() {
-		return field != null || setter != null;
-	}
+  /**
+   * is the field is an enum field
+   *
+   * @return if Accessor return an Enum Class
+   */
+  public boolean isEnum() {
+    return type.isEnum();
+  }
 
-	/**
-	 * build accessor for a field
-	 * 
-	 * @param c      the handled class
-	 * @param field  the field to access
-	 * @param filter field filter
-	 */
-	public Accessor(Class<?> c, Field field, FieldFilter filter) {
-		this.fieldName = field.getName();
-		int m = field.getModifiers();
+  /**
+   * return the field name
+   *
+   * @return the field name
+   */
+  public String getName() {
+    return fieldName;
+  }
 
-		if ((m & (Modifier.STATIC | Modifier.TRANSIENT)) > 0)
-			return;
+  /**
+   * return field Class
+   *
+   * @return field Class
+   */
+  public Class<?> getType() {
+    return type;
+  }
 
-		if ((m & Modifier.PUBLIC) > 0)
-			this.field = field;
+  /**
+   * return generics field Type.
+   *
+   * @return generics field Type.
+   */
+  public Type getGenericType() {
+    return genericType;
+  }
 
-		String name = ASMUtil.getSetterName(field.getName());
-		try {
-			setter = c.getDeclaredMethod(name, field.getType());
-		} catch (Exception e) {
-		}
-		boolean isBool = field.getType().equals(Boolean.TYPE);
-		if (isBool) {
-			name = ASMUtil.getIsName(field.getName());
-		} else {
-			name = ASMUtil.getGetterName(field.getName());
-		}
-		try {
-			getter = c.getDeclaredMethod(name);
-		} catch (Exception e) {
-		}
-		if (getter == null && isBool) {
-			try {
-				getter = c.getDeclaredMethod(ASMUtil.getGetterName(field.getName()));
-			} catch (Exception e) {
-			}
-		}
+  /**
+   * Determines if the field is accessible for reading or writing operations.
+   *
+   * @return true if the field can be read or write
+   */
+  public boolean isUsable() {
+    return field != null || getter != null || setter != null;
+  }
 
-		if (this.field == null && getter == null && setter == null)
-			return;
+  /**
+   * Checks if the field is readable, either directly or through a getter method.
+   *
+   * @return true if the field can be read
+   */
+  public boolean isReadable() {
+    return field != null || getter != null;
+  }
 
-		if (getter != null && !filter.canUse(field, getter))
-			getter = null;
+  /**
+   * Determines if the field is writable, either directly or through a setter method.
+   *
+   * @return true if the field can be write
+   */
+  public boolean isWritable() {
+    return field != null || setter != null;
+  }
 
-		if (setter != null && !filter.canUse(field, setter))
-			setter = null;
+  /**
+   * build accessor for a field
+   *
+   * @param c the handled class
+   * @param field the field to access
+   * @param filter field filter
+   */
+  public Accessor(Class<?> c, Field field, FieldFilter filter) {
+    this.fieldName = field.getName();
+    int m = field.getModifiers();
 
-		// no access disable
-		if (getter == null && setter == null && this.field == null)
-			return;
+    if ((m & (Modifier.STATIC | Modifier.TRANSIENT)) > 0) return;
 
-		this.type = field.getType();
-		this.genericType = field.getGenericType();
-	}
+    if ((m & Modifier.PUBLIC) > 0) this.field = field;
+
+    String name = ASMUtil.getSetterName(field.getName());
+    try {
+      setter = c.getDeclaredMethod(name, field.getType());
+    } catch (Exception e) {
+    }
+    boolean isBool = field.getType().equals(Boolean.TYPE);
+    if (isBool) {
+      name = ASMUtil.getIsName(field.getName());
+    } else {
+      name = ASMUtil.getGetterName(field.getName());
+    }
+    try {
+      getter = c.getDeclaredMethod(name);
+    } catch (Exception e) {
+    }
+    if (getter == null && isBool) {
+      try {
+        getter = c.getDeclaredMethod(ASMUtil.getGetterName(field.getName()));
+      } catch (Exception e) {
+      }
+    }
+
+    if (this.field == null && getter == null && setter == null) return;
+
+    if (getter != null && !filter.canUse(field, getter)) getter = null;
+
+    if (setter != null && !filter.canUse(field, setter)) setter = null;
+
+    // no access disable
+    if (getter == null && setter == null && this.field == null) return;
+
+    this.type = field.getType();
+    this.genericType = field.getGenericType();
+  }
 }

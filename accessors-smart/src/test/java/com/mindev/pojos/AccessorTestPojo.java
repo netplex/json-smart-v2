@@ -2,30 +2,29 @@ package com.mindev.pojos;
 
 public class AccessorTestPojo {
 
-	// Field with only setter method
-	@SuppressWarnings("unused")
-	private int writeOnlyField;
-	
-	// Field with only getter method
-	private int readOnlyField;
-	
-	// Field with both getter and setter methods
-	private int readAndWriteableField;
+  // Field with only setter method
+  @SuppressWarnings("unused")
+  private int writeOnlyField;
 
-	public void setWriteOnlyField(int writeOnlyField) {
-		this.writeOnlyField = writeOnlyField;
-	}
+  // Field with only getter method
+  private int readOnlyField;
 
-	public int getReadOnlyField() {
-		return readOnlyField;
-	}
+  // Field with both getter and setter methods
+  private int readAndWriteableField;
 
-	public int getReadAndWriteableField() {
-		return readAndWriteableField;
-	}
+  public void setWriteOnlyField(int writeOnlyField) {
+    this.writeOnlyField = writeOnlyField;
+  }
 
-	public void setReadAndWriteableField(int readAndWriteableField) {
-		this.readAndWriteableField = readAndWriteableField;
-	}
+  public int getReadOnlyField() {
+    return readOnlyField;
+  }
 
+  public int getReadAndWriteableField() {
+    return readAndWriteableField;
+  }
+
+  public void setReadAndWriteableField(int readAndWriteableField) {
+    this.readAndWriteableField = readAndWriteableField;
+  }
 }

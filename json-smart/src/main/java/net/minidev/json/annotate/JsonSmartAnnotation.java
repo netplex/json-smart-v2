@@ -7,13 +7,9 @@ import java.lang.annotation.Target;
 
 /**
  * Jackson Annotation like
- * 
- * @author uriel
  *
+ * @author uriel
  */
-
-@Target({ ElementType.ANNOTATION_TYPE })
+@Target({ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JsonSmartAnnotation {
-
-}
+public @interface JsonSmartAnnotation {}

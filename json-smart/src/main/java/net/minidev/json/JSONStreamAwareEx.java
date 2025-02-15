@@ -18,14 +18,11 @@ package net.minidev.json;
 import java.io.IOException;
 
 /**
- * Beans that support customized output of JSON text to a writer shall implement
- * this interface.
- * 
+ * Beans that support customized output of JSON text to a writer shall implement this interface.
+ *
  * @author FangYidong &lt;fangyidong@yahoo.com.cn&gt;
  */
 public interface JSONStreamAwareEx extends JSONStreamAware {
-	/**
-	 * write JSON string to out.
-	 */
-	void writeJSONString(Appendable out, JSONStyle compression) throws IOException;
+  /** write JSON string to out. */
+  void writeJSONString(Appendable out, JSONStyle compression) throws IOException;
 }

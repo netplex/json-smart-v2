@@ -16,197 +16,164 @@ package net.minidev.json;
  * limitations under the License.
  */
 import java.io.IOException;
-
 import net.minidev.json.JStylerObj.MustProtect;
 import net.minidev.json.JStylerObj.StringProtector;
 
 /**
  * JSONStyle object configure JSonSerializer reducing output size
- * 
+ *
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
 public class JSONStyle {
-	/**
-	 * for advanced usage sample see
-	 * 
-	 * #see net.minidev.json.test.TestCompressorFlags
-	 */
-	public final static int FLAG_PROTECT_KEYS = 1;
-	public final static int FLAG_PROTECT_4WEB = 2;
-	public final static int FLAG_PROTECT_VALUES = 4;
-	/**
-	 * AGRESSIVE have no effect without PROTECT_KEYS or PROTECT_VALUE
-	 * 
-	 * AGRESSIVE mode allows Json-smart to not protect String containing
-	 * special chars
-	 */
-	public final static int FLAG_AGRESSIVE = 8;
-	/**
-	 * @since 2.1
-	 */
-	public final static int FLAG_IGNORE_NULL = 16;
+  /**
+   * for advanced usage sample see
+   *
+   * <p>#see net.minidev.json.test.TestCompressorFlags
+   */
+  public static final int FLAG_PROTECT_KEYS = 1;
 
-	public final static JSONStyle NO_COMPRESS = new JSONStyle(0);
-	public final static JSONStyle MAX_COMPRESS = new JSONStyle(-1);
-	/**
-	 * @since 1.0.9.1
-	 */
-	public final static JSONStyle LT_COMPRESS = new JSONStyle(FLAG_PROTECT_4WEB);
+  public static final int FLAG_PROTECT_4WEB = 2;
+  public static final int FLAG_PROTECT_VALUES = 4;
 
-	private boolean _protectKeys;
-	private boolean _protect4Web;
-	private boolean _protectValues;
-	private boolean _ignore_null;
-	
-	private MustProtect mpKey;
-	private MustProtect mpValue;
+  /**
+   * AGRESSIVE have no effect without PROTECT_KEYS or PROTECT_VALUE
+   *
+   * <p>AGRESSIVE mode allows Json-smart to not protect String containing special chars
+   */
+  public static final int FLAG_AGRESSIVE = 8;
 
-	private StringProtector esc;
+  /**
+   * @since 2.1
+   */
+  public static final int FLAG_IGNORE_NULL = 16;
 
-	public JSONStyle(int FLAG) {
-		_protectKeys = (FLAG & FLAG_PROTECT_KEYS) == 0;
-		_protectValues = (FLAG & FLAG_PROTECT_VALUES) == 0;
-		_protect4Web = (FLAG & FLAG_PROTECT_4WEB) == 0;
-		_ignore_null = (FLAG & FLAG_IGNORE_NULL) > 0;
+  public static final JSONStyle NO_COMPRESS = new JSONStyle(0);
+  public static final JSONStyle MAX_COMPRESS = new JSONStyle(-1);
 
-		MustProtect mp;
-		if ((FLAG & FLAG_AGRESSIVE) > 0)
-			mp = JStylerObj.MP_AGGRESIVE;
-		else
-			mp = JStylerObj.MP_SIMPLE;
+  /**
+   * @since 1.0.9.1
+   */
+  public static final JSONStyle LT_COMPRESS = new JSONStyle(FLAG_PROTECT_4WEB);
 
-		if (_protectValues)
-			mpValue = JStylerObj.MP_TRUE;
-		else
-			mpValue = mp;
+  private boolean _protectKeys;
+  private boolean _protect4Web;
+  private boolean _protectValues;
+  private boolean _ignore_null;
 
-		if (_protectKeys)
-			mpKey = JStylerObj.MP_TRUE;
-		else
-			mpKey = mp;
+  private MustProtect mpKey;
+  private MustProtect mpValue;
 
-		if (_protect4Web)
-			esc = JStylerObj.ESCAPE4Web;
-		else
-			esc = JStylerObj.ESCAPE_LT;
-	}
+  private StringProtector esc;
 
-	public JSONStyle() {
-		this(0);
-	}
+  public JSONStyle(int FLAG) {
+    _protectKeys = (FLAG & FLAG_PROTECT_KEYS) == 0;
+    _protectValues = (FLAG & FLAG_PROTECT_VALUES) == 0;
+    _protect4Web = (FLAG & FLAG_PROTECT_4WEB) == 0;
+    _ignore_null = (FLAG & FLAG_IGNORE_NULL) > 0;
 
-	public boolean protectKeys() {
-		return _protectKeys;
-	}
+    MustProtect mp;
+    if ((FLAG & FLAG_AGRESSIVE) > 0) mp = JStylerObj.MP_AGGRESIVE;
+    else mp = JStylerObj.MP_SIMPLE;
 
-	public boolean protectValues() {
-		return _protectValues;
-	}
+    if (_protectValues) mpValue = JStylerObj.MP_TRUE;
+    else mpValue = mp;
 
-	public boolean protect4Web() {
-		return _protect4Web;
-	}
+    if (_protectKeys) mpKey = JStylerObj.MP_TRUE;
+    else mpKey = mp;
 
-	public boolean ignoreNull() {
-		return _ignore_null;
-	}
+    if (_protect4Web) esc = JStylerObj.ESCAPE4Web;
+    else esc = JStylerObj.ESCAPE_LT;
+  }
 
-	public boolean indent() {
-		return false;
-	}
+  public JSONStyle() {
+    this(0);
+  }
 
-	public boolean mustProtectKey(String s) {
-		return mpKey.mustBeProtect(s);
-	}
+  public boolean protectKeys() {
+    return _protectKeys;
+  }
 
-	public boolean mustProtectValue(String s) {
-		return mpValue.mustBeProtect(s);
-	}
+  public boolean protectValues() {
+    return _protectValues;
+  }
 
-	public void writeString(Appendable out, String value) throws IOException {
-		if (!this.mustProtectValue(value))
-			out.append(value);
-		else {
-			out.append('"');
-			JSONValue.escape(value, out, this);
-			out.append('"');
-		}
-	}
+  public boolean protect4Web() {
+    return _protect4Web;
+  }
 
-	public void escape(String s, Appendable out) {
-		esc.escape(s, out);
-	}
+  public boolean ignoreNull() {
+    return _ignore_null;
+  }
 
-	/**
-	 * begin Object
-	 */
-	public void objectStart(Appendable out) throws IOException {
-		out.append('{');
-	}
+  public boolean indent() {
+    return false;
+  }
 
-	/**
-	 * terminate Object
-	 */
-	public void objectStop(Appendable out) throws IOException {
-		out.append('}');
-	}
+  public boolean mustProtectKey(String s) {
+    return mpKey.mustBeProtect(s);
+  }
 
-	/**
-	 * Start the first Object element
-	 */
-	public void objectFirstStart(Appendable out) throws IOException {
-	}
+  public boolean mustProtectValue(String s) {
+    return mpValue.mustBeProtect(s);
+  }
 
-	/**
-	 * Start a new Object element
-	 */
-	public void objectNext(Appendable out) throws IOException {
-		out.append(',');
-	}
+  public void writeString(Appendable out, String value) throws IOException {
+    if (!this.mustProtectValue(value)) out.append(value);
+    else {
+      out.append('"');
+      JSONValue.escape(value, out, this);
+      out.append('"');
+    }
+  }
 
-	/**
-	 * End Of Object element
-	 */
-	public void objectElmStop(Appendable out) throws IOException {
-	}
+  public void escape(String s, Appendable out) {
+    esc.escape(s, out);
+  }
 
-	/**
-	 * end of Key in json Object
-	 */
-	public void objectEndOfKey(Appendable out) throws IOException {
-		out.append(':');
-	}
+  /** begin Object */
+  public void objectStart(Appendable out) throws IOException {
+    out.append('{');
+  }
 
-	/**
-	 * Array start
-	 */
-	public void arrayStart(Appendable out) throws IOException {
-		out.append('[');
-	}
+  /** terminate Object */
+  public void objectStop(Appendable out) throws IOException {
+    out.append('}');
+  }
 
-	/**
-	 * Array Done
-	 */
-	public void arrayStop(Appendable out) throws IOException {
-		out.append(']');
-	}
+  /** Start the first Object element */
+  public void objectFirstStart(Appendable out) throws IOException {}
 
-	/**
-	 * Start the first Array element
-	 */
-	public void arrayfirstObject(Appendable out) throws IOException {
-	}
+  /** Start a new Object element */
+  public void objectNext(Appendable out) throws IOException {
+    out.append(',');
+  }
 
-	/**
-	 * Start a new Array element
-	 */
-	public void arrayNextElm(Appendable out) throws IOException {
-		out.append(',');
-	}
+  /** End Of Object element */
+  public void objectElmStop(Appendable out) throws IOException {}
 
-	/**
-	 * End of an Array element
-	 */
-	public void arrayObjectEnd(Appendable out) throws IOException {
-	}
+  /** end of Key in json Object */
+  public void objectEndOfKey(Appendable out) throws IOException {
+    out.append(':');
+  }
+
+  /** Array start */
+  public void arrayStart(Appendable out) throws IOException {
+    out.append('[');
+  }
+
+  /** Array Done */
+  public void arrayStop(Appendable out) throws IOException {
+    out.append(']');
+  }
+
+  /** Start the first Array element */
+  public void arrayfirstObject(Appendable out) throws IOException {}
+
+  /** Start a new Array element */
+  public void arrayNextElm(Appendable out) throws IOException {
+    out.append(',');
+  }
+
+  /** End of an Array element */
+  public void arrayObjectEnd(Appendable out) throws IOException {}
 }

@@ -17,42 +17,42 @@ package net.minidev.json.writer;
  */
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONAwareEx;
 
 public class DefaultMapperOrdered extends JsonReaderI<JSONAwareEx> {
-	protected DefaultMapperOrdered(JsonReader base) {
-		super(base);
-	};
+  protected DefaultMapperOrdered(JsonReader base) {
+    super(base);
+  }
+  ;
 
-	@Override
-	public JsonReaderI<JSONAwareEx> startObject(String key) {
-		return base.DEFAULT_ORDERED;
-	}
+  @Override
+  public JsonReaderI<JSONAwareEx> startObject(String key) {
+    return base.DEFAULT_ORDERED;
+  }
 
-	@Override
-	public JsonReaderI<JSONAwareEx> startArray(String key) {
-		return base.DEFAULT_ORDERED;
-	}
+  @Override
+  public JsonReaderI<JSONAwareEx> startArray(String key) {
+    return base.DEFAULT_ORDERED;
+  }
 
-	@SuppressWarnings("unchecked")
-	public void setValue(Object current, String key, Object value) {
-		((Map<String, Object>) current).put(key, value);
-	}
+  @SuppressWarnings("unchecked")
+  public void setValue(Object current, String key, Object value) {
+    ((Map<String, Object>) current).put(key, value);
+  }
 
-	@Override
-	public Object createObject() {
-		return new LinkedHashMap<String, Object>();
-	}
+  @Override
+  public Object createObject() {
+    return new LinkedHashMap<String, Object>();
+  }
 
-	@Override
-	public void addValue(Object current, Object value) {
-		((JSONArray) current).add(value);
-	}
+  @Override
+  public void addValue(Object current, Object value) {
+    ((JSONArray) current).add(value);
+  }
 
-	@Override
-	public Object createArray() {
-		return new JSONArray();
-	}
+  @Override
+  public Object createArray() {
+    return new JSONArray();
+  }
 }

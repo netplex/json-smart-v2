@@ -20,55 +20,55 @@ import java.util.List;
 import java.util.Map;
 
 public class DefaultMapperCollection<T> extends JsonReaderI<T> {
-	Class<T> clz;
-	//? extends Collection
-	public DefaultMapperCollection(JsonReader base, Class<T> clz) {
-		super(base);
-		this.clz = clz;
-	}
+  Class<T> clz;
 
-	// public static AMapper<JSONAwareEx> DEFAULT = new
-	// DefaultMapperCollection<JSONAwareEx>();
-	@Override
-	public JsonReaderI<T> startObject(String key) {
-		return this;
-	}
+  // ? extends Collection
+  public DefaultMapperCollection(JsonReader base, Class<T> clz) {
+    super(base);
+    this.clz = clz;
+  }
 
-	@Override
-	public JsonReaderI<T> startArray(String key) {
-		return this;
-	}
+  // public static AMapper<JSONAwareEx> DEFAULT = new
+  // DefaultMapperCollection<JSONAwareEx>();
+  @Override
+  public JsonReaderI<T> startObject(String key) {
+    return this;
+  }
 
-	@Override
-	public Object createObject() {
-		try {
-			Constructor<T> c = clz.getConstructor();
-			return c.newInstance();
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  @Override
+  public JsonReaderI<T> startArray(String key) {
+    return this;
+  }
 
-	@Override
-	public Object createArray() {
-		try {
-			Constructor<T> c = clz.getConstructor();
-			return c.newInstance();
-		} catch (Exception e) {
-			return null;
-		}
-	}
+  @Override
+  public Object createObject() {
+    try {
+      Constructor<T> c = clz.getConstructor();
+      return c.newInstance();
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	@SuppressWarnings({ "unchecked"})
-	@Override
-	public void setValue(Object current, String key, Object value) {
-		((Map<String, Object>) current).put(key, value);
-	}
+  @Override
+  public Object createArray() {
+    try {
+      Constructor<T> c = clz.getConstructor();
+      return c.newInstance();
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void addValue(Object current, Object value) {
-		((List<Object>) current).add(value);
-	}
+  @SuppressWarnings({"unchecked"})
+  @Override
+  public void setValue(Object current, String key, Object value) {
+    ((Map<String, Object>) current).put(key, value);
+  }
 
+  @SuppressWarnings("unchecked")
+  @Override
+  public void addValue(Object current, Object value) {
+    ((List<Object>) current).add(value);
+  }
 }
