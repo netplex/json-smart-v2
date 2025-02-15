@@ -26,10 +26,10 @@ jobs:
           cache: 'maven'
           
       - name: Unit tests accessors-smart
-        run: cd accessors-smart; mvn -B install; mvn -B clean test
+        run: cd accessors-smart; ./mvnw -B install; ./mvnw -B clean test
 
       - name: Unit tests json-smart
-        run: cd json-smart; mvn -B install; mvn -B clean test
+        run: cd json-smart; ./mvnw -B install; ./mvnw -B clean test
 
       - name: Unit tests json-smart-action
-        run: cd json-smart-action; mvn -B install; mvn -B clean test
+        run: cd json-smart-action; ./mvnw -B install; ./mvnw -B clean test
