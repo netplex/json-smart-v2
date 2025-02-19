@@ -189,4 +189,46 @@ class JSONObjectTest {
     jsonObject4.merge(jsonObject2, true);
     Assertions.assertEquals("{\"k2\":{\"k1\":\"v1\"}}", jsonObject4.toJSONString());
   }
+
+  @Test
+  void mergeJsonArrayWithObjectSuccess() {
+    JSONObject jsonObject1 = new JSONObject();
+    jsonObject1.appendField("k1", "v1");
+
+    JSONArray jsonArray1 = new JSONArray();
+    jsonArray1.add(jsonObject1);
+    Assertions.assertEquals("[{\"k1\":\"v1\"}]", jsonArray1.toJSONString());
+
+    JSONObject jsonObject2 = new JSONObject();
+    jsonObject2.appendField("k2", "v2");
+
+    /*
+       test merge json object ( before fix issue #51, these will fail.
+       throw java.lang.ClassCastException:  class net.minidev.json.JSONObject cannot be cast to class net.minidev.json.JSONArray)
+    */
+    jsonArray1.merge(jsonObject2);
+    Assertions.assertEquals("[{\"k1\":\"v1\"},{\"k2\":\"v2\"}]", jsonArray1.toJSONString());
+
+    jsonArray1.merge("s1");
+    Assertions.assertEquals("[{\"k1\":\"v1\"},{\"k2\":\"v2\"},\"s1\"]", jsonArray1.toJSONString());
+
+    jsonArray1.merge(1);
+    Assertions.assertEquals(
+        "[{\"k1\":\"v1\"},{\"k2\":\"v2\"},\"s1\",1]", jsonArray1.toJSONString());
+
+    jsonArray1.merge(true);
+    Assertions.assertEquals(
+        "[{\"k1\":\"v1\"},{\"k2\":\"v2\"},\"s1\",1,true]", jsonArray1.toJSONString());
+
+    // test merge json array
+    JSONObject jsonObject3 = new JSONObject();
+    jsonObject3.appendField("k3", "v3");
+    JSONArray jsonArray2 = new JSONArray();
+    jsonArray2.add(jsonObject3);
+
+    jsonArray1.merge(jsonArray2);
+    Assertions.assertEquals(
+        "[{\"k1\":\"v1\"},{\"k2\":\"v2\"},\"s1\",1,true,{\"k3\":\"v3\"}]",
+        jsonArray1.toJSONString());
+  }
 }

@@ -236,7 +236,9 @@ public class JSONObject extends HashMap<String, Object> implements JSONAwareEx, 
 
   protected static JSONArray merge(JSONArray o1, Object o2) {
     if (o2 == null) return o1;
-    if (o1 instanceof JSONArray) return merge(o1, (JSONArray) o2);
+    if (o2 instanceof JSONArray) {
+      return merge(o1, (JSONArray) o2);
+    }
     o1.add(o2);
     return o1;
   }
