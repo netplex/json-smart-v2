@@ -93,6 +93,7 @@ class JSONParserString extends JSONParserMemory {
   protected void readNoEnd() throws ParseException {
     if (++pos >= len) {
       this.c = EOI;
+      if (super.acceptIncomplet) return;
       throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, "EOF");
     } else this.c = in.charAt(pos);
   }

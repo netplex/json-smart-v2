@@ -113,7 +113,13 @@ abstract class JSONParserMemory extends JSONParserBase {
       throw new ParseException(pos, ERROR_UNEXPECTED_CHAR, c);
     }
     int tmpP = indexOf(c, pos + 1);
-    if (tmpP == -1) throw new ParseException(len, ERROR_UNEXPECTED_EOF, null);
+    if (tmpP == -1) {
+      if (acceptIncomplet) {
+        readString2();
+        return;
+      }
+      throw new ParseException(len, ERROR_UNEXPECTED_EOF, null);
+    }
     extractString(pos + 1, tmpP);
     if (xs.indexOf('\\') == -1) {
       checkControleChar();

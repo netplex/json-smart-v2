@@ -89,6 +89,7 @@ abstract class JSONParserBase {
   protected final boolean reject127;
   protected final boolean unrestictBigDigit;
   protected final boolean limitJsonDepth;
+  protected final boolean acceptIncomplet;
 
   public JSONParserBase(int permissiveMode) {
     this.acceptNaN = (permissiveMode & JSONParser.ACCEPT_NAN) > 0;
@@ -106,6 +107,7 @@ abstract class JSONParserBase {
     this.reject127 = (permissiveMode & JSONParser.REJECT_127_CHAR) > 0;
     this.unrestictBigDigit = (permissiveMode & JSONParser.BIG_DIGIT_UNRESTRICTED) > 0;
     this.limitJsonDepth = (permissiveMode & JSONParser.LIMIT_JSON_DEPTH) > 0;
+    this.acceptIncomplet = (permissiveMode & JSONParser.ACCEPT_INCOMPLETE) > 0;
   }
 
   public void checkControleChar() throws ParseException {
@@ -313,6 +315,10 @@ abstract class JSONParserBase {
           needData = true;
           continue;
         case EOI:
+          if (acceptIncomplet) {
+            this.depth--;
+            return mapper.convert(current);
+          }
           throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, "EOF");
         default:
           mapper.addValue(current, readMain(mapper, stopArray));
@@ -491,6 +497,11 @@ abstract class JSONParserBase {
           if (!acceptNonQuote) throw new ParseException(pos, ERROR_UNEXPECTED_TOKEN, xs);
           //
           return xs;
+        case EOI:
+          if (acceptIncomplet) {
+            return null;
+          }
+          throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, "EOF");
         // digits
         case '0':
         case '1':
@@ -527,6 +538,7 @@ abstract class JSONParserBase {
     if (limitJsonDepth && ++this.depth > MAX_DEPTH) {
       throw new ParseException(pos, ERROR_UNEXPECTED_JSON_DEPTH, c);
     }
+    // Store the appropriate read method in a variable
     Object current = mapper.createObject();
     boolean needData = false;
     boolean acceptData = true;
@@ -572,7 +584,14 @@ abstract class JSONParserBase {
           skipSpace();
 
           if (c != ':') {
-            if (c == EOI) throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, null);
+            if (c == EOI) {
+              if (acceptIncomplet) {
+                this.depth--;
+                mapper.setValue(current, key, null);
+                return mapper.convert(current);
+              }
+              throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, null);
+            }
             throw new ParseException(pos - 1, ERROR_UNEXPECTED_CHAR, c);
           }
           readNoEnd(); /* skip : */
@@ -593,8 +612,13 @@ abstract class JSONParserBase {
             //
             return mapper.convert(current);
           }
-          if (c == EOI) // Fixed on 18/10/2011 reported by vladimir
-          throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, null);
+          if (c == EOI) { // Fixed on 18/10/2011 reported by vladimir
+            if (acceptIncomplet) {
+              this.depth--;
+              return mapper.convert(current);
+            }
+            throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, null);
+          }
           // if c==, continue
           if (c == ',') acceptData = needData = true;
           else throw new ParseException(pos - 1, ERROR_UNEXPECTED_TOKEN, c);
@@ -615,6 +639,10 @@ abstract class JSONParserBase {
       read();
       switch (c) {
         case EOI:
+          if (acceptIncomplet) {
+            xs = sb.toString();
+            return;
+          }
           throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, null);
         case '"':
         case '\'':
