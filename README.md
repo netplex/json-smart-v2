@@ -23,6 +23,7 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 
 * JSONObject merge support overwrite as parameter. [PR 238](https://github.com/netplex/json-smart-v2/pull/238)
 
+
 ### *V 2.5.2* (2025-02-12)
 
 * Fix CVE-2024-57699 for predefined parsers. [PR 233](https://github.com/netplex/json-smart-v2/pull/233)

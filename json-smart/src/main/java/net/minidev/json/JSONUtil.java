@@ -45,10 +45,11 @@ public class JSONUtil {
         if (obj instanceof Number) return ((Number) obj).doubleValue();
         else return Double.valueOf(obj.toString());
       else if (dest == char.class) {
-        String asString = dest.toString();
+        String asString = obj.toString();
         if (asString.length() > 0) return Character.valueOf(asString.charAt(0));
       } else if (dest == boolean.class) {
-        return (Boolean) obj;
+        if (obj instanceof Number) return ((Number) obj).intValue() != 0;
+        if (obj instanceof String) return Boolean.valueOf((String) obj);
       }
       throw new RuntimeException(
           "Primitive: Can not convert " + obj.getClass().getName() + " to " + dest.getName());
@@ -73,8 +74,12 @@ public class JSONUtil {
         if (obj instanceof Number) return Double.valueOf(((Number) obj).doubleValue());
         else return Double.valueOf(obj.toString());
       if (dest == Character.class) {
-        String asString = dest.toString();
+        String asString = obj.toString();
         if (asString.length() > 0) return Character.valueOf(asString.charAt(0));
+      }
+      if (dest == Boolean.class) {
+        if (obj instanceof Number) return ((Number) obj).intValue() != 0;
+        if (obj instanceof String) return Boolean.valueOf((String) obj);
       }
       throw new RuntimeException(
           "Object: Can not Convert " + obj.getClass().getName() + " to " + dest.getName());
@@ -94,10 +99,11 @@ public class JSONUtil {
       else if (dest == float.class) return Float.valueOf(obj.toString());
       else if (dest == double.class) return Double.valueOf(obj.toString());
       else if (dest == char.class) {
-        String asString = dest.toString();
+        String asString = obj.toString();
         if (asString.length() > 0) return Character.valueOf(asString.charAt(0));
       } else if (dest == boolean.class) {
-        return (Boolean) obj;
+        if (obj instanceof Number) return ((Number) obj).intValue() != 0;
+        if (obj instanceof String) return Boolean.valueOf((String) obj);
       }
       throw new RuntimeException(
           "Primitive: Can not convert " + obj.getClass().getName() + " to " + dest.getName());
@@ -122,8 +128,12 @@ public class JSONUtil {
         if (obj instanceof Number) return Double.valueOf(((Number) obj).doubleValue());
         else return Double.valueOf(obj.toString());
       if (dest == Character.class) {
-        String asString = dest.toString();
+        String asString = obj.toString();
         if (asString.length() > 0) return Character.valueOf(asString.charAt(0));
+      }
+      if (dest == Boolean.class) {
+        if (obj instanceof Number) return ((Number) obj).intValue() != 0;
+        if (obj instanceof String) return Boolean.valueOf((String) obj);
       }
       throw new RuntimeException(
           "Object: Can not Convert " + obj.getClass().getName() + " to " + dest.getName());

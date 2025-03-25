@@ -26,8 +26,7 @@ import net.minidev.json.reader.JsonWriter;
  * @author FangYidong &lt;fangyidong@yahoo.com.cn&gt;
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
-public class JSONArray extends ArrayList<Object>
-    implements List<Object>, JSONAwareEx, JSONStreamAwareEx {
+public class JSONArray extends ArrayList<Object> implements JSONAwareEx, JSONStreamAwareEx {
   private static final long serialVersionUID = 9106884089231309568L;
 
   public JSONArray() {}

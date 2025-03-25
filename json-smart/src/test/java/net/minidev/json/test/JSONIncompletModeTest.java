@@ -7,11 +7,9 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import org.junit.jupiter.api.Test;
 
-/**
- * TODO make the same tests in stream and bytes mode
- */
-
+/** TODO make the same tests in stream and bytes mode */
 public class JSONIncompletModeTest {
+
   @Test
   public void testArraySimple() throws Exception {
     String s = "[1";
@@ -68,5 +66,15 @@ public class JSONIncompletModeTest {
     JSONParser p = new JSONParser(JSONParser.MODE_JSON_SIMPLE | JSONParser.ACCEPT_INCOMPLETE);
     JSONObject array = (JSONObject) p.parse(s);
     assertEquals(result, array.toJSONString());
+  }
+
+  @Test
+  public void testStringCut() throws Exception {
+    String s = "\"obj";
+    String result = "obj";
+
+    JSONParser p = new JSONParser(JSONParser.MODE_JSON_SIMPLE | JSONParser.ACCEPT_INCOMPLETE);
+    String array = (String) p.parse(s);
+    assertEquals(result, array);
   }
 }
