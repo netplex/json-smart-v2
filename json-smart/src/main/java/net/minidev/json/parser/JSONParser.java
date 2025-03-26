@@ -123,7 +123,7 @@ public class JSONParser {
    * ACCEPT_INCOMPLETE feature is enabled.
    * @since 2.6
    */
-  public static final int MODE_PERMISSIVE_NEW = -1;
+  public static final int MODE_PERMISSIVE_WITH_INCOMPLETE = -1;
 
   /**
    * strict RFC4627 mode.
