@@ -114,7 +114,7 @@ abstract class JSONParserMemory extends JSONParserBase {
     }
     int tmpP = indexOf(c, pos + 1);
     if (tmpP == -1) {
-      if (acceptIncomplet) {
+      if (acceptIncomplete) {
         readString2();
         return;
       }

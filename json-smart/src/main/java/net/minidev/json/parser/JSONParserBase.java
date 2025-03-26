@@ -89,7 +89,7 @@ abstract class JSONParserBase {
   protected final boolean reject127;
   protected final boolean unrestictBigDigit;
   protected final boolean limitJsonDepth;
-  protected final boolean acceptIncomplet;
+  protected final boolean acceptIncomplete;
 
   public JSONParserBase(int permissiveMode) {
     this.acceptNaN = (permissiveMode & JSONParser.ACCEPT_NAN) > 0;
@@ -107,7 +107,7 @@ abstract class JSONParserBase {
     this.reject127 = (permissiveMode & JSONParser.REJECT_127_CHAR) > 0;
     this.unrestictBigDigit = (permissiveMode & JSONParser.BIG_DIGIT_UNRESTRICTED) > 0;
     this.limitJsonDepth = (permissiveMode & JSONParser.LIMIT_JSON_DEPTH) > 0;
-    this.acceptIncomplet = (permissiveMode & JSONParser.ACCEPT_INCOMPLETE) > 0;
+    this.acceptIncomplete = (permissiveMode & JSONParser.ACCEPT_INCOMPLETE) > 0;
   }
 
   public void checkControleChar() throws ParseException {
@@ -315,7 +315,7 @@ abstract class JSONParserBase {
           needData = true;
           continue;
         case EOI:
-          if (acceptIncomplet) {
+          if (acceptIncomplete) {
             this.depth--;
             return mapper.convert(current);
           }
@@ -498,7 +498,7 @@ abstract class JSONParserBase {
           //
           return xs;
         case EOI:
-          if (acceptIncomplet) {
+          if (acceptIncomplete) {
             return null;
           }
           throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, "EOF");
@@ -585,7 +585,7 @@ abstract class JSONParserBase {
 
           if (c != ':') {
             if (c == EOI) {
-              if (acceptIncomplet) {
+              if (acceptIncomplete) {
                 this.depth--;
                 mapper.setValue(current, key, null);
                 return mapper.convert(current);
@@ -613,7 +613,7 @@ abstract class JSONParserBase {
             return mapper.convert(current);
           }
           if (c == EOI) { // Fixed on 18/10/2011 reported by vladimir
-            if (acceptIncomplet) {
+            if (acceptIncomplete) {
               this.depth--;
               return mapper.convert(current);
             }
@@ -639,7 +639,7 @@ abstract class JSONParserBase {
       read();
       switch (c) {
         case EOI:
-          if (acceptIncomplet) {
+          if (acceptIncomplete) {
             xs = sb.toString();
             return;
           }
