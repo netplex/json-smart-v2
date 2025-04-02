@@ -82,8 +82,11 @@ class JSONParserReader extends JSONParserStream {
 
   protected void readNoEnd() throws ParseException, IOException {
     int i = in.read();
-    if (i == -1) throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, "EOF");
+    if (i == -1) {
+      this.c = EOI;
+      if (super.acceptIncomplete) return;
+      throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, "EOF");
+    }
     c = (char) i;
-    //
   }
 }
