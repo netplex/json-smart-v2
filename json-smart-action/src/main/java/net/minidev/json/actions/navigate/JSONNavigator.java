@@ -8,7 +8,7 @@ import net.minidev.json.JSONObject;
  * @author adoneitan@gmail.com
  * @since 15 June 2016.
  */
-public class JSONNavigator extends TreeNavigator<JSONObject, JSONArray> {
+public class JSONNavigator extends TreeNavigator<JSONObject<Object>, JSONArray<Object>> {
 
   public JSONNavigator(JSONNavigateAction action, List<String> pathsToNavigate) {
     super(action, pathsToNavigate);

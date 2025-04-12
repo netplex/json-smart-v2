@@ -18,7 +18,7 @@ import net.minidev.json.actions.path.PathDelimiter;
  *
  * @author adoneitan@gmail.com
  */
-public class JSONTraverser extends TreeTraverser<JSONObject, JSONArray> {
+public class JSONTraverser extends TreeTraverser<JSONObject<Object>, JSONArray<Object>> {
   public JSONTraverser(JSONTraverseAction action) {
     super(action, new DotDelimiter());
   }
