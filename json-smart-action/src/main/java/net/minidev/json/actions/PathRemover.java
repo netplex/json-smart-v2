@@ -38,7 +38,7 @@ import net.minidev.json.actions.traverse.RemovePathsJsonAction;
 public class PathRemover {
   protected List<String> pathsToRemove;
 
-  public PathRemover(JSONArray pathsToRemove) {
+  public PathRemover(JSONArray<Object> pathsToRemove) {
     if (pathsToRemove == null || pathsToRemove.isEmpty()) {
       this.pathsToRemove = Collections.emptyList();
     } else {

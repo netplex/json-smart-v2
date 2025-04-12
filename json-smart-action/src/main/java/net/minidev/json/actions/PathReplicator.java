@@ -41,7 +41,7 @@ import net.minidev.json.actions.navigate.JSONNavigator;
 public class PathReplicator {
   protected List<String> pathsToCopy;
 
-  public PathReplicator(JSONArray pathsToCopy) {
+  public PathReplicator(JSONArray<Object> pathsToCopy) {
     if (pathsToCopy == null || pathsToCopy.isEmpty()) {
       this.pathsToCopy = Collections.emptyList();
     } else {

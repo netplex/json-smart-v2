@@ -31,8 +31,8 @@ public class CopyPathsAction implements JSONNavigateAction {
   protected Stack<Object> destNodeStack;
 
   @Override
-  public boolean start(JSONObject source, Collection<String> pathsToCopy) {
-    if (source == null) {
+  public boolean start(JSONObject<Object> objectToNavigate, Collection<String> pathsToCopy) {
+    if (objectToNavigate == null) {
       destTree = null;
       return false;
     }
