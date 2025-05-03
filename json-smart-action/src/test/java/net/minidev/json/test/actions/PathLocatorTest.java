@@ -141,7 +141,7 @@ public class PathLocatorTest {
       return new PathLocator((String[]) null);
     } else if (keysToFind == null && m % 4 == 2) {
       // System.out.println("cast to JSONArray");
-      return new PathLocator((JSONArray) null);
+      return new PathLocator((JSONArray<Object>) null);
     } else if (keysToFind == null && m % 4 == 3) {
       // System.out.println("cast to List<String>");
       return new PathLocator((List<String>) null);
@@ -150,7 +150,7 @@ public class PathLocatorTest {
     } else if (keysToFind instanceof String[]) {
       return new PathLocator((String[]) keysToFind);
     } else if (keysToFind instanceof JSONArray) {
-      return new PathLocator((JSONArray) keysToFind);
+      return new PathLocator((JSONArray<Object>) keysToFind);
     } else if (keysToFind instanceof List<?>) {
       return new PathLocator((List<String>) keysToFind);
     } else {

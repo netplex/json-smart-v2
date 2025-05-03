@@ -26,8 +26,8 @@ import net.minidev.json.reader.JsonWriter;
  * @author FangYidong &lt;fangyidong@yahoo.com.cn&gt;
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
-public class JSONArray extends ArrayList<Object>
-    implements List<Object>, JSONAwareEx, JSONStreamAwareEx {
+public class JSONArray<E> extends ArrayList<E>
+    implements List<E>, JSONAwareEx, JSONStreamAwareEx {
   private static final long serialVersionUID = 9106884089231309568L;
 
   public JSONArray() {}
@@ -87,7 +87,7 @@ public class JSONArray extends ArrayList<Object>
    * @param element element to be appended to this array.
    * @return this
    */
-  public JSONArray appendElement(Object element) {
+  public JSONArray appendElement(E element) {
     add(element);
     return this;
   }

@@ -26,7 +26,7 @@ import net.minidev.json.reader.JsonWriter;
  * @author FangYidong &lt;fangyidong@yahoo.com.cn&gt;
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
-public class JSONObject extends HashMap<String, Object> implements JSONAwareEx, JSONStreamAwareEx {
+public class JSONObject<E> extends HashMap<String, E> implements JSONAwareEx, JSONStreamAwareEx {
   private static final long serialVersionUID = -503443796854799292L;
 
   public JSONObject() {
@@ -92,7 +92,7 @@ public class JSONObject extends HashMap<String, Object> implements JSONAwareEx, 
    * @param fieldValue value to be associated with the specified key
    * @return this
    */
-  public JSONObject appendField(String fieldName, Object fieldValue) {
+  public JSONObject appendField(String fieldName, E fieldValue) {
     put(fieldName, fieldValue);
     return this;
   }
@@ -145,7 +145,7 @@ public class JSONObject extends HashMap<String, Object> implements JSONAwareEx, 
    * Allows creation of a JSONObject from a Map. After that, both the generated JSONObject and the
    * Map can be modified independently.
    */
-  public JSONObject(Map<String, ?> map) {
+  public JSONObject(Map<String, ? extends E> map) {
     super(map);
   }
 
@@ -198,9 +198,21 @@ public class JSONObject extends HashMap<String, Object> implements JSONAwareEx, 
     throw new RuntimeException("JSON merge can not merge JSONObject with " + o2.getClass());
   }
 
+  static class A {
+    int a;
+
+    public int getA() {
+      return a;
+    }
+
+    public void setA(int a) {
+      this.a = a;
+    }
+  }
+
   private static JSONObject merge(JSONObject o1, JSONObject o2, boolean overwrite) {
     if (o2 == null) return o1;
-    for (String key : o1.keySet()) {
+    for (Object key : o1.keySet()) {
       Object value1 = o1.get(key);
       Object value2 = o2.get(key);
       if (value2 == null) continue;
@@ -227,7 +239,7 @@ public class JSONObject extends HashMap<String, Object> implements JSONAwareEx, 
               + " with "
               + value2.getClass().getName());
     }
-    for (String key : o2.keySet()) {
+    for (Object key : o2.keySet()) {
       if (o1.containsKey(key)) continue;
       o1.put(key, o2.get(key));
     }

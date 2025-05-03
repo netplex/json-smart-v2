@@ -184,7 +184,7 @@ public class PathReplicatorTest {
       return new PathReplicator((String[]) null);
     } else if (pathsToCopy == null && m % 4 == 2) {
       // System.out.println("cast to JSONArray");
-      return new PathReplicator((JSONArray) null);
+      return new PathReplicator((JSONArray<Object>) null);
     } else if (pathsToCopy == null && m % 4 == 3) {
       // System.out.println("cast to List<String>");
       return new PathReplicator((List<String>) null);
@@ -193,7 +193,7 @@ public class PathReplicatorTest {
     } else if (pathsToCopy instanceof String[]) {
       return new PathReplicator((String[]) pathsToCopy);
     } else if (pathsToCopy instanceof JSONArray) {
-      return new PathReplicator((JSONArray) pathsToCopy);
+      return new PathReplicator((JSONArray<Object>) pathsToCopy);
     } else if (pathsToCopy instanceof List<?>) {
       return new PathReplicator((List<String>) pathsToCopy);
     } else {
@@ -212,7 +212,7 @@ public class PathReplicatorTest {
       return new PathReplicator((String[]) null);
     } else if (pathsToCopy == null && m % 4 == 2) {
       // System.out.println("cast to JSONArray");
-      return new PathReplicator((JSONArray) null);
+      return new PathReplicator((JSONArray<Object>) null);
     } else if (pathsToCopy == null && m % 4 == 3) {
       // System.out.println("cast to List<String>");
       return new PathReplicator((List<String>) null);
@@ -221,7 +221,7 @@ public class PathReplicatorTest {
     } else if (pathsToCopy instanceof String[]) {
       return new PathReplicator((String[]) pathsToCopy);
     } else if (pathsToCopy instanceof JSONArray) {
-      return new PathReplicator((JSONArray) pathsToCopy);
+      return new PathReplicator((JSONArray<Object>) pathsToCopy);
     } else if (pathsToCopy instanceof List<?>) {
       return new PathReplicator((List<String>) pathsToCopy);
     } else {

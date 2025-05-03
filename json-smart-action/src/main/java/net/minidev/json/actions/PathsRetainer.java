@@ -35,7 +35,7 @@ public class PathsRetainer {
   protected List<String> pathsToRetain;
   protected PathDelimiter pathDelimiter = new DotDelimiter().withAcceptDelimiterInNodeName(false);
 
-  public PathsRetainer(JSONArray pathsToRetain) {
+  public PathsRetainer(JSONArray<Object> pathsToRetain) {
     if (pathsToRetain == null || pathsToRetain.isEmpty()) {
       this.pathsToRetain = Collections.emptyList();
     } else {

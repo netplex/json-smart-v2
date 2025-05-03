@@ -155,7 +155,7 @@ public class PathsRetainerTest {
       return new PathsRetainer((String[]) null);
     } else if (keyToKeep == null && m % 4 == 2) {
       // System.out.println("cast to JSONArray");
-      return new PathsRetainer((JSONArray) null);
+      return new PathsRetainer((JSONArray<Object>) null);
     } else if (keyToKeep == null && m % 4 == 3) {
       // System.out.println("cast to List<String>");
       return new PathsRetainer((List<String>) null);
@@ -164,7 +164,7 @@ public class PathsRetainerTest {
     } else if (keyToKeep instanceof String[]) {
       return new PathsRetainer((String[]) keyToKeep);
     } else if (keyToKeep instanceof JSONArray) {
-      return new PathsRetainer((JSONArray) keyToKeep);
+      return new PathsRetainer((JSONArray<Object>) keyToKeep);
     } else if (keyToKeep instanceof List<?>) {
       return new PathsRetainer((List<String>) keyToKeep);
     } else {

@@ -129,7 +129,7 @@ public class PathRemoverTest {
       return new PathRemover((String[]) null);
     } else if (keyToRemove == null && m % 4 == 2) {
       // System.out.println("cast to JSONArray");
-      return new PathRemover((JSONArray) null);
+      return new PathRemover((JSONArray<Object>) null);
     } else if (keyToRemove == null && m % 4 == 3) {
       // System.out.println("cast to List<String>");
       return new PathRemover((List<String>) null);
@@ -138,7 +138,7 @@ public class PathRemoverTest {
     } else if (keyToRemove instanceof String[]) {
       return new PathRemover((String[]) keyToRemove);
     } else if (keyToRemove instanceof JSONArray) {
-      return new PathRemover((JSONArray) keyToRemove);
+      return new PathRemover((JSONArray<Object>) keyToRemove);
     } else if (keyToRemove instanceof List<?>) {
       return new PathRemover((List<String>) keyToRemove);
     } else {

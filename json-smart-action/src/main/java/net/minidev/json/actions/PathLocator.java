@@ -31,7 +31,7 @@ public class PathLocator {
   protected List<String> pathsToFind;
   protected PathDelimiter pathDelimiter = new DotDelimiter().withAcceptDelimiterInNodeName(false);
 
-  public PathLocator(JSONArray pathsToFind) {
+  public PathLocator(JSONArray<Object> pathsToFind) {
     if (pathsToFind == null || pathsToFind.isEmpty()) {
       this.pathsToFind = Collections.emptyList();
     } else {

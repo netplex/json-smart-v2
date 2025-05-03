@@ -36,7 +36,7 @@ public class ElementRemover {
         elementsToRemove == null ? Collections.<String, Object>emptyMap() : elementsToRemove;
   }
 
-  public ElementRemover(JSONObject elementsToRemove) {
+  public ElementRemover(JSONObject<Object> elementsToRemove) {
     this.elementsToRemove =
         elementsToRemove == null ? Collections.<String, Object>emptyMap() : elementsToRemove;
   }
