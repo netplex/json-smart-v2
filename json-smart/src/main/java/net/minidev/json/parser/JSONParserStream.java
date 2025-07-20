@@ -28,8 +28,6 @@ import java.io.IOException;
  * @see JSONParserReader
  */
 abstract class JSONParserStream extends JSONParserBase {
-  // len
-  //
   public JSONParserStream(int permissiveMode) {
     super(permissiveMode);
   }
@@ -112,26 +110,8 @@ abstract class JSONParserStream extends JSONParserBase {
       throw new ParseException(pos, ERROR_UNEXPECTED_CHAR, c);
     }
     sb.clear();
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
+
     /* assert (c == '\"' || c == '\'') */
     readString2();
   }
-
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
 }
