@@ -1,6 +1,5 @@
 package net.minidev.json.test.reader;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -192,8 +191,10 @@ public class BeansWriterTest {
 
   @Test
   public void testWriteNullObject() {
-    assertThrows(RuntimeException.class, () -> {
-      beansWriter.writeJSONString(null, new StringWriter(), JSONStyle.NO_COMPRESS);
-    });
+    assertThrows(
+        RuntimeException.class,
+        () -> {
+          beansWriter.writeJSONString(null, new StringWriter(), JSONStyle.NO_COMPRESS);
+        });
   }
 }
