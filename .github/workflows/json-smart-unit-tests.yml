@@ -5,16 +5,30 @@ on:
     branches:
       - master
       - update2024
+      - upgrade
+    paths:
+      - 'accessors-smart/**'
+      - 'json-smart/**'
+      - 'json-smart-action/**'
+      - '.github/workflows/json-smart-unit-tests.yml'
   pull_request:
     branches:
       - master
+    paths:
+      - 'accessors-smart/**'
+      - 'json-smart/**'
+      - 'json-smart-action/**'
+      - '.github/workflows/json-smart-unit-tests.yml'
+
+permissions:
+  contents: read
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java-version: [8, 11, 16, 17, 21]
+        java-version: [8, 11, 17, 21, 22, 23]
     steps:
       - uses: actions/checkout@v4
       
@@ -24,6 +38,14 @@ jobs:
           java-version: ${{ matrix.java-version }}
           distribution: 'temurin'
           cache: 'maven'
+          
+      - name: Cache local Maven repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
           
       - name: Unit tests accessors-smart
         run: cd accessors-smart; ./mvnw -B install; ./mvnw -B clean test

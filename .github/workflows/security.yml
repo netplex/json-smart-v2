@@ -1,0 +1,90 @@
+name: Security Scanning
+
+on:
+  push:
+    branches: [ master, upgrade ]
+    paths:
+      - 'accessors-smart/**'
+      - 'json-smart/**'
+      - 'json-smart-action/**'
+      - '.github/workflows/security.yml'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'accessors-smart/**'
+      - 'json-smart/**'
+      - 'json-smart-action/**'
+      - '.github/workflows/security.yml'
+  schedule:
+    - cron: '0 6 * * 1'  # Weekly on Monday at 6am UTC
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'java' ]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: 11
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Build project accessors-smart
+      run: cd accessors-smart && ./mvnw -q clean install
+
+    - name: Build project json-smart
+      run: cd json-smart && ./mvnw -q clean install
+
+    - name: Build project json-smart-action
+      run: cd json-smart-action && ./mvnw -q clean install
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+
+  dependency-check:
+    name: Dependency Vulnerability Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: 11
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: Run OWASP Dependency Check
+      run: |
+        cd accessors-smart && ./mvnw -q org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
+        cd ../json-smart && ./mvnw -q org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
+        cd ../json-smart-action && ./mvnw -q org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
+      continue-on-error: true
+
+    - name: Upload dependency check results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: dependency-check-reports
+        path: '**/target/dependency-check-report.html'
