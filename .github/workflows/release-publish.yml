@@ -34,6 +34,13 @@ jobs:
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --dearmor > ~/.gnupg/secring.gpg
           gpg --import ~/.gnupg/secring.gpg
 
+      - name: Set release version in all POMs
+        run: |
+          # Update version in all POMs
+          cd accessors-smart && ./mvnw versions:set -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
+          cd ../json-smart && ./mvnw versions:set -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
+          cd ../json-smart-action && ./mvnw versions:set -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
+
       - name: Release accessors-smart
         run: |
           cd accessors-smart
