@@ -37,14 +37,14 @@ jobs:
       - name: Set release version in all POMs
         run: |
           # Update version in all POMs
-          cd accessors-smart && ./mvnw versions:set -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
-          cd ../json-smart && ./mvnw versions:set -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
-          cd ../json-smart-action && ./mvnw versions:set -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
+          cd accessors-smart && ./mvnw versions:set -q -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
+          cd ../json-smart && ./mvnw versions:set -q -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
+          cd ../json-smart-action && ./mvnw versions:set -q -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
 
       - name: Release accessors-smart
         run: |
           cd accessors-smart
-          ./mvnw clean deploy -q -P release-sign-artifacts
+          ./mvnw clean deploy -P release-sign-artifacts
         env:
           CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
           CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
@@ -53,7 +53,7 @@ jobs:
       - name: Release json-smart
         run: |
           cd json-smart
-          ./mvnw clean deploy -q -P release-sign-artifacts
+          ./mvnw clean deploy -P release-sign-artifacts
         env:
           CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
           CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
@@ -62,7 +62,7 @@ jobs:
       - name: Release json-smart-action
         run: |
           cd json-smart-action
-          ./mvnw clean deploy -q -P release-sign-artifacts
+          ./mvnw clean deploy -P release-sign-artifacts
         env:
           CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
           CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
