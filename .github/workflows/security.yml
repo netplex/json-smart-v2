@@ -49,13 +49,13 @@ jobs:
         languages: ${{ matrix.language }}
 
     - name: Build project accessors-smart
-      run: cd accessors-smart && ./mvnw -q clean compile
+      run: cd accessors-smart && ./mvnw -q clean install
 
     - name: Build project json-smart
-      run: cd json-smart && ./mvnw -q clean compile
+      run: cd json-smart && ./mvnw -q clean install
 
     - name: Build project json-smart-action
-      run: cd json-smart-action && ./mvnw -q clean compile
+      run: cd json-smart-action && ./mvnw -q clean install
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
@@ -77,9 +77,9 @@ jobs:
 
     - name: Run OWASP Dependency Check
       run: |
-        cd accessors-smart && ./mvnw org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
-        cd ../json-smart && ./mvnw org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
-        cd ../json-smart-action && ./mvnw org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
+        cd accessors-smart && ./mvnw -q org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
+        cd ../json-smart && ./mvnw -q org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
+        cd ../json-smart-action && ./mvnw -q org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
       continue-on-error: true
 
     - name: Upload dependency check results
