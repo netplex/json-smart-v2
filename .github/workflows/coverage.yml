@@ -39,11 +39,26 @@ jobs:
     - name: Build and test json-smart with coverage
       run: cd json-smart && ./mvnw -q clean test
 
-    - name: Upload coverage to Coveralls
+    - name: Upload accessors-smart coverage to Coveralls
       uses: coverallsapp/github-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: |
-          accessors-smart/target/site/jacoco/jacoco.xml
-          json-smart/target/site/jacoco/jacoco.xml
+        file: accessors-smart/target/site/jacoco/jacoco.xml
         format: jacoco
+        flag-name: accessors-smart
+        parallel: true
+
+    - name: Upload json-smart coverage to Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        file: json-smart/target/site/jacoco/jacoco.xml
+        format: jacoco
+        flag-name: json-smart
+        parallel: true
+
+    - name: Finish parallel build
+      uses: coverallsapp/github-action@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        parallel-finished: true
