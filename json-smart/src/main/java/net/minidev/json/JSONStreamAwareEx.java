@@ -23,6 +23,12 @@ import java.io.IOException;
  * @author FangYidong &lt;fangyidong@yahoo.com.cn&gt;
  */
 public interface JSONStreamAwareEx extends JSONStreamAware {
-  /** write JSON string to out. */
+  /**
+   * write JSON string to out.
+   *
+   * @param out the output to write to
+   * @param compression the JSON style for formatting
+   * @throws IOException if I/O error occurs
+   */
   void writeJSONString(Appendable out, JSONStyle compression) throws IOException;
 }

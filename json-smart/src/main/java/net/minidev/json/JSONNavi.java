@@ -24,6 +24,7 @@ import net.minidev.json.writer.JsonReaderI;
 /**
  * A JQuery like Json editor, accessor.
  *
+ * @param <T> the type of the root object
  * @since 1.0.9
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */

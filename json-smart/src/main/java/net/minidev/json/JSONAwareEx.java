@@ -24,6 +24,9 @@ package net.minidev.json;
  */
 public interface JSONAwareEx extends JSONAware {
   /**
+   * Converts this object to JSON string representation with specified compression style.
+   *
+   * @param compression the JSON style for formatting
    * @return JSON text
    */
   String toJSONString(JSONStyle compression);

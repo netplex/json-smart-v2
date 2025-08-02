@@ -22,6 +22,8 @@ package net.minidev.json;
  */
 public interface JSONAware {
   /**
+   * Converts this object to JSON string representation.
+   *
    * @return JSON text
    */
   String toJSONString();
