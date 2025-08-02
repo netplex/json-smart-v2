@@ -64,9 +64,9 @@ jobs:
 
     - name: Run OWASP Dependency Check
       run: |
-        cd accessors-smart && ./mvnw org.owasp:dependency-check-maven:check
-        cd ../json-smart && ./mvnw org.owasp:dependency-check-maven:check
-        cd ../json-smart-action && ./mvnw org.owasp:dependency-check-maven:check
+        cd accessors-smart && ./mvnw org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
+        cd ../json-smart && ./mvnw org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
+        cd ../json-smart-action && ./mvnw org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
       continue-on-error: true
 
     - name: Upload dependency check results

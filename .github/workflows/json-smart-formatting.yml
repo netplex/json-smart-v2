@@ -34,10 +34,10 @@ jobs:
             ${{ runner.os }}-maven-
           
       - name: Check formatting accessors-smart
-        run: cd accessors-smart; ./mvnw spotless:check
+        run: cd accessors-smart; ./mvnw com.diffplug.spotless:spotless-maven-plugin:check
 
       - name: Check formatting json-smart
-        run: cd json-smart; ./mvnw spotless:check
+        run: cd json-smart; ./mvnw com.diffplug.spotless:spotless-maven-plugin:check
 
       - name: Check formatting json-smart-action
-        run: cd json-smart-action; ./mvnw spotless:check
+        run: cd json-smart-action; ./mvnw com.diffplug.spotless:spotless-maven-plugin:check
