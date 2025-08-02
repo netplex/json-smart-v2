@@ -50,12 +50,6 @@
         <developerConnection>scm:git:https://github.com/netplex/json-smart-v2.git</developerConnection>
         <url>https://github.com/netplex/json-smart-v2</url>
     </scm>
-    <distributionManagement>
-        <repository>
-            <id>central</id>
-            <url>https://central.sonatype.com/api/v1/publisher/upload</url>
-        </repository>
-    </distributionManagement>
 	<!-- release with: export GPG_TTY=$(tty); mvn clean deploy -P release-sign-artifacts -->
     <profiles>
         <profile>
@@ -255,6 +249,17 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>3.1.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.8.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>published</waitUntil>
+                </configuration>
             </plugin>
         </plugins>
     </build>
