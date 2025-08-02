@@ -45,15 +45,15 @@ jobs:
           cd ../json-smart && ./mvnw versions:use-dep-version -q -Dincludes=net.minidev:accessors-smart -DdepVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
           cd ../json-smart-action && ./mvnw versions:use-dep-version -q -Dincludes=net.minidev:json-smart -DdepVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
 
-      #- name: Release accessors-smart
-      #  run: |
-      #    cd accessors-smart
-      #    ./mvnw -q clean install
-      #    ./mvnw deploy -P release-sign-artifacts
-      #  env:
-      #    CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
-      #    CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
-      #    MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Release accessors-smart
+        run: |
+          cd accessors-smart
+          ./mvnw -q clean install
+          # ./mvnw deploy -P release-sign-artifacts
+        env:
+          CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Release json-smart
         run: |
