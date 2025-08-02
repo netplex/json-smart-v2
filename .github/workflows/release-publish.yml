@@ -37,26 +37,26 @@ jobs:
       - name: Release accessors-smart
         run: |
           cd accessors-smart
-          ./mvnw clean deploy -P release-sign-artifacts
+          ./mvnw clean deploy -q -P release-sign-artifacts
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Release json-smart
         run: |
           cd json-smart
-          ./mvnw clean deploy -P release-sign-artifacts
+          ./mvnw clean deploy -q -P release-sign-artifacts
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Release json-smart-action
         run: |
           cd json-smart-action
-          ./mvnw clean deploy -P release-sign-artifacts
+          ./mvnw clean deploy -q -P release-sign-artifacts
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
