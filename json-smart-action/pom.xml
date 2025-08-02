@@ -51,13 +51,9 @@
         <url>https://github.com/netplex/json-smart-v2</url>
     </scm>
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>central</id>
+            <url>https://central.sonatype.com/api/v1/publisher/upload</url>
         </repository>
     </distributionManagement>
 	<!-- release with: export GPG_TTY=$(tty); mvn clean deploy -P release-sign-artifacts -->
