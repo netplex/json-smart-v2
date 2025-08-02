@@ -25,6 +25,7 @@ So I do not use my json-smart anymore. I had fun with this project. If you want 
 
 * JSONObject merge support overwrite as parameter. [PR 238](https://github.com/netplex/json-smart-v2/pull/238)
 * Add `JSONParser.ACCEPT_INCOMPLETE` to allow parsing partial and incomplete JSON without error [PR 254](https://github.com/netplex/json-smart-v2/pull/254)
+* Add multiple JSON syntax blocks in a single input [PR 272](https://github.com/netplex/json-smart-v2/pull/272)
 
 ### *V 2.5.2* (2025-02-12)
 
