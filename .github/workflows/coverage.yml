@@ -34,7 +34,7 @@ jobs:
         cache: 'maven'
 
     - name: Build and test accessors-smart with coverage
-      run: cd accessors-smart && ./mvnw -q clean test
+      run: cd accessors-smart && ./mvnw -q clean install
 
     - name: Build and test json-smart with coverage
       run: cd json-smart && ./mvnw -q clean test
