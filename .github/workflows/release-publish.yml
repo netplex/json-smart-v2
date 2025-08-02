@@ -40,6 +40,10 @@ jobs:
           cd accessors-smart && ./mvnw versions:set -q -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
           cd ../json-smart && ./mvnw versions:set -q -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
           cd ../json-smart-action && ./mvnw versions:set -q -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
+          
+          # Update dependency versions between modules
+          cd ../json-smart && ./mvnw versions:use-dep-version -q -Dincludes=net.minidev:accessors-smart -DdepVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
+          cd ../json-smart-action && ./mvnw versions:use-dep-version -q -Dincludes=net.minidev:json-smart -DdepVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
 
       #- name: Release accessors-smart
       #  run: |
