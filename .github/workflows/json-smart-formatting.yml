@@ -5,9 +5,19 @@ on:
     branches:
       - master
       - upgrade
+    paths:
+      - 'accessors-smart/**'
+      - 'json-smart/**'
+      - 'json-smart-action/**'
+      - '.github/workflows/json-smart-formatting.yml'
   pull_request:
     branches:
       - master
+    paths:
+      - 'accessors-smart/**'
+      - 'json-smart/**'
+      - 'json-smart-action/**'
+      - '.github/workflows/json-smart-formatting.yml'
 
 permissions:
   contents: read

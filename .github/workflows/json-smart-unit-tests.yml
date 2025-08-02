@@ -6,9 +6,19 @@ on:
       - master
       - update2024
       - upgrade
+    paths:
+      - 'accessors-smart/**'
+      - 'json-smart/**'
+      - 'json-smart-action/**'
+      - '.github/workflows/json-smart-unit-tests.yml'
   pull_request:
     branches:
       - master
+    paths:
+      - 'accessors-smart/**'
+      - 'json-smart/**'
+      - 'json-smart-action/**'
+      - '.github/workflows/json-smart-unit-tests.yml'
 
 permissions:
   contents: read
