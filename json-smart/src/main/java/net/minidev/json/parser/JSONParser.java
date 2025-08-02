@@ -94,7 +94,7 @@ public class JSONParser {
   public static final int BIG_DIGIT_UNRESTRICTED = 2048;
 
   /**
-   * If limit the max depth of json size
+   * If limit the max depth of JSON size
    *
    * @since 2.5
    */
@@ -103,7 +103,7 @@ public class JSONParser {
   /**
    * If the parser is in stream mode
    *
-   * <p>Stream mode is used to parse a stream of json data. It will not throw exception on
+   * <p>Stream mode is used to parse a stream of JSON data. It will not throw exception on
    * incomplete data.
    *
    * @since 2.6
@@ -111,7 +111,7 @@ public class JSONParser {
   public static final int ACCEPT_INCOMPLETE = 8192;
 
   /**
-   * smart mode, fastest parsing mode. accept lots of non standard json syntax ACCEPT_INCOMPLETE
+   * smart mode, fastest parsing mode. accept lots of non standard JSON syntax ACCEPT_INCOMPLETE
    * feature is not enabled. in this mode, for backward compatibility
    *
    * @since 1.0.6
@@ -119,7 +119,7 @@ public class JSONParser {
   public static final int MODE_PERMISSIVE = -1 & ~ACCEPT_INCOMPLETE;
 
   /*
-   * smart mode, fastest parsing mode. accept lots of non standard json syntax
+   * smart mode, fastest parsing mode. accept lots of non standard JSON syntax
    * ACCEPT_INCOMPLETE feature is enabled.
    * @since 2.6
    */
