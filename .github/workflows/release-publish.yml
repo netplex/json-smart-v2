@@ -43,15 +43,15 @@ jobs:
           
           # Update dependency versions between modules
           cd ../json-smart
-          sed -i 's|<version>2.6.0-SNAPSHOT</version>|<version>${{ github.event.inputs.version }}</version>|g' pom.xml
+          sed -i 's|<version>[0-9]\+\.[0-9]\+\.[0-9]\+-SNAPSHOT</version>|<version>${{ github.event.inputs.version }}</version>|g' pom.xml
           cd ../json-smart-action  
-          sed -i 's|<version>2.6.0-SNAPSHOT</version>|<version>${{ github.event.inputs.version }}</version>|g' pom.xml
+          sed -i 's|<version>[0-9]\+\.[0-9]\+\.[0-9]\+-SNAPSHOT</version>|<version>${{ github.event.inputs.version }}</version>|g' pom.xml
 
       - name: Release accessors-smart
         run: |
           cd accessors-smart
           ./mvnw -q clean install
-          # ./mvnw deploy -P release-sign-artifacts
+          ./mvnw deploy -P release-sign-artifacts
         env:
           CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
           CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
