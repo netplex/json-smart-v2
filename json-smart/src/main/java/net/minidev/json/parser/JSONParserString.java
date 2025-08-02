@@ -1,7 +1,7 @@
 package net.minidev.json.parser;
 
 /*
- *    Copyright 2011-2024 JSON-SMART authors
+ *    Copyright 2011-2025 JSON-SMART authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ import net.minidev.json.writer.JsonReaderI;
 /**
  * Parser for JSON text. Please note that JSONParser is NOT thread-safe.
  *
+ * 
+ * 
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
 class JSONParserString extends JSONParserMemory {

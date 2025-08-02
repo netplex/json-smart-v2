@@ -1,7 +1,7 @@
 package net.minidev.json.parser;
 
 /*
- *    Copyright 2011-2024 JSON-SMART authors
+ *    Copyright 2011-2025 JSON-SMART authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@ package net.minidev.json.parser;
  * limitations under the License.
  */
 import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_CHAR;
+// import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_EOF;
 import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_TOKEN;
 
 import java.io.IOException;
@@ -28,6 +29,8 @@ import java.io.IOException;
  * @see JSONParserReader
  */
 abstract class JSONParserStream extends JSONParserBase {
+  // no protected int len field
+
   public JSONParserStream(int permissiveMode) {
     super(permissiveMode);
   }
@@ -38,6 +41,9 @@ abstract class JSONParserStream extends JSONParserBase {
     xs = sb.toString().trim();
   }
 
+  /**
+   * this function must be sync with JSONParserMemory.readNumber
+   */
   protected Object readNumber(boolean[] stop) throws ParseException, IOException {
     sb.clear();
     sb.append(c); // accept first char digit or -
@@ -109,8 +115,23 @@ abstract class JSONParserStream extends JSONParserBase {
       }
       throw new ParseException(pos, ERROR_UNEXPECTED_CHAR, c);
     }
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
+    // acceptIncomplete not implemented for stream
     sb.clear();
-
     /* assert (c == '\"' || c == '\'') */
     readString2();
   }
