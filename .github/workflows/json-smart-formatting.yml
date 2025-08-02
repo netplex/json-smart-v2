@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - master
+      - upgrade
   pull_request:
     branches:
       - master
+
+permissions:
+  contents: read
 
 jobs:
   formatting:
@@ -20,6 +24,14 @@ jobs:
           java-version: 21
           distribution: 'temurin'
           cache: 'maven'
+          
+      - name: Cache local Maven repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
           
       - name: Check formatting accessors-smart
         run: cd accessors-smart; ./mvnw spotless:check

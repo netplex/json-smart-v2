@@ -1,7 +1,9 @@
 # json-smart-v2
-[![Build Status](https://travis-ci.org/netplex/json-smart-v2.svg?branch=master)](https://travis-ci.org/netplex/json-smart-v2)
+[![CI](https://github.com/netplex/json-smart-v2/actions/workflows/json-smart-unit-tests.yml/badge.svg)](https://github.com/netplex/json-smart-v2/actions/workflows/json-smart-unit-tests.yml)
+[![Security](https://github.com/netplex/json-smart-v2/actions/workflows/security.yml/badge.svg)](https://github.com/netplex/json-smart-v2/actions/workflows/security.yml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.minidev/json-smart/badge.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/net.minidev/json-smart/)
 [![Coverage Status](https://coveralls.io/repos/github/netplex/json-smart-v2/badge.svg?branch=master)](https://coveralls.io/github/netplex/json-smart-v2?branch=master)
+[![Java 8+](https://img.shields.io/badge/Java-8%2B-blue.svg)](https://openjdk.java.net/)
 
 
 Json-smart development started in 2010, when SQL servers did not support native JSON fields, NoSQL databases were slowly emerging, and all the existing JSON APIs were bogus. I wrote lots of tests to benchmark and compare JSON java parsers. 
