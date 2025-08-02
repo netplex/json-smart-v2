@@ -96,6 +96,7 @@ class JSONParserByteArray extends JSONParserMemory {
   protected void readNoEnd() throws ParseException {
     if (++pos >= len) {
       this.c = EOI;
+      if (super.acceptIncomplete) return;
       throw new ParseException(pos - 1, ERROR_UNEXPECTED_EOF, "EOF");
     } else this.c = (char) in[pos];
   }

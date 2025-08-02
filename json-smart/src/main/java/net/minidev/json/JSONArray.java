@@ -26,8 +26,7 @@ import net.minidev.json.reader.JsonWriter;
  * @author FangYidong &lt;fangyidong@yahoo.com.cn&gt;
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */
-public class JSONArray extends ArrayList<Object>
-    implements List<Object>, JSONAwareEx, JSONStreamAwareEx {
+public class JSONArray extends ArrayList<Object> implements JSONAwareEx, JSONStreamAwareEx {
   private static final long serialVersionUID = 9106884089231309568L;
 
   public JSONArray() {}
@@ -76,13 +75,21 @@ public class JSONArray extends ArrayList<Object>
     JsonWriter.JSONIterableWriter.writeJSONString(list, out, compression);
   }
 
+  /**
+   * Encode a list into JSON text and write it to out. If this list is also a JSONStreamAware or a
+   * JSONAware, JSONStreamAware and JSONAware specific behaviours will be ignored at this top level.
+   *
+   * @param list
+   * @param out
+   * @throws IOException
+   */
   public static void writeJSONString(List<? extends Object> list, Appendable out)
       throws IOException {
     writeJSONString(list, out, JSONValue.COMPRESSION);
   }
 
   /**
-   * Appends the specified element and returns this. Handy alternative to add(E e) method.
+   * Appends the specified element and returns this. same effect that add(E e) method.
    *
    * @param element element to be appended to this array.
    * @return this
@@ -92,6 +99,11 @@ public class JSONArray extends ArrayList<Object>
     return this;
   }
 
+  /**
+   * Merges the specified object into this array. can trigger an add(E e) or addAll(E e) method.
+   *
+   * @param o2
+   */
   public void merge(Object o2) {
     JSONObject.merge(this, o2);
   }
@@ -119,10 +131,21 @@ public class JSONArray extends ArrayList<Object>
     return toJSONString(compression);
   }
 
+  /**
+   * JSONStreamAwareEx interface
+   *
+   * @param out output stream
+   */
   public void writeJSONString(Appendable out) throws IOException {
     writeJSONString(this, out, JSONValue.COMPRESSION);
   }
 
+  /**
+   * JSONStreamAwareEx interface
+   *
+   * @param out output stream
+   * @param compression compression param
+   */
   public void writeJSONString(Appendable out, JSONStyle compression) throws IOException {
     writeJSONString(this, out, compression);
   }
