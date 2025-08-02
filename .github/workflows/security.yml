@@ -48,11 +48,14 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
-    - name: Build project
-      run: |
-        cd accessors-smart && ./mvnw clean compile
-        cd ../json-smart && ./mvnw clean compile
-        cd ../json-smart-action && ./mvnw clean compile
+    - name: Build project accessors-smart
+      run: cd accessors-smart && ./mvnw -q clean compile
+
+    - name: Build project json-smart
+      run: cd json-smart && ./mvnw -q clean compile
+
+    - name: Build project json-smart-action
+      run: cd json-smart-action && ./mvnw -q clean compile
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
