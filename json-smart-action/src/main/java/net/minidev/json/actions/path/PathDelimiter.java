@@ -9,8 +9,10 @@ package net.minidev.json.actions.path;
 public abstract class PathDelimiter {
   /** The delimiter character */
   protected char delimChar;
+
   /** The delimiter as a string */
   protected String delimStr;
+
   /** Whether to accept delimiter characters in keys */
   protected boolean acceptDelimInKey;
 

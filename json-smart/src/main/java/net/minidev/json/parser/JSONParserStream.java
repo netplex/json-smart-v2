@@ -41,9 +41,7 @@ abstract class JSONParserStream extends JSONParserBase {
     xs = sb.toString().trim();
   }
 
-  /**
-   * this function must be sync with JSONParserMemory.readNumber
-   */
+  /** this function must be sync with JSONParserMemory.readNumber */
   protected Object readNumber(boolean[] stop) throws ParseException, IOException {
     sb.clear();
     sb.append(c); // accept first char digit or -

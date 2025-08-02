@@ -31,8 +31,10 @@ import net.minidev.json.actions.path.TreePath;
 public class TreeNavigator<M extends Map<String, Object>, L extends List<Object>> {
   /** The list of paths to navigate */
   protected List<String> pathsToNavigate;
+
   /** The navigation action to execute */
   protected NavigateAction<M, L> action;
+
   /** The path prefix to use */
   protected String pathPrefix = "";
 

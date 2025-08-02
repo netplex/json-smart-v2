@@ -26,7 +26,6 @@ import net.minidev.json.writer.JsonReaderI;
  * Parser for JSON text. Please note that JSONParser is NOT thread-safe.
  *
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
- * 
  */
 class JSONParserReader extends JSONParserStream {
   private Reader in;

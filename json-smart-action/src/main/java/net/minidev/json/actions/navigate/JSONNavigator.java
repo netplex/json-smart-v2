@@ -6,7 +6,7 @@ import net.minidev.json.JSONObject;
 
 /**
  * A navigator that operates on JSON objects and arrays for path-based navigation.
- * 
+ *
  * @author adoneitan@gmail.com
  * @since 15 June 2016.
  */

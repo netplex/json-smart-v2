@@ -6,7 +6,7 @@ import net.minidev.json.JSONObject;
 
 /**
  * A traverse action that prints keys during JSON traversal.
- * 
+ *
  * @author adoneitan@gmail.com
  * @since 5/24/16.
  */

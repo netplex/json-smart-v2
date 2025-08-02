@@ -41,9 +41,7 @@ abstract class JSONParserMemory extends JSONParserBase {
     extractStringTrim(start, pos);
   }
 
-  /**
-   * this function must be sync with JSONParserStream.readNumber
-   */
+  /** this function must be sync with JSONParserStream.readNumber */
   protected Object readNumber(boolean[] stop) throws ParseException, IOException {
     int start = pos;
     // accept first char digit or -
@@ -132,7 +130,7 @@ abstract class JSONParserMemory extends JSONParserBase {
       return;
     }
     sb.clear();
-    
+
     readString2();
   }
 
