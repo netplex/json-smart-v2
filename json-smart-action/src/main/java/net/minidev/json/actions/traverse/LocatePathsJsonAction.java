@@ -20,14 +20,19 @@ import net.minidev.json.actions.path.PathDelimiter;
  * @author adoneitan@gmail.com
  */
 public class LocatePathsJsonAction implements JSONTraverseAction {
+  /** The list of paths found during traversal */
   protected List<String> pathsFound;
+  /** The list of paths to search for */
   protected List<String> pathsToFind;
+  /** The path delimiter to use */
   protected PathDelimiter delim;
 
   /**
+   * Creates a new locate paths action.
+   * 
    * @param pathsToFind A path to a field in the {@link JSONObject} should be specified in n-gram
    *     format where keys are chained: k0[[[.k1].k2]...]
-   * @param delim -
+   * @param delim the path delimiter to use
    */
   public LocatePathsJsonAction(List<String> pathsToFind, PathDelimiter delim) {
     this.pathsToFind = pathsToFind;

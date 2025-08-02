@@ -23,14 +23,20 @@ import net.minidev.json.actions.path.TreePath;
  * <p>To navigate the branch k1.k2 of the object {"k1":{"k2":"v1"}, "k3":{"k4":"v2"}} instantiate
  * the navigator like so: new JSONNavigator("k1.k2")
  *
+ * @param <M> the map type that extends Map&lt;String, Object&gt;
+ * @param <L> the list type that extends List&lt;Object&gt;
  * @author adoneitan@gmail.com
  * @since 15 June 2016.
  */
 public class TreeNavigator<M extends Map<String, Object>, L extends List<Object>> {
+  /** The list of paths to navigate */
   protected List<String> pathsToNavigate;
+  /** The navigation action to execute */
   protected NavigateAction<M, L> action;
+  /** The path prefix to use */
   protected String pathPrefix = "";
 
+  /** Creates a tree navigator with the specified action and paths */
   public TreeNavigator(NavigateAction<M, L> action, List<String> pathsToNavigate) {
     if (action == null) {
       throw new IllegalArgumentException("NavigateAction cannot be null");
@@ -39,15 +45,18 @@ public class TreeNavigator<M extends Map<String, Object>, L extends List<Object>
     this.pathsToNavigate = pathsToNavigate;
   }
 
+  /** Sets a path prefix for this navigator */
   public TreeNavigator<M, L> with(String pathPrefix) {
     this.pathPrefix = pathPrefix;
     return this;
   }
 
+  /** Creates a tree navigator with the specified action and paths */
   public TreeNavigator(NavigateAction<M, L> action, String... pathsToNavigate) {
     this(action, Arrays.asList(pathsToNavigate));
   }
 
+  /** Navigates the specified object using the configured paths */
   public void nav(M object) throws Exception {
     if (action.start(object, pathsToNavigate)) {
       for (String path : pathsToNavigate) {

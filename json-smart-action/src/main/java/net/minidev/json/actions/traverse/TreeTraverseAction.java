@@ -11,6 +11,8 @@ import java.util.Map.Entry;
  *
  * <p>See package-info for more details
  *
+ * @param <M> the map type that extends Map&lt;String, Object&gt;
+ * @param <L> the list type that extends List&lt;Object&gt;
  * @author adoneitan@gmail.com
  */
 public interface TreeTraverseAction<M extends Map<String, Object>, L extends List<Object>> {
