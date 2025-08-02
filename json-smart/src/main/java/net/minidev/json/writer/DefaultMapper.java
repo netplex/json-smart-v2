@@ -22,8 +22,8 @@ import net.minidev.json.JSONObject;
 /**
  * Simple Reader Class for generic Map
  *
+ * @param <T> the type of object to map
  * @author uriel
- * @param <T>
  */
 public class DefaultMapper<T> extends JsonReaderI<T> {
   protected DefaultMapper(JsonReader base) {

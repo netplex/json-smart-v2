@@ -1,5 +1,5 @@
 <!--
-Copyright 2011-2024 JSON-SMART authors
+Copyright 2011-2025 JSON-SMART authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -289,6 +289,16 @@ limitations under the License.
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>3.1.4</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>3.1.4</version>
+      </plugin>
 		</plugins>
 	</build>
 	<dependencies>

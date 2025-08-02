@@ -31,16 +31,19 @@ import net.minidev.json.actions.traverse.RemoveElementsJsonAction;
 public class ElementRemover {
   private Map<String, Object> elementsToRemove;
 
+  /** Creates an element remover with the specified elements to remove */
   public ElementRemover(Map<String, Object> elementsToRemove) {
     this.elementsToRemove =
         elementsToRemove == null ? Collections.<String, Object>emptyMap() : elementsToRemove;
   }
 
+  /** Creates an element remover with the specified JSON object elements to remove */
   public ElementRemover(JSONObject elementsToRemove) {
     this.elementsToRemove =
         elementsToRemove == null ? Collections.<String, Object>emptyMap() : elementsToRemove;
   }
 
+  /** Removes the specified elements from the given JSON object */
   public JSONObject remove(JSONObject objectToClean) {
     JSONTraverseAction strategy = new RemoveElementsJsonAction(this.elementsToRemove);
     JSONTraverser traversal = new JSONTraverser(strategy);

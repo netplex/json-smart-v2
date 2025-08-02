@@ -1,7 +1,7 @@
 package net.minidev.json;
 
 /*
- *    Copyright 2011-2024 JSON-SMART authors
+ *    Copyright 2011-2025 JSON-SMART authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import net.minidev.json.writer.JsonReaderI;
 /**
  * A JQuery like Json editor, accessor.
  *
+ * @param <T> the type of the root object
  * @since 1.0.9
  * @author Uriel Chemouni &lt;uchemouni@gmail.com&gt;
  */

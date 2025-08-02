@@ -114,7 +114,6 @@ public class ASMTest {
     // T1 = System.currentTimeMillis() - T1;
   }
 
-  @Test
   private void subtext(BeansAccess<BTest> acc) {
     BTest t = new BTest();
     acc.set(t, "pubBoolValue", true);

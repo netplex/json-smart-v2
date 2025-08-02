@@ -1,7 +1,7 @@
 package net.minidev.json;
 
 /*
- *    Copyright 2011-2024 JSON-SMART authors
+ *    Copyright 2011-2025 JSON-SMART authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,12 @@ import java.io.IOException;
  * @author FangYidong &lt;fangyidong@yahoo.com.cn&gt;
  */
 public interface JSONStreamAwareEx extends JSONStreamAware {
-  /** write JSON string to out. */
+  /**
+   * write JSON string to out.
+   *
+   * @param out the output to write to
+   * @param compression the JSON style for formatting
+   * @throws IOException if I/O error occurs
+   */
   void writeJSONString(Appendable out, JSONStyle compression) throws IOException;
 }

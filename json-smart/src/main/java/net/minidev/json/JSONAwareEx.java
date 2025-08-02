@@ -1,7 +1,7 @@
 package net.minidev.json;
 
 /*
- *    Copyright 2011-2024 JSON-SMART authors
+ *    Copyright 2011-2025 JSON-SMART authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,9 @@ package net.minidev.json;
  */
 public interface JSONAwareEx extends JSONAware {
   /**
+   * Converts this object to JSON string representation with specified compression style.
+   *
+   * @param compression the JSON style for formatting
    * @return JSON text
    */
   String toJSONString(JSONStyle compression);

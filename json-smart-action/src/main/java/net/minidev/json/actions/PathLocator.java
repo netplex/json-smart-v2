@@ -23,8 +23,6 @@ import net.minidev.json.actions.traverse.LocatePathsJsonAction;
  * A key to the right of a dot is a direct child of a key to the left of a dot. Keys with a dot in
  * their name are not supported.
  *
- * <p>
- *
  * @author adoneitan@gmail.com
  */
 public class PathLocator {

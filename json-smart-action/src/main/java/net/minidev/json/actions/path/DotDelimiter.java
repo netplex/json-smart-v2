@@ -8,8 +8,10 @@ package net.minidev.json.actions.path;
  * @since 31 May2016
  */
 public class DotDelimiter extends PathDelimiter {
+  /** The dot delimiter character */
   protected static final char DELIM_CHAR = '.';
 
+  /** Creates a new dot delimiter */
   public DotDelimiter() {
     super(DELIM_CHAR);
   }

@@ -26,8 +26,13 @@ import net.minidev.json.actions.path.TreePath;
  * @since 15 March 2016.
  */
 public class CopyPathsAction implements JSONNavigateAction {
+  /** The destination tree for copied paths */
   protected JSONObject destTree;
+
+  /** The current destination branch */
   protected JSONObject destBranch;
+
+  /** Stack for tracking destination nodes */
   protected Stack<Object> destNodeStack;
 
   @Override

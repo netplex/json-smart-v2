@@ -9,8 +9,8 @@ import net.minidev.json.parser.ParseException;
 /**
  * Simple solution to support on read field renaming
  *
+ * @param <T> the type of object to map
  * @author uriel
- * @param <T>
  */
 public class MapperRemapped<T> extends JsonReaderI<T> {
   private Map<String, String> rename;
