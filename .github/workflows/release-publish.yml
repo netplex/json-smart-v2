@@ -42,8 +42,10 @@ jobs:
           cd ../json-smart-action && ./mvnw versions:set -q -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
           
           # Update dependency versions between modules
-          cd ../json-smart && ./mvnw versions:use-dep-version -q -Dincludes=net.minidev:accessors-smart -DdepVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
-          cd ../json-smart-action && ./mvnw versions:use-dep-version -q -Dincludes=net.minidev:json-smart -DdepVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
+          cd ../json-smart
+          sed -i 's|<version>2.6.0-SNAPSHOT</version>|<version>${{ github.event.inputs.version }}</version>|g' pom.xml
+          cd ../json-smart-action  
+          sed -i 's|<version>2.6.0-SNAPSHOT</version>|<version>${{ github.event.inputs.version }}</version>|g' pom.xml
 
       - name: Release accessors-smart
         run: |
