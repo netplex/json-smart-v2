@@ -111,19 +111,38 @@ public class JSONParser {
   public static final int ACCEPT_INCOMPLETE = 8192;
 
   /**
+   * If set, DISABLE the limit on the length of a number literal.
+   *
+   * <p>By default a number literal may not exceed {@code JSONParserBase.MAX_NUMBER_LENGTH} (1000)
+   * characters. Building a {@link java.math.BigInteger} or {@link java.math.BigDecimal} from a
+   * decimal string costs superlinear time in the number of digits (measured n^2.0 on Temurin 21),
+   * so an unbounded number literal lets a single small document consume an arbitrary amount of CPU.
+   *
+   * <p>This option is deliberately opt-OUT rather than opt-in. A limit that has to be switched on
+   * only protects callers who know it exists: the {@code LIMIT_JSON_DEPTH} fix for CVE-2023-1370
+   * had to be switched on, and the consequence was CVE-2024-57699, where callers building their own
+   * bitmask stayed vulnerable and had to be fixed one by one downstream. Defaulting the limit to ON
+   * protects hand-built bitmasks too, while leaving an explicit escape hatch for the rare
+   * application that really does parse arbitrary-precision literals.
+   *
+   * @since 2.6.1
+   */
+  public static final int UNRESTRICTED_NUMBER_LENGTH = 16384;
+
+  /**
    * smart mode, fastest parsing mode. accept lots of non standard JSON syntax ACCEPT_INCOMPLETE
    * feature is not enabled. in this mode, for backward compatibility
    *
    * @since 1.0.6
    */
-  public static final int MODE_PERMISSIVE = -1 & ~ACCEPT_INCOMPLETE;
+  public static final int MODE_PERMISSIVE = -1 & ~ACCEPT_INCOMPLETE & ~UNRESTRICTED_NUMBER_LENGTH;
 
   /*
    * smart mode, fastest parsing mode. accept lots of non standard JSON syntax
    * ACCEPT_INCOMPLETE feature is enabled.
    * @since 2.6
    */
-  public static final int MODE_PERMISSIVE_WITH_INCOMPLETE = -1;
+  public static final int MODE_PERMISSIVE_WITH_INCOMPLETE = -1 & ~UNRESTRICTED_NUMBER_LENGTH;
 
   /**
    * strict RFC4627 mode.

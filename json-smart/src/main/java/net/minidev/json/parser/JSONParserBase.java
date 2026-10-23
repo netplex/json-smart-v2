@@ -19,6 +19,7 @@ import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_CHAR;
 import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_EOF;
 import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_JSON_DEPTH;
 import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_LEADING_0;
+import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_NUMBER_LENGTH;
 import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_TOKEN;
 import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_UNICODE;
 
@@ -40,6 +41,22 @@ abstract class JSONParserBase {
 
   /** hard coded maximal depth for JSON parsing */
   public static final int MAX_DEPTH = 400;
+
+  /**
+   * hard coded maximal length of a number literal.
+   *
+   * <p>new BigInteger(String, int) and the char[] constructor that new BigDecimal(String) uses
+   * accumulate their magnitude with the schoolbook destructiveMulAdd loop (OpenJDK 21
+   * BigInteger.java lines 559 and 611), so their cost grows superlinearly in the digit count:
+   * measured n^2.0 on Temurin 21.0.11 over the range 100_000 to 1_600_000 digits. The Schoenhage
+   * recursive base conversion in BigInteger is used by toString(), not by the String constructor,
+   * so it does not apply here. An unbounded literal length therefore lets a small document impose
+   * an arbitrarily large CPU cost on the parsing thread.
+   *
+   * <p>Same default as jackson-core StreamReadConstraints.DEFAULT_MAX_NUM_LEN and org.json
+   * ParserConfiguration.DEFAULT_MAX_NUMBER_LENGTH.
+   */
+  public static final int MAX_NUMBER_LENGTH = 1000;
 
   protected int depth = 0;
 
@@ -89,6 +106,7 @@ abstract class JSONParserBase {
   protected final boolean reject127;
   protected final boolean unrestictBigDigit;
   protected final boolean limitJsonDepth;
+  protected final boolean unrestrictedNumberLength;
   protected final boolean acceptIncomplete;
 
   public JSONParserBase(int permissiveMode) {
@@ -107,6 +125,7 @@ abstract class JSONParserBase {
     this.reject127 = (permissiveMode & JSONParser.REJECT_127_CHAR) > 0;
     this.unrestictBigDigit = (permissiveMode & JSONParser.BIG_DIGIT_UNRESTRICTED) > 0;
     this.limitJsonDepth = (permissiveMode & JSONParser.LIMIT_JSON_DEPTH) > 0;
+    this.unrestrictedNumberLength = (permissiveMode & JSONParser.UNRESTRICTED_NUMBER_LENGTH) > 0;
     this.acceptIncomplete = (permissiveMode & JSONParser.ACCEPT_INCOMPLETE) > 0;
   }
 
@@ -159,6 +178,9 @@ abstract class JSONParserBase {
           if (compareDoublePrecision(doubleStr, xs)) {
             return asDouble;
           }
+        }
+        if (!unrestrictedNumberLength && xs.length() > MAX_NUMBER_LENGTH) {
+          throw new ParseException(pos, ERROR_UNEXPECTED_NUMBER_LENGTH, xs.length());
         }
         return new BigDecimal(xs);
       }
@@ -269,6 +291,9 @@ abstract class JSONParserBase {
       max = l;
       mustCheck = false;
     } else if (l > max) {
+      if (!unrestrictedNumberLength && l > MAX_NUMBER_LENGTH) {
+        throw new ParseException(pos, ERROR_UNEXPECTED_NUMBER_LENGTH, l);
+      }
       return new BigInteger(s, 10);
     } else {
       max = l - 1;
