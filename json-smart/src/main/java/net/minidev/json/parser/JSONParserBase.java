@@ -233,7 +233,9 @@ abstract class JSONParserBase {
       result = readFirst(mapper);
       if (checkTaillingData) {
         if (!checkTaillingSpace) skipSpace();
-        if (c != EOI) throw new ParseException(pos - 1, ERROR_UNEXPECTED_TOKEN, c);
+        // Every check that takes EOI for the end stops reading there.
+        // So a 0x1A that ended the value early is still in c.
+        if (!isEndOfInput()) throw new ParseException(pos - 1, ERROR_UNEXPECTED_TOKEN, c);
       }
     } catch (IOException e) {
       throw new ParseException(pos, e);
@@ -302,6 +304,9 @@ abstract class JSONParserBase {
   }
 
   protected abstract void read() throws IOException;
+
+  /** Whether the input is exhausted. {@code c == EOI} also holds after reading a literal 0x1A. */
+  protected abstract boolean isEndOfInput();
 
   protected <T> T readArray(JsonReaderI<T> mapper) throws ParseException, IOException {
     if (c != '[') throw new RuntimeException("Internal Error");

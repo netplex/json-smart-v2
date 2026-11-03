@@ -29,6 +29,7 @@ import net.minidev.json.writer.JsonReaderI;
  */
 class JSONParserReader extends JSONParserStream {
   private Reader in;
+  private boolean endOfInput;
 
   public JSONParserReader(int permissiveMode) {
     super(permissiveMode);
@@ -58,8 +59,13 @@ class JSONParserReader extends JSONParserStream {
     return super.parse(mapper);
   }
 
+  protected boolean isEndOfInput() {
+    return endOfInput;
+  }
+
   protected void read() throws IOException {
     int i = in.read();
+    endOfInput = i == -1;
     c = (i == -1) ? (char) EOI : (char) i;
     pos++;
   }
@@ -67,6 +73,7 @@ class JSONParserReader extends JSONParserStream {
   protected void readS() throws IOException {
     sb.append(c);
     int i = in.read();
+    endOfInput = i == -1;
     if (i == -1) {
       c = EOI;
     } else {
@@ -77,6 +84,7 @@ class JSONParserReader extends JSONParserStream {
 
   protected void readNoEnd() throws ParseException, IOException {
     int i = in.read();
+    endOfInput = i == -1;
     if (i == -1) {
       this.c = EOI;
       if (super.acceptIncomplete) return;
