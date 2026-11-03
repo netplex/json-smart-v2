@@ -31,6 +31,7 @@ public class ParseException extends Exception {
   public static final int ERROR_UNEXPECTED_DUPLICATE_KEY = 5;
   public static final int ERROR_UNEXPECTED_LEADING_0 = 6;
   public static final int ERROR_UNEXPECTED_JSON_DEPTH = 7;
+  public static final int ERROR_UNEXPECTED_NUMBER_LENGTH = 8;
 
   private int errorType;
   private Object unexpectedObject;
@@ -117,6 +118,15 @@ public class ParseException extends Exception {
       sb.append("Malicious payload, having non natural depths, parsing stoped on ");
       sb.append(unexpectedObject);
       sb.append(" at position ");
+      sb.append(position);
+      sb.append(".");
+    } else if (errorType == ERROR_UNEXPECTED_NUMBER_LENGTH) {
+      // NB: the offending token is deliberately not echoed here, it can be megabytes long.
+      sb.append("Malicious payload, number literal of ");
+      sb.append(unexpectedObject);
+      sb.append(" chars exceeds the maximum of ");
+      sb.append(JSONParserBase.MAX_NUMBER_LENGTH);
+      sb.append(", parsing stoped at position ");
       sb.append(position);
       sb.append(".");
     } else {
