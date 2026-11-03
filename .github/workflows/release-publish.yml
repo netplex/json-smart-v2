@@ -5,8 +5,15 @@ on:
     inputs:
       version:
         description: 'Release version'
-        required: true
+        required: false
+        default: '2.6.1'
         type: string
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
 
 jobs:
   release:
@@ -17,6 +24,20 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       
+      - name: Determine release version
+        id: get_version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            VERSION="${GITHUB_REF_NAME}"
+          else
+            VERSION="2.6.1"
+          fi
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -37,15 +58,15 @@ jobs:
       - name: Set release version in all POMs
         run: |
           # Update version in all POMs
-          cd accessors-smart && ./mvnw versions:set -q -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
-          cd ../json-smart && ./mvnw versions:set -q -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
-          cd ../json-smart-action && ./mvnw versions:set -q -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
+          cd accessors-smart && ./mvnw versions:set -q -DnewVersion=${VERSION} -DgenerateBackupPoms=false
+          cd ../json-smart && ./mvnw versions:set -q -DnewVersion=${VERSION} -DgenerateBackupPoms=false
+          cd ../json-smart-action && ./mvnw versions:set -q -DnewVersion=${VERSION} -DgenerateBackupPoms=false
           
           # Update dependency versions between modules
           cd ../json-smart
-          sed -i 's|<version>[0-9]\+\.[0-9]\+\.[0-9]\+-SNAPSHOT</version>|<version>${{ github.event.inputs.version }}</version>|g' pom.xml
+          sed -i '/<artifactId>accessors-smart<\/artifactId>/,/<\/dependency>/ s|<version>[^<]*</version>|<version>'${VERSION}'</version>|' pom.xml
           cd ../json-smart-action  
-          sed -i 's|<version>[0-9]\+\.[0-9]\+\.[0-9]\+-SNAPSHOT</version>|<version>${{ github.event.inputs.version }}</version>|g' pom.xml
+          sed -i '/<artifactId>json-smart<\/artifactId>/,/<\/dependency>/ s|<version>[^<]*</version>|<version>'${VERSION}'</version>|' pom.xml
 
       - name: Release accessors-smart
         run: |
@@ -79,7 +100,13 @@ jobs:
 
       - name: Create git tag
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a "v${{ github.event.inputs.version }}" -m "Release version ${{ github.event.inputs.version }}"
-          git push origin "v${{ github.event.inputs.version }}"
+          if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+            echo "Tag v${VERSION} already exists locally."
+          elif git ls-remote --tags origin "v${VERSION}" | grep -q "v${VERSION}"; then
+            echo "Tag v${VERSION} already exists on remote."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git tag -a "v${VERSION}" -m "Release version ${VERSION}"
+            git push origin "v${VERSION}"
+          fi

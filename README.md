@@ -1,12 +1,12 @@
 # json-smart-v2
+
 [![CI](https://github.com/netplex/json-smart-v2/actions/workflows/json-smart-unit-tests.yml/badge.svg)](https://github.com/netplex/json-smart-v2/actions/workflows/json-smart-unit-tests.yml)
 [![Security](https://github.com/netplex/json-smart-v2/actions/workflows/security.yml/badge.svg)](https://github.com/netplex/json-smart-v2/actions/workflows/security.yml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.minidev/json-smart/badge.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/net.minidev/json-smart/)
 [![Coverage Status](https://coveralls.io/repos/github/netplex/json-smart-v2/badge.svg?branch=master)](https://coveralls.io/github/netplex/json-smart-v2?branch=master)
 [![Java 8+](https://img.shields.io/badge/Java-8%2B-blue.svg)](https://openjdk.java.net/)
 
-
-Json-smart development started in 2010, when SQL servers did not support native JSON fields, NoSQL databases were slowly emerging, and all the existing JSON APIs were bogus. I wrote lots of tests to benchmark and compare JSON java parsers. 
+Json-smart development started in 2010, when SQL servers did not support native JSON fields, NoSQL databases were slowly emerging, and all the existing JSON APIs were bogus. I wrote lots of tests to benchmark and compare JSON java parsers.
 
 I never liked SQL databases because it's almost impossible to update a data model without impacting the production platform. Adding a column is a terrible operation.
 
@@ -16,123 +16,144 @@ Now times have changed: most of the JSON APIs are now stable, and I'm now using 
 
 So I do not use my json-smart anymore. I had fun with this project. If you want to apply some change on json-smart create a pull request with lots of JUnit tests.
 
-
 [WIKI is here](https://github.com/netplex/json-smart/wiki)
 
 # Changelog
 
-### *V 2.6.0* (next version)
 
-* JSONObject merge support overwrite as parameter. [PR 238](https://github.com/netplex/json-smart-v2/pull/238)
-* Add `JSONParser.ACCEPT_INCOMPLETE` to allow parsing partial and incomplete JSON without error [PR 254](https://github.com/netplex/json-smart-v2/pull/254)
-* Add multiple JSON syntax blocks in a single input [PR 272](https://github.com/netplex/json-smart-v2/pull/272)
-* Fix CVE-2026-113602 for strict parsers: reject a literal 0x1A after the JSON value. [PR 305](https://github.com/netplex/json-smart-v2/pull/305)
+### _V 2.6.1_ (2026-11-03)
 
-### *V 2.5.2* (2025-02-12)
+- Add configurable bound on numeric literal length (`MAX_NUMBER_LENGTH`). [PR 301](https://github.com/netplex/json-smart-v2/pull/301)
+- Fix CVE-2026-113602 for strict parsers: reject a literal 0x1A after the JSON value. [PR 305](https://github.com/netplex/json-smart-v2/pull/305)
+- Update `asm` dependency to 9.11.1. [PR 303](https://github.com/netplex/json-smart-v2/pull/303)
+- Correct module order in check_format.sh (accessors-smart first). [PR 294](https://github.com/netplex/json-smart-v2/pull/294)
 
-* Fix CVE-2024-57699 for predefined parsers. [PR 233](https://github.com/netplex/json-smart-v2/pull/233)
+### _V 2.6.0_ (2025-08-02)
 
-### *V 2.5.1* (2024-03-14)
+- JSONObject merge support overwrite as parameter. [PR 238](https://github.com/netplex/json-smart-v2/pull/238)
+- Add `JSONParser.ACCEPT_INCOMPLETE` to allow parsing partial and incomplete JSON without error [PR 254](https://github.com/netplex/json-smart-v2/pull/254)
+- Add multiple JSON syntax blocks in a single input [PR 272](https://github.com/netplex/json-smart-v2/pull/272)
 
-* Bump all dependencies.
-* Fix OSGi import package version for net.minidev.asm. [PR 180](https://github.com/netplex/json-smart-v2/pull/180)
+### _V 2.5.2_ (2025-02-12)
 
-### *V 2.5.0* (2023-07-10)
+- Fix CVE-2024-57699 for predefined parsers. [PR 233](https://github.com/netplex/json-smart-v2/pull/233)
 
-* Add flag to drop the limit of json depth. [PR 156](https://github.com/netplex/json-smart-v2/pull/156)
+### _V 2.5.1_ (2024-03-14)
 
-### *V 2.4.11* (2023-05-18)
+- Bump all dependencies.
+- Fix OSGi import package version for net.minidev.asm. [PR 180](https://github.com/netplex/json-smart-v2/pull/180)
 
-* Fix error in isWritable in accessor-smart. [PR 147](https://github.com/netplex/json-smart-v2/pull/147)
-* Update json-smart dependency to use accessor-smart:2.4.11
+### _V 2.5.0_ (2023-07-10)
 
-### *V 2.4.10* (2023-03-17)
+- Add flag to drop the limit of json depth. [PR 156](https://github.com/netplex/json-smart-v2/pull/156)
 
-* Fix unstacking issue with more than 400 elements in an array.
+### _V 2.4.11_ (2023-05-18)
 
-### *V 2.4.9* (2023-03-07)
+- Fix error in isWritable in accessor-smart. [PR 147](https://github.com/netplex/json-smart-v2/pull/147)
+- Update json-smart dependency to use accessor-smart:2.4.11
 
-* Add depth limit of 400 when parsing JSON.
+### _V 2.4.10_ (2023-03-17)
 
-### *V 2.4.8* (2022-02-13)
+- Fix unstacking issue with more than 400 elements in an array.
 
-* Fix the incorrect double compare with e,E+,e+ [PR 77](https://github.com/netplex/json-smart-v2/pull/77)
+### _V 2.4.9_ (2023-03-07)
 
-### *V 2.4.7* (2021-06-02)
-* full timezone support in date parsing
-* set default charset to UTF-8 when parsing byte[] contents
-* overwride system default encoding when parssing bytes[] [PR 71](https://github.com/netplex/json-smart-v2/pull/74)
+- Add depth limit of 400 when parsing JSON.
 
-### *V 2.4.6* (2021-04-23)
-* Correct publish issue 3th time [issue 69](https://github.com/netplex/json-smart-v2/issues/69)
-* Support latest asm in accessor-smart [issue 70](https://github.com/netplex/json-smart-v2/issues/70)
-* Drop legacy parent pom
+### _V 2.4.8_ (2022-02-13)
 
-### *V 2.4.5* (2021-04-19)
-* Correct publish issue 2nd time [issue 69](https://github.com/netplex/json-smart-v2/issues/69)
+- Fix the incorrect double compare with e,E+,e+ [PR 77](https://github.com/netplex/json-smart-v2/pull/77)
 
-### *V 2.4.4* (2021-04-17)
-* Correct publish issue 1st time [issue 69](https://github.com/netplex/json-smart-v2/issues/69)
-* fix ArrayIndexOutOfBoundsException [issue 68](https://github.com/netplex/json-smart-v2/pull/68)
+### _V 2.4.7_ (2021-06-02)
 
-### *V 2.4.2* (2021-04-04)
+- full timezone support in date parsing
+- set default charset to UTF-8 when parsing byte[] contents
+- overwride system default encoding when parssing bytes[] [PR 71](https://github.com/netplex/json-smart-v2/pull/74)
 
-### *V 2.4.2* (2021-04-03)
-* add BIG_DIGIT_UNRESTRICTED to avoid BigDigit usage on some Double.
-* fix CVE-2021-27568
-* java 11 build
+### _V 2.4.6_ (2021-04-23)
 
-### *V 2.3.1* (2021-05-02)
-* Fixes [issue #60](https://github.com/netplex/json-smart-v2/issues/60) (CVE-2021-27568)
-* full timezone support in date parsing
+- Correct publish issue 3th time [issue 69](https://github.com/netplex/json-smart-v2/issues/69)
+- Support latest asm in accessor-smart [issue 70](https://github.com/netplex/json-smart-v2/issues/70)
+- Drop legacy parent pom
 
-### *V 2.3* (2017-03-26)
-* Patch 37 [issue 37](http://code.google.com/p/json-smart/issues/detail?id=37)
-* Explicite support of char 127 [issue 18](http://code.google.com/p/json-smart/issues/detail?id=18)
-* Integrate json-smart-action from Eitan Raviv [PR 31](https://github.com/netplex/json-smart-v2/pull/31)
-* Remove hard codded e.printStackTrace() [issue 33](https://github.com/netplex/json-smart-v2/issues/33)
-* Improve date parsing code to support all timeZones [issue 29](https://github.com/netplex/json-smart-v2/issues/29)
+### _V 2.4.5_ (2021-04-19)
 
-### *V 2.2.2*
- * Fix support for default java datetime format for US locale
- * Update my time Zone from Paris to San Francisco.
+- Correct publish issue 2nd time [issue 69](https://github.com/netplex/json-smart-v2/issues/69)
 
-### *V 2.2.1* (2015-10-08)
-* Fix issue in strict mode [issue gh-17](https://github.com/netplex/json-smart-v2/issues/17)
-* Add a licence Copy at the root project level [issue gh-16](https://github.com/netplex/json-smart-v2/issues/16)
-* Change InputStream input reading to use UTF8. [issue 48](http://code.google.com/p/json-smart/issues/detail?id=48)
+### _V 2.4.4_ (2021-04-17)
 
-### *V 2.2* (2015-07-29)
-* Rename asm to accessors-smart due to conflict name with asm.ow2.org lib. fix [PR-10](https://github.com/netplex/json-smart-v2/pull/10)
-* Fix OSGI error fix [PR-2](https://github.com/netplex/json-smart-v2/pull/2)
-* Add support for BigDecimal
-* Improve JSONObject.getAsNumber() helper
-* Add a Field Remaper
+- Correct publish issue 1st time [issue 69](https://github.com/netplex/json-smart-v2/issues/69)
+- fix ArrayIndexOutOfBoundsException [issue 68](https://github.com/netplex/json-smart-v2/pull/68)
 
-### *V 2.1.0* (2014-10-19)
-  * net.minidev.json.mapper renamed to net.minidev.json.writer
-  * Add ACCEPT_TAILLING_SPACE Parssing Flag.
-  * Mapper classes now non static.
-  * Reader mapper are now available in net.minidev.json.reader.JsonReader class
-  * Writer mapper are now available in net.minidev.json.writer.JsonWriter class
+### _V 2.4.2_ (2021-04-04)
 
-### *V 2.0* (2014-08-12)
-  * Fix Double Identification [issue 44](http://code.google.com/p/json-smart/issues/detail?id=44)
-  * Fix Collection Interface Serialisation
-  * Fix security Exception in ASM code
-  * Project moved to GitHub
-  * Fix [issue 42](http://code.google.com/p/json-smart/issues/detail?id=42)
+### _V 2.4.2_ (2021-04-03)
 
-### *V 2.0-RC3* (2013-08-14)
-  * Add custom data binding inside the ASM layer.
-  * Add Date support
-  * Add \x escape sequence support [issue 39](http://code.google.com/p/json-smart/issues/detail?id=39)
-  * fix issue [issue 37](http://code.google.com/p/json-smart/issues/detail?id=37)
+- add BIG_DIGIT_UNRESTRICTED to avoid BigDigit usage on some Double.
+- fix CVE-2021-27568
+- java 11 build
 
-### *V 2.0-RC2* (2012-04-03)
-  * Fix critical [issue 23](http://code.google.com/p/json-smart/issues/detail?id=23)
-  * Improve Javadoc in JSONStyle [issue 24](http://code.google.com/p/json-smart/issues/detail?id=23)
+### _V 2.3.1_ (2021-05-02)
 
-### *V 2.0-RC1* (2012-02-18)
-  * speed improvement in POJO manipulation
-  * add JSONStyle.LT_COMPRESS predefined generate strct json, but ignoring / escapement.
+- Fixes [issue #60](https://github.com/netplex/json-smart-v2/issues/60) (CVE-2021-27568)
+- full timezone support in date parsing
+
+### _V 2.3_ (2017-03-26)
+
+- Patch 37 [issue 37](http://code.google.com/p/json-smart/issues/detail?id=37)
+- Explicite support of char 127 [issue 18](http://code.google.com/p/json-smart/issues/detail?id=18)
+- Integrate json-smart-action from Eitan Raviv [PR 31](https://github.com/netplex/json-smart-v2/pull/31)
+- Remove hard codded e.printStackTrace() [issue 33](https://github.com/netplex/json-smart-v2/issues/33)
+- Improve date parsing code to support all timeZones [issue 29](https://github.com/netplex/json-smart-v2/issues/29)
+
+### _V 2.2.2_
+
+- Fix support for default java datetime format for US locale
+- Update my time Zone from Paris to San Francisco.
+
+### _V 2.2.1_ (2015-10-08)
+
+- Fix issue in strict mode [issue gh-17](https://github.com/netplex/json-smart-v2/issues/17)
+- Add a licence Copy at the root project level [issue gh-16](https://github.com/netplex/json-smart-v2/issues/16)
+- Change InputStream input reading to use UTF8. [issue 48](http://code.google.com/p/json-smart/issues/detail?id=48)
+
+### _V 2.2_ (2015-07-29)
+
+- Rename asm to accessors-smart due to conflict name with asm.ow2.org lib. fix [PR-10](https://github.com/netplex/json-smart-v2/pull/10)
+- Fix OSGI error fix [PR-2](https://github.com/netplex/json-smart-v2/pull/2)
+- Add support for BigDecimal
+- Improve JSONObject.getAsNumber() helper
+- Add a Field Remaper
+
+### _V 2.1.0_ (2014-10-19)
+
+- net.minidev.json.mapper renamed to net.minidev.json.writer
+- Add ACCEPT_TAILLING_SPACE Parssing Flag.
+- Mapper classes now non static.
+- Reader mapper are now available in net.minidev.json.reader.JsonReader class
+- Writer mapper are now available in net.minidev.json.writer.JsonWriter class
+
+### _V 2.0_ (2014-08-12)
+
+- Fix Double Identification [issue 44](http://code.google.com/p/json-smart/issues/detail?id=44)
+- Fix Collection Interface Serialisation
+- Fix security Exception in ASM code
+- Project moved to GitHub
+- Fix [issue 42](http://code.google.com/p/json-smart/issues/detail?id=42)
+
+### _V 2.0-RC3_ (2013-08-14)
+
+- Add custom data binding inside the ASM layer.
+- Add Date support
+- Add \x escape sequence support [issue 39](http://code.google.com/p/json-smart/issues/detail?id=39)
+- fix issue [issue 37](http://code.google.com/p/json-smart/issues/detail?id=37)
+
+### _V 2.0-RC2_ (2012-04-03)
+
+- Fix critical [issue 23](http://code.google.com/p/json-smart/issues/detail?id=23)
+- Improve Javadoc in JSONStyle [issue 24](http://code.google.com/p/json-smart/issues/detail?id=23)
+
+### _V 2.0-RC1_ (2012-02-18)
+
+- speed improvement in POJO manipulation
+- add JSONStyle.LT_COMPRESS predefined generate strct json, but ignoring / escapement.
