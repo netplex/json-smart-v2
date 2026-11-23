@@ -23,9 +23,19 @@ import net.minidev.asm.Accessor;
 import net.minidev.asm.BeansAccess;
 import net.minidev.asm.ConvertDate;
 import net.minidev.json.JSONUtil;
+import net.minidev.json.parser.ParseException;
 
 @SuppressWarnings("unchecked")
 public abstract class BeansMapper<T> extends JsonReaderI<T> {
+
+  /**
+   * Checks top-level arrays and containers bound to declared scalar Bean fields. Custom readers
+   * retain their own binding policy.
+   */
+  public static void validateBinding(
+      JsonReaderI<?> mapper, String key, char structure, int position) throws ParseException {
+    BeanValidation.validate(mapper, key, structure, position);
+  }
 
   public BeansMapper(JsonReader base) {
     super(base);
