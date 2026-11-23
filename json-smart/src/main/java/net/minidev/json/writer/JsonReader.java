@@ -90,6 +90,11 @@ public class JsonReader {
     cache.put(type, mapper);
   }
 
+  /** Returns an existing mapper without creating or registering one. */
+  JsonReaderI<?> getCachedMapper(Type type) {
+    return cache.get(type);
+  }
+
   @SuppressWarnings("unchecked")
   public <T> JsonReaderI<T> getMapper(Type type) {
     if (type instanceof ParameterizedType) return getMapper((ParameterizedType) type);

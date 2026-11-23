@@ -26,6 +26,7 @@ import static net.minidev.json.parser.ParseException.ERROR_UNEXPECTED_UNICODE;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import net.minidev.json.writer.BeansMapper;
 import net.minidev.json.writer.JsonReader;
 import net.minidev.json.writer.JsonReaderI;
 
@@ -406,6 +407,7 @@ abstract class JSONParserBase {
           return readObject(mapper);
         // start Array
         case '[':
+          BeansMapper.validateBinding(mapper, null, '[', pos);
           return readArray(mapper);
         // start string
         case '"':
@@ -500,9 +502,11 @@ abstract class JSONParserBase {
           throw new ParseException(pos, ERROR_UNEXPECTED_CHAR, c);
         // start object
         case '{':
+          BeansMapper.validateBinding(mapper, lastKey, '{', pos);
           return readObject(mapper.startObject(lastKey));
         // start Array
         case '[':
+          BeansMapper.validateBinding(mapper, lastKey, '[', pos);
           return readArray(mapper.startArray(lastKey));
         // start string
         case '"':
