@@ -16,6 +16,42 @@ Now times have changed: most of the JSON APIs are now stable, and I'm now using 
 
 So I do not use my json-smart anymore. I had fun with this project. If you want to apply some change on json-smart create a pull request with lots of JUnit tests.
 
+## Binding Bean properties
+
+Inside a Bean, use a `String` for a JSON string, a nested Bean type for an
+object property, and `int[]` for an array of integers. This example uses public
+fields for `name` and `detail`, and a getter and setter for `numbers`.
+Both Bean classes are public and have public no-argument constructors.
+
+```java
+import java.util.Arrays;
+import net.minidev.json.JSONValue;
+
+public class BeanBindingExample {
+    public static class Detail {
+        public String label;
+    }
+
+    public static class Bean {
+        public String name;
+        public Detail detail;
+        private int[] numbers;
+
+        public int[] getNumbers() { return numbers; }
+        public void setNumbers(int[] numbers) { this.numbers = numbers; }
+    }
+
+    public static void main(String[] args) {
+        String json = "{\"name\":\"sample\",\"detail\":{\"label\":\"nested\"},"
+                + "\"numbers\":[1,2,3]}";
+        Bean bean = JSONValue.parse(json, Bean.class);
+        System.out.println(bean.name + " " + bean.detail.label + " "
+                + Arrays.toString(bean.getNumbers()));
+        // sample nested [1, 2, 3]
+    }
+}
+```
+
 [WIKI is here](https://github.com/netplex/json-smart/wiki)
 
 # Changelog
