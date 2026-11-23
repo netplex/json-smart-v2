@@ -177,7 +177,19 @@ public class JSONValue {
   /**
    * Parse input json as a mapTo class
    *
-   * <p>mapTo can be a bean
+   * <p>For a JSON object, use a JavaBean class with properties matching the JSON members. For
+   * example, given a public {@code SampleBean} with a public no-argument constructor and a writable
+   * {@code String label} property:
+   *
+   * <pre>{@code
+   * SampleBean bean = JSONValue.parse("{\"label\":\"sample\"}", SampleBean.class);
+   * }</pre>
+   *
+   * <p>For a JSON array, use a suitable array or collection target class, for example:
+   *
+   * <pre>{@code
+   * JSONArray values = JSONValue.parse("[1,2,3]", JSONArray.class);
+   * }</pre>
    *
    * @since 2.0
    */
@@ -388,6 +400,9 @@ public class JSONValue {
 
   /**
    * Parse input json as a mapTo class
+   *
+   * <p>See {@link #parse(String, Class)} for examples of JavaBean targets for JSON objects and
+   * array or collection targets for JSON arrays. The same target choices apply here.
    *
    * @param in source to parse
    * @param mapTo destination type, mapTo can be a javabean
