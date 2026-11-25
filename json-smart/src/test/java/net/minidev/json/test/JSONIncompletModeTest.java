@@ -2,6 +2,7 @@ package net.minidev.json.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.nio.charset.StandardCharsets;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
@@ -76,5 +77,42 @@ public class JSONIncompletModeTest {
     JSONParser p = new JSONParser(JSONParser.MODE_JSON_SIMPLE | JSONParser.ACCEPT_INCOMPLETE);
     String array = (String) p.parse(s);
     assertEquals(result, array);
+  }
+
+  @Test
+  public void testStringCutAfterEscapedString() throws Exception {
+    String s = "[\"a\\tb\",\"cd";
+
+    JSONParser p = new JSONParser(JSONParser.MODE_JSON_SIMPLE | JSONParser.ACCEPT_INCOMPLETE);
+    JSONArray array = (JSONArray) p.parse(s);
+    assertEquals("cd", array.get(1));
+  }
+
+  @Test
+  public void testStringCutAfterEscapedStringBytes() throws Exception {
+    String s = "[\"a\\tb\",\"cd";
+
+    JSONParser p = new JSONParser(JSONParser.MODE_JSON_SIMPLE | JSONParser.ACCEPT_INCOMPLETE);
+    JSONArray array = (JSONArray) p.parse(s.getBytes(StandardCharsets.UTF_8));
+    assertEquals("cd", array.get(1));
+  }
+
+  @Test
+  public void testStringCutAfterExponentNumber() throws Exception {
+    String s = "[1e5,\"ab";
+
+    JSONParser p = new JSONParser(JSONParser.MODE_JSON_SIMPLE | JSONParser.ACCEPT_INCOMPLETE);
+    JSONArray array = (JSONArray) p.parse(s);
+    assertEquals("ab", array.get(1));
+  }
+
+  @Test
+  public void testStringCutOnReusedParser() throws Exception {
+    String s = "[\"ab";
+
+    JSONParser p = new JSONParser(JSONParser.MODE_JSON_SIMPLE | JSONParser.ACCEPT_INCOMPLETE);
+    p.parse(s);
+    JSONArray array = (JSONArray) p.parse(s);
+    assertEquals("ab", array.get(0));
   }
 }
